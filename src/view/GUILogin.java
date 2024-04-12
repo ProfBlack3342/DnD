@@ -8,7 +8,6 @@ import java.sql.SQLException;
 
 import exception.WrongArgumentTypeException;
 import dao.DAOFactory;
-import dao.LoginDAO;
 import dao.UsuarioDAO;
 import modelo.LoginVO;
 import modelo.UsuarioVO;
@@ -38,49 +37,72 @@ public class GUILogin extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanelDadosLogin = new javax.swing.JPanel();
+        jlblUsuario = new javax.swing.JLabel();
+        jlblSenha = new javax.swing.JLabel();
         jPanelBotoesLogin = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Login");
+
+        jPanelDadosLogin.setBorder(javax.swing.BorderFactory.createTitledBorder("Dados"));
+        jPanelDadosLogin.setToolTipText("");
+        jPanelDadosLogin.setName(""); // NOI18N
+
+        jlblUsuario.setText("jLabel1");
+
+        jlblSenha.setText("jLabel2");
 
         javax.swing.GroupLayout jPanelDadosLoginLayout = new javax.swing.GroupLayout(jPanelDadosLogin);
         jPanelDadosLogin.setLayout(jPanelDadosLoginLayout);
         jPanelDadosLoginLayout.setHorizontalGroup(
             jPanelDadosLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
+            .addGroup(jPanelDadosLoginLayout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addGroup(jPanelDadosLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jlblSenha)
+                    .addComponent(jlblUsuario))
+                .addContainerGap(233, Short.MAX_VALUE))
         );
         jPanelDadosLoginLayout.setVerticalGroup(
             jPanelDadosLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
+            .addGroup(jPanelDadosLoginLayout.createSequentialGroup()
+                .addGap(32, 32, 32)
+                .addComponent(jlblUsuario)
+                .addGap(44, 44, 44)
+                .addComponent(jlblSenha)
+                .addContainerGap(93, Short.MAX_VALUE))
         );
+
+        jPanelBotoesLogin.setBorder(javax.swing.BorderFactory.createTitledBorder("Ações"));
 
         javax.swing.GroupLayout jPanelBotoesLoginLayout = new javax.swing.GroupLayout(jPanelBotoesLogin);
         jPanelBotoesLogin.setLayout(jPanelBotoesLoginLayout);
         jPanelBotoesLoginLayout.setHorizontalGroup(
             jPanelBotoesLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         jPanelBotoesLoginLayout.setVerticalGroup(
             jPanelBotoesLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
+            .addGap(0, 98, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanelDadosLogin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanelBotoesLogin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(540, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanelDadosLogin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanelBotoesLogin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanelDadosLogin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 205, Short.MAX_VALUE)
+                .addComponent(jPanelDadosLogin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanelBotoesLogin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -126,5 +148,7 @@ public class GUILogin extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanelBotoesLogin;
     private javax.swing.JPanel jPanelDadosLogin;
+    private javax.swing.JLabel jlblSenha;
+    private javax.swing.JLabel jlblUsuario;
     // End of variables declaration//GEN-END:variables
 }
