@@ -4,17 +4,26 @@
  */
 package view;
 
+import modelo.UsuarioVO;
+
 /**
  *
  * @author dudup
  */
 public class GUIPrincipalComum extends javax.swing.JFrame {
 
+    private UsuarioVO usuarioLogado = null;
+    
     /**
      * Creates new form GUIPrincipalComum
      */
     public GUIPrincipalComum() {
         initComponents();
+    }
+    
+    public GUIPrincipalComum(UsuarioVO uVO) {
+        initComponents();
+        usuarioLogado = uVO;
     }
 
     /**
