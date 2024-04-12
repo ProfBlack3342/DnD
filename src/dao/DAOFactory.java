@@ -10,16 +10,7 @@ package dao;
  */
 public class DAOFactory
 {
-    private static final LoginDAO LOGIN_DAO = new LoginDAO();
     private static final UsuarioDAO USUARIO_DAO = new UsuarioDAO();
-    
-    /**
-     * 
-     * @return 
-     */
-    public static LoginDAO getLoginDAO() {
-        return LOGIN_DAO;
-    }
     
     /**
      * 
