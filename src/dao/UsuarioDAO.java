@@ -47,7 +47,7 @@ public class UsuarioDAO extends ObjetoDAO implements IDAO
      * @throws SQLException 
      * @throws NoUserFoundException 
      */
-    public boolean login(LoginVO lVO) throws SQLException, NoUserFoundException
+    public UsuarioVO login(LoginVO lVO) throws SQLException, NoUserFoundException
     {
         String sql = "SELECT * FROM usuario "
                 + "WHERE nomeUsuario = ? "
@@ -61,9 +61,33 @@ public class UsuarioDAO extends ObjetoDAO implements IDAO
             try(ResultSet rs = pstm.executeQuery();)
             {
                 if( (rs.next()) && (rs.getBoolean("usuarioAtivo")) )
-                    return Verificar.compararTextoComHash(lVO.getSenha(), rs.getString("senhaUsuario"));
+                {
+                    String hash = rs.getString("senhaUsuario");
+                    if(Verificar.compararTextoComHash(lVO.getSenha(), hash))
+                    {
+                        lVO.setSenha(hash);
+                        UsuarioVO uVO = new UsuarioVO();
+                        uVO.setIdUsuario(rs.getInt("idUsuario"));
+                        uVO.setIdImagem(rs.getInt("idImagemUsuario"));
+                        uVO.setIdTipo(rs.getInt("idTipoUsuario"));
+                        uVO.setNome(rs.getString("nomeUsuario"));
+                        uVO.setSenha(rs.getString("senhaUsuario"));
+                        uVO.setDescricao(rs.getString("descricaoUsuario"));
+                        uVO.setQuantPersonagensTotal(rs.getInt("quantPersonagensTotal"));
+                        uVO.setQuantPersonagensCriados(rs.getInt("quantPersonagensCriados"));
+                        String[] diaMesAno = Converter.converterSQLDateParaDiaMesAno(rs.getDate("dataCriacaoUsuario"));
+                        uVO.setDiaCriacao(diaMesAno[0]);
+                        uVO.setMesCriacao(diaMesAno[1]);
+                        uVO.setAnoCriacao(diaMesAno[2]);
+                        uVO.setAtivo(rs.getBoolean("usuarioAtivo"));
+                        
+                        return uVO;
+                    }
+                    else
+                        return null;
+                }
                 else
-                    throw new NoUserFoundException("Erro em UsuarioDAO.login: Nenhum usuário encontrado!");
+                    throw new NoUserFoundException("Erro em UsuarioDAO.login: Usuário e/ou Senha inválidos!");
             }
         }
         catch(SQLException SE)
