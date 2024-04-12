@@ -7,6 +7,7 @@ package dao;
 
 import java.sql.SQLException;
 
+import exception.NoUserFoundException;
 import exception.WrongArgumentTypeException;
 import modelo.ObjetoVO;
 
@@ -28,16 +29,18 @@ public interface IDAO
      * 
      * @return
      * @throws SQLException 
+     * @throws NoUserFoundException 
      */
-    ObjetoVO[] listar() throws SQLException;
+    ObjetoVO[] listar() throws SQLException, NoUserFoundException;
     
     /**
      * 
      * @param query
      * @return
      * @throws SQLException 
+     * @throws NoUserFoundException 
      */
-    ObjetoVO[] pesquisar(String query) throws SQLException;
+    ObjetoVO[] pesquisar(String query) throws SQLException, NoUserFoundException;
     
     /**
      * 
@@ -50,7 +53,7 @@ public interface IDAO
     /**
      * 
      * @param id
-     * @throws SQLException 
+     * @throws SQLException  
      */
     void excluir(int id)throws SQLException;
 }
