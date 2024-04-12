@@ -21,7 +21,7 @@ public class ConexaoBanco
      */
     public Connection getConexao() throws SQLException
     {
-        String url = "jdbc:mysql://localhost:3306/inventario?useTimezone=true&serverTimezone=UTC&user=root&password=";
+        String url = "jdbc:mysql://localhost:3306/dnd?useTimezone=true&serverTimezone=UTC&user=root&password=";
         Connection c;
         try { c = DriverManager.getConnection(url); }
         catch (SQLException se) {

@@ -10,11 +10,11 @@ package servicos;
  */
 public class ServicosFactory
 {
-    private static final UsuarioServicos usuarioSV = new UsuarioServicos();
+    private static final UsuarioServicos USUARIO_SERVICOS = new UsuarioServicos();
     
     /**
      * 
      * @return 
      */
-    public static UsuarioServicos getUsuarioServicos() {return usuarioSV;}
+    public static UsuarioServicos getUsuarioServicos() {return USUARIO_SERVICOS;}
 }

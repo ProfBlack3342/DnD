@@ -4,26 +4,22 @@
  */
 package view;
 
-import modelo.UsuarioVO;
-
 /**
  *
  * @author dudup
  */
-public class GUIPrincipalAdmin extends javax.swing.JFrame {
+public class GUICadastro extends javax.swing.JFrame {
 
-    private UsuarioVO usuarioLogado = null;
-    
     /**
-     * Creates new form GUIPrincipalAdmin
+     * Creates new form GUICadastro
      */
-    public GUIPrincipalAdmin() {
+    public GUICadastro() {
         initComponents();
     }
     
-    public GUIPrincipalAdmin(UsuarioVO uVO) {
+    public GUICadastro(String usuario) {
         initComponents();
-        usuarioLogado = uVO;
+        
     }
 
     /**
@@ -68,20 +64,20 @@ public class GUIPrincipalAdmin extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(GUIPrincipalAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GUICadastro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(GUIPrincipalAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GUICadastro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(GUIPrincipalAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GUICadastro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(GUIPrincipalAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GUICadastro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new GUIPrincipalAdmin().setVisible(true);
+                new GUICadastro().setVisible(true);
             }
         });
     }

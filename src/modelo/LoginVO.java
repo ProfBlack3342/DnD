@@ -10,14 +10,14 @@ package modelo;
  */
 public class LoginVO extends ObjetoVO
 {
-    private String nome;
+    private String usuario;
     private String senha;
 
-    public String getNome() {
-        return nome;
+    public String getUsuario() {
+        return usuario;
     }
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setUsuario(String nome) {
+        this.usuario = nome;
     }
 
     public String getSenha() {

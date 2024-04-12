@@ -5,15 +5,13 @@
 package view;
 
 import java.sql.SQLException;
-
-import exception.WrongArgumentTypeException;
-import dao.DAOFactory;
-import dao.UsuarioDAO;
 import java.awt.event.KeyEvent;
+import javax.swing.JOptionPane;
+
+import exception.NoUserFoundException;
 import modelo.LoginVO;
 import modelo.UsuarioVO;
 import servicos.ServicosFactory;
-import servicos.UsuarioServicos;
 
 /**
  *
@@ -28,28 +26,80 @@ public class GUILogin extends javax.swing.JFrame {
         initComponents();
     }
     
-    private void login()
-    {
-        LoginVO lVO = new LoginVO();
-        lVO.setNome(jtfUsuario.getText());
-        lVO.setSenha(new String(jpfSenha.getPassword()));
-        
-        UsuarioDAO uDAO = DAOFactory.getUsuarioDAO();
-    }
-    
-    private void cadastrar()
-    {
-        
-    }
-    
-    private void sair()
-    {
-        
+    public GUILogin(String usuario) {
+        initComponents();
+        jtfUsuario.setText(usuario);
     }
     
     private void limpar()
     {
+        jtfUsuario.setText(null);
+        jpfSenha.setText(null);
+    }
+    
+    private void login()
+    {
+        LoginVO lVO = new LoginVO();
         
+        lVO.setUsuario(jtfUsuario.getText());
+        lVO.setSenha(new String(jpfSenha.getPassword()));
+        limpar();
+        
+        try
+        {
+            UsuarioVO uVO = ServicosFactory.getUsuarioServicos().loginUsuario(lVO);
+            
+            if(uVO == null)
+                JOptionPane.showMessageDialog(null, "Usuário e/ou Senha inválidos!");
+            else
+            {
+                int tipoUsuario = uVO.getIdTipo();
+                
+                switch(tipoUsuario)
+                {
+                    case 1:
+                    {
+                        GUIPrincipalAdmin GUIPrincipal = new GUIPrincipalAdmin(uVO);
+                        GUIPrincipal.setVisible(true);
+                        dispose();
+                        break;
+                    }
+                    case 2:
+                    {
+                        GUIPrincipalComum GUIPrincipal = new GUIPrincipalComum(uVO);
+                        GUIPrincipal.setVisible(true);
+                        dispose();
+                        break;
+                    }
+                    default:
+                    {
+                        JOptionPane.showMessageDialog(null, "Erro: Valor de ID proibido para o tipo de usuário!", "Erro", JOptionPane.ERROR_MESSAGE);
+                        break;
+                    }
+                }
+            }
+        }
+        catch(SQLException se) {
+            JOptionPane.showMessageDialog(null, se.getMessage(), "Erro: ", JOptionPane.ERROR_MESSAGE);
+        }
+        catch(NoUserFoundException nufe) {
+            JOptionPane.showMessageDialog(null, nufe.getMessage(), "Aviso: ", JOptionPane.WARNING_MESSAGE);
+        }
+        
+    }
+    
+    private void cadastrar()
+    {
+        GUICadastro gc = new GUICadastro(jtfUsuario.getText());
+        limpar();
+        gc.setVisible(true);
+        dispose();
+    }
+    
+    private void sair()
+    {
+        limpar();
+        System.exit(0);
     }
     
     /**
@@ -199,38 +249,29 @@ public class GUILogin extends javax.swing.JFrame {
 
     private void jbtnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnLoginActionPerformed
         login();
-        limpar();
     }//GEN-LAST:event_jbtnLoginActionPerformed
 
     private void jbtnLoginKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jbtnLoginKeyPressed
-        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER)
            login();
-           limpar();
-       }
     }//GEN-LAST:event_jbtnLoginKeyPressed
 
     private void jbtnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCadastrarActionPerformed
         cadastrar();
-        limpar();
     }//GEN-LAST:event_jbtnCadastrarActionPerformed
 
     private void jbtnCadastrarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jbtnCadastrarKeyPressed
-        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER)
            cadastrar();
-           limpar();
-       }
     }//GEN-LAST:event_jbtnCadastrarKeyPressed
 
     private void jbtnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnSairActionPerformed
-        limpar();
         sair();
     }//GEN-LAST:event_jbtnSairActionPerformed
 
     private void jbtnSairKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jbtnSairKeyPressed
-        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
-           limpar();
-           sair();
-       }
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER)
+            sair();
     }//GEN-LAST:event_jbtnSairKeyPressed
 
     /**

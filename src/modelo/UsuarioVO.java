@@ -10,17 +10,18 @@ package modelo;
  */
 public class UsuarioVO extends ObjetoVO
 {
-    private int idUsuario;
-    private int idImagem;
-    private int idTipo;
-    private String nome;
-    private String senha;
-    private String descricao;
-    private int quantPersonagensTotal = 6;
-    private int quantPersonagensCriados = 0;
-    private String dataCriacao;
-    private String dataUltimaAlteracao;
-    private boolean ativo = true;
+    int idUsuario;
+    int idImagem;
+    int idTipo;
+    String nome;
+    String senha;
+    String descricao;
+    int quantPersonagensTotal = 6;
+    int quantPersonagensCriados = 0;
+    String diaCriacao;
+    String mesCriacao;
+    String anoCriacao;
+    boolean ativo = true;
 
     public int getIdUsuario() {
         return idUsuario;
@@ -78,18 +79,25 @@ public class UsuarioVO extends ObjetoVO
         this.quantPersonagensCriados = quantPersonagensCriados;
     }
 
-    public String getDataCriacao() {
-        return dataCriacao;
+    public String getDiaCriacao() {
+        return diaCriacao;
     }
-    public void setDataCriacao(String dataCriacao) {
-        this.dataCriacao = dataCriacao;
+    public void setDiaCriacao(String diaCriacao) {
+        this.diaCriacao = diaCriacao;
     }
 
-    public String getDataUltimaAlteracao() {
-        return dataUltimaAlteracao;
+    public String getMesCriacao() {
+        return mesCriacao;
     }
-    public void setDataUltimaAlteracao(String dataUltimaAlteracao) {
-        this.dataUltimaAlteracao = dataUltimaAlteracao;
+    public void setMesCriacao(String mesCriacao) {
+        this.mesCriacao = mesCriacao;
+    }
+
+    public String getAnoCriacao() {
+        return anoCriacao;
+    }
+    public void setAnoCriacao(String anoCriacao) {
+        this.anoCriacao = anoCriacao;
     }
 
     public boolean isAtivo() {

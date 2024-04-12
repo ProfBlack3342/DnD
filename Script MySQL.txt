@@ -1,0 +1,43 @@
+DROP SCHEMA IF EXISTS dnd;
+CREATE SCHEMA IF NOT EXISTS dnd;
+USE dnd;
+-- ----------------------------------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS ImagemUsuario (
+    idImagemUsuario INT NOT NULL,
+    nomeImagemUsuario VARCHAR(20) NOT NULL,
+    caminhoImagemUsuario VARCHAR(260) NOT NULL,
+    descricaoImagemUsuario VARCHAR(60) NULL
+);
+-- PK
+ALTER TABLE ImagemUsuario ADD CONSTRAINT PK_IMAGEMUSUARIO PRIMARY KEY(idImagemUsuario);
+ALTER TABLE ImagemUsuario CHANGE COLUMN idImagemUsuario idImagemUsuario INT NOT NULL AUTO_INCREMENT;
+-- ----------------------------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS TipoUsuario (
+    idTipoUsuario INT NOT NULL,
+    nomeTipoUsuario VARCHAR(20) NOT NULL UNIQUE,
+    descricaoTipoUsuario VARCHAR(60) NULL
+);
+-- PK
+ALTER TABLE TipoUsuario ADD CONSTRAINT PK_TIPOUSUARIO PRIMARY KEY(idTipoUsuario);
+ALTER TABLE TipoUsuario CHANGE COLUMN idTipoUsuario idTipoUsuario INT NOT NULL AUTO_INCREMENT;
+-- ----------------------------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS Usuario (
+    idUsuario INT NOT NULL,
+    idImagemUsuario INT NULL,
+    idTipoUsuario INT NOT NULL,
+    nomeUsuario VARCHAR(60) NOT NULL UNIQUE,
+    senhaUsuario CHAR(60) NOT NULL,					-- Hash da senha gerado com JBCrypt
+    descricaoUsuario VARCHAR(60) NULL,
+    quantPersonagensTotal INT NOT NULL DEFAULT 6,
+    quantPersonagensCriados INT NOT NULL DEFAULT 0,
+    dataCriacaoUsuario DATE NOT NULL,
+    usuarioAtivo TINYINT(1) NOT NULL DEFAULT 1
+);
+-- PK
+ALTER TABLE Usuario ADD CONSTRAINT PK_USUARIO PRIMARY KEY(idUsuario);
+ALTER TABLE Usuario CHANGE COLUMN idUsuario idUsuario INT NOT NULL AUTO_INCREMENT;
+-- FK
+ALTER TABLE Usuario ADD CONSTRAINT FK_USUARIO_IMAGEMUSUARIO FOREIGN KEY(idImagemUsuario) REFERENCES ImagemUsuario(idImagemUsuario);
+ALTER TABLE Usuario ADD CONSTRAINT FK_USUARIO_TIPOUSUARIO FOREIGN KEY(idTipoUsuario) REFERENCES TipoUsuario(idTipoUsuario);
+-- ----------------------------------------------------------------------------------------------------
