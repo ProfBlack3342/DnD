@@ -1,79 +1,43 @@
-Character:
-- Name
-- Race
-- Class
-- Level
-- Background
-- Ability Scores (Strength, Dexterity, Constitution, Intelligence, Wisdom, and Charisma)
-- Ability Scores Modifiers
-- Current, Maximum and Temporary Hit Points
-- Skills
-- Proficiencies
-- Equipment (Wealth, Armor and Shields, Weapons, Etc.)
-- Languages
-- Armor Class
-- Initiative
-- Death Saves
-- Inspiration
-- Character Description
-- Field Journal
-- Extra Notes
-
-Race:
-- Name
-- Description
-- Ability Score Increase
-- Age
-- Size
-- Speed
-- Race Features (Starting Cantrips and Skills, Advantages, Resistances, Proficiencies, Darkvision, Appearance, etc.)
-- Starting Languages
-- Subrace (Ability Score Increase, Subrace Features)
-
-Class:
-- Name
-- Description
-- Hit Points (Hit Dice, Hit Points at Lvl. 1, Hit Points At Higher Lvls.)
-- Starting Proficiencies
-- Starting Equipment
-- Class Features (Primary Ability, Specific Features and Skills, Etc.)
-
-Character Description:
-- Sex
-- Height
-- Weight
-- Alignment
-- Backstory
-- Appearance
-- Personality Traits
-- Ideals
-- Bonds
-- Flaws
-- Faith
-- Allies & Organizations
-- Enemies
-
-_________________________________________________________________________________________________
-
-
-     Ability Scores and Modifiers:
------------------------------------------
-|	Score	   |	  Modifier	|
------------------------------------------
-| 	1	   |	    −5		|
-|	2–3	   |	    −4		|
-|	4–5	   |	    −3		|
-|	6–7	   |	    −2		|
-|	8–9	   |	    −1		|
-|	10–11	   |	    +0		|
-|	12–13	   |	    +1		|
-|	14–15	   |	    +2		|
-|	16–17	   |	    +3		|
-|	18–19	   |	    +4		|
-|	20–21	   |	    +5		|
-|	22–23	   |	    +6		|
-|	24–25	   |	    +7		|
-|	26–27	   |	    +8		|
-|	28–29	   |	    +9		|
-|	30	   |	    +10		|
------------------------------------------
+DROP SCHEMA IF EXISTS dnd;
+CREATE SCHEMA IF NOT EXISTS dnd;
+USE dnd;
+-- ----------------------------------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS ImagemUsuario (
+    idImagemUsuario INT NOT NULL,
+    nomeImagemUsuario VARCHAR(20) NOT NULL,
+    caminhoImagemUsuario VARCHAR(260) NOT NULL,
+    descricaoImagemUsuario VARCHAR(60) NULL
+);
+-- PK
+ALTER TABLE ImagemUsuario ADD CONSTRAINT PK_IMAGEMUSUARIO PRIMARY KEY(idImagemUsuario);
+ALTER TABLE ImagemUsuario CHANGE COLUMN idImagemUsuario idImagemUsuario INT NOT NULL AUTO_INCREMENT;
+-- ----------------------------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS TipoUsuario (
+    idTipoUsuario INT NOT NULL,
+    nomeTipoUsuario VARCHAR(20) NOT NULL UNIQUE,
+    descricaoTipoUsuario VARCHAR(60) NULL
+);
+-- PK
+ALTER TABLE TipoUsuario ADD CONSTRAINT PK_TIPOUSUARIO PRIMARY KEY(idTipoUsuario);
+ALTER TABLE TipoUsuario CHANGE COLUMN idTipoUsuario idTipoUsuario INT NOT NULL AUTO_INCREMENT;
+-- ----------------------------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS Usuario (
+    idUsuario INT NOT NULL,
+    idImagemUsuario INT NULL,
+    idTipoUsuario INT NOT NULL,
+    nomeUsuario VARCHAR(60) NOT NULL UNIQUE,
+    senhaUsuario CHAR(60) NOT NULL,					-- Hash da senha gerado com JBCrypt
+    descricaoUsuario VARCHAR(60) NULL,
+    quantPersonagensTotal INT NOT NULL DEFAULT 6,
+    quantPersonagensCriados INT NOT NULL DEFAULT 0,
+    dataCriacaoUsuario DATE NOT NULL,
+    usuarioAtivo TINYINT(1) NOT NULL DEFAULT 1
+);
+-- PK
+ALTER TABLE Usuario ADD CONSTRAINT PK_USUARIO PRIMARY KEY(idUsuario);
+ALTER TABLE Usuario CHANGE COLUMN idUsuario idUsuario INT NOT NULL AUTO_INCREMENT;
+-- FK
+ALTER TABLE Usuario ADD CONSTRAINT FK_USUARIO_IMAGEMUSUARIO FOREIGN KEY(idImagemUsuario) REFERENCES ImagemUsuario(idImagemUsuario);
+ALTER TABLE Usuario ADD CONSTRAINT FK_USUARIO_TIPOUSUARIO FOREIGN KEY(idTipoUsuario) REFERENCES TipoUsuario(idTipoUsuario);
+-- ----------------------------------------------------------------------------------------------------
