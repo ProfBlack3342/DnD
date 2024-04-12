@@ -26,7 +26,7 @@ public class UsuarioServicos
      * @throws SQLException 
      * @throws NoUserFoundException 
      */
-    public boolean loginUsuario(LoginVO lVO) throws SQLException, NoUserFoundException
+    public UsuarioVO loginUsuario(LoginVO lVO) throws SQLException, NoUserFoundException
     {
         UsuarioDAO uDAO = DAOFactory.getUsuarioDAO();
         return uDAO.login(lVO);
