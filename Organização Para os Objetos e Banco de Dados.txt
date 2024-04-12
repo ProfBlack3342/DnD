@@ -1,0 +1,79 @@
+Character:
+- Name
+- Race
+- Class
+- Level
+- Background
+- Ability Scores (Strength, Dexterity, Constitution, Intelligence, Wisdom, and Charisma)
+- Ability Scores Modifiers
+- Current, Maximum and Temporary Hit Points
+- Skills
+- Proficiencies
+- Equipment (Wealth, Armor and Shields, Weapons, Etc.)
+- Languages
+- Armor Class
+- Initiative
+- Death Saves
+- Inspiration
+- Character Description
+- Field Journal
+- Extra Notes
+
+Race:
+- Name
+- Description
+- Ability Score Increase
+- Age
+- Size
+- Speed
+- Race Features (Starting Cantrips and Skills, Advantages, Resistances, Proficiencies, Darkvision, Appearance, etc.)
+- Starting Languages
+- Subrace (Ability Score Increase, Subrace Features)
+
+Class:
+- Name
+- Description
+- Hit Points (Hit Dice, Hit Points at Lvl. 1, Hit Points At Higher Lvls.)
+- Starting Proficiencies
+- Starting Equipment
+- Class Features (Primary Ability, Specific Features and Skills, Etc.)
+
+Character Description:
+- Sex
+- Height
+- Weight
+- Alignment
+- Backstory
+- Appearance
+- Personality Traits
+- Ideals
+- Bonds
+- Flaws
+- Faith
+- Allies & Organizations
+- Enemies
+
+_________________________________________________________________________________________________
+
+
+     Ability Scores and Modifiers:
+-----------------------------------------
+|	Score	   |	  Modifier	|
+-----------------------------------------
+| 	1	   |	    −5		|
+|	2–3	   |	    −4		|
+|	4–5	   |	    −3		|
+|	6–7	   |	    −2		|
+|	8–9	   |	    −1		|
+|	10–11	   |	    +0		|
+|	12–13	   |	    +1		|
+|	14–15	   |	    +2		|
+|	16–17	   |	    +3		|
+|	18–19	   |	    +4		|
+|	20–21	   |	    +5		|
+|	22–23	   |	    +6		|
+|	24–25	   |	    +7		|
+|	26–27	   |	    +8		|
+|	28–29	   |	    +9		|
+|	30	   |	    +10		|
+-----------------------------------------
