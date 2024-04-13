@@ -151,7 +151,7 @@ public class GUIPrincipal extends javax.swing.JFrame implements InternalFrameLis
 
     @Override
     public void internalFrameOpened(InternalFrameEvent ife) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
     }
 
     @Override
@@ -175,21 +175,21 @@ public class GUIPrincipal extends javax.swing.JFrame implements InternalFrameLis
 
     @Override
     public void internalFrameIconified(InternalFrameEvent ife) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
     }
 
     @Override
     public void internalFrameDeiconified(InternalFrameEvent ife) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
     }
 
     @Override
     public void internalFrameActivated(InternalFrameEvent ife) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
     }
 
     @Override
     public void internalFrameDeactivated(InternalFrameEvent ife) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
     }
 }
