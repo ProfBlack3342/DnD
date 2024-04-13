@@ -10,18 +10,18 @@ package modelo;
  */
 public class UsuarioVO extends ObjetoVO
 {
-    int idUsuario;
-    int idImagem;
-    int idTipo;
-    String nome;
-    String senha;
-    String descricao;
-    int quantPersonagensTotal = 6;
-    int quantPersonagensCriados = 0;
-    String diaCriacao;
-    String mesCriacao;
-    String anoCriacao;
-    boolean ativo = true;
+    private int idUsuario;
+    private int idImagem;
+    private int idTipo;
+    private String nome;
+    private String senha;
+    private String descricao;
+    private int quantPersonagensTotal = 6;
+    private int quantPersonagensCriados = 0;
+    private String diaCriacao;
+    private String mesCriacao;
+    private String anoCriacao;
+    private boolean ativo = true;
 
     public int getIdUsuario() {
         return idUsuario;
