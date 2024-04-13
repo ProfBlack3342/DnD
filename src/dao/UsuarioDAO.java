@@ -26,7 +26,7 @@ import utilidades.Verificar;
 public class UsuarioDAO extends ObjetoDAO implements IDAO
 {
     /*
-        Usuario (
+        Tabela Usuario (
             idUsuario INT NOT NULL,
             idImagemUsuario INT NULL,
             idTipoUsuario INT NOT NULL,
@@ -41,11 +41,11 @@ public class UsuarioDAO extends ObjetoDAO implements IDAO
     */
     
     /**
-     * 
-     * @param lVO
-     * @return 
-     * @throws SQLException 
-     * @throws NoUserFoundException 
+     * Realiza a verificação de dados para o login de um usuário
+     * @param lVO Objeto que contém os dados necessários para o login
+     * @return O UsuarioVO correspondende aos dados informados, se corretos. Senão retorna null.
+     * @throws SQLException Se houver algum erro na comunicação com o banco de dados
+     * @throws NoUserFoundException Se os dados informados não corresponderem a nenhum usuário do banco de dados
      */
     public UsuarioVO login(LoginVO lVO) throws SQLException, NoUserFoundException
     {
@@ -99,8 +99,8 @@ public class UsuarioDAO extends ObjetoDAO implements IDAO
     /**
      * 
      * @param obVO
-     * @throws SQLException
-     * @throws WrongArgumentTypeException 
+     * @throws SQLException Se houver algum erro na comunicação com o banco de dados
+     * @throws WrongArgumentTypeException Se obVO não pertencer a classe UsuarioVO
      */
     @Override
     public void cadastrar(ObjetoVO obVO) throws SQLException, WrongArgumentTypeException {
@@ -138,7 +138,7 @@ public class UsuarioDAO extends ObjetoDAO implements IDAO
     /**
      * 
      * @return
-     * @throws SQLException 
+     * @throws SQLException Se houver algum erro na comunicação com o banco de dados
      */
     @Override
     public UsuarioVO[] listar() throws SQLException, NoUserFoundException
@@ -185,8 +185,8 @@ public class UsuarioDAO extends ObjetoDAO implements IDAO
      * 
      * @param query
      * @return
-     * @throws SQLException 
-     * @throws NoUserFoundException 
+     * @throws SQLException Se houver algum erro na comunicação com o banco de dados
+     * @throws NoUserFoundException Se os dados informados não corresponderem a nenhum usuário do banco de dados
      */
     @Override
     public UsuarioVO[] pesquisar(String query) throws SQLException, NoUserFoundException
@@ -233,8 +233,8 @@ public class UsuarioDAO extends ObjetoDAO implements IDAO
     /**
      * 
      * @param obVO
-     * @throws SQLException
-     * @throws WrongArgumentTypeException 
+     * @throws SQLException Se houver algum erro na comunicação com o banco de dados
+     * @throws WrongArgumentTypeException Se obVO não pertencer a classe UsuarioVO
      */
     @Override
     public void alterar(ObjetoVO obVO) throws SQLException, WrongArgumentTypeException {
@@ -281,7 +281,7 @@ public class UsuarioDAO extends ObjetoDAO implements IDAO
     /**
      * 
      * @param id
-     * @throws SQLException
+     * @throws SQLException Se houver algum erro na comunicação com o banco de dados
      */
     @Override
     public void excluir(int id) throws SQLException{
