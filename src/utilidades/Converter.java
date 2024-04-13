@@ -48,7 +48,13 @@ public class Converter
     private static String converterSQLDateParaString(java.sql.Date dataSQL) {
         return SDF_SQLDATE.format(dataSQL);
     }
-    private static String[] converterStringParaDiaMesAno(String dataSQL) {
+    
+    /**
+     * 
+     * @param dataSQL
+     * @return 
+     */
+    public static String[] converterStringParaDiaMesAno(String dataSQL) {
         return new String[] {
             dataSQL.substring(8), dataSQL.substring(5, 7), dataSQL.substring(0, 4)
         };
