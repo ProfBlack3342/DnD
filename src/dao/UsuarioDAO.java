@@ -108,7 +108,7 @@ public class UsuarioDAO extends ObjetoDAO implements IDAO
         {
             UsuarioVO uVo = (UsuarioVO) obVO;
             String sql = "INSERT INTO usuario "
-                    + "VALUES (null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    + "VALUES (null, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             
             try(Connection con = new ConexaoBanco().getConexao();
                 PreparedStatement pstm = con.prepareStatement(sql);)
@@ -122,7 +122,7 @@ public class UsuarioDAO extends ObjetoDAO implements IDAO
                 pstm.setInt(6, uVo.getQuantPersonagensTotal());
                 pstm.setInt(7, uVo.getQuantPersonagensCriados());
                 pstm.setDate(8, Converter.converterDiaMesAnoParaSQLDate(uVo.getDiaCriacao(), uVo.getMesCriacao(), uVo.getAnoCriacao()));
-                pstm.setBoolean(10, uVo.isAtivo());
+                pstm.setBoolean(9, true);
 
                 pstm.execute();
             }
@@ -265,7 +265,7 @@ public class UsuarioDAO extends ObjetoDAO implements IDAO
                 pstm.setInt(6, uVO.getQuantPersonagensTotal());
                 pstm.setInt(7, uVO.getQuantPersonagensCriados());
                 pstm.setDate(8, Converter.converterDiaMesAnoParaSQLDate(uVO.getDiaCriacao(), uVO.getMesCriacao(), uVO.getAnoCriacao()));
-                pstm.setBoolean(10, uVO.isAtivo());
+                pstm.setBoolean(9, uVO.isAtivo());
 
                 pstm.executeUpdate();
             }
