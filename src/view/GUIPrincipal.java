@@ -60,10 +60,13 @@ public class GUIPrincipal extends javax.swing.JFrame implements InternalFrameLis
 
         jdpPrincipal = new javax.swing.JDesktopPane();
         jMenuBar = new javax.swing.JMenuBar();
+        jMenuPersonagens = new javax.swing.JMenu();
+        jMenuMesas = new javax.swing.JMenu();
+        jMenuAdmin = new javax.swing.JMenu();
         jMenu1 = new javax.swing.JMenu();
-        jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMinimumSize(new java.awt.Dimension(800, 600));
 
         jdpPrincipal.setBackground(new java.awt.Color(255, 255, 255));
         jdpPrincipal.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -72,18 +75,24 @@ public class GUIPrincipal extends javax.swing.JFrame implements InternalFrameLis
         jdpPrincipal.setLayout(jdpPrincipalLayout);
         jdpPrincipalLayout.setHorizontalGroup(
             jdpPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 776, Short.MAX_VALUE)
+            .addGap(0, 784, Short.MAX_VALUE)
         );
         jdpPrincipalLayout.setVerticalGroup(
             jdpPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 553, Short.MAX_VALUE)
         );
 
-        jMenu1.setText("File");
-        jMenuBar.add(jMenu1);
+        jMenuPersonagens.setText("Personagens");
+        jMenuBar.add(jMenuPersonagens);
 
-        jMenu2.setText("Edit");
-        jMenuBar.add(jMenu2);
+        jMenuMesas.setText("Mesas");
+        jMenuBar.add(jMenuMesas);
+
+        jMenuAdmin.setText("Administração");
+        jMenuBar.add(jMenuAdmin);
+
+        jMenu1.setText("Perfil");
+        jMenuBar.add(jMenu1);
 
         setJMenuBar(jMenuBar);
 
@@ -144,8 +153,10 @@ public class GUIPrincipal extends javax.swing.JFrame implements InternalFrameLis
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenuAdmin;
     private javax.swing.JMenuBar jMenuBar;
+    private javax.swing.JMenu jMenuMesas;
+    private javax.swing.JMenu jMenuPersonagens;
     private javax.swing.JDesktopPane jdpPrincipal;
     // End of variables declaration//GEN-END:variables
 
