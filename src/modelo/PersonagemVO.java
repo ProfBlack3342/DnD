@@ -17,6 +17,9 @@ public final class PersonagemVO extends ObjetoVO
     private ClasseVO classe;
     private int nivel;
     private int idBackground;
+    
+    // Strength, Dexterity, Constitution, Intelligence, Wisdom, e Charisma.
+    private int[] scoresHabilidade = new int[]{ 10, 10, 10, 10, 10, 10 };
     /**
      *      Ability Scores and Modifiers:
      *  -----------------------------------------
@@ -40,8 +43,8 @@ public final class PersonagemVO extends ObjetoVO
      *  |	30	   |	    +10		|
      *  -----------------------------------------
      */
-    private int[] scoresHabilidade = new int[]{ 10, 10, 10, 10, 10, 10 };
     private int[] modificadoresHabilidade = new int[]{ 0, 0, 0, 0, 0, 0 };  
+    
     private int hpAtual;
     private int hpMaximo;
     private int hpTemp;
