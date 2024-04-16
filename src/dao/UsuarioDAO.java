@@ -73,8 +73,8 @@ public final class UsuarioDAO extends ObjetoDAO implements IDAO
                         uVO.setNome(rs.getString("nomeUsuario"));
                         uVO.setSenha(rs.getString("senhaUsuario"));
                         uVO.setDescricao(rs.getString("descricaoUsuario"));
-                        uVO.setQuantPersonagensTotal(rs.getInt("quantPersonagensTotal"));
-                        uVO.setQuantPersonagensCriados(rs.getInt("quantPersonagensCriados"));
+                        uVO.setQuantPersonagensMaxima(rs.getInt("quantPersonagensTotal"));
+                        uVO.setQuantPersonagensExistentes(rs.getInt("quantPersonagensCriados"));
                         String[] diaMesAno = Converter.converterSQLDateParaDiaMesAno(rs.getDate("dataCriacaoUsuario"));
                         uVO.setDiaCriacao(diaMesAno[0]);
                         uVO.setMesCriacao(diaMesAno[1]);
@@ -119,8 +119,8 @@ public final class UsuarioDAO extends ObjetoDAO implements IDAO
                 uVo.setSenha(Converter.converterTextoParaHash(uVo.getSenha()));
                 pstm.setString(4, uVo.getSenha());
                 pstm.setString(5, uVo.getDescricao());
-                pstm.setInt(6, uVo.getQuantPersonagensTotal());
-                pstm.setInt(7, uVo.getQuantPersonagensCriados());
+                pstm.setInt(6, uVo.getQuantPersonagensMaxima());
+                pstm.setInt(7, uVo.getQuantPersonagensExistentes());
                 pstm.setDate(8, Converter.converterDiaMesAnoParaSQLDate(uVo.getDiaCriacao(), uVo.getMesCriacao(), uVo.getAnoCriacao()));
                 pstm.setBoolean(9, true);
 
@@ -159,8 +159,8 @@ public final class UsuarioDAO extends ObjetoDAO implements IDAO
                 uVO.setNome(rs.getString("nomeUsuario"));
                 uVO.setSenha(rs.getString("senhaUsuario"));
                 uVO.setDescricao(rs.getString("descricaoUsuario"));
-                uVO.setQuantPersonagensTotal(rs.getInt("quantPersonagensTotal"));
-                uVO.setQuantPersonagensCriados(rs.getInt("quantPersonagensCriados"));
+                uVO.setQuantPersonagensMaxima(rs.getInt("quantPersonagensTotal"));
+                uVO.setQuantPersonagensExistentes(rs.getInt("quantPersonagensCriados"));
                 String[] diaMesAno = Converter.converterSQLDateParaDiaMesAno(rs.getDate("dataCriacaoUsuario"));
                 uVO.setDiaCriacao(diaMesAno[0]);
                 uVO.setMesCriacao(diaMesAno[1]);
@@ -208,8 +208,8 @@ public final class UsuarioDAO extends ObjetoDAO implements IDAO
                 uVO.setNome(rs.getString("nomeUsuario"));
                 uVO.setSenha(rs.getString("senhaUsuario"));
                 uVO.setDescricao(rs.getString("descricaoUsuario"));
-                uVO.setQuantPersonagensTotal(rs.getInt("quantPersonagensTotal"));
-                uVO.setQuantPersonagensCriados(rs.getInt("quantPersonagensCriados"));
+                uVO.setQuantPersonagensMaxima(rs.getInt("quantPersonagensTotal"));
+                uVO.setQuantPersonagensExistentes(rs.getInt("quantPersonagensCriados"));
                 String[] diaMesAno = Converter.converterSQLDateParaDiaMesAno(rs.getDate("dataCriacaoUsuario"));
                 uVO.setDiaCriacao(diaMesAno[0]);
                 uVO.setMesCriacao(diaMesAno[1]);
@@ -262,8 +262,8 @@ public final class UsuarioDAO extends ObjetoDAO implements IDAO
                 uVO.setSenha(Converter.converterTextoParaHash(uVO.getSenha()));
                 pstm.setString(4, uVO.getSenha());
                 pstm.setString(5, uVO.getDescricao());
-                pstm.setInt(6, uVO.getQuantPersonagensTotal());
-                pstm.setInt(7, uVO.getQuantPersonagensCriados());
+                pstm.setInt(6, uVO.getQuantPersonagensMaxima());
+                pstm.setInt(7, uVO.getQuantPersonagensExistentes());
                 pstm.setDate(8, Converter.converterDiaMesAnoParaSQLDate(uVO.getDiaCriacao(), uVO.getMesCriacao(), uVO.getAnoCriacao()));
                 pstm.setBoolean(9, uVO.isAtivo());
 
