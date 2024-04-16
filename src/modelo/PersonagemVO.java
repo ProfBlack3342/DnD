@@ -11,15 +11,15 @@ package modelo;
  */
 public final class PersonagemVO extends ObjetoVO
 {
-    private int idImagem;
     private int idUsuario;
+    private int idImagem;
+    private String nome;
     private RacaVO raca;
     private ClasseVO classe;
     private int nivel;
-    private int idBackground;
-    
+    private BackgroundPersonagemVO background;
     // Strength, Dexterity, Constitution, Intelligence, Wisdom, e Charisma.
-    private int[] scoresHabilidade = new int[]{ 10, 10, 10, 10, 10, 10 };
+    private int[] scoresHabilidade = new int[6];
     /**
      *      Ability Scores and Modifiers:
      *  -----------------------------------------
@@ -44,9 +44,8 @@ public final class PersonagemVO extends ObjetoVO
      *  -----------------------------------------
      */
     private int[] modificadoresHabilidade = new int[]{ 0, 0, 0, 0, 0, 0 };  
-    
-    private int hpAtual;
     private int hpMaximo;
+    private int hpAtual;
     private int hpTemp;
     private SkillVO[] skills;
     private ProficienciaVO[] proficiencias;
