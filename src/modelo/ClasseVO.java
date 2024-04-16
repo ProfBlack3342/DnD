@@ -16,5 +16,4 @@ public class ClasseVO extends ObjetoVO
     private ProficienciaVO[] proficienciasIniciais;
     private EquipamentoVO[] equipamentoInicial;
     private FeatureClasseVO[] features;
-    
 }
