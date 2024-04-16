@@ -9,14 +9,10 @@ package modelo;
  *
  * @author 181700271
  */
-public abstract class ObjetoVO
+public class SubRacaVO extends ObjetoVO
 {
-    private int id;
-
-    public int getId() {
-        return id;
-    }
-    public void setId(int id) {
-        this.id = id;
-    }
+    private String nome;
+    private String descricao;
+    private int[] aumentosScoresHabilidade = new int[6];
+    private FeatureSubRacaVO[] features;
 }

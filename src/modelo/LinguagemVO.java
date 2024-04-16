@@ -9,14 +9,8 @@ package modelo;
  *
  * @author 181700271
  */
-public abstract class ObjetoVO
+public class LinguagemVO extends ObjetoVO
 {
-    private int id;
-
-    public int getId() {
-        return id;
-    }
-    public void setId(int id) {
-        this.id = id;
-    }
+    private String nome;
+    private String descricao;
 }

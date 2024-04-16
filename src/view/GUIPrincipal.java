@@ -22,10 +22,10 @@ public class GUIPrincipal extends javax.swing.JFrame implements InternalFrameLis
      */
     public GUIPrincipal() {
         initComponents();
-        abrirLogin();
+        login();
     }
     
-    private void abrirLogin()
+    private void login()
     {
         if(!flagGUILogin)
         {
@@ -37,7 +37,42 @@ public class GUIPrincipal extends javax.swing.JFrame implements InternalFrameLis
         }
     }
     
-    private void construirPerfil()
+    private void criarListaPersonagens()
+    {
+        
+    }
+    
+    private void criarPersonagemNovo()
+    {
+        
+    }
+    
+    private void abrirPersonagem()
+    {
+        
+    }
+    
+    private void criarListaMesas()
+    {
+        
+    }
+    
+    private void criarMesaNova()
+    {
+        
+    }
+    
+    private void abrirMesa()
+    {
+        
+    }
+    
+    private void habilitarAdmin()
+    {
+        
+    }
+    
+    private void perfil()
     {
         
     }
@@ -174,13 +209,7 @@ public class GUIPrincipal extends javax.swing.JFrame implements InternalFrameLis
     @Override
     public void internalFrameClosed(InternalFrameEvent ife) {
         if(ife.getInternalFrame() instanceof GUILogin) {
-            if(usuarioVOLogado == null)
-                System.exit(0);
-            else
-            {
                 flagGUILogin = false;
-                construirPerfil();
-            }
         }
     }
 

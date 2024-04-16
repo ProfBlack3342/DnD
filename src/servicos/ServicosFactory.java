@@ -8,7 +8,7 @@ package servicos;
  *
  * @author dudup
  */
-public class ServicosFactory
+public final class ServicosFactory
 {
     private static final UsuarioServicos USUARIO_SERVICOS = new UsuarioServicos();
     

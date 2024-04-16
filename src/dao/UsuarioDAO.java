@@ -23,7 +23,7 @@ import utilidades.Verificar;
  *
  * @author dudup
  */
-public class UsuarioDAO extends ObjetoDAO implements IDAO
+public final class UsuarioDAO extends ObjetoDAO implements IDAO
 {
     /*
         Tabela Usuario (
@@ -67,7 +67,7 @@ public class UsuarioDAO extends ObjetoDAO implements IDAO
                     {
                         lVO.setSenha(hash);
                         UsuarioVO uVO = new UsuarioVO();
-                        uVO.setIdUsuario(rs.getInt("idUsuario"));
+                        uVO.setId(rs.getInt("idUsuario"));
                         uVO.setIdImagem(rs.getInt("idImagemUsuario"));
                         uVO.setIdTipo(rs.getInt("idTipoUsuario"));
                         uVO.setNome(rs.getString("nomeUsuario"));
@@ -153,7 +153,7 @@ public class UsuarioDAO extends ObjetoDAO implements IDAO
             while(rs.next())
             {
                 UsuarioVO uVO = new UsuarioVO();
-                uVO.setIdUsuario(rs.getInt("idUsuario"));
+                uVO.setId(rs.getInt("idUsuario"));
                 uVO.setIdImagem(rs.getInt("idImagemUsuario"));
                 uVO.setIdTipo(rs.getInt("idTipoUsuario"));
                 uVO.setNome(rs.getString("nomeUsuario"));
@@ -202,7 +202,7 @@ public class UsuarioDAO extends ObjetoDAO implements IDAO
             while(rs.next())
             {
                 UsuarioVO uVO = new UsuarioVO();
-                uVO.setIdUsuario(rs.getInt("idUsuario"));
+                uVO.setId(rs.getInt("idUsuario"));
                 uVO.setIdImagem(rs.getInt("idImagemUsuario"));
                 uVO.setIdTipo(rs.getInt("idTipoUsuario"));
                 uVO.setNome(rs.getString("nomeUsuario"));
@@ -251,7 +251,7 @@ public class UsuarioDAO extends ObjetoDAO implements IDAO
                     + "quantPersonagensTotal = ?, "
                     + "quantPersonagensCriados = ?, "
                     + "usuarioAtivo = ? "
-                    + "WHERE idUsuario = " + uVO.getIdUsuario();
+                    + "WHERE idUsuario = " + uVO.getId();
             
             try(Connection con = new ConexaoBanco().getConexao();
                 PreparedStatement pstm = con.prepareStatement(sql);)

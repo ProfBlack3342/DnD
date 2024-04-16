@@ -17,7 +17,7 @@ import modelo.UsuarioVO;
  *
  * @author dudup
  */
-public class UsuarioServicos
+public final class UsuarioServicos
 {
     /**
      * 

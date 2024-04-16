@@ -8,9 +8,8 @@ package modelo;
  *
  * @author dudup
  */
-public class UsuarioVO extends ObjetoVO
+public final class UsuarioVO extends ObjetoVO
 {
-    private int idUsuario;
     private int idImagem;
     private int idTipo;
     private String nome;
@@ -18,17 +17,11 @@ public class UsuarioVO extends ObjetoVO
     private String descricao;
     private int quantPersonagensTotal = 6;
     private int quantPersonagensCriados = 0;
+    private PersonagemVO[] listaPersonagens = new PersonagemVO[quantPersonagensTotal];
     private String diaCriacao;
     private String mesCriacao;
     private String anoCriacao;
     private boolean ativo = true;
-
-    public int getIdUsuario() {
-        return idUsuario;
-    }
-    public void setIdUsuario(int idUsuario) {
-        this.idUsuario = idUsuario;
-    }
 
     public int getIdImagem() {
         return idImagem;

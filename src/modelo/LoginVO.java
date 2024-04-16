@@ -8,7 +8,7 @@ package modelo;
  *
  * @author dudup
  */
-public class LoginVO extends ObjetoVO
+public final class LoginVO extends ObjetoVO
 {
     private String usuario;
     private String senha;

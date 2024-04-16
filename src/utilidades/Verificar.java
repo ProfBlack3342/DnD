@@ -10,7 +10,7 @@ import jbcrypt.BCrypt;
  *
  * @author Eduardo Pereira Moreira
  */
-public class Verificar
+public final class Verificar
 {
     /**
      * Compara um texto/senha/código com um hash já existente.<p>

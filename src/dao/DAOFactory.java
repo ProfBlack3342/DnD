@@ -8,7 +8,7 @@ package dao;
  *
  * @author Eduardo Pereira Moreira
  */
-public class DAOFactory
+public final class DAOFactory
 {
     private static final UsuarioDAO USUARIO_DAO = new UsuarioDAO();
     

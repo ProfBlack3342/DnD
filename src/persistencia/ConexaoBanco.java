@@ -12,7 +12,7 @@ import java.sql.SQLException;
  *
  * @author dudup
  */
-public class ConexaoBanco
+public final class ConexaoBanco
 {
     /**
      * 

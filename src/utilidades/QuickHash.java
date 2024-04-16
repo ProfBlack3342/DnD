@@ -10,7 +10,7 @@ import java.util.Scanner;
  *
  * @author dudup
  */
-public class QuickHash {
+public final class QuickHash {
     
     /**
      * @param args the command line arguments

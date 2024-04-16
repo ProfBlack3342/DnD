@@ -9,14 +9,7 @@ package modelo;
  *
  * @author 181700271
  */
-public abstract class ObjetoVO
+public class FeatureClasseVO extends FeatureVO
 {
-    private int id;
-
-    public int getId() {
-        return id;
-    }
-    public void setId(int id) {
-        this.id = id;
-    }
+    
 }

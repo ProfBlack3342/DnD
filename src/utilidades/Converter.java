@@ -12,7 +12,7 @@ import jbcrypt.BCrypt;
  *
  * @author Eduardo Pereira Moreira
  */
-public class Converter
+public final class Converter
 {
     private static final SimpleDateFormat SDF_SQLDATE = new SimpleDateFormat("YYYY-MM-dd");
     
