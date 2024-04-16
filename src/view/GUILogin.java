@@ -85,8 +85,8 @@ public class GUILogin extends javax.swing.JInternalFrame {
         uVO.setNome(jtfUsuarioCadastro.getText());
         uVO.setSenha(new String(jpfSenhaCadastro.getPassword()));
         uVO.setDescricao(jtfDescricaoCadastro.getText());
-        uVO.setQuantPersonagensTotal(6);
-        uVO.setQuantPersonagensCriados(0);
+        uVO.setQuantPersonagensMaxima(6);
+        uVO.setQuantPersonagensExistentes(0);
         String[] data = Converter.converterStringParaDiaMesAno(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
         uVO.setDiaCriacao(data[0]);
         uVO.setMesCriacao(data[1]);
