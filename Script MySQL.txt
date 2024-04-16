@@ -41,3 +41,101 @@ ALTER TABLE Usuario CHANGE COLUMN idUsuario idUsuario INT NOT NULL AUTO_INCREMEN
 ALTER TABLE Usuario ADD CONSTRAINT FK_USUARIO_IMAGEMUSUARIO FOREIGN KEY(idImagemUsuario) REFERENCES ImagemUsuario(idImagemUsuario);
 ALTER TABLE Usuario ADD CONSTRAINT FK_USUARIO_TIPOUSUARIO FOREIGN KEY(idTipoUsuario) REFERENCES TipoUsuario(idTipoUsuario);
 -- ----------------------------------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS ImagemClasse (
+    idImagemClasse INT NOT NULL,
+    nomeImagemClasse VARCHAR(20) NOT NULL,
+    caminhoImagemClasse VARCHAR(260) NOT NULL,
+    descricaoImagemClasse VARCHAR(60) NULL
+);
+-- PK
+ALTER TABLE ImagemClasse ADD CONSTRAINT PK_IMAGEMCLASSE PRIMARY KEY(idImagemClasse);
+ALTER TABLE ImagemClasse CHANGE COLUMN idImagemClasse idImagemClasse INT NOT NULL AUTO_INCREMENT;
+-- ----------------------------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS Classe (
+    idClasse INT NOT NULL,
+    
+    dataCriacaoPersonagem DATE NOT NULL,
+    personagemAtivo TINYINT(1) NOT NULL DEFAULT 1
+);
+-- PK
+ALTER TABLE Classe ADD CONSTRAINT PK_CLASSE PRIMARY KEY(idClasse);
+ALTER TABLE Classe CHANGE COLUMN idClasse idClasse INT NOT NULL AUTO_INCREMENT;
+-- ----------------------------------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS ImagemRaca (
+    idImagemRaca INT NOT NULL,
+    nomeImagemRaca VARCHAR(20) NOT NULL,
+    caminhoImagemRaca VARCHAR(260) NOT NULL,
+    descricaoImagemRaca VARCHAR(60) NULL
+);
+-- PK
+ALTER TABLE ImagemRaca ADD CONSTRAINT PK_IMAGEMRACA PRIMARY KEY(idImagemRaca);
+ALTER TABLE ImagemRaca CHANGE COLUMN idImagemRaca idImagemRaca INT NOT NULL AUTO_INCREMENT;
+-- ----------------------------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS Raca (
+    idRaca INT NOT NULL,
+    
+    idSubRaca INT NULL,
+    dataCriacaoPersonagem DATE NOT NULL,
+    personagemAtivo TINYINT(1) NOT NULL DEFAULT 1
+);
+-- PK
+ALTER TABLE Raca ADD CONSTRAINT PK_RACA PRIMARY KEY(idRaca);
+ALTER TABLE Raca CHANGE COLUMN idRaca idRaca INT NOT NULL AUTO_INCREMENT;
+-- FK
+ALTER TABLE Raca ADD CONSTRAINT FK_RACA_IMAGEMPERSONAGEM FOREIGN KEY(idImagemRaca) REFERENCES ImagemRaca(idImagemRaca);
+ALTER TABLE Raca ADD CONSTRAINT FK_RACA_SUBRACA FOREIGN KEY(idSubRaca) REFERENCES SubRaca(idSubRaca);
+-- ----------------------------------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS ImagemPersonagem (
+    idImagemPersonagem INT NOT NULL,
+    nomeImagemPersonagem VARCHAR(20) NOT NULL,
+    caminhoImagemPersonagem VARCHAR(260) NOT NULL,
+    descricaoImagemPersonagem VARCHAR(60) NULL
+);
+-- PK
+ALTER TABLE ImagemPersonagem ADD CONSTRAINT PK_IMAGEMPERSONAGEM PRIMARY KEY(idImagemPersonagem);
+ALTER TABLE ImagemPersonagem CHANGE COLUMN idImagemPersonagem idImagemPersonagem INT NOT NULL AUTO_INCREMENT;
+-- ----------------------------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS Personagem (
+    idPersonagem INT NOT NULL,
+    idUsuario INT NOT NULL,
+    idImagemPersonagem INT NULL,
+    nomePersonagem VARCHAR(60) NOT NULL UNIQUE,
+    idRaca INT NOT NULL,
+    idClasse INT NOT NULL,
+    nivel INT NOT NULL DEFAULT 0,
+    valorSTR INT NOT NULL DEFAULT 10,
+    valorDEX INT NOT NULL DEFAULT 10,
+    valorCON INT NOT NULL DEFAULT 10,
+    valorINT INT NOT NULL DEFAULT 10,
+    valorWIS INT NOT NULL DEFAULT 10,
+    valorCHA INT NOT NULL DEFAULT 10,
+    modSTR INT NOT NULL DEFAULT 0,
+    modDEX INT NOT NULL DEFAULT 0,
+    modCON INT NOT NULL DEFAULT 0,
+    modINT INT NOT NULL DEFAULT 0,
+    modWIS INT NOT NULL DEFAULT 0,
+    modCHA INT NOT NULL DEFAULT 0,
+    hpMaximo INT NOT NULL,
+    hpAtual INT NOT NULL,
+    hpTemp INT NOT NULL,
+    ac INT NOT NULL,
+    iniciativa INT NOT NULL,
+    inspiracao TINYINT(1) NOT NULL DEFAULT 0,
+    jornalDeCampo VARCHAR(250) NULL,
+    notasExtras VARCHAR(250) NULL,
+    dataCriacaoPersonagem DATE NOT NULL,
+    personagemAtivo TINYINT(1) NOT NULL DEFAULT 1
+);
+-- PK
+ALTER TABLE Personagem ADD CONSTRAINT PK_PERSONAGEM PRIMARY KEY(idPersonagem, idUsuario);
+ALTER TABLE Personagem CHANGE COLUMN idPersonagem idPersonagem INT NOT NULL AUTO_INCREMENT;
+-- FK
+ALTER TABLE Personagem ADD CONSTRAINT FK_PERSONAGEM_USUARIO FOREIGN KEY(idUsuario) REFERENCES Usuario(idUsuario);
+ALTER TABLE Personagem ADD CONSTRAINT FK_PERSONAGEM_IMAGEMPERSONAGEM FOREIGN KEY(idImagemPersonagem) REFERENCES ImagemPersonagem(idImagemPersonagem);
+ALTER TABLE Personagem ADD CONSTRAINT FK_PERSONAGEM_RACA FOREIGN KEY(idRaca) REFERENCES Raca(idRaca);
+ALTER TABLE Personagem ADD CONSTRAINT FK_PERSONAGEM_CLASSE FOREIGN KEY(idClasse) REFERENCES Classe(idClasse);
+-- ----------------------------------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------------------------------
