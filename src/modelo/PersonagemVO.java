@@ -45,11 +45,11 @@ public final class PersonagemVO extends ObjetoVO
     private int hpAtual;
     private int hpMaximo;
     private int hpTemp;
-    private int[] idSkills;
-    private int[] idProficiencias;
-    private int[] idEquipamento;
+    private SkillVO[] skills;
+    private ProficienciaVO[] proficiencias;
+    private EquipamentoVO[] equipamento;
     private int armorClass;
-    private int[] idLinguagens;
+    private LinguagemVO[] linguagens;
     private int iniciativa;
     private boolean[] deathSaves;
     private boolean inspiracao;

@@ -9,12 +9,7 @@ package modelo;
  *
  * @author 181700271
  */
-public class ClasseVO extends ObjetoVO
+public class SkillVO extends ObjetoVO
 {
-    private String descricao;
-    private int hitDice;
-    private ProficienciaVO[] proficienciasIniciais;
-    private EquipamentoVO[] equipamentoInicial;
-    private FeatureClasseVO[] features;
     
 }
