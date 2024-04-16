@@ -98,7 +98,7 @@ public class GUIPrincipal extends javax.swing.JFrame implements InternalFrameLis
         jMenuPersonagens = new javax.swing.JMenu();
         jMenuMesas = new javax.swing.JMenu();
         jMenuAdmin = new javax.swing.JMenu();
-        jMenu1 = new javax.swing.JMenu();
+        jMenuPerfil = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(800, 600));
@@ -126,8 +126,8 @@ public class GUIPrincipal extends javax.swing.JFrame implements InternalFrameLis
         jMenuAdmin.setText("Administração");
         jMenuBar.add(jMenuAdmin);
 
-        jMenu1.setText("Perfil");
-        jMenuBar.add(jMenu1);
+        jMenuPerfil.setText("Perfil");
+        jMenuBar.add(jMenuPerfil);
 
         setJMenuBar(jMenuBar);
 
@@ -187,10 +187,10 @@ public class GUIPrincipal extends javax.swing.JFrame implements InternalFrameLis
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenuAdmin;
     private javax.swing.JMenuBar jMenuBar;
     private javax.swing.JMenu jMenuMesas;
+    private javax.swing.JMenu jMenuPerfil;
     private javax.swing.JMenu jMenuPersonagens;
     private javax.swing.JDesktopPane jdpPrincipal;
     // End of variables declaration//GEN-END:variables

@@ -19,7 +19,7 @@
             <Property name="text" type="java.lang.String" value="Administra&#xe7;&#xe3;o"/>
           </Properties>
         </Menu>
-        <Menu class="javax.swing.JMenu" name="jMenu1">
+        <Menu class="javax.swing.JMenu" name="jMenuPerfil">
           <Properties>
             <Property name="text" type="java.lang.String" value="Perfil"/>
           </Properties>
