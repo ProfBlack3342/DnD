@@ -15,13 +15,9 @@ public final class UsuarioVO extends ObjetoVO
     private String nome;
     private String senha;
     private String descricao;
-    private int quantPersonagensTotal = 6;
-    private int quantPersonagensCriados = 0;
-    private PersonagemVO[] listaPersonagens = new PersonagemVO[quantPersonagensTotal];
-    private String diaCriacao;
-    private String mesCriacao;
-    private String anoCriacao;
-    private boolean ativo = true;
+    private int quantPersonagensMaxima = 6;
+    private int quantPersonagensExistentes = 0;
+    private PersonagemVO[] listaPersonagens = new PersonagemVO[quantPersonagensMaxima];
 
     public int getIdImagem() {
         return idImagem;
@@ -58,45 +54,24 @@ public final class UsuarioVO extends ObjetoVO
         this.descricao = descricao;
     }
 
-    public int getQuantPersonagensTotal() {
-        return quantPersonagensTotal;
+    public int getQuantPersonagensMaxima() {
+        return quantPersonagensMaxima;
     }
-    public void setQuantPersonagensTotal(int quantPersonagensTotal) {
-        this.quantPersonagensTotal = quantPersonagensTotal;
-    }
-
-    public int getQuantPersonagensCriados() {
-        return quantPersonagensCriados;
-    }
-    public void setQuantPersonagensCriados(int quantPersonagensCriados) {
-        this.quantPersonagensCriados = quantPersonagensCriados;
+    public void setQuantPersonagensMaxima(int quantPersonagensMaxima) {
+        this.quantPersonagensMaxima = quantPersonagensMaxima;
     }
 
-    public String getDiaCriacao() {
-        return diaCriacao;
+    public int getQuantPersonagensExistentes() {
+        return quantPersonagensExistentes;
     }
-    public void setDiaCriacao(String diaCriacao) {
-        this.diaCriacao = diaCriacao;
-    }
-
-    public String getMesCriacao() {
-        return mesCriacao;
-    }
-    public void setMesCriacao(String mesCriacao) {
-        this.mesCriacao = mesCriacao;
+    public void setQuantPersonagensExistentes(int quantPersonagensExistentes) {
+        this.quantPersonagensExistentes = quantPersonagensExistentes;
     }
 
-    public String getAnoCriacao() {
-        return anoCriacao;
+    public PersonagemVO[] getListaPersonagens() {
+        return listaPersonagens;
     }
-    public void setAnoCriacao(String anoCriacao) {
-        this.anoCriacao = anoCriacao;
-    }
-
-    public boolean isAtivo() {
-        return ativo;
-    }
-    public void setAtivo(boolean ativo) {
-        this.ativo = ativo;
+    public void setListaPersonagens(PersonagemVO[] listaPersonagens) {
+        this.listaPersonagens = listaPersonagens;
     }
 }
