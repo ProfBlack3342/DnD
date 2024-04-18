@@ -27,7 +27,9 @@ CREATE TABLE IF NOT EXISTS Usuario (
     idImagemUsuario INT NULL,
     idTipoUsuario INT NOT NULL,
     nomeUsuario VARCHAR(60) NOT NULL UNIQUE,
+    emailUsuario VARCHAR(60) NOT NULL UNIQUE,
     senhaUsuario CHAR(60) NOT NULL,					-- Hash da senha gerado com JBCrypt
+    dataAniversarioUsuario DATE NOT NULL,
     descricaoUsuario VARCHAR(60) NULL,
     quantPersonagensTotal INT NOT NULL DEFAULT 6,
     quantPersonagensCriados INT NOT NULL DEFAULT 0,
@@ -54,6 +56,7 @@ ALTER TABLE ImagemClasse CHANGE COLUMN idImagemClasse idImagemClasse INT NOT NUL
 -- ----------------------------------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS Classe (
     idClasse INT NOT NULL,
+    idImagemClasse INT NOT NULL,
     
     dataCriacaoPersonagem DATE NOT NULL,
     personagemAtivo TINYINT(1) NOT NULL DEFAULT 1
@@ -61,6 +64,33 @@ CREATE TABLE IF NOT EXISTS Classe (
 -- PK
 ALTER TABLE Classe ADD CONSTRAINT PK_CLASSE PRIMARY KEY(idClasse);
 ALTER TABLE Classe CHANGE COLUMN idClasse idClasse INT NOT NULL AUTO_INCREMENT;
+-- FK
+ALTER TABLE Classe ADD CONSTRAINT FK_RACA_IMAGEMCLASSE FOREIGN KEY(idImagemClasse) REFERENCES ImagemClasse(idImagemClasse);
+-- ----------------------------------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS ImagemSubClasse (
+    idImagemSubClasse INT NOT NULL,
+    nomeImagemSubClasse VARCHAR(20) NOT NULL,
+    caminhoImagemSubClasse VARCHAR(260) NOT NULL,
+    descricaoImagemSubClasse VARCHAR(60) NULL
+);
+-- PK
+ALTER TABLE ImagemSubClasse ADD CONSTRAINT PK_IMAGEMSUBCLASSE PRIMARY KEY(idImagemSubClasse);
+ALTER TABLE ImagemSubClasse CHANGE COLUMN idImagemSubClasse idImagemSubClasse INT NOT NULL AUTO_INCREMENT;
+-- ----------------------------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS SubClasse (
+    idSubClasse INT NOT NULL,
+	idClasse INT NOT NULL,
+    idImagemSubClasse INT NOT NULL,
+    
+    dataCriacaoPersonagem DATE NOT NULL,
+    personagemAtivo TINYINT(1) NOT NULL DEFAULT 1
+);
+-- PK
+ALTER TABLE SubClasse ADD CONSTRAINT PK_SUBCLASSE PRIMARY KEY(idSubClasse);
+ALTER TABLE SubClasse CHANGE COLUMN idSubClasse idSubClasse INT NOT NULL AUTO_INCREMENT;
+-- FK
+ALTER TABLE SubClasse ADD CONSTRAINT FK_RACA_IMAGEMSUBCLASSE FOREIGN KEY(idImagemSubClasse) REFERENCES ImagemSubClasse(idImagemSubClasse);
 -- ----------------------------------------------------------------------------------------------------
 -- ----------------------------------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS ImagemRaca (
@@ -75,8 +105,8 @@ ALTER TABLE ImagemRaca CHANGE COLUMN idImagemRaca idImagemRaca INT NOT NULL AUTO
 -- ----------------------------------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS Raca (
     idRaca INT NOT NULL,
+    idImagemRaca INT NOT NULL,
     
-    idSubRaca INT NULL,
     dataCriacaoPersonagem DATE NOT NULL,
     personagemAtivo TINYINT(1) NOT NULL DEFAULT 1
 );
@@ -85,7 +115,32 @@ ALTER TABLE Raca ADD CONSTRAINT PK_RACA PRIMARY KEY(idRaca);
 ALTER TABLE Raca CHANGE COLUMN idRaca idRaca INT NOT NULL AUTO_INCREMENT;
 -- FK
 ALTER TABLE Raca ADD CONSTRAINT FK_RACA_IMAGEMPERSONAGEM FOREIGN KEY(idImagemRaca) REFERENCES ImagemRaca(idImagemRaca);
-ALTER TABLE Raca ADD CONSTRAINT FK_RACA_SUBRACA FOREIGN KEY(idSubRaca) REFERENCES SubRaca(idSubRaca);
+-- ----------------------------------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS ImagemSubRaca (
+    idImagemSubRaca INT NOT NULL,
+    nomeImagemSubRaca VARCHAR(20) NOT NULL,
+    caminhoImagemSubRaca VARCHAR(260) NOT NULL,
+    descricaoImagemSubRaca VARCHAR(60) NULL
+);
+-- PK
+ALTER TABLE ImagemSubRaca ADD CONSTRAINT PK_IMAGEMSUBRACA PRIMARY KEY(idImagemSubRaca);
+ALTER TABLE ImagemSubRaca CHANGE COLUMN idImagemSubRaca idImagemSubRaca INT NOT NULL AUTO_INCREMENT;
+-- ----------------------------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS SubRaca (
+    idSubRaca INT NOT NULL,
+    idRaca INT NULL,
+    idImagemSubRaca INT NOT NULL,
+    
+    dataCriacaoPersonagem DATE NOT NULL,
+    personagemAtivo TINYINT(1) NOT NULL DEFAULT 1
+);
+-- PK
+ALTER TABLE SubRaca ADD CONSTRAINT PK_SUBRACA PRIMARY KEY(idSubRaca, idRaca);
+ALTER TABLE SubRaca CHANGE COLUMN idSubRaca idSubRaca INT NOT NULL AUTO_INCREMENT;
+-- FK
+ALTER TABLE SubRaca ADD CONSTRAINT FK_SUBRACA_RACA FOREIGN KEY(idRaca) REFERENCES Raca(idRaca);
+ALTER TABLE SubRaca ADD CONSTRAINT FK_RACA_IMAGEMPERSONAGEM FOREIGN KEY(idImagemSubRaca) REFERENCES ImagemSubRaca(idImagemSubRaca);
 -- ----------------------------------------------------------------------------------------------------
 -- ----------------------------------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS ImagemPersonagem (
@@ -102,9 +157,10 @@ CREATE TABLE IF NOT EXISTS Personagem (
     idPersonagem INT NOT NULL,
     idUsuario INT NOT NULL,
     idImagemPersonagem INT NULL,
-    nomePersonagem VARCHAR(60) NOT NULL UNIQUE,
+    idDescricaoPersonagem INT NULL,
     idRaca INT NOT NULL,
     idClasse INT NOT NULL,
+    nomePersonagem VARCHAR(60) NOT NULL UNIQUE,
     nivel INT NOT NULL DEFAULT 0,
     valorSTR INT NOT NULL DEFAULT 10,
     valorDEX INT NOT NULL DEFAULT 10,
