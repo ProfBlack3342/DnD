@@ -11,5 +11,12 @@ package modelo;
  */
 public class SkillVO extends ObjetoVO
 {
-    
+    private boolean proficiente;
+
+    public boolean isProficiente() {
+        return proficiente;
+    }
+    public void setProficiente(boolean proficiente) {
+        this.proficiente = proficiente;
+    }
 }

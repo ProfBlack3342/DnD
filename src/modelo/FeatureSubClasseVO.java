@@ -9,7 +9,7 @@ package modelo;
  *
  * @author 181700271
  */
-public class ProficienciaVO extends ObjetoVO
+public class FeatureSubClasseVO extends FeatureVO
 {
     
 }
