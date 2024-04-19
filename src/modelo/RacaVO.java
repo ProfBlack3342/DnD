@@ -14,7 +14,7 @@ public final class RacaVO extends ObjetoVO
     private String nome;
     private String descricao;
     private int[] aumentosScoresHabilidade = new int[6];
-    private FeatureRacaVO[] features;
+    private FeatureRacaVO[] featuresRaca;
     private int idadeMaxima;
     private double alturaMinima;
     private double alturaMaxima;
@@ -49,11 +49,11 @@ public final class RacaVO extends ObjetoVO
     }
 
     public FeatureRacaVO[] getFeatures() {
-        return features;
+        return featuresRaca;
     }
 
     public void setFeatures(FeatureRacaVO[] features) {
-        this.features = features;
+        this.featuresRaca = features;
     }
 
     public int getIdadeMaxima() {

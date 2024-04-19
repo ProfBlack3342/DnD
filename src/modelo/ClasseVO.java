@@ -17,7 +17,7 @@ public class ClasseVO extends ObjetoVO
     private SkillVO[] proficienciasIniciais;
     private EquipamentoVO[][] equipamentosIniciaisDisponiveis;
     private EquipamentoVO[] equipamentoInicialEscolhido;
-    private FeatureClasseVO[] features;
+    private FeatureClasseVO[] featuresClasse;
 
     public ClasseVO() {
         for(SkillVO s : proficienciasIniciais) {
@@ -65,9 +65,9 @@ public class ClasseVO extends ObjetoVO
     }
 
     public FeatureClasseVO[] getFeatures() {
-        return features;
+        return featuresClasse;
     }
     public void setFeatures(FeatureClasseVO[] features) {
-        this.features = features;
+        this.featuresClasse = features;
     }
 }

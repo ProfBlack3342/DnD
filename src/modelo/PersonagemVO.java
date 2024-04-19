@@ -15,84 +15,54 @@ import java.util.Arrays;
  */
 public final class PersonagemVO extends ObjetoVO
 {
-    private int idUsuario;
-    private int idImagem;
-    private String nome;
-    private RacaVO raca;
-    private SubRacaVO subRaca;
-    private ClasseVO classe;
-    private SubClasseVO subClasse;
-    private int nivel;
-    private BackgroundPersonagemVO background;
-    private int[] scoresHabilidadeIniciais; // Strength, Dexterity, Constitution, Intelligence, Wisdom, e Charisma.
-    private int[] scoresHabilidadeFinais;
-    private int[] modificadoresHabilidade;  //Sempre usar calcularModificadores(scoresHabilidade) para alterar esse Array
-    private int[] hpMaximo;
-    private int hpAtual;
-    private int hpTemp;
-    private ArrayList<SkillVO> skills;
-    private ArrayList<EquipamentoVO> equipamentos;
-    private int armorClass;
-    private ArrayList<LinguagemVO> linguagens;
-    private int iniciativa;
-    private boolean[] deathSaves;
-    private boolean inspiracao;
-    private DescricaoPersonagemVO descricaoPersonagem;
-    private String jornalDeCampo;
-    private String notasExtras;
+    private int idUsuario;                                  //Definido externamente, obrigatório
+    private int idImagem;                                   //Definido externamente
+    private String nome;                                    //Definido externamente
+    private RacaVO raca;                                    //Definido externamente, obrigatório
+    private SubRacaVO subRaca;                              //Definido externamente
+    private ClasseVO classe;                                //Definido externamente, obrigatório
+    private SubClasseVO subClasse;                          //Definido externamente
+    private int nivelAnterior;                              //Variavel interna para guardar nivel anterior
+    private int nivel;                                      //Definido externamente, inicia como um
+    private BackgroundPersonagemVO background;              //Definido externamente, inicializa vazio
+    private int[] scoresHabilidadeIniciais;                 //Strength, Dexterity, Constitution, Intelligence, Wisdom, e Charisma.
+    private int[] scoresHabilidadeFinais;                   //Calculado a partir de scoresHabilidadeIniciais[] + Aumentos da Raça
+    private int[] modificadoresHabilidade;                  //Calculado a partir de scoresHabilidadeFinais[]: Usar calcularModificadores(scoresHabilidade)
+    private int[] rolagensHpMax;                            //Informado pelo usuário e baseado no dado da Classe. Nivel 1 tem valor fixo
+    private int hpMaximo;                                   //Soma de todos os membros de rolagensHpMax[]
+    private int hpAtual;                                    //Inicia igual ao hpMax, depois deve ser definido externamente
+    private int hpTemp;                                     //Definido externamente, inicia como zero
+    private ArrayList<SkillVO> skills;                      //Inicializa como valores informados pela classe, alterada externamente
+    private ArrayList<EquipamentoVO> equipamentos;          //Inicializa como valores informados pela classe, alterada externamente
+    private int armorClass;                                 //Calculado a partir do seu modificadoresHabilidade[1] (DEX), equipamento do tipo armadura e classe
+    private ArrayList<LinguagemVO> linguagens;              //Inicializa como uma lista vazia, alterada externamente
+    private int iniciativa;                                 //d20 + modificadoresHabilidade[1] (DEX) + qualquer outro bônus
+    private boolean[] deathSaves;                           //d20; Se >= 10 = sucesso(true), se < 10 = fracasso(false); Se for 1, conta como 2; Se for 20 conta como 5
+    private boolean inspiracao;                             //Definido externamente, inicia como false
+    private DescricaoPersonagemVO descricaoPersonagem;      //Inicializa como um "DescricaoPersonagemVO" vazio, preenchido externamente
+    private String jornalDeCampo;                           //Definido externamente
+    private String notasExtras;                             //Definido externamente
 
-    public PersonagemVO()
-    {
+    public PersonagemVO() {
         this.idUsuario = -1;
-        this.idImagem = 1;
         this.nome = "Sem Nome";
         this.raca = null;
         this.subRaca = null;
         this.classe = null;
         this.subClasse = null;
-        this.nivel = 1;
+        this.nivelAnterior = 0;
+        setNivel(1);
         this.background = new BackgroundPersonagemVO();
+        this.hpAtual = this.hpMaximo;
         this.skills = new ArrayList<>();
         this.equipamentos = new ArrayList<>();
         this.linguagens = new ArrayList<>();
     }
-    public PersonagemVO(RacaVO racaPersonagem, SubRacaVO subRacaPersonagem, ClasseVO classePersonagem, SubClasseVO subClassePersonagem, int nivel, int[] scoresHabilidade)
-    {
-        this.raca = racaPersonagem;
-        this.subRaca = subRacaPersonagem;
-        this.classe = classePersonagem;
-        this.subClasse = subClassePersonagem;
-        this.nivel = nivel;
-        this.skills = new ArrayList<>();
-        this.equipamentos = new ArrayList<>();
-        this.linguagens = new ArrayList<>();
-        if(scoresHabilidade.length == 6)
-            this.scoresHabilidadeIniciais = scoresHabilidade;
-        else
-            this.scoresHabilidadeIniciais = new int[6];
-        
-        //Variáveis que dependem da Raça
-        definirScoresFinais(this.raca.getAumentosScoresHabilidade());
-        this.linguagens.addAll( Arrays.asList( this.raca.getLinguagensIniciais()));
-        
-        //Variáveis que dependem da Classe
-        this.hpMaximo[0] = classe.getDadoHP() + modificadoresHabilidade[2];
-        this.hpAtual = this.hpMaximo[0];
-        this.skills.addAll( Arrays.asList( this.classe.getProficienciasIniciais() ) );
-        this.equipamentos.addAll( Arrays.asList( this.classe.getEquipamentoInicialEscolhido() ) );
-    }
     
-    private void definirScoresFinais(int[] aumentoScoreRaca)
-    {
-        this.scoresHabilidadeFinais = new int[6];
-        
-        for(int i = 0; i < 6; i++) {
-            this.scoresHabilidadeFinais[i] = this.scoresHabilidadeIniciais[i] + aumentoScoreRaca[i];
-        }
-        
-        calcularModificadores(this.scoresHabilidadeFinais);
-    }
     
+    public int[] getModificadoresHabilidade() {
+        return modificadoresHabilidade;
+    }
     /**
      * Tabela de Conversão de Score Para Modificador <p>
      * 1 = −5 <p>
@@ -112,8 +82,7 @@ public final class PersonagemVO extends ObjetoVO
      * 28/29 = +9 <p>
      * 30 = +10 <p>
      */
-    private void calcularModificadores(int[] scoresHabilidade)
-    {
+    private void setModificadoresHabilidade(int[] scoresHabilidade) {
         int [] modificadores = new int[6];
         
         for(int i = 0; i < 6; i++)
@@ -219,7 +188,19 @@ public final class PersonagemVO extends ObjetoVO
 
         this.modificadoresHabilidade = modificadores;
     }
-
+    
+    public int[] getScoresHabilidadeFinais() {
+        return scoresHabilidadeFinais;
+    }
+    private void setScoresHabilidadeFinais(int[] aumentoScoreRaca) {
+        this.scoresHabilidadeFinais = new int[6];
+        
+        for(int i = 0; i < 6; i++) {
+            this.scoresHabilidadeFinais[i] = this.scoresHabilidadeIniciais[i] + aumentoScoreRaca[i];
+        }
+        
+        setModificadoresHabilidade(this.scoresHabilidadeFinais);
+    }
     
     public int getIdUsuario() {
         return idUsuario;
@@ -247,6 +228,7 @@ public final class PersonagemVO extends ObjetoVO
     }
     public void setRaca(RacaVO raca) {
         this.raca = raca;
+        setScoresHabilidadeFinais(this.raca.getAumentosScoresHabilidade());
     }
 
     public SubRacaVO getSubRaca() {
@@ -270,10 +252,15 @@ public final class PersonagemVO extends ObjetoVO
         this.subClasse = subClasse;
     }
 
+    public int getNivelAnterior() {
+        return nivelAnterior;
+    }
+    
     public int getNivel() {
         return nivel;
     }
     public void setNivel(int nivel) {
+        this.nivelAnterior = this.nivel;
         this.nivel = nivel;
     }
 
@@ -287,42 +274,55 @@ public final class PersonagemVO extends ObjetoVO
     public int[] getScoresHabilidadeIniciais() {
         return scoresHabilidadeIniciais;
     }
-    public void setScoresHabilidadeIniciais(int[] scoresHabilidade) throws WrongArgumentException {
-        if(scoresHabilidade.length == 6)
+    public void setScoresHabilidadeIniciais(int[] scoresHabilidadeIniciais) {
+        this.scoresHabilidadeIniciais = scoresHabilidadeIniciais;
+        setScoresHabilidadeFinais(this.raca.getAumentosScoresHabilidade());
+        
+    }
+
+    public int[] getRolagensHpMax() {
+        return rolagensHpMax;
+    }
+    public void setRolagensHpMax(int[] rolagensHpMax) {
+        this.rolagensHpMax = rolagensHpMax;
+    }
+    public void setRolagemHpMax(int rolagemHpMax, int nivel) {
+        if(nivel > 1 && nivel <= 30)
         {
-            this.scoresHabilidadeIniciais = scoresHabilidade;
-            definirScoresFinais(this.raca.getAumentosScoresHabilidade());
+            int indiceLimite = nivel - 1;
+            this.rolagensHpMax[indiceLimite] = rolagemHpMax;
+            for(int i = indiceLimite; i < 30; i++) {
+                this.rolagensHpMax[i] = 0;
+                resetHpMaximo();
+            }
         }
         else
-            throw new WrongArgumentException("Erro em PersonagemVO.SetScoresHabilidades: O método só aceita  um Array de tamanho 6");
+            resetRolagensHpMax();
     }
-    public void setScoresHabilidadeIniciais(int str, int dex, int con, int inte, int wis, int cha) {
-        this.scoresHabilidadeIniciais = new int[]{str, dex, con, inte, wis, cha};
-        definirScoresFinais(this.raca.getAumentosScoresHabilidade());
+    public void resetRolagensHpMax() {
+        this.rolagensHpMax = new int[30];
+        this.rolagensHpMax[0] = this.classe.getDadoHP() + this.modificadoresHabilidade[2];
+        resetHpMaximo();
     }
-
-    public int[] getScoresHabilidadeFinais() {
-        return scoresHabilidadeFinais;
-    }
-
-    public int[] getModificadoresHabilidade() {
-        return modificadoresHabilidade;
-    }
-
-    public int[] getHpMaximo() {
+    
+    public int getHpMaximo() {
         return hpMaximo;
     }
-    public void setHpMaximo(int[] hpMaximo) {
-        this.hpMaximo = hpMaximo;
+    public void resetHpMaximo() {
+        int novoHpMaximo = 0;
+        for(int i : this.rolagensHpMax) {
+            novoHpMaximo+= i;
+        }
+        this.hpMaximo = novoHpMaximo;
     }
-
+    
     public int getHpAtual() {
         return hpAtual;
     }
     public void setHpAtual(int hpAtual) {
         this.hpAtual = hpAtual;
     }
-
+    
     public int getHpTemp() {
         return hpTemp;
     }
@@ -336,14 +336,32 @@ public final class PersonagemVO extends ObjetoVO
     public void setSkills(ArrayList<SkillVO> skills) {
         this.skills = skills;
     }
-
+    public void addSkill(SkillVO skill) {
+        this.skills.add(skill);
+    }
+    public void removeSkill(SkillVO skill) {
+        this.skills.remove(skill);
+    }
+    public void removeSkill(int indice) {
+        this.skills.remove(indice);
+    }
+    
     public ArrayList<EquipamentoVO> getEquipamentos() {
         return equipamentos;
     }
     public void setEquipamentos(ArrayList<EquipamentoVO> equipamentos) {
         this.equipamentos = equipamentos;
     }
-
+    public void addEquipamento(EquipamentoVO equipamento) {
+        this.equipamentos.add(equipamento);
+    }
+    public void removeEquipamento(EquipamentoVO equipamento) {
+        this.equipamentos.remove(equipamento);
+    }
+    public void removeEquipamento(int indice) {
+        this.equipamentos.remove(indice);
+    }
+    
     public int getArmorClass() {
         return armorClass;
     }
@@ -356,6 +374,15 @@ public final class PersonagemVO extends ObjetoVO
     }
     public void setLinguagens(ArrayList<LinguagemVO> linguagens) {
         this.linguagens = linguagens;
+    }
+    public void addLinguagem(LinguagemVO linguagem) {
+        this.linguagens.add(linguagem);
+    }
+    public void removeLinguagem(LinguagemVO linguagem) {
+        this.linguagens.remove(linguagem);
+    }
+    public void removeLinguagem(int indice) {
+        this.linguagens.remove(indice);
     }
 
     public int getIniciativa() {
@@ -371,8 +398,11 @@ public final class PersonagemVO extends ObjetoVO
     public void setDeathSaves(boolean[] deathSaves) {
         this.deathSaves = deathSaves;
     }
+    public void setDeathSave(int indice) {
+        this.deathSaves[indice] = !this.deathSaves[indice];
+    }
 
-    public boolean isInspiracao() {
+    public boolean isInspirado() {
         return inspiracao;
     }
     public void setInspiracao(boolean inspiracao) {
