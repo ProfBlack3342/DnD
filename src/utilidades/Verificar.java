@@ -18,8 +18,7 @@ public final class Verificar
      * @param hash O hash já existente
      * @return Verdadeiro se forem iguais, falso se não forem
      */
-    public static boolean compararTextoComHash(String texto, String hash)
-    {
+    public static boolean compararTextoComHash(String texto, String hash) {
         return BCrypt.checkpw(texto, hash);
     }
 }
