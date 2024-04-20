@@ -1,0 +1,55 @@
+0 - Pesquisar raças e classes ANTES de criar um personagem
+
+1 - Escolher uma raça (+ sub raça se disponível), classe (+ sub classe se disponível) e background
+
+2 - Definir os Scores base:
+Existem 3 formas de determinar os scores:
+a: Rolar dados: Jogar quatro dados de 6 lados, descartar o menor valor e somar os outros. Fazer isso para cada score.
+b: Point Buy: Todos os scores começam em 8. O jogador tem 27 pontos para "comprar" mais scores, conforme a tabela:
+----------------------------
+| 	8 = 0 pontos	   |
+| 	9 = 1 pontos	   |
+| 	10 = 2 pontos	   |
+| 	11 = 3 pontos	   |
+| 	12 = 4 pontos	   |
+| 	13 = 5 pontos	   |
+| 	14 = 7 pontos	   |
+| 	15 = 9 pontos	   |
+----------------------------
+c: Standard Array: Os scores começam como 15, 14, 13, 12, 10 e 8. O jogador pode definir esses valores para os scores que quiserem.
+
+3 - Aplicar os bônus de score da raça e calcular modificadores, conforme a tabela:
+-----------------------------------------
+|	Score	   |	Modificador	|
+-----------------------------------------
+| 	1	   |	    −5		|
+|	2–3	   |	    −4		|
+|	4–5	   |	    −3		|
+|	6–7	   |	    −2		|
+|	8–9	   |	    −1		|
+|	10–11	   |	    +0		|
+|	12–13	   |	    +1		|
+|	14–15	   |	    +2		|
+|	16–17	   |	    +3		|
+|	18–19	   |	    +4		|
+|	20–21	   |	    +5		|
+|	22–23	   |	    +6		|
+|	24–25	   |	    +7		|
+|	26–27	   |	    +8		|
+|	28–29	   |	    +9		|
+|	30	   |	    +10		|
+-----------------------------------------
+
+4 - Aplicar os modificadores e proficiencias de classe e background nas skills
+
+5 - Calcular Armor Class: 10 + bônus de armor + bônus de shield + modificador de DEX + outros modificadores ou bônus
+
+6 - Calcular HP Máximo: Dado da classe + modificador de CON
+
+7 - Escolher um equipamento inicial da Classe. Adicionar ele + equipamento de Background na lista de equipamentos
+
+8 - Listar as armas, spells e features de combate na lista de Ataques & Spellcasting com seus bônus de ataque, dano e tipo
+
+9 - Listar Traços de Raça, Features de Classe e Feats na lista de Feats & Traits
+
+10 - Detalhar o Backstory, aparência e personalidade do personagem, sem esquecer alinhamento e fé (se tiver alguma)
