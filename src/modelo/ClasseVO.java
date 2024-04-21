@@ -11,63 +11,13 @@ package modelo;
  */
 public class ClasseVO extends ObjetoVO
 {
-    private String nome;
-    private String descricao;
-    private int dadoHP;
-    private SkillVO[] proficienciasIniciais;
-    private EquipamentoVO[][] equipamentosIniciaisDisponiveis;
-    private EquipamentoVO[] equipamentoInicialEscolhido;
+    private int dadoClasse;
     private FeatureClasseVO[] featuresClasse;
 
-    public ClasseVO() {
-        for(SkillVO s : proficienciasIniciais) {
-            s.setProficiente(true);
-        }
+    public int getDadoClasse() {
+        return dadoClasse;
     }
-
-    public String getNome() {
-        return nome;
-    }
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getDescricao() {
-        return descricao;
-    }
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
-
-    public int getDadoHP() {
-        return dadoHP;
-    }
-    public void setDadoHP(int dadoHP) {
-        this.dadoHP = dadoHP;
-    }
-
-    public SkillVO[] getProficienciasIniciais() {
-        return proficienciasIniciais;
-    }
-    public void setProficienciasIniciais(SkillVO[] proficienciasIniciais) {
-        this.proficienciasIniciais = proficienciasIniciais;
-    }
-
-    public EquipamentoVO[][] getEquipamentosIniciaisDisponiveis() {
-        return equipamentosIniciaisDisponiveis;
-    }
-
-    public EquipamentoVO[] getEquipamentoInicialEscolhido() {
-        return equipamentoInicialEscolhido;
-    }
-    public void setEquipamentoInicialEscolhido(int listaEscolhida) {
-        this.equipamentoInicialEscolhido = this.equipamentosIniciaisDisponiveis[listaEscolhida];
-    }
-
-    public FeatureClasseVO[] getFeatures() {
-        return featuresClasse;
-    }
-    public void setFeatures(FeatureClasseVO[] features) {
-        this.featuresClasse = features;
+    public void setDadoClasse(int dadoClasse) {
+        this.dadoClasse = dadoClasse;
     }
 }

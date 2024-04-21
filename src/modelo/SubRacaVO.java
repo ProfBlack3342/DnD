@@ -11,36 +11,63 @@ package modelo;
  */
 public class SubRacaVO extends ObjetoVO
 {
-    private String nome;
-    private String descricao;
-    private int[] aumentosScoresHabilidade = new int[6];
-    private FeatureSubRacaVO[] featuresSubRaca;
+    private int bonusStr, bonusDex, bonusCon, bonusInt, bonusWis, bonusCha;
+    private TracoSubRacaVO[] tracosSubRaca;
+    private LinguagemVO[] linguagensRaca;
 
-    public String getNome() {
-        return nome;
+    public int getBonusStr() {
+        return bonusStr;
     }
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getDescricao() {
-        return descricao;
-    }
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
+    public void setBonusStr(int bonusStr) {
+        this.bonusStr = bonusStr;
     }
 
-    public int[] getAumentosScoresHabilidade() {
-        return aumentosScoresHabilidade;
+    public int getBonusDex() {
+        return bonusDex;
     }
-    public void setAumentosScoresHabilidade(int[] aumentosScoresHabilidade) {
-        this.aumentosScoresHabilidade = aumentosScoresHabilidade;
+    public void setBonusDex(int bonusDex) {
+        this.bonusDex = bonusDex;
     }
 
-    public FeatureSubRacaVO[] getFeaturesSubRaca() {
-        return featuresSubRaca;
+    public int getBonusCon() {
+        return bonusCon;
     }
-    public void setFeaturesSubRaca(FeatureSubRacaVO[] featuresSubRaca) {
-        this.featuresSubRaca = featuresSubRaca;
+    public void setBonusCon(int bonusCon) {
+        this.bonusCon = bonusCon;
+    }
+
+    public int getBonusInt() {
+        return bonusInt;
+    }
+    public void setBonusInt(int bonusInt) {
+        this.bonusInt = bonusInt;
+    }
+
+    public int getBonusWis() {
+        return bonusWis;
+    }
+    public void setBonusWis(int bonusWis) {
+        this.bonusWis = bonusWis;
+    }
+
+    public int getBonusCha() {
+        return bonusCha;
+    }
+    public void setBonusCha(int bonusCha) {
+        this.bonusCha = bonusCha;
+    }
+
+    public TracoSubRacaVO[] getTracosSubRaca() {
+        return tracosSubRaca;
+    }
+    public void setTracosSubRaca(TracoSubRacaVO[] tracosSubRaca) {
+        this.tracosSubRaca = tracosSubRaca;
+    }
+
+    public LinguagemVO[] getLinguagensRaca() {
+        return linguagensRaca;
+    }
+    public void setLinguagensRaca(LinguagemVO[] linguagensRaca) {
+        this.linguagensRaca = linguagensRaca;
     }
 }

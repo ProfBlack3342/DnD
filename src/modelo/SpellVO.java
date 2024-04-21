@@ -8,7 +8,6 @@ package modelo;
  *
  * @author dudup
  */
-public class DescricaoPersonagemVO extends ObjetoVO
-{
+public class SpellVO {
     
 }

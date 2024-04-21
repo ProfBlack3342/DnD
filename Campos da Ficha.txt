@@ -1,0 +1,118 @@
+Cabeçalho 1 (Pontos)
+- Nome
+- Classe
+- Nível
+- Nome do Jogador
+- Raça
+- Background
+- Experience Points
+
+Pontos de Atributo e seus modificadores
+- Atributos recebem bônus da Raça e subraça
+- Modificador = ((atributo - 10) / 2); Arrendodar pra baixo se necessário(Math.Floor)
+
+Inspiração
+
+Valor do Bônus de Proficiencia
+- Valor começa em 2, +1 a cada 4 níveis (lvl4 = +2, lvl5 = +3, lvl9 = +4, etc.)
+
+Saving Throws e suas proficiencias
+- Afetados pela Classe, SubClasse e Feats
+
+Skills e suas proficiencias
+- Afetados pela Classe, SubClasse, Background e Feats
+
+Sentidos
+- Status passivo = 10 + modificadores da skill (modificadores de atributos, proficiencia, etc.)
+- Quaisquer buffs de sentidos (Darkvision)
+
+Armor Class
+- Sem armor -> 10 + modificador de DEX + bônus(Spell, Trait, etc.) + shield
+- Com armor -> AC da armadura + shield
+
+Iniciativa:
+- 1d20 + modificador de DEX
+
+Defesas
+- Resistencias (Metade do dano)
+- Vulnerabilidades (Dobro do dano)
+
+Valor do Save de Habilidade de classe
+- Para habilidades de classe/subclasse que forçam um save, mas que não são spells
+
+Velocidade
+- Afetada pela raça, subraça, equipamento, feats, spells
+
+Hit Point Máximo e Atual
+- Lvl.1: HP Máximo = Dado da Classe + modificador de CON
+- A cada novo nível: HP Máximo novo = HP Máximo antigo + (rolar o dado da Classe + modificador de CON)
+- Guardar cada valor separado
+
+Hit Points Temporários
+
+Hit Dice
+- Rolar o dado da Classe uma vez por nível atual
+
+Death saves
+- Rolar 1d20 e adicionar qualquer bônus de spells e feats
+Resultados do Dado:
+- 20 -> Revive com 1 HP
+- [10, 19] -> 1 vitória
+- [2, 9] -> 1 falha
+- 1 -> 2 falhas
+- Receber dano -> 1 falha, 2 se for um crítico
+O primeiro resultado é o que conta:
+- Receber cura -> Revive
+- Estabilizado por algúem -> Vc para de morrer (n tem mais que girar), mas permanece inconsciente e acorda em 1d4 horas com 1 de HP. Se receber dano nesse estado deve rolar Death saves denovo
+- 3 Sucessos -> Vc para de morrer (n tem mais que girar), mas permanece inconsciente e acorda em 1d4 horas com 1 de HP. Se receber dano nesse estado deve rolar Death saves denovo
+- 3 Falhas -> R.I.P. in Pepperoni
+- Se o dano recebido, após subtrair seu HP atual, é igual ou maior ao seu HP Máximo, vc morre imediatamente
+
+Proficiencias e Linguagens
+
+Ações
+- Pulo alto -> Valor de STR, metade desse valor se o personagem não correr antes do pulo
+- Pulo longo -> 3 + Modificador de STR, metade desse valor se o personagem não correr antes do pulo
+
+Ataques com Armas
+- Afetados pela classe, subclasse, raça, subraça e equipamento
+
+Features & Traits
+
+Equipamento
+- Iniciais são definidos pela Classe, Subclasse e Background
+
+Cabeçalho 2 (Detalhes do Personagem)
+- Gênero
+- Idade
+- Tamanho
+- Altura
+- Peso
+- Alinhamento
+- Fé
+- Pele
+- Olhos
+- Cabelo
+
+Aparência do Personagem
+
+Aliados e Organizações
+
+Traços de Personalidade
+
+Ideais
+
+Laços
+
+Falhas
+
+Backstory do Personagem
+
+Anotações Extras
+
+Cabeçalho 3 (Spells)
+- Classe de Spellcaster
+- Atributo Principal do Spellcaster
+- Valor do Save de Spell
+
+Lista de Spells

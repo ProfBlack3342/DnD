@@ -11,114 +11,103 @@ package modelo;
  */
 public final class RacaVO extends ObjetoVO
 {
-    private String nome;
-    private String descricao;
-    private int[] aumentosScoresHabilidade = new int[6];
-    private FeatureRacaVO[] featuresRaca;
+    private int bonusStr, bonusDex, bonusCon, bonusInt, bonusWis, bonusCha;
+    private String formatoCorpo;
+    private int idadeMinima;
     private int idadeMaxima;
-    private double alturaMinima;
-    private double alturaMaxima;
-    private double pesoMinimo;
-    private double pesoMaximo;
+    private String[] tamanho;
     private int velocidade;
-    private LinguagemVO[] linguagensIniciais;
-    private SubRacaVO subRaca;
+    private TracoRacaVO[] tracosRaca;
+    private LinguagemVO[] linguagensRaca;
 
-    public String getNome() {
-        return nome;
+    public int getBonusStr() {
+        return bonusStr;
+    }
+    public void setBonusStr(int bonusStr) {
+        this.bonusStr = bonusStr;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public int getBonusDex() {
+        return bonusDex;
+    }
+    public void setBonusDex(int bonusDex) {
+        this.bonusDex = bonusDex;
     }
 
-    public String getDescricao() {
-        return descricao;
+    public int getBonusCon() {
+        return bonusCon;
+    }
+    public void setBonusCon(int bonusCon) {
+        this.bonusCon = bonusCon;
     }
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
+    public int getBonusInt() {
+        return bonusInt;
+    }
+    public void setBonusInt(int bonusInt) {
+        this.bonusInt = bonusInt;
     }
 
-    public int[] getAumentosScoresHabilidade() {
-        return aumentosScoresHabilidade;
+    public int getBonusWis() {
+        return bonusWis;
+    }
+    public void setBonusWis(int bonusWis) {
+        this.bonusWis = bonusWis;
     }
 
-    public void setAumentosScoresHabilidade(int[] aumentosScoresHabilidade) {
-        this.aumentosScoresHabilidade = aumentosScoresHabilidade;
+    public int getBonusCha() {
+        return bonusCha;
+    }
+    public void setBonusCha(int bonusCha) {
+        this.bonusCha = bonusCha;
     }
 
-    public FeatureRacaVO[] getFeatures() {
-        return featuresRaca;
+    public String getFormatoCorpo() {
+        return formatoCorpo;
+    }
+    public void setFormatoCorpo(String formatoCorpo) {
+        this.formatoCorpo = formatoCorpo;
     }
 
-    public void setFeatures(FeatureRacaVO[] features) {
-        this.featuresRaca = features;
+    public int getIdadeMinima() {
+        return idadeMinima;
+    }
+    public void setIdadeMinima(int idadeMinima) {
+        this.idadeMinima = idadeMinima;
     }
 
     public int getIdadeMaxima() {
         return idadeMaxima;
     }
-
     public void setIdadeMaxima(int idadeMaxima) {
         this.idadeMaxima = idadeMaxima;
     }
 
-    public double getAlturaMinima() {
-        return alturaMinima;
+    public String[] getTamanho() {
+        return tamanho;
     }
-
-    public void setAlturaMinima(double alturaMinima) {
-        this.alturaMinima = alturaMinima;
-    }
-
-    public double getAlturaMaxima() {
-        return alturaMaxima;
-    }
-
-    public void setAlturaMaxima(double alturaMaxima) {
-        this.alturaMaxima = alturaMaxima;
-    }
-
-    public double getPesoMinimo() {
-        return pesoMinimo;
-    }
-
-    public void setPesoMinimo(double pesoMinimo) {
-        this.pesoMinimo = pesoMinimo;
-    }
-
-    public double getPesoMaximo() {
-        return pesoMaximo;
-    }
-
-    public void setPesoMaximo(double pesoMaximo) {
-        this.pesoMaximo = pesoMaximo;
+    public void setTamanho(String[] tamanho) {
+        this.tamanho = tamanho;
     }
 
     public int getVelocidade() {
         return velocidade;
     }
-
     public void setVelocidade(int velocidade) {
         this.velocidade = velocidade;
     }
 
-    public LinguagemVO[] getLinguagensIniciais() {
-        return linguagensIniciais;
+    public TracoRacaVO[] getTracosRaca() {
+        return tracosRaca;
+    }
+    public void setTracosRaca(TracoRacaVO[] tracosRaca) {
+        this.tracosRaca = tracosRaca;
     }
 
-    public void setLinguagensIniciais(LinguagemVO[] linguagensIniciais) {
-        this.linguagensIniciais = linguagensIniciais;
+    public LinguagemVO[] getLinguagensRaca() {
+        return linguagensRaca;
     }
-
-    public SubRacaVO getSubRaca() {
-        return subRaca;
+    public void setLinguagensRaca(LinguagemVO[] linguagensRaca) {
+        this.linguagensRaca = linguagensRaca;
     }
-
-    public void setSubRaca(SubRacaVO subRaca) {
-        this.subRaca = subRaca;
-    }
-    
-    
 }

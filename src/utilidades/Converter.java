@@ -64,93 +64,12 @@ public final class Converter
     }
     
     /**
-     * Converte um score de habilidade no seu modificador equivalente, seguindo a lógica:<p>
-     * 1 = −5 <p>
-     * 2/3 = −4 <p>
-     * 4/5 = −3 <p>
-     * 6/7 = −2 <p>
-     * 8/9 = −1 <p>
-     * 10/11 = +0 <p>
-     * 12/13 = +1 <p>
-     * 14/15 = +2 <p>
-     * 16/17 = +3 <p>
-     * 18/19 = +4 <p>
-     * 20/21 = +5 <p>
-     * 22/23 = +6 <p>
-     * 24/25 = +7 <p>
-     * 26/27 = +8 <p>
-     * 28/29 = +9 <p>
-     * 30 = +10 <p>
+     * Converte um score de habilidade no seu modificador equivalente:<p>
      * @param scoreHabilidade Um score de habilidade
-     * @return O modificador que correspone ao score informado
-     * @throws java.lang.Exception Se o score informado não possuir um modificador correspondente
+     * @return O modificador que corresponde ao score informado
      */
-    public static int converterScoreEmModificador(int scoreHabilidade) throws Exception {
-        switch(scoreHabilidade) {
-            case 1:
-                return -5;
-            case 2:
-            case 3:
-                return -4;
-            case 4:
-            case 5:
-                return -3;
-            case 6:
-            case 7:
-                return -2;
-            case 8:
-            case 9:
-                return -1;
-            case 10:
-            case 11:
-                return 0;
-            case 12:
-            case 13:
-                return 1;
-            case 14:
-            case 15:
-                return 2;
-            case 16:
-            case 17:
-                return 3;
-            case 18:
-            case 19:
-                return 4;
-            case 20:
-            case 21:
-                return 5;
-            case 22:
-            case 23:
-                return 6;
-            case 24:
-            case 25:
-                return 7;
-            case 26:
-            case 27:
-                return 8;
-            case 28:
-            case 29:
-                return 9;
-            case 30:
-                return 10;
-            default:
-                throw new Exception("Erro em Converter.calcularModificadorHabilidade: Valor inválido informado como score!");
-        }
-    }
-    /**
-     * Converte um array com scores de habilidades em um array de modificadores equivalentes<p>
-     * @param scoreHabilidade Um array com os scores de habilidade
-     * @return Um array com os modificadores equivalentes
-     * @throws Exception Se algum score tiver valor inválido
-     */
-    public static int[] converterScoresEmModificadores(int[] scoreHabilidade) throws Exception {
-        int[] modificadores = new int[scoreHabilidade.length];
-        
-        for(int i = 0; i < scoreHabilidade.length; i++) {
-            modificadores[i] = converterScoreEmModificador(scoreHabilidade[i]);
-        }
-        
-        return modificadores;
+    public static int converterScoreEmModificador(int scoreHabilidade){
+       return (int) Math.floor( (scoreHabilidade - 10) / 2 );
     }
     
     /**
@@ -161,27 +80,5 @@ public final class Converter
      */
     public static int converterDadoEmJogada(int ladosDado) {
         return ( (new SecureRandom().nextInt(ladosDado)) + 1 );
-    }
-    /**
-     * Recebe um valor que representa o total de lados de um dado mais um valor que representa a quantidade de vezes, e retorna um array com valores aleatório entre 1 e o total de lados.<p>
-     * Usado para representar várias jogadas com o dado informado<p>
-     * @param ladosDado O total de lados no dado a ser jogado
-     * @param quantJogadas O total de jogadas a serem feitas
-     * @return Um array de valores aleatórios que representam o dado sendo jogado
-     */
-    public static int[] converterDadoEmJogadas(int ladosDado, int quantJogadas) {
-        int[] jogadas;
-        
-        if(quantJogadas != 1) {
-            jogadas = new int[quantJogadas];
-            for(int i = 0; i < quantJogadas; i++) {
-                jogadas[i] = converterDadoEmJogada(ladosDado);
-            }
-        }
-        else {
-            jogadas = new int[]{ converterDadoEmJogada(ladosDado) };
-        }
-        
-        return jogadas;
     }
 }
