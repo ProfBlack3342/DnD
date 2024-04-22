@@ -1,23 +1,23 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package modelo;
 
 /**
  *
- * @author 181700271
+ * @author dudup
  */
-public class ClasseVO extends ObjetoVO
+public class ClasseVO  extends ObjetoVO
 {
-    private int dadoClasse;
-    private FeatureClasseVO[] featuresClasse;
-
-    public int getDadoClasse() {
-        return dadoClasse;
+    private final EquipamentoVO[][] equipamentosClasse;
+    
+    public ClasseVO(EquipamentoVO[][] equipamentosBackground)
+    {
+        this.equipamentosClasse = equipamentosBackground;
     }
-    public void setDadoClasse(int dadoClasse) {
-        this.dadoClasse = dadoClasse;
+
+    public EquipamentoVO[][] getEquipamentosClasse() {
+        return equipamentosClasse;
     }
 }

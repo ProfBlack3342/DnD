@@ -10,4 +10,4 @@
 
 6 - Preencher os Detalhes e Backstory do Personagem
 
-7 - Escolher o Equipamento Inicial (obrigatório) e comprar outros Equipamentos (opcional)
+7 - Escolher o Equipamento Inicial (obrigatório) e outros Equipamentos (opcional)

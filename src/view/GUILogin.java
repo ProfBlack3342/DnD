@@ -13,6 +13,7 @@ import java.util.Date;
 
 import exception.NoUserFoundException;
 import exception.WrongArgumentTypeException;
+import modelo.ImagemVO;
 import modelo.LoginVO;
 import modelo.UsuarioVO;
 import servicos.ServicosFactory;
@@ -80,7 +81,10 @@ public class GUILogin extends javax.swing.JInternalFrame {
     private void cadastrar()
     {
         UsuarioVO uVO = new UsuarioVO();
-        uVO.setIdImagem(1);
+        ImagemVO iVO = new ImagemVO();
+        
+        iVO.setId(1); //Pegar dados
+        uVO.setImagem(iVO);
         uVO.setIdTipo(2);
         uVO.setNome(jtfUsuarioCadastro.getText());
         uVO.setSenha(new String(jpfSenhaCadastro.getPassword()));

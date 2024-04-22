@@ -8,7 +8,7 @@ package modelo;
  *
  * @author dudup
  */
-public class DescricaoPersonagemVO extends ObjetoVO
+public class ImagemVO extends ObjetoVO
 {
     
 }

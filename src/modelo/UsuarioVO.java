@@ -10,7 +10,7 @@ package modelo;
  */
 public final class UsuarioVO extends ObjetoVO
 {
-    private int idImagem;
+    private ImagemVO imagem;
     private int idTipo;
     private String nome;
     private String senha;
@@ -19,11 +19,11 @@ public final class UsuarioVO extends ObjetoVO
     private int quantPersonagensExistentes = 0;
     private PersonagemVO[] listaPersonagens = new PersonagemVO[quantPersonagensMaxima];
 
-    public int getIdImagem() {
-        return idImagem;
+    public ImagemVO getImagem() {
+        return imagem;
     }
-    public void setIdImagem(int idImagem) {
-        this.idImagem = idImagem;
+    public void setImagem(ImagemVO imagem) {
+        this.imagem = imagem;
     }
 
     public int getIdTipo() {

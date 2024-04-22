@@ -8,7 +8,7 @@ package modelo;
  *
  * @author dudup
  */
-public class SavingThrowsVO extends ObjetoVO
+public class BackstoryVO  extends ObjetoVO
 {
     
 }
