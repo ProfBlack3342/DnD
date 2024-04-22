@@ -8,7 +8,7 @@ Cabeçalho 1 (Pontos)
 - Experience Points
 
 Pontos de Atributo e seus modificadores
-- Atributos recebem bônus da Raça e subraça
+- Score total = Score Base (roll, array ou point buy) + Bônus de Raça/Subraça + Melhorias de nível + Bônus extras
 - Modificador = ((atributo - 10) / 2); Arrendodar pra baixo se necessário(Math.Floor)
 
 Inspiração
