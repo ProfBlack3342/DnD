@@ -6,7 +6,7 @@
 package dao;
 
 import exception.NoUserFoundException;
-import exception.WrongArgumentTypeException;
+import exception.ForbiddenArgumentTypeException;
 import java.sql.SQLException;
 import modelo.ObjetoVO;
 
@@ -17,7 +17,7 @@ import modelo.ObjetoVO;
 public final class PersonagemDAO extends ObjetoDAO implements IDAO {
 
     @Override
-    public void cadastrar(ObjetoVO obVO) throws SQLException, WrongArgumentTypeException {
+    public void cadastrar(ObjetoVO obVO) throws SQLException, ForbiddenArgumentTypeException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -32,7 +32,7 @@ public final class PersonagemDAO extends ObjetoDAO implements IDAO {
     }
 
     @Override
-    public void alterar(ObjetoVO obVO) throws SQLException, WrongArgumentTypeException {
+    public void alterar(ObjetoVO obVO) throws SQLException, ForbiddenArgumentTypeException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

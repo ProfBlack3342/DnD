@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import dao.DAOFactory;
 import dao.UsuarioDAO;
 import exception.NoUserFoundException;
-import exception.WrongArgumentTypeException;
+import exception.ForbiddenArgumentTypeException;
 import modelo.LoginVO;
 import modelo.UsuarioVO;
 
@@ -36,9 +36,9 @@ public final class UsuarioServicos
      * 
      * @param uVO
      * @throws SQLException
-     * @throws WrongArgumentTypeException 
+     * @throws ForbiddenArgumentTypeException 
      */
-    public void cadastrarUsuario(UsuarioVO uVO) throws SQLException, WrongArgumentTypeException 
+    public void cadastrarUsuario(UsuarioVO uVO) throws SQLException, ForbiddenArgumentTypeException 
     {
         UsuarioDAO uDAO = DAOFactory.getUsuarioDAO();
         uDAO.cadastrar(uVO);
@@ -73,9 +73,9 @@ public final class UsuarioServicos
      * 
      * @param uVO
      * @throws SQLException
-     * @throws WrongArgumentTypeException 
+     * @throws ForbiddenArgumentTypeException 
      */
-    public void alterarUsuario(UsuarioVO uVO) throws SQLException, WrongArgumentTypeException 
+    public void alterarUsuario(UsuarioVO uVO) throws SQLException, ForbiddenArgumentTypeException 
     {
         UsuarioDAO uDAO = DAOFactory.getUsuarioDAO();
         uDAO.alterar(uVO);

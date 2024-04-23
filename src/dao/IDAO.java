@@ -8,7 +8,7 @@ package dao;
 import java.sql.SQLException;
 
 import exception.NoUserFoundException;
-import exception.WrongArgumentTypeException;
+import exception.ForbiddenArgumentTypeException;
 import modelo.ObjetoVO;
 
 /**
@@ -21,9 +21,9 @@ public interface IDAO
      * 
      * @param obVO
      * @throws SQLException
-     * @throws WrongArgumentTypeException 
+     * @throws ForbiddenArgumentTypeException 
      */
-    void cadastrar(ObjetoVO obVO) throws SQLException, WrongArgumentTypeException;
+    void cadastrar(ObjetoVO obVO) throws SQLException, ForbiddenArgumentTypeException;
     
     /**
      * 
@@ -46,9 +46,9 @@ public interface IDAO
      * 
      * @param obVO
      * @throws SQLException
-     * @throws WrongArgumentTypeException 
+     * @throws ForbiddenArgumentTypeException 
      */
-    void alterar(ObjetoVO obVO) throws SQLException, WrongArgumentTypeException;
+    void alterar(ObjetoVO obVO) throws SQLException, ForbiddenArgumentTypeException;
     
     /**
      * 

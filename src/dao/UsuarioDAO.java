@@ -10,7 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 import exception.NoUserFoundException;
-import exception.WrongArgumentTypeException;
+import exception.ForbiddenArgumentTypeException;
 import java.util.ArrayList;
 import modelo.ImagemVO;
 import modelo.LoginVO;
@@ -106,10 +106,10 @@ public final class UsuarioDAO extends ObjetoDAO implements IDAO
      * 
      * @param obVO
      * @throws SQLException Se houver algum erro na comunicação com o banco de dados
-     * @throws WrongArgumentTypeException Se obVO não pertencer a classe UsuarioVO
+     * @throws ForbiddenArgumentTypeException Se obVO não pertencer a classe UsuarioVO
      */
     @Override
-    public void cadastrar(ObjetoVO obVO) throws SQLException, WrongArgumentTypeException {
+    public void cadastrar(ObjetoVO obVO) throws SQLException, ForbiddenArgumentTypeException {
         if(obVO instanceof UsuarioVO)
         {
             UsuarioVO uVo = (UsuarioVO) obVO;
@@ -138,7 +138,7 @@ public final class UsuarioDAO extends ObjetoDAO implements IDAO
             }
         }
         else
-            throw new WrongArgumentTypeException("Erro em UsuarioDAO.cadastrar: O argumento deve pertencer a classe UsuarioVO!");
+            throw new ForbiddenArgumentTypeException("Erro em UsuarioDAO.cadastrar: O argumento deve pertencer a classe UsuarioVO!");
     }
     
     /**
@@ -250,10 +250,10 @@ public final class UsuarioDAO extends ObjetoDAO implements IDAO
      * 
      * @param obVO
      * @throws SQLException Se houver algum erro na comunicação com o banco de dados
-     * @throws WrongArgumentTypeException Se obVO não pertencer a classe UsuarioVO
+     * @throws ForbiddenArgumentTypeException Se obVO não pertencer a classe UsuarioVO
      */
     @Override
-    public void alterar(ObjetoVO obVO) throws SQLException, WrongArgumentTypeException {
+    public void alterar(ObjetoVO obVO) throws SQLException, ForbiddenArgumentTypeException {
         if(obVO instanceof UsuarioVO)
         {
             UsuarioVO uVO = (UsuarioVO) obVO;
@@ -291,7 +291,7 @@ public final class UsuarioDAO extends ObjetoDAO implements IDAO
             }
         }
         else
-            throw new WrongArgumentTypeException("Erro em UsuarioDAO.alterar: O argumento deve pertencer a classe UsuarioVO!");
+            throw new ForbiddenArgumentTypeException("Erro em UsuarioDAO.alterar: O argumento deve pertencer a classe UsuarioVO!");
     }
     
     /**

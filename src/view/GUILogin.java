@@ -12,7 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import exception.NoUserFoundException;
-import exception.WrongArgumentTypeException;
+import exception.ForbiddenArgumentTypeException;
 import modelo.ImagemVO;
 import modelo.LoginVO;
 import modelo.UsuarioVO;
@@ -108,7 +108,7 @@ public class GUILogin extends javax.swing.JInternalFrame {
         catch(SQLException se) {
             JOptionPane.showMessageDialog(null, se.getMessage(), "Erro: ", JOptionPane.ERROR_MESSAGE);
         }
-        catch(WrongArgumentTypeException wate) {
+        catch(ForbiddenArgumentTypeException wate) {
             JOptionPane.showMessageDialog(null, wate.getMessage(), "Erro: ", JOptionPane.WARNING_MESSAGE);
         }
     }

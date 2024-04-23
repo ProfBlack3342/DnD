@@ -9,13 +9,13 @@ package exception;
  * Erro que indica a passagem de um argumento com tipo incorreto
  * @author 181700271
  */
-public class WrongArgumentTypeException extends Exception {
+public class ForbiddenArgumentTypeException extends Exception {
 
     /**
      * Creates a new instance of <code>WrongArgumentTypeException</code> without
      * detail message.
      */
-    public WrongArgumentTypeException() {
+    public ForbiddenArgumentTypeException() {
     }
 
     /**
@@ -24,7 +24,7 @@ public class WrongArgumentTypeException extends Exception {
      *
      * @param msg the detail message.
      */
-    public WrongArgumentTypeException(String msg) {
+    public ForbiddenArgumentTypeException(String msg) {
         super(msg);
     }
 }

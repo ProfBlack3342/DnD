@@ -8,57 +8,31 @@ package modelo;
  *
  * @author dudup
  */
-public class RacaVO  extends ObjetoVO
+public class RacaVO extends ObjetoVO
 {
+    private String nome;
     private int bonusStr, bonusDex, bonusCon, bonusInt, bonusWis, bonusCha;
+    private ProficienciaVO[] proficiencias;
 
-    public int getBonusStr() {
-        return bonusStr;
-    }
-
-    public void setBonusStr(int bonusStr) {
+    public RacaVO(String nome, int bonusStr, int bonusDex, int bonusCon, int bonusInt, int bonusWis, int bonusCha, ProficienciaVO[] proficiencias) {
+        this.nome = nome;
         this.bonusStr = bonusStr;
-    }
-
-    public int getBonusDex() {
-        return bonusDex;
-    }
-
-    public void setBonusDex(int bonusDex) {
         this.bonusDex = bonusDex;
-    }
-
-    public int getBonusCon() {
-        return bonusCon;
-    }
-
-    public void setBonusCon(int bonusCon) {
         this.bonusCon = bonusCon;
-    }
-
-    public int getBonusInt() {
-        return bonusInt;
-    }
-
-    public void setBonusInt(int bonusInt) {
         this.bonusInt = bonusInt;
-    }
-
-    public int getBonusWis() {
-        return bonusWis;
-    }
-
-    public void setBonusWis(int bonusWis) {
         this.bonusWis = bonusWis;
-    }
-
-    public int getBonusCha() {
-        return bonusCha;
-    }
-
-    public void setBonusCha(int bonusCha) {
         this.bonusCha = bonusCha;
+        this.proficiencias = proficiencias;
     }
     
+    public String getNome() {return nome;}
     
+    public int getBonusStr() {return bonusStr;}
+    public int getBonusDex() {return bonusDex;}
+    public int getBonusCon() {return bonusCon;}
+    public int getBonusInt() {return bonusInt;}
+    public int getBonusWis() {return bonusWis;}
+    public int getBonusCha() {return bonusCha;}
+
+    public ProficienciaVO[] getProficiencias() {return proficiencias;}
 }

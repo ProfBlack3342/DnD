@@ -14,7 +14,7 @@ Pontos de Atributo e seus modificadores
 Inspiração
 
 Valor do Bônus de Proficiencia
-- Valor começa em 2, +1 a cada 4 níveis (lvl4 = +2, lvl5 = +3, lvl9 = +4, etc.)
+- Valor começa em 2, +1 a cada 4 níveis (lv4 = +2, lv5 = +3, lv9 = +4, etc.)
 
 Saving Throws e suas proficiencias
 - Afetados pela Classe, SubClasse e Feats
@@ -104,7 +104,7 @@ Ideais
 
 Laços
 
-Falhas
+Pontos Fracos
 
 Backstory do Personagem
 
