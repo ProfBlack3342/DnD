@@ -8,13 +8,7 @@ package modelo;
  *
  * @author dudup
  */
-public class ImagemVO extends ObjetoVO
+public class ProficienciaLinguagemVO extends ProficienciaVO
 {
-    private String caminhoImagem;
-
-    public ImagemVO() {
-        
-    }
     
-    public String getCaminhoImagem() {return caminhoImagem;}
 }

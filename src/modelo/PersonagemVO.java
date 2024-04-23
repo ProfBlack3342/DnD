@@ -28,7 +28,13 @@ public final class PersonagemVO extends ObjetoVO
     private int wisBase, bonusWisNivel, bonusWisExtra, wisTotal, wisMod;
     private int chaBase, bonusChaNivel, bonusChaExtra, chaTotal, chaMod;
     private boolean inspirado;
-    private FeatVO[] feats;
+    private ArrayList<ProficienciaArmaVO> proficienciasArma;
+    private ArrayList<ProficienciaArmaduraVO> proficienciasArmadura;
+    private ArrayList<ProficienciaFerramentaVO> proficienciasFerramentas;
+    private ArrayList<ProficienciaLinguagemVO> proficienciaLinguagem;
+    private ArrayList<ProficienciaSaveVO> proficienciasSave;
+    private ArrayList<ProficienciaSkillVO> proficienciasSkill;
+    private ArrayList<FeatVO> feats;
     private BackgroundVO background;
     private DetalhesPersonagemVO detalhes;
     private BackstoryVO backstory;
@@ -47,8 +53,14 @@ public final class PersonagemVO extends ObjetoVO
         this.intBase = -1;
         this.wisBase = -1;
         this.chaBase = -1;
-        this.feats = null;
+        this.feats = new ArrayList<>();
         this.inspirado = false;
+        this.proficienciasArma  = new ArrayList<>();
+        this.proficienciasArmadura = new ArrayList<>();
+        this.proficienciasFerramentas = new ArrayList<>();
+        this.proficienciaLinguagem = new ArrayList<>();
+        this.proficienciasSave = new ArrayList<>();
+        this.proficienciasSkill = new ArrayList<>();
         this.background = null;
         this.detalhes = new DetalhesPersonagemVO();
         this.backstory = new BackstoryVO();
@@ -329,9 +341,6 @@ public final class PersonagemVO extends ObjetoVO
     private void setChaMod() {
         chaMod = (int) Math.floor( (chaTotal - 10) / 2 );
     }
-
-    public FeatVO[] getFeats() {return feats;}
-    public void setFeats(FeatVO[] feats) {this.feats = feats;}
 
     public boolean isInspirado() {return inspirado;}
     public void setInspirado(boolean inspirado) {this.inspirado = inspirado;}
