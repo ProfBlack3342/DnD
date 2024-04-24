@@ -9,7 +9,11 @@ package modelo;
  *
  * @author 181700271
  */
-public class ProficienciaFerramentaVO extends ProficienciaVO
+public final class ProficienciaFerramentaVO extends ProficienciaVO
 {
-    
+    private final int[] idFerramentas;
+
+    public ProficienciaFerramentaVO(int[] idFerramentas) {this.idFerramentas = idFerramentas;}
+
+    public int[] getIdFerramentas() {return idFerramentas;}
 }

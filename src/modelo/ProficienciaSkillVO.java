@@ -9,7 +9,13 @@ package modelo;
  *
  * @author 181700271
  */
-public class ProficienciaSkillVO extends ProficienciaVO
+public final class ProficienciaSkillVO extends ProficienciaVO
 {
-    
+    private final String[] nomeSkill;
+
+    public ProficienciaSkillVO(String[] nomeSkill) {
+        this.nomeSkill = nomeSkill;
+    }
+
+    public String[] getNomeSkill() {return nomeSkill;}
 }

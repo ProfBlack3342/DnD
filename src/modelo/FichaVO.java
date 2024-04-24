@@ -14,125 +14,126 @@ public class FichaVO extends ObjetoVO
     private PersonagemVO personagem;
     
     // Cabeçalho 1 (Pontos)
-    private String nomePersonagem;
-    private String caminhoImagemPersonagem;
-    private String nomeClassePersonagem;
-    private int nivelPersonagem;
-    private String nomeJogador;
-    private String nomeRaca;
-    private String nomeBackground;
-    private int xpPersonagem;
+    private String nomePersonagem;                      // Personagem
+    private String caminhoImagemPersonagem;             // Personagem
+    private String nomeClassePersonagem;                // Classe
+    private int nivelPersonagem;                        // Personagem
+    private String nomeJogador;                         // Usuário
+    private String nomeRaca;                            // Raça
+    private String nomeBackground;                      // Background
+    private int xpPersonagem;                           // Personagem
     
     // Pontos de Atributo e seus modificadores
-    private int strength, dexterity, constitution, intelligence, wisdom, charisma;
-    private int modSTR, modDEX, modCON, modINT, modWIS, modCHA;
+    private int strength, dexterity, constitution, intelligence, wisdom, charisma;  // Personagem
+    private int modSTR, modDEX, modCON, modINT, modWIS, modCHA;                     // Personagem
     
     // Inspiração
-    private boolean inspirado;
+    private boolean inspirado;                          // Personagem
     
     // Valor do Bônus de Proficiencia
-    private int bonusProficiencia;
+    // Começa em 2, +1 a cada 4 níveis (lv4 = +2, lv5 = +3, lv9 = +4, etc.)
+    private int bonusProficiencia;                      // Calcular com nível (Personagem)
     
     // Saving Throws e suas proficiencias
-    private int saveSTR, saveDEX, saveCON, saveINT, saveWIS, saveCHA;
-    private boolean profSaveSTR, profSaveDEX, profSaveCON, profSaveINT, profSaveWIS, profSaveCHA;
+    private int saveSTR, saveDEX, saveCON, saveINT, saveWIS, saveCHA;               // Calcular com modificador do score (Personagem) + proficiencia (proficienciasSave)
+    private boolean profSaveSTR, profSaveDEX, profSaveCON, profSaveINT, profSaveWIS, profSaveCHA;   // ProficienciasSave
     
     // Skills e suas proficiencias
-    private boolean skill;
+    private boolean skill;                              // Lista fixa, proficiencias em proficienciasSkill
     
     // Sentidos
-    private int statusPassivo;
-    private String[] buffsSentido;
+    private int statusPassivo;                          // Calcular com seu respectivo score(Personagem)
+    private String[] buffsSentido;                      // Verificar na Raça, Classe e Feats
     
     // Armor Class
-    private int armorClass;
+    private int armorClass;                             // Se estiver com armor equipada, usar AC da armadura + shield, senão calcular com modificadores apropriados
     
     // Iniciativa
-    private int iniciativa;
+    private int iniciativa;                             // Personagem
     
     // Defesas
-    private boolean[] resistencias;
-    private boolean[] vulnerabilidades;
+    private boolean[] resistencias;                     // Personagem(Raça, Classe, Background e Feats)
+    private boolean[] vulnerabilidades;                 // Personagem(Raça, Classe, Background e Feats)
     
     // Valor do Save de Habilidade de classe
-    private int saveHabilidade;
+    private int saveHabilidade;                         // Classe
     
     // Velocidade
-    private int velocidade;
+    private int velocidade;                             // Raça, feats e buffs apropriados
     
     // Hit Point Máximo e Atual
-    private int hpMaximo, hpAtual;
+    private int hpMaximo, hpAtual;                      // Classe
     
     // Hit Points Temporários
-    private int hpTemporario;
+    private int hpTemporario;                           // Personagem
     
     // Hit Dice
-    private int hitDice;
+    private int hitDice;                                // Classe
     
     // Death saves
-    private boolean[] falhas;
-    private boolean[] sucessos;
+    private boolean[] falhas;                           // Campo da ficha
+    private boolean[] sucessos;                         // Campo da ficha
     
     // Proficiencias e Linguagens
-    private String[] proficiencias;
-    private String[] lingugagens;
+    private String[] proficiencias;                     // Personagem(Raça, Classe, Background e Feats)
+    private String[] linguagens;                        // Personagem(Raça, Classe, Background e Feats)
     
     // Ações
-    private String[][] acoes;
+    private String[][] acoes;                           // listaEquipamentos, Raça, Classe, Background e Feats
     
     // Ataques com Armas, Traço de Raça ou Feature da Classe
-    private String[][] ataques;
+    private String[][] ataques;                         // listaEquipamentos, Raça, Classe
     
     // Features & Traits
-    private String[] features;
-    private String[] traits;
+    private String[] features;                          // Classe
+    private String[] traits;                            // Raça
     
     // Equipamento
-    private String[][] equipamento;
+    private String[] equipamento;                       // listaEquipamentos
     
     // Cabeçalho 2 (Detalhes do Personagem)
-    private String genero;
-    private int idade;
-    private String tamanho;
-    private int altura;
-    private int peso;
-    private String alinhamento;
-    private String fe;
-    private String pele;
-    private String olhos;
-    private String cabelo;
+    private String genero;                              // detalhesPersonagem
+    private int idade;                                  // detalhesPersonagem
+    private String tamanho;                             // detalhesPersonagem
+    private int altura;                                 // detalhesPersonagem
+    private int peso;                                   // detalhesPersonagem
+    private String alinhamento;                         // detalhesPersonagem
+    private String fe;                                  // detalhesPersonagem
+    private String pele;                                // detalhesPersonagem
+    private String olhos;                               // detalhesPersonagem
+    private String cabelo;                              // detalhesPersonagem
     
     // Aparência do Personagem
-    private String aparencia;
+    private String aparencia;                           // detalhesPersonagem
     
     // Aliados e Organizações
-    private String aliadosEorganizacoes;
+    private String aliadosEorganizacoes;                // detalhesPersonagem
     
     // Traços de Personalidade
-    private String tracosPersonalidade;
+    private String tracosPersonalidade;                 // detalhesPersonagem
     
     // Ideais
-    private String ideais;
+    private String ideais;                              // detalhesPersonagem
     
     // Laços
-    private String lacos;
+    private String lacos;                               // detalhesPersonagem
     
     // Pontos Fracos
-    private String pontosFracos;
+    private String pontosFracos;                        // detalhesPersonagem
     
     // Backstory do Personagem
-    private String backstory;
+    private String backstory;                           // backstoryPersonagem
     
     // Anotações Extras
-    private String anotacoes;
+    private String anotacoes;                           // Personagem
     
     // Cabeçalho 3 (Spells)
-    private String classeSpellcaster;
-    private String atributoPrincipal;
-    private String saveSpell;
+    private String classeSpellcaster;                   // Classe
+    private String atributoPrincipal;                   // Classe
+    private String saveSpell;                           // Classe
     
     // Lista de Spells
-    private String[][] listaSpells;
+    private String[][] listaSpells;                     // Classe, Raça
 
     public FichaVO(PersonagemVO personagem, String nomeJogador){
         this.personagem = personagem;
@@ -210,7 +211,7 @@ public class FichaVO extends ObjetoVO
         falhas = ;
         sucessos = ;
         proficiencias = ;
-        lingugagens = ;
+        linguagens = ;
         acoes = ;
         ataques = ;
         features = ;

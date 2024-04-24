@@ -8,7 +8,13 @@ package modelo;
  *
  * @author dudup
  */
-public class ProficienciaLinguagemVO extends ProficienciaVO
+public final class ProficienciaLinguagemVO extends ProficienciaVO
 {
-    
+    private final int[] idLinguagens;
+
+    public ProficienciaLinguagemVO(int[] idLinguagens) {
+        this.idLinguagens = idLinguagens;
+    }
+
+    public int[] getIdLinguagens() {return idLinguagens;}
 }

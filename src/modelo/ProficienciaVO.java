@@ -9,6 +9,7 @@ package modelo;
  *
  * @author 181700271
  */
-public class ProficienciaVO {
+public abstract class ProficienciaVO extends ObjetoVO
+{
     
 }

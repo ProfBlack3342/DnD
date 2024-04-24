@@ -11,17 +11,17 @@ package modelo;
 public class ClasseVO  extends ObjetoVO
 {
     private String nome;
-    private ProficienciaVO[] proficiencias;
-    private final EquipamentoVO[][] equipamentosClasse;
+    private final ProficienciaVO[] proficiencias;
+    private final EquipamentoVO[][] conjuntosEquipamentosClasse;
 
     public ClasseVO(ProficienciaVO[] proficiencias, EquipamentoVO[][] equipamentosClasse) {
         this.proficiencias = proficiencias;
-        this.equipamentosClasse = equipamentosClasse;
+        this.conjuntosEquipamentosClasse = equipamentosClasse;
     }
 
     public String getNome() {return nome;}
     
     public ProficienciaVO[] getProficiencias() {return proficiencias;}
     
-    public EquipamentoVO[][] getEquipamentosClasse() {return equipamentosClasse;}
+    public EquipamentoVO[][] getConjuntosEquipamentosClasse() {return conjuntosEquipamentosClasse;}
 }

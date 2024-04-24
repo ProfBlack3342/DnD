@@ -9,7 +9,13 @@ package modelo;
  *
  * @author 181700271
  */
-public class ProficienciaSaveVO extends ProficienciaVO
+public final class ProficienciaSaveVO extends ProficienciaVO
 {
-    
+    private final String[] nomesSaves;
+
+    public ProficienciaSaveVO(String[] nomesSaves) {
+        this.nomesSaves = nomesSaves;
+    }
+
+    public String[] getNomesSaves() {return nomesSaves;}
 }

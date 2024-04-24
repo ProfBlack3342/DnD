@@ -12,4 +12,5 @@ package modelo;
 public class FeatVO extends ObjetoVO
 {
     private String nome;
+    private ProficienciaVO proficiencias;
 }
