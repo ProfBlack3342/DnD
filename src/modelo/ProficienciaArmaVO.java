@@ -11,11 +11,11 @@ package modelo;
  */
 public final class ProficienciaArmaVO extends ProficienciaVO
 {
-    private final int[] idArmas;
+    private final int idArma;
 
-    public ProficienciaArmaVO(int[] idArmas) {
-        this.idArmas = idArmas;
+    public ProficienciaArmaVO(int idArma) {
+        this.idArma = idArma;
     }
 
-    public int[] getIdArmas() {return idArmas;}
+    public int getIdArmas() {return idArma;}
 }

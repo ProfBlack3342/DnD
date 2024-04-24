@@ -50,9 +50,11 @@ public final class PersonagemVO extends ObjetoVO
         this.nivel = 1;
         this.xp = 0;
         this.imagem = null;
+        
         this.raca = null;
         this.classe = null;
         this.background = null;
+        
         this.inspirado = false;
         this.strBase = -1;
         this.dexBase = -1;
@@ -60,6 +62,7 @@ public final class PersonagemVO extends ObjetoVO
         this.intBase = -1;
         this.wisBase = -1;
         this.chaBase = -1;
+        
         this.equipamentos = new ArrayList<>();
         this.feats = new ArrayList<>();
         this.proficienciasArma  = new ArrayList<>();
@@ -68,6 +71,7 @@ public final class PersonagemVO extends ObjetoVO
         this.proficienciasLinguagem = new ArrayList<>();
         this.proficienciasSave = new ArrayList<>();
         this.proficienciasSkill = new ArrayList<>();
+        
         this.detalhes = new DetalhesPersonagemVO();
         this.backstory = new BackstoryVO();
     }

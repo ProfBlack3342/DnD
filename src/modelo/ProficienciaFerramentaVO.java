@@ -11,9 +11,9 @@ package modelo;
  */
 public final class ProficienciaFerramentaVO extends ProficienciaVO
 {
-    private final int[] idFerramentas;
+    private final int idFerramenta;
 
-    public ProficienciaFerramentaVO(int[] idFerramentas) {this.idFerramentas = idFerramentas;}
+    public ProficienciaFerramentaVO(int idFerramenta) {this.idFerramenta = idFerramenta;}
 
-    public int[] getIdFerramentas() {return idFerramentas;}
+    public int getIdFerramentas() {return idFerramenta;}
 }

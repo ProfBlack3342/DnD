@@ -11,11 +11,11 @@ package modelo;
  */
 public final class ProficienciaSkillVO extends ProficienciaVO
 {
-    private final String[] nomeSkill;
+    private final String nomeSkill;
 
-    public ProficienciaSkillVO(String[] nomeSkill) {
+    public ProficienciaSkillVO(String nomeSkill) {
         this.nomeSkill = nomeSkill;
     }
 
-    public String[] getNomeSkill() {return nomeSkill;}
+    public String getNomeSkill() {return nomeSkill;}
 }

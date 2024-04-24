@@ -39,7 +39,8 @@ public class FichaVO extends ObjetoVO
     private boolean profSaveSTR, profSaveDEX, profSaveCON, profSaveINT, profSaveWIS, profSaveCHA;   // ProficienciasSave
     
     // Skills e suas proficiencias
-    private boolean skill;                              // Lista fixa, proficiencias em proficienciasSkill
+    private String[] nomesSkills;                              // Lista fixa, proficiencias em proficienciasSkill
+    private boolean[] profSkills;
     
     // Sentidos
     private int statusPassivo;                          // Calcular com seu respectivo score(Personagem)
@@ -144,17 +145,11 @@ public class FichaVO extends ObjetoVO
     private void construirFicha()
     {
         nomePersonagem = personagem.getNome();
-        
         caminhoImagemPersonagem = personagem.getImagem().getCaminhoImagem();
-        
         nomeClassePersonagem = personagem.getClasse().getNome();
-        
         nivelPersonagem = personagem.getNivel();
-        
         nomeRaca = personagem.getRaca().getNome();
-        
         nomeBackground = personagem.getBackground().getNome();
-        
         xpPersonagem = personagem.getXp();
         
         strength = personagem.getStrTotal();
@@ -183,18 +178,50 @@ public class FichaVO extends ObjetoVO
             }
         }
         
-        saveSTR = ;
-        saveDEX = ;
-        saveCON = ;
-        saveINT = ;
-        saveWIS = ;
-        saveCHA = ;
-        profSaveSTR = ;
-        profSaveDEX = ;
-        profSaveCON = ;
-        profSaveINT = ;
-        profSaveWIS = ;
-        profSaveCHA = ;
+        saveSTR = modSTR;
+        saveDEX = modDEX;
+        saveCON = modCON;
+        saveINT = modINT;
+        saveWIS = modWIS;
+        saveCHA = modCHA;
+        profSaveSTR = false;
+        profSaveDEX = false;
+        profSaveCON = false;
+        profSaveINT = false;
+        profSaveWIS = false;
+        profSaveCHA = false;
+        for(ProficienciaSaveVO p : personagem.getProficienciasSave()) {
+            switch(p.getNomeSave().toLowerCase()) {
+                case "str":
+                    saveSTR += bonusProficiencia;
+                    profSaveSTR = true;
+                    break;
+                case "dex":
+                    saveDEX += bonusProficiencia;
+                    profSaveDEX = true;
+                    break;
+                case "con":
+                    saveCON += bonusProficiencia;
+                    profSaveCON = true;
+                    break;
+                case "int":
+                    saveINT += bonusProficiencia;
+                    profSaveINT = true;
+                    break;
+                case "wis":
+                    saveWIS += bonusProficiencia;
+                    profSaveWIS = true;
+                    break;
+                case "cha":
+                    saveCHA += bonusProficiencia;
+                    profSaveCHA = true;
+                    break;
+                default:
+                    break;
+            }
+        }
+        
+        
         skill = ;
         statusPassivo = ;
         buffsSentido = ;

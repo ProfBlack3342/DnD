@@ -10,11 +10,11 @@ package modelo;
  */
 public final class ProficienciaLinguagemVO extends ProficienciaVO
 {
-    private final int[] idLinguagens;
+    private final int idLinguagem;
 
-    public ProficienciaLinguagemVO(int[] idLinguagens) {
-        this.idLinguagens = idLinguagens;
+    public ProficienciaLinguagemVO(int idLinguagem) {
+        this.idLinguagem = idLinguagem;
     }
 
-    public int[] getIdLinguagens() {return idLinguagens;}
+    public int getIdLinguagens() {return idLinguagem;}
 }

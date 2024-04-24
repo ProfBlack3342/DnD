@@ -11,11 +11,11 @@ package modelo;
  */
 public final class ProficienciaSaveVO extends ProficienciaVO
 {
-    private final String[] nomesSaves;
+    private final String nomeSave;
 
-    public ProficienciaSaveVO(String[] nomesSaves) {
-        this.nomesSaves = nomesSaves;
+    public ProficienciaSaveVO(String nomeSave) {
+        this.nomeSave = nomeSave;
     }
 
-    public String[] getNomesSaves() {return nomesSaves;}
+    public String getNomeSave() {return nomeSave;}
 }
