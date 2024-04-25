@@ -238,6 +238,8 @@ public final class PersonagemVO extends ObjetoVO
                 xp = 355000;
                 break;
             }
+            default:
+                break;
         }
     }
 

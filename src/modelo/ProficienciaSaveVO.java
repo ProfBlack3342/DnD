@@ -5,17 +5,19 @@
  */
 package modelo;
 
+import enums.NomesSkillEnum;
+
 /**
  *
  * @author 181700271
  */
 public final class ProficienciaSaveVO extends ProficienciaVO
 {
-    private final String nomeSave;
+    private final NomesSkillEnum nomeSave;
 
-    public ProficienciaSaveVO(String nomeSave) {
+    public ProficienciaSaveVO(NomesSkillEnum nomeSave) {
         this.nomeSave = nomeSave;
     }
 
-    public String getNomeSave() {return nomeSave;}
+    public NomesSkillEnum getNomeSave() {return nomeSave;}
 }

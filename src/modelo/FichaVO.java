@@ -5,6 +5,8 @@
  */
 package modelo;
 
+import enums.NomesSkillEnum;
+
 /**
  *
  * @author 181700271
@@ -38,12 +40,13 @@ public class FichaVO extends ObjetoVO
     private int saveSTR, saveDEX, saveCON, saveINT, saveWIS, saveCHA;               // Calcular com modificador do score (Personagem) + proficiencia (proficienciasSave)
     private boolean profSaveSTR, profSaveDEX, profSaveCON, profSaveINT, profSaveWIS, profSaveCHA;   // ProficienciasSave
     
-    // Skills e suas proficiencias
-    private String[] nomesSkills;                              // Lista fixa, proficiencias em proficienciasSkill
-    private boolean[] profSkills;
+    // Skills e suas proficiencias                 
+    private String[] nomesSkill;
+    private boolean[] profSkills;   // Lista fixa, proficiencias em proficienciasSkill
     
     // Sentidos
-    private int statusPassivo;                          // Calcular com seu respectivo score(Personagem)
+    private int intuicaoPassiva;                          // Calcular com seu respectivo score(Personagem)
+    private int percepcaoPassiva; 
     private String[] buffsSentido;                      // Verificar na Raça, Classe e Feats
     
     // Armor Class
@@ -221,9 +224,104 @@ public class FichaVO extends ObjetoVO
             }
         }
         
-        
-        skill = ;
-        statusPassivo = ;
+        nomesSkill = NomesSkillEnum.getNomesPossiveis();
+        profSkills = new boolean[nomesSkill.length];
+        for(ProficienciaSaveVO p : personagem.getProficienciasSave()) {
+            switch(p.getNomeSave()) { 
+                case ATLETISMO:
+                {
+                    profSkills[0] = true;
+                    break;
+                }
+                case ACROBACIA:
+                {
+                    profSkills[1] = true;
+                    break;
+                }
+                case FURTIVIDADE:
+                {
+                    profSkills[2] = true;
+                    break;
+                }
+                case PRESTIDIGITACAO :
+                {
+                    profSkills[3] = true;
+                    break;
+                }
+                 case ARCANISMO:
+                {
+                    profSkills[4] = true;
+                    break;
+                }
+                 case HISTORIA:
+                {
+                    profSkills[5] = true;
+                    break;
+                }
+                 case INVESTIGACAO:
+                {
+                    profSkills[6] = true;
+                    break;
+                }
+                 case NATUREZA:
+                {
+                    profSkills[7] = true;
+                    break;
+                }
+                 case RELIGIAO:
+                {
+                    profSkills[8] = true;
+                    break;
+                }
+                 case ADESTRAR_ANIMAIS:
+                {
+                    profSkills[9] = true;
+                    break;
+                }
+                 case INTUICAO:
+                {
+                    profSkills[10] = true;
+                    break;
+                }
+                 case MEDICINA:
+                {
+                    profSkills[11] = true;
+                    break;
+                }
+                 case PERCEPCAO:
+                {
+                    profSkills[12] = true;
+                    break;
+                }
+                 case SOBREVIVENCIA:
+                {
+                    profSkills[13] = true;
+                    break;
+                }
+                 case ATUACAO:
+                {
+                    profSkills[14] = true;
+                    break;
+                }
+                 case ENGANACAO:
+                {
+                    profSkills[15] = true;
+                    break;
+                }
+                 case INTIMIDACAO:
+                {
+                    profSkills[16] = true;
+                    break;
+                }
+                 case PERSUASAO:
+                {
+                    profSkills[17] = true;
+                    break;
+                }
+            }
+        }
+        intuicaoPassiva = 10 + saveWIS;
+        percepcaoPassiva = 10 + saveWIS;
         buffsSentido = ;
         armorClass = ;
         iniciativa = ;
