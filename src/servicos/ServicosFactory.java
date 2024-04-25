@@ -11,10 +11,17 @@ package servicos;
 public final class ServicosFactory
 {
     private static final UsuarioServicos USUARIO_SERVICOS = new UsuarioServicos();
+    private static final ImagemServicos IMAGEM_SERVICOS = new ImagemServicos();
     
     /**
      * 
      * @return 
      */
     public static UsuarioServicos getUsuarioServicos() {return USUARIO_SERVICOS;}
+    
+    /**
+     * 
+     * @return 
+     */
+    public static ImagemServicos getImagemServicos() {return IMAGEM_SERVICOS;}
 }

@@ -5,6 +5,14 @@
  */
 package view;
 
+import com.sun.glass.events.KeyEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JInternalFrame;
+import javax.swing.JLabel;
 import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.InternalFrameListener;
 import modelo.UsuarioVO;
@@ -17,6 +25,7 @@ public class GUIPrincipal extends javax.swing.JFrame implements InternalFrameLis
 
     private UsuarioVO usuarioVOLogado;
     private boolean flagGUILogin = false;
+    private boolean flagGUIPersonagens = false;
     /**
      * Creates new form GUIPrincipal
      */
@@ -37,45 +46,48 @@ public class GUIPrincipal extends javax.swing.JFrame implements InternalFrameLis
         }
     }
     
-    private void criarListaPersonagens()
+    private void preencherPerfil()
+    {
+        try{
+            BufferedImage imagemUsuario = ImageIO.read(getClass().getResource(usuarioVOLogado.getImagem().getCaminhoImagem()));
+            jLabelImagem.setIcon(new ImageIcon(imagemUsuario));
+            jLabelNomeUsuario.setText(usuarioVOLogado.getNome());
+        }
+        catch(IOException IOe){
+            
+        }
+    }
+    
+    private void limparPerfil()
     {
         
     }
     
-    private void criarPersonagemNovo()
+    private void personagens()
     {
-        
+        if(!flagGUIPersonagens)
+        {
+            GUIPersonagens gp = new GUIPersonagens();
+            jdpPrincipal.add(gp);
+            gp.setVisible(true);
+            flagGUIPersonagens = true;
+            gp.addInternalFrameListener(this);
+        }
     }
     
-    private void abrirPersonagem()
+    private void logoff()
     {
-        
+        usuarioVOLogado = null;
+        limparPerfil();
+        login();
     }
     
-    private void criarListaMesas()
+    private void encerrar()
     {
-        
+        System.exit(0);
     }
     
-    private void criarMesaNova()
-    {
-        
-    }
-    
-    private void abrirMesa()
-    {
-        
-    }
-    
-    private void habilitarAdmin()
-    {
-        
-    }
-    
-    private void perfil()
-    {
-        
-    }
+
 
     public UsuarioVO getUsuarioVOLogado() {
         return usuarioVOLogado;
@@ -93,15 +105,45 @@ public class GUIPrincipal extends javax.swing.JFrame implements InternalFrameLis
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanelPerfil = new javax.swing.JPanel();
+        jLabelImagem = new javax.swing.JLabel();
+        jLabelNomeUsuario = new javax.swing.JLabel();
         jdpPrincipal = new javax.swing.JDesktopPane();
         jMenuBar = new javax.swing.JMenuBar();
         jMenuPersonagens = new javax.swing.JMenu();
-        jMenuMesas = new javax.swing.JMenu();
-        jMenuAdmin = new javax.swing.JMenu();
-        jMenuPerfil = new javax.swing.JMenu();
+        jMenuSair = new javax.swing.JMenu();
+        jmiLogoff = new javax.swing.JMenuItem();
+        jmiEncerrar = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(800, 600));
+
+        jPanelPerfil.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        jLabelNomeUsuario.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabelNomeUsuario.setText("Nome do Usuário");
+
+        javax.swing.GroupLayout jPanelPerfilLayout = new javax.swing.GroupLayout(jPanelPerfil);
+        jPanelPerfil.setLayout(jPanelPerfilLayout);
+        jPanelPerfilLayout.setHorizontalGroup(
+            jPanelPerfilLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelPerfilLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabelImagem, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(241, 241, 241)
+                .addComponent(jLabelNomeUsuario)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanelPerfilLayout.setVerticalGroup(
+            jPanelPerfilLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelPerfilLayout.createSequentialGroup()
+                .addContainerGap(44, Short.MAX_VALUE)
+                .addComponent(jLabelNomeUsuario)
+                .addGap(42, 42, 42))
+            .addGroup(jPanelPerfilLayout.createSequentialGroup()
+                .addComponent(jLabelImagem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
 
         jdpPrincipal.setBackground(new java.awt.Color(255, 255, 255));
         jdpPrincipal.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -114,20 +156,51 @@ public class GUIPrincipal extends javax.swing.JFrame implements InternalFrameLis
         );
         jdpPrincipalLayout.setVerticalGroup(
             jdpPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 553, Short.MAX_VALUE)
+            .addGap(0, 443, Short.MAX_VALUE)
         );
 
         jMenuPersonagens.setText("Personagens");
+        jMenuPersonagens.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuPersonagensActionPerformed(evt);
+            }
+        });
+        jMenuPersonagens.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jMenuPersonagensKeyPressed(evt);
+            }
+        });
         jMenuBar.add(jMenuPersonagens);
 
-        jMenuMesas.setText("Mesas");
-        jMenuBar.add(jMenuMesas);
+        jMenuSair.setText("Sair");
 
-        jMenuAdmin.setText("Administração");
-        jMenuBar.add(jMenuAdmin);
+        jmiLogoff.setText("Fazer Logoff");
+        jmiLogoff.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiLogoffActionPerformed(evt);
+            }
+        });
+        jmiLogoff.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jmiLogoffKeyPressed(evt);
+            }
+        });
+        jMenuSair.add(jmiLogoff);
 
-        jMenuPerfil.setText("Perfil");
-        jMenuBar.add(jMenuPerfil);
+        jmiEncerrar.setText("Encerrar o Programa");
+        jmiEncerrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiEncerrarActionPerformed(evt);
+            }
+        });
+        jmiEncerrar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jmiEncerrarKeyPressed(evt);
+            }
+        });
+        jMenuSair.add(jmiEncerrar);
+
+        jMenuBar.add(jMenuSair);
 
         setJMenuBar(jMenuBar);
 
@@ -135,21 +208,55 @@ public class GUIPrincipal extends javax.swing.JFrame implements InternalFrameLis
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jdpPrincipal)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jdpPrincipal)
+                    .addComponent(jPanelPerfil, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jdpPrincipal)
+                .addComponent(jPanelPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jdpPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jMenuPersonagensActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuPersonagensActionPerformed
+        personagens();
+    }//GEN-LAST:event_jMenuPersonagensActionPerformed
+
+    private void jMenuPersonagensKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jMenuPersonagensKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            personagens();
+        }
+    }//GEN-LAST:event_jMenuPersonagensKeyPressed
+
+    private void jmiLogoffActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiLogoffActionPerformed
+        logoff();
+    }//GEN-LAST:event_jmiLogoffActionPerformed
+
+    private void jmiLogoffKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jmiLogoffKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            logoff();
+        }
+    }//GEN-LAST:event_jmiLogoffKeyPressed
+
+    private void jmiEncerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiEncerrarActionPerformed
+        encerrar();
+    }//GEN-LAST:event_jmiEncerrarActionPerformed
+
+    private void jmiEncerrarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jmiEncerrarKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            encerrar();
+        }
+    }//GEN-LAST:event_jmiEncerrarKeyPressed
 
     /**
      * @param args the command line arguments
@@ -187,12 +294,15 @@ public class GUIPrincipal extends javax.swing.JFrame implements InternalFrameLis
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenu jMenuAdmin;
+    private javax.swing.JLabel jLabelImagem;
+    private javax.swing.JLabel jLabelNomeUsuario;
     private javax.swing.JMenuBar jMenuBar;
-    private javax.swing.JMenu jMenuMesas;
-    private javax.swing.JMenu jMenuPerfil;
     private javax.swing.JMenu jMenuPersonagens;
+    private javax.swing.JMenu jMenuSair;
+    private javax.swing.JPanel jPanelPerfil;
     private javax.swing.JDesktopPane jdpPrincipal;
+    private javax.swing.JMenuItem jmiEncerrar;
+    private javax.swing.JMenuItem jmiLogoff;
     // End of variables declaration//GEN-END:variables
 
     @Override
@@ -202,14 +312,20 @@ public class GUIPrincipal extends javax.swing.JFrame implements InternalFrameLis
 
     @Override
     public void internalFrameClosing(InternalFrameEvent ife) {
-        if(ife.getInternalFrame() instanceof GUILogin)
-            usuarioVOLogado = ((GUILogin) ife.getInternalFrame()).getUsuarioVOLogado();
+        JInternalFrame iFrame = ife.getInternalFrame();
+        if(iFrame instanceof GUILogin)
+            usuarioVOLogado = ((GUILogin) iFrame).getUsuarioVOLogado();
     }
 
     @Override
     public void internalFrameClosed(InternalFrameEvent ife) {
-        if(ife.getInternalFrame() instanceof GUILogin) {
+        JInternalFrame iFrame = ife.getInternalFrame();
+        if(iFrame instanceof GUILogin) {
                 flagGUILogin = false;
+                preencherPerfil();
+        }
+        else if(iFrame instanceof GUIPersonagens) {
+            flagGUIPersonagens = false;
         }
     }
 

@@ -81,7 +81,7 @@ public class GUILogin extends javax.swing.JInternalFrame {
     private void cadastrar()
     {
         UsuarioVO uVO = new UsuarioVO();
-        ImagemVO iVO = new ImagemVO();
+        ImagemVO iVO = new ImagemVO("", "", "");
         
         iVO.setId(1); //Pegar dados
         uVO.setImagem(iVO);

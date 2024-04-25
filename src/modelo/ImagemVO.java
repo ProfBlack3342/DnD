@@ -10,11 +10,15 @@ package modelo;
  */
 public class ImagemVO extends ObjetoVO
 {
-    private String caminhoImagem;
+    private final String nomeImagem, caminhoImagem, descricaoImagem;
 
-    public ImagemVO() {
-        
+    public ImagemVO(String nomeImagem, String caminhoImagem, String descricaoImagem) {
+        this.nomeImagem = nomeImagem;
+        this.caminhoImagem = caminhoImagem;
+        this.descricaoImagem = descricaoImagem;
     }
-    
+
     public String getCaminhoImagem() {return caminhoImagem;}
+    public String getNomeImagem() {return nomeImagem;}
+    public String getDescricaoImagem() {return descricaoImagem;}
 }

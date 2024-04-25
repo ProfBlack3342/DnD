@@ -17,6 +17,7 @@ import modelo.LoginVO;
 import modelo.ObjetoVO;
 import modelo.UsuarioVO;
 import persistencia.ConexaoBanco;
+import servicos.ServicosFactory;
 import utilidades.Converter;
 import utilidades.Verificar;
 
@@ -69,12 +70,7 @@ public final class UsuarioDAO extends ObjetoDAO implements IDAO
                         lVO.setSenha(hash);
                         UsuarioVO uVO = new UsuarioVO();
                         uVO.setId(rs.getInt("idUsuario"));
-                        
-                        ImagemVO iVO = new ImagemVO();
-                        iVO.setId(rs.getInt("idImagemUsuario"));
-                        // Terminar de preencher esse objeto
-                        uVO.setImagem(iVO);
-                        
+                        uVO.setImagem(ServicosFactory.getImagemServicos().pesquisarImagemUsuario(rs.getInt("idImagemUsuario")));
                         uVO.setIdTipo(rs.getInt("idTipoUsuario"));
                         uVO.setNome(rs.getString("nomeUsuario"));
                         uVO.setSenha(rs.getString("senhaUsuario"));
@@ -161,7 +157,7 @@ public final class UsuarioDAO extends ObjetoDAO implements IDAO
                 UsuarioVO uVO = new UsuarioVO();
                 uVO.setId(rs.getInt("idUsuario"));
                 
-                ImagemVO iVO = new ImagemVO();
+                ImagemVO iVO = new ImagemVO("", "", "");
                 iVO.setId(rs.getInt("idImagemUsuario"));
                 // Terminar de preencher esse objeto
                 uVO.setImagem(iVO);
@@ -215,7 +211,7 @@ public final class UsuarioDAO extends ObjetoDAO implements IDAO
                 UsuarioVO uVO = new UsuarioVO();
                 uVO.setId(rs.getInt("idUsuario"));
                 
-                ImagemVO iVO = new ImagemVO();
+                ImagemVO iVO = new ImagemVO("", "", "");
                 iVO.setId(rs.getInt("idImagemUsuario"));
                 // Terminar de preencher esse objeto
                 uVO.setImagem(iVO);
