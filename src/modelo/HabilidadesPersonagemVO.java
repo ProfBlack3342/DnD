@@ -8,7 +8,7 @@ package modelo;
  *
  * @author dudup
  */
-public class HabilidadesVO extends ObjetoVO
+public class HabilidadesPersonagemVO extends ObjetoVO
 {
     private int idPersonagem;
     private int idUsuario;

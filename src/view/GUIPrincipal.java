@@ -49,7 +49,7 @@ public class GUIPrincipal extends javax.swing.JFrame implements InternalFrameLis
     private void preencherPerfil()
     {
         try{
-            BufferedImage imagemUsuario = ImageIO.read(getClass().getResource(usuarioVOLogado.getImagem().getCaminhoImagem()));
+            BufferedImage imagemUsuario = ImageIO.read(getClass().getResource(usuarioVOLogado.getIdImagem().getCaminhoImagem()));
             jLabelImagem.setIcon(new ImageIcon(imagemUsuario));
             jLabelNomeUsuario.setText(usuarioVOLogado.getNome());
         }

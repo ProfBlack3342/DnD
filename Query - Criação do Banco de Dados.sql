@@ -143,8 +143,8 @@ ALTER TABLE SubRaca ADD CONSTRAINT FK_SUBRACA_RACA FOREIGN KEY(idRaca) REFERENCE
 ALTER TABLE SubRaca ADD CONSTRAINT FK_RACA_IMAGEMPERSONAGEM FOREIGN KEY(idImagemSubRaca) REFERENCES ImagemSubRaca(idImagemSubRaca);
 -- ----------------------------------------------------------------------------------------------------
 -- ----------------------------------------------------------------------------------------------------
-CREATE TABLE IF NOT EXISTS Habilidades (
-    idHabilidades INT NOT NULL,
+CREATE TABLE IF NOT EXISTS HabilidadesPersonagem (
+    idHabilidadesPersonagem INT NOT NULL,
     idPersonagem INT NOT NULL,
     idUsuario INT NOT NULL,
     valorSTRBase INT NOT NULL DEFAULT 8,
@@ -161,10 +161,10 @@ CREATE TABLE IF NOT EXISTS Habilidades (
     proficienteSaveCHA TINYINT(1) NOT NULL DEFAULT 0
 );
 -- PK
-ALTER TABLE Habilidades ADD CONSTRAINT PK_HABILIDADES PRIMARY KEY(idHabilidades, idPersonagem, idUsuario);
-ALTER TABLE Habilidades CHANGE COLUMN idHabilidades idHabilidades INT NOT NULL AUTO_INCREMENT;
+ALTER TABLE HabilidadesPersonagem ADD CONSTRAINT PK_HABILIDADESPERSONAGEM PRIMARY KEY(idHabilidadesPersonagem, idPersonagem, idUsuario);
+ALTER TABLE HabilidadesPersonagem CHANGE COLUMN idHabilidadesPersonagem idHabilidadesPersonagem INT NOT NULL AUTO_INCREMENT;
 -- FK
-ALTER TABLE Habilidades ADD CONSTRAINT FK_HABILIDADES_PERSONAGEM FOREIGN KEY(idPersonagem, idUsuario) REFERENCES Personagem(idPersonagem, idUsuario);
+ALTER TABLE HabilidadesPersonagem ADD CONSTRAINT FK_HABILIDADESPERSONAGEM_PERSONAGEM FOREIGN KEY(idPersonagem, idUsuario) REFERENCES Personagem(idPersonagem, idUsuario);
 -- ----------------------------------------------------------------------------------------------------
 -- ----------------------------------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS ProficienciasSkillPersonagem (

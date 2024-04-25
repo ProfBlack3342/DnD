@@ -12,12 +12,10 @@ import java.sql.ResultSet;
 import exception.NoUserFoundException;
 import exception.ForbiddenArgumentTypeException;
 import java.util.ArrayList;
-import modelo.ImagemVO;
 import objetosFront.Login;
 import modelo.ObjetoVO;
 import modelo.UsuarioVO;
 import persistencia.ConexaoBanco;
-import servicos.ServicosFactory;
 import utilidades.Converter;
 import utilidades.Verificar;
 
@@ -70,7 +68,7 @@ public final class UsuarioDAO extends ObjetoDAO implements IDAO
                         lVO.setSenha(hash);
                         UsuarioVO uVO = new UsuarioVO();
                         uVO.setId(rs.getInt("idUsuario"));
-                        uVO.setImagem(ServicosFactory.getImagemServicos().pesquisarImagemUsuario(rs.getInt("idImagemUsuario")));
+                        uVO.setIdImagem(rs.getInt("idImagemUsuario"));
                         uVO.setIdTipo(rs.getInt("idTipoUsuario"));
                         uVO.setNome(rs.getString("nomeUsuario"));
                         uVO.setSenha(rs.getString("senhaUsuario"));
@@ -115,7 +113,7 @@ public final class UsuarioDAO extends ObjetoDAO implements IDAO
             try(Connection con = new ConexaoBanco().getConexao();
                 PreparedStatement pstm = con.prepareStatement(sql);)
             {
-                pstm.setInt(1, uVo.getImagem().getId());
+                pstm.setInt(1, uVo.getIdImagem());
                 pstm.setInt(2, uVo.getIdTipo());
                 pstm.setString(3, uVo.getNome());
                 uVo.setSenha(Converter.converterTextoParaHash(uVo.getSenha()));
@@ -156,12 +154,7 @@ public final class UsuarioDAO extends ObjetoDAO implements IDAO
             {
                 UsuarioVO uVO = new UsuarioVO();
                 uVO.setId(rs.getInt("idUsuario"));
-                
-                ImagemVO iVO = new ImagemVO("", "", "");
-                iVO.setId(rs.getInt("idImagemUsuario"));
-                // Terminar de preencher esse objeto
-                uVO.setImagem(iVO);
-                
+                uVO.setIdImagem(rs.getInt("idImagemUsuario"));
                 uVO.setIdTipo(rs.getInt("idTipoUsuario"));
                 uVO.setNome(rs.getString("nomeUsuario"));
                 uVO.setSenha(rs.getString("senhaUsuario"));
@@ -210,12 +203,7 @@ public final class UsuarioDAO extends ObjetoDAO implements IDAO
             {
                 UsuarioVO uVO = new UsuarioVO();
                 uVO.setId(rs.getInt("idUsuario"));
-                
-                ImagemVO iVO = new ImagemVO("", "", "");
-                iVO.setId(rs.getInt("idImagemUsuario"));
-                // Terminar de preencher esse objeto
-                uVO.setImagem(iVO);
-                
+                uVO.setIdImagem(rs.getInt("idImagemUsuario"));
                 uVO.setIdTipo(rs.getInt("idTipoUsuario"));
                 uVO.setNome(rs.getString("nomeUsuario"));
                 uVO.setSenha(rs.getString("senhaUsuario"));
@@ -268,7 +256,7 @@ public final class UsuarioDAO extends ObjetoDAO implements IDAO
             try(Connection con = new ConexaoBanco().getConexao();
                 PreparedStatement pstm = con.prepareStatement(sql);)
             {
-                pstm.setInt(1, uVO.getImagem().getId());
+                pstm.setInt(1, uVO.getIdImagem());
                 pstm.setInt(2, uVO.getIdTipo());
                 pstm.setString(3, uVO.getNome());
                 uVO.setSenha(Converter.converterTextoParaHash(uVO.getSenha()));

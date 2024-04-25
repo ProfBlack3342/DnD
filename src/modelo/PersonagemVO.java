@@ -11,33 +11,30 @@ package modelo;
  */
 public final class PersonagemVO extends ObjetoVO
 {
-    private int idUsuario;
-    private int idImagemPersonagem;
-    private int idClasse;
-    private int idSubclasse;
-    private int idRaca;
-    private int idSubraca;
-    private int idBackground;
-    private int idProficienciasArmadura;
-    private int idProficienciasLinguagem;
-    private int idProficienciasSave;
-    private int idProficienciasSkill;
-    private int idProficienciasFerramenta;
-    private int idProficienciasArmas;
+    private int idUsuario = -1;
+    private int idImagemPersonagem = -1;
+    private int idClasse = -1;
+    private int idSubclasse = -1;
+    private int idRaca = -1;
+    private int idSubraca = -1;
+    private int idBackground = -1;
+    private int idProficienciasArmadura = -1;
+    private int idProficienciasLinguagem = -1;
+    private int idProficienciasSave = -1;
+    private int idProficienciasSkill = -1;
+    private int idProficienciasFerramenta = -1;
+    private int idProficienciasArmas = -1;
     
-    private String nome;
-    private int nivel;
-    private int xp;
-    private int hpMaximo;
-    private int hpAtual;
-    private int hpTemp;
-    private int armorClass;
-    private int iniciativa;
-    private boolean inspirado;
-
-    
-    public String getNome() {return nome;}
-    public void setNome(String nome) {this.nome = nome;}
+    private String nome = "Sem Nome";
+    private int nivel = 1;
+    private int xp = 0;
+    private int hpMaximo = 0;
+    private int hpAtual = 0;
+    private int hpTemp = 0;
+    private int armorClass = 0;
+    private int bonusProficiencia = 0;
+    private int iniciativa = 0;
+    private boolean inspirado = false;
 
     public int getIdUsuario() {return idUsuario;}
     public void setIdUsuario(int idUsuario) {this.idUsuario = idUsuario;}
@@ -59,6 +56,27 @@ public final class PersonagemVO extends ObjetoVO
 
     public int getIdBackground() {return idBackground;}
     public void setIdBackground(int idBackground) {this.idBackground = idBackground;}
+
+    public int getIdProficienciasArmadura() {return idProficienciasArmadura;}
+    public void setIdProficienciasArmadura(int idProficienciasArmadura) {this.idProficienciasArmadura = idProficienciasArmadura;}
+
+    public int getIdProficienciasLinguagem() {return idProficienciasLinguagem;}
+    public void setIdProficienciasLinguagem(int idProficienciasLinguagem) {this.idProficienciasLinguagem = idProficienciasLinguagem;}
+
+    public int getIdProficienciasSave() {return idProficienciasSave;}
+    public void setIdProficienciasSave(int idProficienciasSave) {this.idProficienciasSave = idProficienciasSave;}
+
+    public int getIdProficienciasSkill() {return idProficienciasSkill;}
+    public void setIdProficienciasSkill(int idProficienciasSkill) {this.idProficienciasSkill = idProficienciasSkill;}
+
+    public int getIdProficienciasFerramenta() {return idProficienciasFerramenta;}
+    public void setIdProficienciasFerramenta(int idProficienciasFerramenta) {this.idProficienciasFerramenta = idProficienciasFerramenta;}
+
+    public int getIdProficienciasArmas() {return idProficienciasArmas;}
+    public void setIdProficienciasArmas(int idProficienciasArmas) {this.idProficienciasArmas = idProficienciasArmas;}
+    
+    public String getNome() {return nome;}
+    public void setNome(String nome) {this.nome = nome;}
 
     public int getNivel() {return nivel;}
     public void setNivel(int nivel) {this.nivel = nivel;}
@@ -227,11 +245,17 @@ public final class PersonagemVO extends ObjetoVO
     public int getArmorClass() {return armorClass;}
     public void setArmorClass(int armorClass) {this.armorClass = armorClass;}
 
+    public int getBonusProficiencia() {
+        return bonusProficiencia;
+    }
+
+    public void setBonusProficiencia(int bonusProficiencia) {
+        this.bonusProficiencia = bonusProficiencia;
+    }
+
     public int getIniciativa() {return iniciativa;}
     public void setIniciativa(int iniciativa) {this.iniciativa = iniciativa;}
     
     public boolean isInspirado() {return inspirado;}
     public void setInspirado(boolean inspirado) {this.inspirado = inspirado;}
-    
-    
 }
