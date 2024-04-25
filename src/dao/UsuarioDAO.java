@@ -171,7 +171,7 @@ public final class UsuarioDAO extends ObjetoDAO implements IDAO
             }
             
             if(!listaUsuarios.isEmpty())
-                return listaUsuarios.toArray(UsuarioVO[]::new);
+                return listaUsuarios.toArray(new UsuarioVO[listaUsuarios.size()]);
             else
                 throw new NoUserFoundException("Erro em UsuarioDAO.listar: Nenhum usuário registrado!");
         }
@@ -225,7 +225,7 @@ public final class UsuarioDAO extends ObjetoDAO implements IDAO
         }
         
         if(!listaUsuarios.isEmpty())
-            return listaUsuarios.toArray(UsuarioVO[]::new);
+            return listaUsuarios.toArray(new UsuarioVO[listaUsuarios.size()]);
         else
             throw new NoUserFoundException("Erro em UsuarioDAO.pesquisar: Nenhum usuário encontrado!");
     }

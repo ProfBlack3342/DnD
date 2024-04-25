@@ -6,9 +6,13 @@
 package view;
 
 import com.sun.glass.events.KeyEvent;
+import exception.NoUserFoundException;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JInternalFrame;
@@ -16,6 +20,7 @@ import javax.swing.JLabel;
 import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.InternalFrameListener;
 import modelo.UsuarioVO;
+import servicos.ServicosFactory;
 
 /**
  *
@@ -48,12 +53,24 @@ public class GUIPrincipal extends javax.swing.JFrame implements InternalFrameLis
     
     private void preencherPerfil()
     {
-        try{
-            BufferedImage imagemUsuario = ImageIO.read(getClass().getResource(usuarioVOLogado.getIdImagem().getCaminhoImagem()));
+        try
+        {
+            BufferedImage imagemUsuario = ImageIO.read(
+                    getClass().getResource( ServicosFactory.getImagemServicos().pesquisarImagemUsuario("idImagem = " + usuarioVOLogado.getIdImagem())[0].getCaminhoImagem())
+            );
             jLabelImagem.setIcon(new ImageIcon(imagemUsuario));
             jLabelNomeUsuario.setText(usuarioVOLogado.getNome());
         }
-        catch(IOException IOe){
+        catch(IOException IOe)
+        {
+            
+        }
+        catch (SQLException ex)
+        {
+            
+        }
+        catch (NoUserFoundException ex)
+        {
             
         }
     }

@@ -11,6 +11,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import modelo.ImagemVO;
 import modelo.ObjetoVO;
 import persistencia.ConexaoBanco;
@@ -28,42 +29,39 @@ public class ImagemUsuarioDAO extends ObjetoDAO implements IDAO
     }
 
     @Override
-    public ObjetoVO[] listar() throws SQLException, NoUserFoundException {
+    public ImagemVO[] listar() throws SQLException, NoUserFoundException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
-    public ImagemVO pesquisar(int id) throws SQLException {
-        String query = "SELECT * "
+
+    @Override
+    public ImagemVO[] pesquisar(String query) throws SQLException, NoUserFoundException {
+        String queryInterna = "SELECT * "
                 + "FROM imagemUsuario "
-                + "WHERE idimagemusuario = ?";
+                + "WHERE " + query;
         try(Connection con = new ConexaoBanco().getConexao();
-            PreparedStatement pstm = con.prepareStatement(query);)
+            PreparedStatement pstm = con.prepareStatement(queryInterna);
+                ResultSet rs = pstm.executeQuery();)
         {
-            pstm.setInt(1, id);
-            
-            try(ResultSet rs = pstm.executeQuery();)
-            {
-                if(rs.next()) {
-                    ImagemVO iVO = new ImagemVO(
-                            rs.getString("nomeimagemusuario"),
-                            rs.getString("caminhoimagemusuario"),
-                            rs.getString("descricaoimagemusuario")
-                    );
-                    return iVO;
-                }
-                else
-                    return null;
+
+            ArrayList<ImagemVO> listaResultados = new ArrayList<>();
+            while(rs.next()) {
+                ImagemVO iVO = new ImagemVO();
+                iVO.setNomeImagem(rs.getString("nomeimagemusuario"));
+                iVO.setCaminhoImagem(rs.getString("caminhoimagemusuario"));
+                iVO.setDescricaoImagem(rs.getString("descricaoimagemusuario"));     
+                listaResultados.add(iVO);
+
             }
+            if(!listaResultados.isEmpty())
+                return listaResultados.toArray(new ImagemVO[listaResultados.size()]);
+            else
+                throw new NoUserFoundException("Erro em ImagemDAO.pesquisar: Nenhuma imagem registrada!");
+            
         }
         catch(SQLException se)
         {
             throw new SQLException("Erro em ImagemUsuarioDAO.pesquisar: " + se.getMessage());
         }
-    }
-
-    @Override
-    public ObjetoVO[] pesquisar(String query) throws SQLException, NoUserFoundException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
