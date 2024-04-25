@@ -10,10 +10,10 @@ package enums;
  */
 public enum NomesSkillEnum {
     ATLETISMO("Atletismo"),        // STR
-    ACROBACIA("Acrobacia"), FURTIVIDADE("Furtividade"), PRESTIDIGITACAO("Prestidigitação"),      // DE
+    ACROBACIA("Acrobacia"), FURTIVIDADE("Furtividade"), PRESTIDIGITACAO("Prestidigitação"),      // DEX
     ARCANISMO("Arcanismo"), HISTORIA("História"), INVESTIGACAO("Investigação"), NATUREZA("Natureza"), RELIGIAO("Religião"),        // INT
     ADESTRAR_ANIMAIS("Adestrar Animais"), INTUICAO("Intuição"), MEDICINA("Medicina"), PERCEPCAO("Percepção"), SOBREVIVENCIA("Sobrevivência"),     // WIS
-    ATUACAO("Atuação"), ENGANACAO("Enganação"), INTIMIDACAO("Intimidação"), PERSUASAO("Persuasão");      // CHA// CHA// CHA// CHA
+    ATUACAO("Atuação"), ENGANACAO("Enganação"), INTIMIDACAO("Intimidação"), PERSUASAO("Persuasão");      // CHA
     
     public final String nomeString;
     private NomesSkillEnum(String nomeString) {this.nomeString = nomeString;}

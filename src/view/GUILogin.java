@@ -14,7 +14,7 @@ import java.util.Date;
 import exception.NoUserFoundException;
 import exception.ForbiddenArgumentTypeException;
 import modelo.ImagemVO;
-import modelo.LoginVO;
+import objetosFront.Login;
 import modelo.UsuarioVO;
 import servicos.ServicosFactory;
 import utilidades.Converter;
@@ -52,7 +52,7 @@ public class GUILogin extends javax.swing.JInternalFrame {
     
     private void login()
     {
-        LoginVO lVO = new LoginVO();
+        Login lVO = new Login();
         lVO.setUsuario(jtfUsuarioLogin.getText());
         lVO.setSenha(new String(jpfSenhaLogin.getPassword()));
         limparTexto();

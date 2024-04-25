@@ -13,7 +13,7 @@ import exception.NoUserFoundException;
 import exception.ForbiddenArgumentTypeException;
 import java.util.ArrayList;
 import modelo.ImagemVO;
-import modelo.LoginVO;
+import objetosFront.Login;
 import modelo.ObjetoVO;
 import modelo.UsuarioVO;
 import persistencia.ConexaoBanco;
@@ -49,7 +49,7 @@ public final class UsuarioDAO extends ObjetoDAO implements IDAO
      * @throws SQLException Se houver algum erro na comunicação com o banco de dados
      * @throws NoUserFoundException Se os dados informados não corresponderem a nenhum usuário do banco de dados
      */
-    public UsuarioVO login(LoginVO lVO) throws SQLException, NoUserFoundException
+    public UsuarioVO login(Login lVO) throws SQLException, NoUserFoundException
     {
         String sql = "SELECT * FROM usuario "
                 + "WHERE nomeUsuario = ? "

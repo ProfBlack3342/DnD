@@ -11,17 +11,20 @@ package modelo;
 public class ClasseVO  extends ObjetoVO
 {
     private String nome;
-    private final ProficienciaVO[] proficiencias;
-    private final EquipamentoVO[][] conjuntosEquipamentosClasse;
-
-    public ClasseVO(ProficienciaVO[] proficiencias, EquipamentoVO[][] equipamentosClasse) {
-        this.proficiencias = proficiencias;
-        this.conjuntosEquipamentosClasse = equipamentosClasse;
-    }
-
-    public String getNome() {return nome;}
+    private String descricao;
+    private boolean modificandoHabilidades;
+    private int bonusSTR, bonusDEX, bonusCON, bonusINT, bonusWIS, bonusCHA;
     
-    public ProficienciaVO[] getProficiencias() {return proficiencias;}
-    
-    public EquipamentoVO[][] getConjuntosEquipamentosClasse() {return conjuntosEquipamentosClasse;}
+    private boolean modificandoProficienciasArmadura;
+    private int idBonusProficienciasArmadura;
+    private boolean modificandoProficienciasLinguagem;
+    private int idBonusProficienciasLinguagem;
+    private boolean modificandoProficienciasSave;
+    private int idBonusProficienciasSave;
+    private boolean modificandoProficienciasSkill;
+    private int idBonusProficienciasSkill;
+    private boolean modificandoProficienciasFerramenta;
+    private int idBonusProficienciasFerramenta;
+    private boolean modificandoProficienciasArmas;
+    private int idBonusProficienciasArmas;
 }

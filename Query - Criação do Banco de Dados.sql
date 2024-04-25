@@ -143,6 +143,60 @@ ALTER TABLE SubRaca ADD CONSTRAINT FK_SUBRACA_RACA FOREIGN KEY(idRaca) REFERENCE
 ALTER TABLE SubRaca ADD CONSTRAINT FK_RACA_IMAGEMPERSONAGEM FOREIGN KEY(idImagemSubRaca) REFERENCES ImagemSubRaca(idImagemSubRaca);
 -- ----------------------------------------------------------------------------------------------------
 -- ----------------------------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS Habilidades (
+    idHabilidades INT NOT NULL,
+    idPersonagem INT NOT NULL,
+    idUsuario INT NOT NULL,
+    valorSTRBase INT NOT NULL DEFAULT 8,
+    proficienteSaveSTR TINYINT(1) NOT NULL DEFAULT 0,
+    valorDEXBase INT NOT NULL DEFAULT 8,
+    proficienteSaveDEX TINYINT(1) NOT NULL DEFAULT 0,
+    valorCONBase INT NOT NULL DEFAULT 8,
+    proficienteSaveCON TINYINT(1) NOT NULL DEFAULT 0,
+    valorINTBase INT NOT NULL DEFAULT 8,
+    proficienteSaveINT TINYINT(1) NOT NULL DEFAULT 0,
+    valorWISBase INT NOT NULL DEFAULT 8,
+    proficienteSaveWIS TINYINT(1) NOT NULL DEFAULT 0,
+    valorCHABase INT NOT NULL DEFAULT 8,
+    proficienteSaveCHA TINYINT(1) NOT NULL DEFAULT 0
+);
+-- PK
+ALTER TABLE Habilidades ADD CONSTRAINT PK_HABILIDADES PRIMARY KEY(idHabilidades, idPersonagem, idUsuario);
+ALTER TABLE Habilidades CHANGE COLUMN idHabilidades idHabilidades INT NOT NULL AUTO_INCREMENT;
+-- FK
+ALTER TABLE Habilidades ADD CONSTRAINT FK_HABILIDADES_PERSONAGEM FOREIGN KEY(idPersonagem, idUsuario) REFERENCES Personagem(idPersonagem, idUsuario);
+-- ----------------------------------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS ProficienciasSkillPersonagem (
+    idProficienciasSkillPersonagem INT NOT NULL,
+    idPersonagem INT NOT NULL,
+    idUsuario INT NOT NULL,
+    proficienteAtletismo TINYINT(1) NOT NULL DEFAULT 0,
+    proficienteAcrobacia TINYINT(1) NOT NULL DEFAULT 0,
+    proficienteFurtividade TINYINT(1) NOT NULL DEFAULT 0,
+    proficientePrestidigitacao TINYINT(1) NOT NULL DEFAULT 0,
+    proficienteArcanismo TINYINT(1) NOT NULL DEFAULT 0,
+    proficienteHistoria TINYINT(1) NOT NULL DEFAULT 0,
+    proficienteInvestigacao TINYINT(1) NOT NULL DEFAULT 0,
+    proficienteNatureza TINYINT(1) NOT NULL DEFAULT 0,
+    proficienteReligiao TINYINT(1) NOT NULL DEFAULT 0,
+    proficienteAdestrarAnimais TINYINT(1) NOT NULL DEFAULT 0,
+    proficienteIntuicao TINYINT(1) NOT NULL DEFAULT 0,
+    proficienteMedicina TINYINT(1) NOT NULL DEFAULT 0,
+    proficientePercepcao TINYINT(1) NOT NULL DEFAULT 0,
+    proficienteSobrevivencia TINYINT(1) NOT NULL DEFAULT 0,
+    proficienteAtuacao TINYINT(1) NOT NULL DEFAULT 0,
+    proficienteEnganacao TINYINT(1) NOT NULL DEFAULT 0,
+    proficienteIntimidacao TINYINT(1) NOT NULL DEFAULT 0,
+    proficientePersuasao TINYINT(1) NOT NULL DEFAULT 0
+);
+-- PK
+ALTER TABLE ProficienciasSkillPersonagem ADD CONSTRAINT PK_PROFICIENCIASSKILLPERSONAGEM PRIMARY KEY(idProficienciasSkillPersonagem, idPersonagem, idUsuario);
+ALTER TABLE ProficienciasSkillPersonagem CHANGE COLUMN idProficienciasSkillPersonagem idProficienciasSkillPersonagem INT NOT NULL AUTO_INCREMENT;
+-- FK
+ALTER TABLE ProficienciasSkillPersonagem ADD CONSTRAINT FK_PROFICIENCIASSKILLPERSONAGEM_PERSONAGEM FOREIGN KEY(idPersonagem, idUsuario) REFERENCES Personagem(idPersonagem, idUsuario);
+-- ----------------------------------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS ImagemPersonagem (
     idImagemPersonagem INT NOT NULL,
     nomeImagemPersonagem VARCHAR(20) NOT NULL,

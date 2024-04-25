@@ -11,18 +11,20 @@ package modelo;
 public class BackgroundVO  extends ObjetoVO
 {
     private String nome;
-    private ProficienciaVO[] proficiencias;
-    private final EquipamentoVO[][] equipamentosBackground;
-
-    public BackgroundVO(String nome, ProficienciaVO[] proficiencias, EquipamentoVO[][] equipamentosBackground) {
-        this.nome = nome;
-        this.proficiencias = proficiencias;
-        this.equipamentosBackground = equipamentosBackground;
-    }
+    
+    private boolean modificandoProficienciasArmadura;
+    private int idBonusProficienciasArmadura;
+    private boolean modificandoProficienciasLinguagem;
+    private int idBonusProficienciasLinguagem;
+    private boolean modificandoProficienciasSave;
+    private int idBonusProficienciasSave;
+    private boolean modificandoProficienciasSkill;
+    private int idBonusProficienciasSkill;
+    private boolean modificandoProficienciasFerramenta;
+    private int idBonusProficienciasFerramenta;
+    private boolean modificandoProficienciasArmas;
+    private int idBonusProficienciasArmas;
     
     public String getNome() {return nome;}
     
-    public ProficienciaVO[] getProficiencias() {return proficiencias;}
-    
-    public EquipamentoVO[][] getEquipamentosBackground() {return equipamentosBackground;}
 }

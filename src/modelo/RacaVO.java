@@ -11,28 +11,19 @@ package modelo;
 public class RacaVO extends ObjetoVO
 {
     private String nome;
-    private int bonusStr, bonusDex, bonusCon, bonusInt, bonusWis, bonusCha;
-    private ProficienciaVO[] proficiencias;
-
-    public RacaVO(String nome, int bonusStr, int bonusDex, int bonusCon, int bonusInt, int bonusWis, int bonusCha, ProficienciaVO[] proficiencias) {
-        this.nome = nome;
-        this.bonusStr = bonusStr;
-        this.bonusDex = bonusDex;
-        this.bonusCon = bonusCon;
-        this.bonusInt = bonusInt;
-        this.bonusWis = bonusWis;
-        this.bonusCha = bonusCha;
-        this.proficiencias = proficiencias;
-    }
     
-    public String getNome() {return nome;}
-    
-    public int getBonusStr() {return bonusStr;}
-    public int getBonusDex() {return bonusDex;}
-    public int getBonusCon() {return bonusCon;}
-    public int getBonusInt() {return bonusInt;}
-    public int getBonusWis() {return bonusWis;}
-    public int getBonusCha() {return bonusCha;}
+    private boolean modificandoProficienciasArmadura;
+    private int idBonusProficienciasArmadura;
+    private boolean modificandoProficienciasLinguagem;
+    private int idBonusProficienciasLinguagem;
+    private boolean modificandoProficienciasSave;
+    private int idBonusProficienciasSave;
+    private boolean modificandoProficienciasSkill;
+    private int idBonusProficienciasSkill;
+    private boolean modificandoProficienciasFerramenta;
+    private int idBonusProficienciasFerramenta;
+    private boolean modificandoProficienciasArmas;
+    private int idBonusProficienciasArmas;
 
-    public ProficienciaVO[] getProficiencias() {return proficiencias;}
+   
 }
