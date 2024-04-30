@@ -8,13 +8,13 @@ package exception;
  * Erro que indica que nenhum usuário foi encontrado no banco de dados pelos dados de pesquisa informados
  * @author dudup
  */
-public class NoUserFoundException extends Exception {
+public class NoDataFoundException extends Exception {
 
     /**
      * Creates a new instance of <code>NoUserFoundException</code> without
      * detail message.
      */
-    public NoUserFoundException() {
+    public NoDataFoundException() {
     }
 
     /**
@@ -23,7 +23,7 @@ public class NoUserFoundException extends Exception {
      *
      * @param msg the detail message.
      */
-    public NoUserFoundException(String msg) {
+    public NoDataFoundException(String msg) {
         super(msg);
     }
 }

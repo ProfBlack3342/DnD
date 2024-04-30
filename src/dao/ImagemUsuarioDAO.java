@@ -6,7 +6,7 @@
 package dao;
 
 import exception.ForbiddenArgumentTypeException;
-import exception.NoUserFoundException;
+import exception.NoDataFoundException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -29,12 +29,12 @@ public class ImagemUsuarioDAO extends ObjetoDAO implements IDAO
     }
 
     @Override
-    public ImagemVO[] listar() throws SQLException, NoUserFoundException {
+    public ImagemVO[] listar() throws SQLException, NoDataFoundException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public ImagemVO[] pesquisar(String query) throws SQLException, NoUserFoundException {
+    public ImagemVO[] pesquisar(String query) throws SQLException, NoDataFoundException {
         String queryInterna = "SELECT * "
                 + "FROM imagemUsuario "
                 + "WHERE " + query;
@@ -55,7 +55,7 @@ public class ImagemUsuarioDAO extends ObjetoDAO implements IDAO
             if(!listaResultados.isEmpty())
                 return listaResultados.toArray(new ImagemVO[listaResultados.size()]);
             else
-                throw new NoUserFoundException("Erro em ImagemDAO.pesquisar: Nenhuma imagem registrada!");
+                throw new NoDataFoundException("Erro em ImagemDAO.pesquisar: Nenhuma imagem registrada com esses dados!");
             
         }
         catch(SQLException se)

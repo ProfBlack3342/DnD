@@ -13,6 +13,8 @@ import javax.swing.table.DefaultTableModel;
  */
 public class GUIPersonagens extends javax.swing.JInternalFrame {
 
+    private int idUsuario;
+    
     DefaultTableModel dtm = new DefaultTableModel(new Object[][]{},
             new Object[]{
                 "Nome",
@@ -32,9 +34,11 @@ public class GUIPersonagens extends javax.swing.JInternalFrame {
     
     /**
      * Creates new form GUIPersonagem
+     * @param idUsuario
      */
-    public GUIPersonagens() {
+    public GUIPersonagens(int idUsuario) {
         initComponents();
+        this.idUsuario = idUsuario;
     }
 
     /**

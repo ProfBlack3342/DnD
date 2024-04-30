@@ -6,19 +6,17 @@
 package view;
 
 import com.sun.glass.events.KeyEvent;
-import exception.NoUserFoundException;
+import exception.NoDataFoundException;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JInternalFrame;
-import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.InternalFrameListener;
+import modelo.ImagemVO;
 import modelo.UsuarioVO;
 import servicos.ServicosFactory;
 
@@ -29,88 +27,82 @@ import servicos.ServicosFactory;
 public class GUIPrincipal extends javax.swing.JFrame implements InternalFrameListener{
 
     private UsuarioVO usuarioVOLogado;
-    private boolean flagGUILogin = false;
+    private ImagemVO[] imagemUsuarioVOLogado;
+    
     private boolean flagGUIPersonagens = false;
-    /**
-     * Creates new form GUIPrincipal
-     */
+    private boolean flagGUIFichas = false;
+    
     public GUIPrincipal() {
         initComponents();
-        login();
+        usuarioVOLogado = null;
+        imagemUsuarioVOLogado = null;
+    }
+    /**
+     * Creates new form GUIPrincipal
+     * @param usuarioVOLogado
+     */
+    public GUIPrincipal(UsuarioVO usuarioVOLogado) {
+        initComponents();
+        this.usuarioVOLogado = usuarioVOLogado;
+        preencherPerfil();
     }
     
-    private void login()
-    {
-        if(!flagGUILogin)
-        {
-            GUILogin gl = new GUILogin();
-            jdpPrincipal.add(gl);
-            gl.setVisible(true);
-            flagGUILogin = true;
-            gl.addInternalFrameListener(this);
-        }
-    }
-    
-    private void preencherPerfil()
-    {
+    private void preencherPerfil(){
         try
         {
+            imagemUsuarioVOLogado = ServicosFactory.getImagemServicos().pesquisarImagemUsuario("idImagem = " + usuarioVOLogado.getIdImagem());
+            
             BufferedImage imagemUsuario = ImageIO.read(
-                    getClass().getResource( ServicosFactory.getImagemServicos().pesquisarImagemUsuario("idImagem = " + usuarioVOLogado.getIdImagem())[0].getCaminhoImagem())
+                    getClass().getResource(imagemUsuarioVOLogado[0].getCaminhoImagem())
             );
+            
             jLabelImagem.setIcon(new ImageIcon(imagemUsuario));
             jLabelNomeUsuario.setText(usuarioVOLogado.getNome());
         }
-        catch(IOException IOe)
+        catch (SQLException | NoDataFoundException | IOException ex)
         {
-            
-        }
-        catch (SQLException ex)
-        {
-            
-        }
-        catch (NoUserFoundException ex)
-        {
-            
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
-    private void limparPerfil()
-    {
-        
-    }
-    
-    private void personagens()
-    {
-        if(!flagGUIPersonagens)
-        {
-            GUIPersonagens gp = new GUIPersonagens();
-            jdpPrincipal.add(gp);
-            gp.setVisible(true);
-            flagGUIPersonagens = true;
-            gp.addInternalFrameListener(this);
-        }
-    }
-    
-    private void logoff()
-    {
+    private void limparPerfil(){
         usuarioVOLogado = null;
+        imagemUsuarioVOLogado = null;
+        jLabelImagem.setIcon(null);
+        jLabelNomeUsuario.setText(null);
+    }
+    
+    private void abrirGUIPersonagens(){ 
+        if(!flagGUIPersonagens){
+            GUIPersonagens guiP = new GUIPersonagens(usuarioVOLogado.getId());
+            jdpPrincipal.add(guiP);
+            guiP.setVisible(true);
+            flagGUIPersonagens = true;
+            guiP.addInternalFrameListener(this);
+        }
+    }
+    private void abrirGUIFichas(){
+        if(!flagGUIFichas){
+            GUIFichas guiF = new GUIFichas(usuarioVOLogado.getId());
+            jdpPrincipal.add(guiF);
+            guiF.setVisible(true);
+            flagGUIFichas = true;
+            guiF.addInternalFrameListener(this);
+        }
+    }
+    
+    private void logoff(){
         limparPerfil();
-        login();
+        
+        GUILogin guiL = new GUILogin();
+        guiL.setVisible(true);
+        
+        setVisible(false);
+        dispose();
     }
     
-    private void encerrar()
-    {
+    private void encerrar(){
+        limparPerfil();
         System.exit(0);
-    }
-    
-
-
-    public UsuarioVO getUsuarioVOLogado() {
-        return usuarioVOLogado;
-    }
-    public void setUsuarioVOLogado(UsuarioVO usuarioVOLogado) {
-        this.usuarioVOLogado = usuarioVOLogado;
     }
     
     /**
@@ -128,6 +120,8 @@ public class GUIPrincipal extends javax.swing.JFrame implements InternalFrameLis
         jdpPrincipal = new javax.swing.JDesktopPane();
         jMenuBar = new javax.swing.JMenuBar();
         jMenuPersonagens = new javax.swing.JMenu();
+        jmiPersonagens = new javax.swing.JMenuItem();
+        jmiFichas = new javax.swing.JMenuItem();
         jMenuSair = new javax.swing.JMenu();
         jmiLogoff = new javax.swing.JMenuItem();
         jmiEncerrar = new javax.swing.JMenuItem();
@@ -177,16 +171,33 @@ public class GUIPrincipal extends javax.swing.JFrame implements InternalFrameLis
         );
 
         jMenuPersonagens.setText("Personagens");
-        jMenuPersonagens.addActionListener(new java.awt.event.ActionListener() {
+
+        jmiPersonagens.setText("Criar/Editar Personagem");
+        jmiPersonagens.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuPersonagensActionPerformed(evt);
+                jmiPersonagensActionPerformed(evt);
             }
         });
-        jMenuPersonagens.addKeyListener(new java.awt.event.KeyAdapter() {
+        jmiPersonagens.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                jMenuPersonagensKeyPressed(evt);
+                jmiPersonagensKeyPressed(evt);
             }
         });
+        jMenuPersonagens.add(jmiPersonagens);
+
+        jmiFichas.setText("Fichas dos Personagens");
+        jmiFichas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiFichasActionPerformed(evt);
+            }
+        });
+        jmiFichas.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jmiFichasKeyPressed(evt);
+            }
+        });
+        jMenuPersonagens.add(jmiFichas);
+
         jMenuBar.add(jMenuPersonagens);
 
         jMenuSair.setText("Sair");
@@ -245,16 +256,6 @@ public class GUIPrincipal extends javax.swing.JFrame implements InternalFrameLis
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jMenuPersonagensActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuPersonagensActionPerformed
-        personagens();
-    }//GEN-LAST:event_jMenuPersonagensActionPerformed
-
-    private void jMenuPersonagensKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jMenuPersonagensKeyPressed
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            personagens();
-        }
-    }//GEN-LAST:event_jMenuPersonagensKeyPressed
-
     private void jmiLogoffActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiLogoffActionPerformed
         logoff();
     }//GEN-LAST:event_jmiLogoffActionPerformed
@@ -274,6 +275,26 @@ public class GUIPrincipal extends javax.swing.JFrame implements InternalFrameLis
             encerrar();
         }
     }//GEN-LAST:event_jmiEncerrarKeyPressed
+
+    private void jmiPersonagensActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiPersonagensActionPerformed
+        abrirGUIPersonagens();
+    }//GEN-LAST:event_jmiPersonagensActionPerformed
+
+    private void jmiPersonagensKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jmiPersonagensKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            abrirGUIPersonagens();
+        }
+    }//GEN-LAST:event_jmiPersonagensKeyPressed
+
+    private void jmiFichasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiFichasActionPerformed
+        abrirGUIFichas();
+    }//GEN-LAST:event_jmiFichasActionPerformed
+
+    private void jmiFichasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jmiFichasKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            abrirGUIFichas();
+        }
+    }//GEN-LAST:event_jmiFichasKeyPressed
 
     /**
      * @param args the command line arguments
@@ -319,7 +340,9 @@ public class GUIPrincipal extends javax.swing.JFrame implements InternalFrameLis
     private javax.swing.JPanel jPanelPerfil;
     private javax.swing.JDesktopPane jdpPrincipal;
     private javax.swing.JMenuItem jmiEncerrar;
+    private javax.swing.JMenuItem jmiFichas;
     private javax.swing.JMenuItem jmiLogoff;
+    private javax.swing.JMenuItem jmiPersonagens;
     // End of variables declaration//GEN-END:variables
 
     @Override
@@ -329,20 +352,17 @@ public class GUIPrincipal extends javax.swing.JFrame implements InternalFrameLis
 
     @Override
     public void internalFrameClosing(InternalFrameEvent ife) {
-        JInternalFrame iFrame = ife.getInternalFrame();
-        if(iFrame instanceof GUILogin)
-            usuarioVOLogado = ((GUILogin) iFrame).getUsuarioVOLogado();
+
     }
 
     @Override
     public void internalFrameClosed(InternalFrameEvent ife) {
         JInternalFrame iFrame = ife.getInternalFrame();
-        if(iFrame instanceof GUILogin) {
-                flagGUILogin = false;
-                preencherPerfil();
-        }
-        else if(iFrame instanceof GUIPersonagens) {
+        if(iFrame instanceof GUIPersonagens) {
             flagGUIPersonagens = false;
+        }
+        else if(iFrame instanceof GUIFichas) {
+            flagGUIFichas = false;
         }
     }
 

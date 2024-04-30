@@ -79,8 +79,11 @@ public final class PersonagemVO extends ObjetoVO
     public void setNome(String nome) {this.nome = nome;}
 
     public int getNivel() {return nivel;}
-    public void setNivel(int nivel) {this.nivel = nivel;}
-    public void setNivelPeloXp() {
+    public void setNivel(int nivel) {
+        this.nivel = nivel;
+        setXpPeloNivel();
+    }
+    private void setNivelPeloXp() {
         if(xp < 300)
             nivel = 1;
         else if(xp < 900)
@@ -125,8 +128,11 @@ public final class PersonagemVO extends ObjetoVO
     }
 
     public int getXp() {return xp;}
-    public void setXp(int xp) {this.xp = xp;}
-    public void setXpPeloNivel() {
+    public void setXp(int xp) {
+        this.xp = xp;
+        setNivelPeloXp();
+    }
+    private void setXpPeloNivel() {
         switch(nivel) {
             case 1:
             {

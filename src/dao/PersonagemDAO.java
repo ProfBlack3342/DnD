@@ -5,7 +5,7 @@
  */
 package dao;
 
-import exception.NoUserFoundException;
+import exception.NoDataFoundException;
 import exception.ForbiddenArgumentTypeException;
 import java.sql.SQLException;
 import modelo.ObjetoVO;
@@ -22,12 +22,12 @@ public final class PersonagemDAO extends ObjetoDAO implements IDAO {
     }
 
     @Override
-    public ObjetoVO[] listar() throws SQLException, NoUserFoundException {
+    public ObjetoVO[] listar() throws SQLException, NoDataFoundException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public ObjetoVO[] pesquisar(String query) throws SQLException, NoUserFoundException {
+    public ObjetoVO[] pesquisar(String query) throws SQLException, NoDataFoundException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

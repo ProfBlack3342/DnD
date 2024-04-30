@@ -5,7 +5,8 @@
  */
 package objetosFront;
 
-import enums.NomesSkillEnum;
+import enums.AtributosEnum;
+import enums.PericiasEnum;
 import modelo.*;
 
 /**
@@ -17,14 +18,15 @@ public class FichaPersonagem
     // Objetos necessários
     private final UsuarioVO usuario;
     private final PersonagemVO personagem;
-    private final HabilidadesPersonagemVO habilidadesPersonagem;
-    private final ProficienciasSkillPersonagemVO proficienciasSkillPersonagem;
+    private final ImagemVO imagemPersonagem;
+    private final AtributosVO habilidadesPersonagem;
+    private final PericiasVO proficienciasSkillPersonagem;
     private final ClasseVO classe;
     private final SubclasseVO subclasse;
     private final RacaVO raca;
     private final SubRacaVO subraca;
     private final BackgroundVO background;
-    private final BackstoryPersonagemVO backstory;
+    private final BackstoryVO backstory;
     private final DetalhesPersonagemVO detalhes;
     
     // Cabeçalho 1
@@ -165,10 +167,11 @@ public class FichaPersonagem
     //Lista de Spells
 
     
-    public FichaPersonagem(UsuarioVO usuario, PersonagemVO personagem, HabilidadesPersonagemVO habilidadesPersonagem, ProficienciasSkillPersonagemVO proficienciasSkillPersonagem, ClasseVO classe, SubclasseVO subclasse, RacaVO raca, SubRacaVO subraca, BackgroundVO background, BackstoryPersonagemVO backstory, DetalhesPersonagemVO detalhes) {
+    public FichaPersonagem(UsuarioVO usuario, PersonagemVO personagem, ImagemVO imagemPersonagem, AtributosVO habilidadesPersonagem, PericiasVO proficienciasSkillPersonagem, ClasseVO classe, SubclasseVO subclasse, RacaVO raca, SubRacaVO subraca, BackgroundVO background, BackstoryVO backstory, DetalhesPersonagemVO detalhes) {
         // Objetos necessários
         this.usuario = usuario;
         this.personagem = personagem;
+        this.imagemPersonagem = imagemPersonagem;
         this.habilidadesPersonagem = habilidadesPersonagem;
         this.proficienciasSkillPersonagem = proficienciasSkillPersonagem;
         this.classe = classe;
@@ -189,12 +192,12 @@ public class FichaPersonagem
         nomeBackground = this.background.getNome();
         
         // Pontos de Atributo e seus modificadores
-        strTotal = this.habilidadesPersonagem.getValorSTRBase() + this.raca.getBonusSTR();
-        dexTotal = this.habilidadesPersonagem.getValorDEXBase() + this.raca.getBonusDEX();
-        conTotal = this.habilidadesPersonagem.getValorCONBase() + this.raca.getBonusCON();
-        intTotal = this.habilidadesPersonagem.getValorINTBase() + this.raca.getBonusINT();
-        wisTotal = this.habilidadesPersonagem.getValorWISBase() + this.raca.getBonusWIS();
-        chaTotal = this.habilidadesPersonagem.getValorCHABase() + this.raca.getBonusCHA();
+        strTotal = this.habilidadesPersonagem.getValorAtributoPersonagem(AtributosEnum.STR) + this.raca.getBonusSTR();
+        dexTotal = this.habilidadesPersonagem.getValorAtributoPersonagem(AtributosEnum.DEX) + this.raca.getBonusDEX();
+        conTotal = this.habilidadesPersonagem.getValorAtributoPersonagem(AtributosEnum.CON) + this.raca.getBonusCON();
+        intTotal = this.habilidadesPersonagem.getValorAtributoPersonagem(AtributosEnum.INT) + this.raca.getBonusINT();
+        wisTotal = this.habilidadesPersonagem.getValorAtributoPersonagem(AtributosEnum.WIS) + this.raca.getBonusWIS();
+        chaTotal = this.habilidadesPersonagem.getValorAtributoPersonagem(AtributosEnum.CHA) + this.raca.getBonusCHA();
         modSTR = (int) Math.floor( (strTotal - 10) / 2 );
         modDEX = (int) Math.floor( (dexTotal - 10) / 2 );
         modCON = (int) Math.floor( (conTotal - 10) / 2 );
@@ -210,12 +213,12 @@ public class FichaPersonagem
         
         // Saving Throws e suas proficiencias
         proficienciasSaves = new boolean[] {
-            this.habilidadesPersonagem.isProficienteSaveSTR(),
-            this.habilidadesPersonagem.isProficienteSaveDEX(),
-            this.habilidadesPersonagem.isProficienteSaveCON(),
-            this.habilidadesPersonagem.isProficienteSaveINT(),
-            this.habilidadesPersonagem.isProficienteSaveWIS(),
-            this.habilidadesPersonagem.isProficienteSaveCHA()
+            this.habilidadesPersonagem.getProficienciaAtributo(AtributosEnum.STR),
+            this.habilidadesPersonagem.getProficienciaAtributo(AtributosEnum.DEX),
+            this.habilidadesPersonagem.getProficienciaAtributo(AtributosEnum.CON),
+            this.habilidadesPersonagem.getProficienciaAtributo(AtributosEnum.INT),
+            this.habilidadesPersonagem.getProficienciaAtributo(AtributosEnum.WIS),
+            this.habilidadesPersonagem.getProficienciaAtributo(AtributosEnum.CHA)
         };
         valoresSaves = new int[] {
             modSTR,
@@ -232,26 +235,26 @@ public class FichaPersonagem
         
         // Skills e suas proficiencias
         proficienciasSkills = new boolean[] {
-            this.proficienciasSkillPersonagem.isProficienteAtletismo(),
-            this.proficienciasSkillPersonagem.isProficienteAcrobacia(),
-            this.proficienciasSkillPersonagem.isProficienteFurtividade(),
-            this.proficienciasSkillPersonagem.isProficientePrestidigitacao(),
-            this.proficienciasSkillPersonagem.isProficienteArcanismo(),
-            this.proficienciasSkillPersonagem.isProficienteHistoria(),
-            this.proficienciasSkillPersonagem.isProficienteInvestigacao(),
-            this.proficienciasSkillPersonagem.isProficienteNatureza(),
-            this.proficienciasSkillPersonagem.isProficienteReligiao(),
-            this.proficienciasSkillPersonagem.isProficienteAdestrarAnimais(),
-            this.proficienciasSkillPersonagem.isProficienteIntuicao(),
-            this.proficienciasSkillPersonagem.isProficienteMedicina(),
-            this.proficienciasSkillPersonagem.isProficientePercepcao(),
-            this.proficienciasSkillPersonagem.isProficienteSobrevivencia(),
-            this.proficienciasSkillPersonagem.isProficienteAtuacao(),
-            this.proficienciasSkillPersonagem.isProficienteEnganacao(),
-            this.proficienciasSkillPersonagem.isProficienteIntimidacao(),
-            this.proficienciasSkillPersonagem.isProficientePersuasao()
+            this.proficienciasSkillPersonagem.getProficienciaPericia(PericiasEnum.ATLETISMO),
+            this.proficienciasSkillPersonagem.getProficienciaPericia(PericiasEnum.ACROBACIA),
+            this.proficienciasSkillPersonagem.getProficienciaPericia(PericiasEnum.FURTIVIDADE),
+            this.proficienciasSkillPersonagem.getProficienciaPericia(PericiasEnum.PRESTIDIGITACAO),
+            this.proficienciasSkillPersonagem.getProficienciaPericia(PericiasEnum.ARCANISMO),
+            this.proficienciasSkillPersonagem.getProficienciaPericia(PericiasEnum.HISTORIA),
+            this.proficienciasSkillPersonagem.getProficienciaPericia(PericiasEnum.INVESTIGACAO),
+            this.proficienciasSkillPersonagem.getProficienciaPericia(PericiasEnum.NATUREZA),
+            this.proficienciasSkillPersonagem.getProficienciaPericia(PericiasEnum.RELIGIAO),
+            this.proficienciasSkillPersonagem.getProficienciaPericia(PericiasEnum.ADESTRAR_ANIMAIS),
+            this.proficienciasSkillPersonagem.getProficienciaPericia(PericiasEnum.INTUICAO),
+            this.proficienciasSkillPersonagem.getProficienciaPericia(PericiasEnum.MEDICINA),
+            this.proficienciasSkillPersonagem.getProficienciaPericia(PericiasEnum.PERCEPCAO),
+            this.proficienciasSkillPersonagem.getProficienciaPericia(PericiasEnum.SOBREVIVENCIA),
+            this.proficienciasSkillPersonagem.getProficienciaPericia(PericiasEnum.ATUACAO),
+            this.proficienciasSkillPersonagem.getProficienciaPericia(PericiasEnum.ENGANACAO),
+            this.proficienciasSkillPersonagem.getProficienciaPericia(PericiasEnum.INTIMIDACAO),
+            this.proficienciasSkillPersonagem.getProficienciaPericia(PericiasEnum.PERSUASAO)
         };
-        nomesSkills = NomesSkillEnum.getNomesPossiveis();
+        nomesSkills = PericiasEnum.getNomesPossiveis();
         
         // Sentidos
 

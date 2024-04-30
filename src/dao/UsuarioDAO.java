@@ -9,7 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-import exception.NoUserFoundException;
+import exception.NoDataFoundException;
 import exception.ForbiddenArgumentTypeException;
 import java.util.ArrayList;
 import objetosFront.Login;
@@ -45,9 +45,9 @@ public final class UsuarioDAO extends ObjetoDAO implements IDAO
      * @param lVO Objeto que contém os dados necessários para o login
      * @return O UsuarioVO correspondende aos dados informados, se corretos. Senão retorna null.
      * @throws SQLException Se houver algum erro na comunicação com o banco de dados
-     * @throws NoUserFoundException Se os dados informados não corresponderem a nenhum usuário do banco de dados
+     * @throws NoDataFoundException Se os dados informados não corresponderem a nenhum usuário do banco de dados
      */
-    public UsuarioVO login(Login lVO) throws SQLException, NoUserFoundException
+    public UsuarioVO login(Login lVO) throws SQLException, NoDataFoundException
     {
         String sql = "SELECT * FROM usuario "
                 + "WHERE nomeUsuario = ? "
@@ -87,7 +87,7 @@ public final class UsuarioDAO extends ObjetoDAO implements IDAO
                         return null;
                 }
                 else
-                    throw new NoUserFoundException("Erro em UsuarioDAO.login: Usuário e/ou Senha inválidos!");
+                    throw new NoDataFoundException("Erro em UsuarioDAO.login: Usuário e/ou Senha inválidos!");
             }
         }
         catch(SQLException SE)
@@ -141,7 +141,7 @@ public final class UsuarioDAO extends ObjetoDAO implements IDAO
      * @throws SQLException Se houver algum erro na comunicação com o banco de dados
      */
     @Override
-    public UsuarioVO[] listar() throws SQLException, NoUserFoundException
+    public UsuarioVO[] listar() throws SQLException, NoDataFoundException
     {
         String sql = "SELECT * FROM usuario";
         ArrayList<UsuarioVO> listaUsuarios = new ArrayList<>();
@@ -173,7 +173,7 @@ public final class UsuarioDAO extends ObjetoDAO implements IDAO
             if(!listaUsuarios.isEmpty())
                 return listaUsuarios.toArray(new UsuarioVO[listaUsuarios.size()]);
             else
-                throw new NoUserFoundException("Erro em UsuarioDAO.listar: Nenhum usuário registrado!");
+                throw new NoDataFoundException("Erro em UsuarioDAO.listar: Nenhum usuário registrado!");
         }
         catch(SQLException se)
         {
@@ -186,10 +186,10 @@ public final class UsuarioDAO extends ObjetoDAO implements IDAO
      * @param query
      * @return
      * @throws SQLException Se houver algum erro na comunicação com o banco de dados
-     * @throws NoUserFoundException Se os dados informados não corresponderem a nenhum usuário do banco de dados
+     * @throws NoDataFoundException Se os dados informados não corresponderem a nenhum usuário do banco de dados
      */
     @Override
-    public UsuarioVO[] pesquisar(String query) throws SQLException, NoUserFoundException
+    public UsuarioVO[] pesquisar(String query) throws SQLException, NoDataFoundException
     {
         String sql = "SELECT * FROM usuario "
                 + "WHERE " + query;
@@ -227,7 +227,7 @@ public final class UsuarioDAO extends ObjetoDAO implements IDAO
         if(!listaUsuarios.isEmpty())
             return listaUsuarios.toArray(new UsuarioVO[listaUsuarios.size()]);
         else
-            throw new NoUserFoundException("Erro em UsuarioDAO.pesquisar: Nenhum usuário encontrado!");
+            throw new NoDataFoundException("Erro em UsuarioDAO.pesquisar: Nenhum usuário encontrado com os dados informados!");
     }
     
     /**

@@ -8,7 +8,7 @@ import java.sql.SQLException;
 
 import dao.DAOFactory;
 import dao.UsuarioDAO;
-import exception.NoUserFoundException;
+import exception.NoDataFoundException;
 import exception.ForbiddenArgumentTypeException;
 import objetosFront.Login;
 import modelo.UsuarioVO;
@@ -24,9 +24,9 @@ public final class UsuarioServicos
      * @param lVO
      * @return
      * @throws SQLException 
-     * @throws NoUserFoundException 
+     * @throws NoDataFoundException 
      */
-    public UsuarioVO loginUsuario(Login lVO) throws SQLException, NoUserFoundException
+    public UsuarioVO loginUsuario(Login lVO) throws SQLException, NoDataFoundException
     {
         UsuarioDAO uDAO = DAOFactory.getUsuarioDAO();
         return uDAO.login(lVO);
@@ -48,9 +48,9 @@ public final class UsuarioServicos
      * 
      * @return
      * @throws SQLException 
-     * @throws NoUserFoundException 
+     * @throws NoDataFoundException 
      */
-    public UsuarioVO[] listarUsuarios() throws SQLException, NoUserFoundException
+    public UsuarioVO[] listarUsuarios() throws SQLException, NoDataFoundException
     {
         UsuarioDAO uDAO = DAOFactory.getUsuarioDAO();
         return uDAO.listar();
@@ -61,9 +61,9 @@ public final class UsuarioServicos
      * @param pesquisa
      * @return
      * @throws SQLException 
-     * @throws NoUserFoundException 
+     * @throws NoDataFoundException 
      */
-    public UsuarioVO[] pesquisarUsuario(String pesquisa) throws SQLException, NoUserFoundException
+    public UsuarioVO[] pesquisarUsuario(String pesquisa) throws SQLException, NoDataFoundException
     {
         UsuarioDAO uDAO = DAOFactory.getUsuarioDAO();
         return uDAO.pesquisar(pesquisa);

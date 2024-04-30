@@ -7,7 +7,7 @@ package servicos;
 
 import dao.DAOFactory;
 import dao.ImagemUsuarioDAO;
-import exception.NoUserFoundException;
+import exception.NoDataFoundException;
 import java.sql.SQLException;
 import modelo.ImagemVO;
 
@@ -17,7 +17,7 @@ import modelo.ImagemVO;
  */
 public class ImagemServicos {
     
-    public ImagemVO[] pesquisarImagemUsuario(String query) throws SQLException, NoUserFoundException {
+    public ImagemVO[] pesquisarImagemUsuario(String query) throws SQLException, NoDataFoundException {
         ImagemUsuarioDAO iuDAO = DAOFactory.getImagemDAO();
         return iuDAO.pesquisar(query);
     }
