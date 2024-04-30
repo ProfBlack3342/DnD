@@ -13,14 +13,9 @@ import java.util.HashMap;
  */
 public class PericiasVO extends ObjetoVO
 {
-    private final int idUsuario;
-    private final int idPersonagem;
-    
     private final HashMap<PericiasEnum, Boolean> proficienciasPericias;
 
-    public PericiasVO(int idUsuario, int idPersonagem) {
-        this.idUsuario = idUsuario;
-        this.idPersonagem = idPersonagem;
+    public PericiasVO() {
         
         proficienciasPericias = new HashMap<>();
         proficienciasPericias.put(PericiasEnum.ATLETISMO, false);
@@ -43,22 +38,16 @@ public class PericiasVO extends ObjetoVO
         proficienciasPericias.put(PericiasEnum.PERSUASAO, false);
     }
 
-    public PericiasVO(int idUsuario, int idPersonagem, HashMap<PericiasEnum, Boolean> proficienciasPericias) {
-        this.idUsuario = idUsuario;
-        this.idPersonagem = idPersonagem;
+    public PericiasVO(HashMap<PericiasEnum, Boolean> proficienciasPericias) {
         this.proficienciasPericias = proficienciasPericias;
     }
-
-    public int getIdUsuario() {return idUsuario;}
-    
-    public int getIdPersonagem() {return idPersonagem;}
 
     /**
      * Retorna se o personagem é proficiente em uma pericia
      * @param pericia A pericia que se deseja saber a proficiencia
      * @return Verdadeiro se for proficiente, Falso se não for
      */
-    public boolean getProficienciaPericia(PericiasEnum pericia) {
+    public boolean isProficientePericia(PericiasEnum pericia) {
         return proficienciasPericias.get(pericia);
     }
     

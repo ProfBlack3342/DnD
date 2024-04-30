@@ -5,6 +5,9 @@
  */
 package modelo;
 
+import java.util.Arrays;
+import java.util.ArrayList;
+
 /**
  *
  * @author 181700271
@@ -12,18 +15,18 @@ package modelo;
 public final class PersonagemVO extends ObjetoVO
 {
     private int idUsuario = -1;
-    private int idImagemPersonagem = -1;
-    private int idClasse = -1;
-    private int idSubclasse = -1;
-    private int idRaca = -1;
-    private int idSubraca = -1;
-    private int idBackground = -1;
-    private int idProficienciasArmadura = -1;
-    private int idProficienciasLinguagem = -1;
-    private int idProficienciasSave = -1;
-    private int idProficienciasSkill = -1;
-    private int idProficienciasFerramenta = -1;
-    private int idProficienciasArmas = -1;
+    private ImagemVO imagemPersonagem;
+    private ClasseVO classe;
+    private SubclasseVO subclasse;
+    private RacaVO raca;
+    private SubRacaVO subraca;
+    private BackgroundVO background;
+    
+    private ProficienciasPersonagemVO proficienciasPersonagem;
+    private AtributosPersonagemVO valoresEProficienciasAtributosPersonagem;
+    private PericiasPersonagemVO proficienciasPericiasPersonagem;
+    private final ArrayList<FeatVO> featsPersonagem = new ArrayList<>();
+    private EquipamentoVO[] equipamentosPersonagem;
     
     private String nome = "Sem Nome";
     private int nivel = 1;
@@ -39,50 +42,48 @@ public final class PersonagemVO extends ObjetoVO
     public int getIdUsuario() {return idUsuario;}
     public void setIdUsuario(int idUsuario) {this.idUsuario = idUsuario;}
 
-    public int getIdImagemPersonagem() {return idImagemPersonagem;}
-    public void setIdImagemPersonagem(int idImagemPersonagem) {this.idImagemPersonagem = idImagemPersonagem;}
+    public ImagemVO getImagemPersonagem() {return imagemPersonagem;}
+    public void setImagemPersonagem(ImagemVO imagemPersonagem) {this.imagemPersonagem = imagemPersonagem;}
 
-    public int getIdClasse() {return idClasse;}
-    public void setIdClasse(int idClasse) {this.idClasse = idClasse;}
+    public ClasseVO getClasse() {return classe;}
+    public void setClasse(ClasseVO classe) {this.classe = classe;}
 
-    public int getIdSubclasse() {return idSubclasse;}
-    public void setIdSubclasse(int idSubclasse) {this.idSubclasse = idSubclasse;}
+    public SubclasseVO getSubclasse() {return subclasse;}
+    public void setSubclasse(SubclasseVO subclasse) {this.subclasse = subclasse;}
 
-    public int getIdRaca() {return idRaca;}
-    public void setIdRaca(int idRaca) {this.idRaca = idRaca;}
+    public RacaVO getRaca() {return raca;}
+    public void setRaca(RacaVO raca) {this.raca = raca;}
 
-    public int getIdSubraca() {return idSubraca;}
-    public void setIdSubraca(int idSubraca) {this.idSubraca = idSubraca;}
+    public SubRacaVO getSubraca() {return subraca;}
+    public void setSubraca(SubRacaVO subraca) {this.subraca = subraca;}
 
-    public int getIdBackground() {return idBackground;}
-    public void setIdBackground(int idBackground) {this.idBackground = idBackground;}
+    public BackgroundVO getBackground() {return background;}
+    public void setBackground(BackgroundVO background) {this.background = background;}
 
-    public int getIdProficienciasArmadura() {return idProficienciasArmadura;}
-    public void setIdProficienciasArmadura(int idProficienciasArmadura) {this.idProficienciasArmadura = idProficienciasArmadura;}
+    public ProficienciasPersonagemVO getProficienciasPersonagem() {return proficienciasPersonagem;}
+    public void setProficienciasPersonagem(ProficienciasPersonagemVO proficienciasPersonagem) {this.proficienciasPersonagem = proficienciasPersonagem;}
 
-    public int getIdProficienciasLinguagem() {return idProficienciasLinguagem;}
-    public void setIdProficienciasLinguagem(int idProficienciasLinguagem) {this.idProficienciasLinguagem = idProficienciasLinguagem;}
+    public AtributosPersonagemVO getValoresEProficienciasAtributosPersonagem() {return valoresEProficienciasAtributosPersonagem;}
+    public void setValoresEProficienciasAtributosPersonagem(AtributosPersonagemVO valoresEProficienciasAtributosPersonagem) {this.valoresEProficienciasAtributosPersonagem = valoresEProficienciasAtributosPersonagem;}
 
-    public int getIdProficienciasSave() {return idProficienciasSave;}
-    public void setIdProficienciasSave(int idProficienciasSave) {this.idProficienciasSave = idProficienciasSave;}
+    public PericiasPersonagemVO getProficienciasPericiasPersonagem() {return proficienciasPericiasPersonagem;}
+    public void setProficienciasPericiasPersonagem(PericiasPersonagemVO proficienciasPericiasPersonagem) {this.proficienciasPericiasPersonagem = proficienciasPericiasPersonagem;}
 
-    public int getIdProficienciasSkill() {return idProficienciasSkill;}
-    public void setIdProficienciasSkill(int idProficienciasSkill) {this.idProficienciasSkill = idProficienciasSkill;}
+    public FeatVO[] getFeatsPersonagem() {return featsPersonagem.toArray(new FeatVO[featsPersonagem.size()]);}
+    public void setFeatsPersonagem(ArrayList<FeatVO> featsPersonagem) {
+        this.featsPersonagem.clear();
+        this.featsPersonagem.addAll(featsPersonagem);
+    }
+    public void setFeatsPersonagem(FeatVO[] featsPersonagem) {
+        this.featsPersonagem.clear();
+        this.featsPersonagem.addAll(Arrays.asList(featsPersonagem));
+    }
+    public void addFeatPersonagem(FeatVO featPersonagem) {this.featsPersonagem.add(featPersonagem);}
+    public void removeFeatPersonagem(int indice) {featsPersonagem.remove(indice);}
 
-    public int getIdProficienciasFerramenta() {return idProficienciasFerramenta;}
-    public void setIdProficienciasFerramenta(int idProficienciasFerramenta) {this.idProficienciasFerramenta = idProficienciasFerramenta;}
-
-    public int getIdProficienciasArmas() {return idProficienciasArmas;}
-    public void setIdProficienciasArmas(int idProficienciasArmas) {this.idProficienciasArmas = idProficienciasArmas;}
-    
     public String getNome() {return nome;}
     public void setNome(String nome) {this.nome = nome;}
 
-    public int getNivel() {return nivel;}
-    public void setNivel(int nivel) {
-        this.nivel = nivel;
-        setXpPeloNivel();
-    }
     private void setNivelPeloXp() {
         if(xp < 300)
             nivel = 1;
@@ -125,12 +126,6 @@ public final class PersonagemVO extends ObjetoVO
         else
             nivel = 20;
         
-    }
-
-    public int getXp() {return xp;}
-    public void setXp(int xp) {
-        this.xp = xp;
-        setNivelPeloXp();
     }
     private void setXpPeloNivel() {
         switch(nivel) {
@@ -238,7 +233,19 @@ public final class PersonagemVO extends ObjetoVO
                 break;
         }
     }
-
+    
+    public int getNivel() {return nivel;}
+    public void setNivel(int nivel) {
+        this.nivel = nivel;
+        setXpPeloNivel();
+    }
+    
+    public int getXp() {return xp;}
+    public void setXp(int xp) {
+        this.xp = xp;
+        setNivelPeloXp();
+    }
+    
     public int getHpMaximo() {return hpMaximo;}
     public void setHpMaximo(int hpMaximo) {this.hpMaximo = hpMaximo;}
 
@@ -251,17 +258,15 @@ public final class PersonagemVO extends ObjetoVO
     public int getArmorClass() {return armorClass;}
     public void setArmorClass(int armorClass) {this.armorClass = armorClass;}
 
-    public int getBonusProficiencia() {
-        return bonusProficiencia;
-    }
-
-    public void setBonusProficiencia(int bonusProficiencia) {
-        this.bonusProficiencia = bonusProficiencia;
-    }
+    public int getBonusProficiencia() {return bonusProficiencia;}
+    public void setBonusProficiencia(int bonusProficiencia) {this.bonusProficiencia = bonusProficiencia;}
 
     public int getIniciativa() {return iniciativa;}
     public void setIniciativa(int iniciativa) {this.iniciativa = iniciativa;}
     
     public boolean isInspirado() {return inspirado;}
     public void setInspirado(boolean inspirado) {this.inspirado = inspirado;}
+
+    public EquipamentoVO[] getEquipamentosPersonagem() {return equipamentosPersonagem;}
+    public void setEquipamentosPersonagem(EquipamentoVO[] equipamentosPersonagem) {this.equipamentosPersonagem = equipamentosPersonagem;}
 }

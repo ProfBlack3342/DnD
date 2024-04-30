@@ -5,8 +5,8 @@
  */
 package view;
 
-import com.sun.glass.events.KeyEvent;
 import exception.NoDataFoundException;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.sql.SQLException;

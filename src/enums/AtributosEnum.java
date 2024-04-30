@@ -23,4 +23,7 @@ public enum AtributosEnum {
         this.nomePT = nomePT;
         this.nomeEN = nomeEN;
     }
+    
+    public String getNomePT() {return nomePT;}
+    public String getNomeEN(){return nomeEN;}
 }

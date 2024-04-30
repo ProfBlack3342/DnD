@@ -1,7 +1,6 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package modelo;
 
@@ -9,69 +8,77 @@ import java.util.HashMap;
 
 /**
  *
- * @author 181700271
+ * @author dudup
  */
 public class ProficienciasVO extends ObjetoVO
 {
-    private final int idUsuario;
-    private final int idPersonagem;
-    
-    private final HashMap<ArmaduraVO, Boolean> proficienciasArmaduras;
-    private final HashMap<LinguagemVO, Boolean> proficienciasLinguagens;
-    private final HashMap<FerramentaVO, Boolean> proficienciasFerramentas;
-    private final HashMap<ArmaVO, Boolean> proficienciasArmas;
+    private ArmaduraVO[] proficienciasArmaduras;
+    private LinguagemVO[] proficienciasLinguagens;
+    private FerramentaVO[] proficienciasFerramentas;
+    private ArmaVO[] proficienciasArmas;
 
-    public ProficienciasVO(int idUsuario, int idPersonagem) {
-        this.idUsuario = idUsuario;
-        this.idPersonagem = idPersonagem;
-        proficienciasArmaduras = new HashMap<>();
-        proficienciasLinguagens = new HashMap<>();
-        proficienciasFerramentas = new HashMap<>();
-        proficienciasArmas = new HashMap<>();
+    public ProficienciasVO() {
+        proficienciasArmaduras = new ArmaduraVO[0];
+        proficienciasLinguagens = new LinguagemVO[0];
+        proficienciasFerramentas = new FerramentaVO[0];
+        proficienciasArmas = new ArmaVO[0];
     }
 
-    public ProficienciasVO(int idUsuario, int idPersonagem, HashMap<ArmaduraVO, Boolean> proficienciasArmaduras, HashMap<LinguagemVO, Boolean> proficienciasLinguagens, HashMap<FerramentaVO, Boolean> proficienciasFerramentas, HashMap<ArmaVO, Boolean> proficienciasArmas) {
-        this.idUsuario = idUsuario;
-        this.idPersonagem = idPersonagem;
+    public ProficienciasVO(ArmaduraVO[] proficienciasArmaduras, LinguagemVO[] proficienciasLinguagens, FerramentaVO[] proficienciasFerramentas, ArmaVO[] proficienciasArmas) {
         this.proficienciasArmaduras = proficienciasArmaduras;
         this.proficienciasLinguagens = proficienciasLinguagens;
         this.proficienciasFerramentas = proficienciasFerramentas;
         this.proficienciasArmas = proficienciasArmas;
     }
 
-    public int getIdUsuario() {return idUsuario;}
+    public ArmaduraVO[] getProficienciasArmaduras() {return proficienciasArmaduras;}
+    public void setProficienciaArmadura(ArmaduraVO[] proficienciasArmaduras) {this.proficienciasArmaduras = proficienciasArmaduras;}
+    public boolean isProficienteArmadura(ArmaduraVO armadura) {
+        int idArmadura = armadura.getId();
+        for(ArmaduraVO a : proficienciasArmaduras)
+        {
+            if(idArmadura == a.getId())
+                return true;
+        }
+        return false;
+    }
+    
+    public LinguagemVO[] getProficienciasLinguagens() {return proficienciasLinguagens;}
+    public void setProficienciaLinguagem(LinguagemVO[] proficienciasLinguagens) {this.proficienciasLinguagens = proficienciasLinguagens;}
+    public boolean isProficienteLinguagem(LinguagemVO linguagem) {
+        int idLinguagem = linguagem.getId();
+        for(LinguagemVO l : proficienciasLinguagens)
+        {
+            if(idLinguagem == l.getId())
+                return true;
+        }
+        return false;
+    }
+    
 
-    public int getIdPersonagem() {return idPersonagem;}
-
-    public boolean getProficienciaArmadura(ArmaduraVO armadura) {
-        return proficienciasArmaduras.get(armadura);
+    public FerramentaVO[] getProficienciasFerramentas() {return proficienciasFerramentas;}
+    public void setProficienciaFerramenta(FerramentaVO[] proficienciasFerramentas) {this.proficienciasFerramentas = proficienciasFerramentas;}
+    public boolean isProficienteFerramenta(FerramentaVO ferramenta)
+    {
+        int idFerramenta = ferramenta.getId();
+        for(FerramentaVO f : proficienciasFerramentas) {
+            if(idFerramenta == f.getId()) {
+                return true;
+            }
+        }
+        return false;
     }
-    public void setProficienciaArmadura(ArmaduraVO armadura, boolean proficiencia) {
-        proficienciasArmaduras.remove(armadura);
-        proficienciasArmaduras.put(armadura, proficiencia);
-    }
-
-    public boolean getProficienciaLinguagem(LinguagemVO linguagem) {
-        return proficienciasLinguagens.get(linguagem);
-    }
-    public void setProficienciaLinguagem(LinguagemVO linguagem, boolean proficiencia) {
-        proficienciasLinguagens.remove(linguagem);
-        proficienciasLinguagens.put(linguagem, proficiencia);
-    }
-
-    public boolean getProficienciaFerramenta(FerramentaVO ferramenta) {
-        return proficienciasFerramentas.get(ferramenta);
-    }
-    public void setProficienciaFerramenta(FerramentaVO ferramenta, boolean proficiencia) {
-        proficienciasFerramentas.remove(ferramenta);
-        proficienciasFerramentas.put(ferramenta, proficiencia);
-    }
-
-    public boolean getProficienciaArma(ArmaVO arma) {
-        return proficienciasArmas.get(arma);
-    }
-    public void setProficienciaArma(ArmaVO arma, boolean proficiencia) {
-        proficienciasArmas.remove(arma);
-        proficienciasArmas.put(arma, proficiencia);
+    
+    
+    public ArmaVO[] getProficienciasArmas() {return proficienciasArmas;}
+    public void setProficienciaArma(ArmaVO[] proficienciasArmas) {this.proficienciasArmas = proficienciasArmas;}
+    public boolean isProficienteArma(ArmaVO arma)
+    {
+        int idArma = arma.getId();
+        for(ArmaVO a : proficienciasArmas) {
+            if(idArma == a.getId())
+                return true;
+        }
+        return false;
     }
 }

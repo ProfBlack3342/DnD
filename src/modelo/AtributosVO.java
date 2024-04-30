@@ -13,15 +13,10 @@ import java.util.HashMap;
  */
 public class AtributosVO extends ObjetoVO
 {
-    private final int idUsuario;
-    private final int idPersonagem;
-    
     private final HashMap<AtributosEnum, Integer> valoresAtributos;
     private final HashMap<AtributosEnum, Boolean> proficienciasAtributos;
 
-    public AtributosVO(int idUsuario, int idPersonagem, int valorSTR, int valorDEX, int valorCON, int valorINT, int valorWIS, int valorCHA) {
-        this.idUsuario = idUsuario;
-        this.idPersonagem = idPersonagem;
+    public AtributosVO(int valorSTR, int valorDEX, int valorCON, int valorINT, int valorWIS, int valorCHA) {
         
         valoresAtributos = new HashMap<>();
         valoresAtributos.put(AtributosEnum.STR, valorSTR);
@@ -40,23 +35,17 @@ public class AtributosVO extends ObjetoVO
         proficienciasAtributos.put(AtributosEnum.CHA, false);
     }
 
-    public AtributosVO(int idUsuario, int idPersonagem, HashMap<AtributosEnum, Integer> valoresAtributos, HashMap<AtributosEnum, Boolean> proficienciasAtributos) {
-        this.idUsuario = idUsuario;
-        this.idPersonagem = idPersonagem;
+    public AtributosVO(HashMap<AtributosEnum, Integer> valoresAtributos, HashMap<AtributosEnum, Boolean> proficienciasAtributos) {
         this.valoresAtributos = valoresAtributos;
         this.proficienciasAtributos = proficienciasAtributos;
     }
-    
-    public int getIdUsuario() {return idUsuario;}
-    
-    public int getIdPersonagem() {return idPersonagem;}
     
     /**
      * Retorna o valor de um atributo
      * @param atributo O atributo que se deseja saber o valor
      * @return O valor do atributo
      */
-    public int getValorAtributoPersonagem(AtributosEnum atributo) {
+    public int getValorAtributo(AtributosEnum atributo) {
         return valoresAtributos.get(atributo);
     }
 
@@ -75,7 +64,7 @@ public class AtributosVO extends ObjetoVO
      * @param atributo O atributo que se deseja saber a proficiencia
      * @return Verdadeiro se for proficiente, Falso se não for
      */
-    public boolean getProficienciaAtributo(AtributosEnum atributo) {
+    public boolean isProficienteAtributo(AtributosEnum atributo) {
         return proficienciasAtributos.get(atributo);
     }
 

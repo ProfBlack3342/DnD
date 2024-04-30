@@ -9,17 +9,15 @@ package modelo;
  *
  * @author 181700271
  */
-public class SubRacaVO extends ObjetoVO
+public final class SubRacaVO extends RacaVO
 {
-    private String nome;
+    private int idRaca;
 
-    public String getNome() {
-        return nome;
+    public SubRacaVO(String nome, String descricao, FeatRacaVO[] traits, AtributosVO bonusAtributos, PericiasVO proficienciasPericias, ProficienciasVO proficiencias, int idRaca) {
+        super(nome, descricao, traits, bonusAtributos, proficienciasPericias, proficiencias);
+        this.idRaca = idRaca;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-    
-    
+    public int getIdRaca() {return idRaca;}
+    public void setIdRaca(int idRaca) {this.idRaca = idRaca;}
 }

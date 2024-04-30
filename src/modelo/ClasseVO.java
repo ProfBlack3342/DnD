@@ -13,26 +13,37 @@ public class ClasseVO extends ObjetoVO
     private String nome;
     private String descricao;
     
-    private AtributosVO bonusAtributos;
+    private int dadoClasse;
+    private FeatClasseVO[] featsClasse;
+    private AtributosVO bonusEProficienciasAtributos;
     private PericiasVO proficienciasPericias;
     private ProficienciasVO proficiencias;
 
-    public ClasseVO(String nome, String descricao, AtributosVO bonusAtributos, PericiasVO proficienciasPericias, ProficienciasVO proficiencias) {
+    public ClasseVO(String nome, String descricao, int dadoClasse, FeatClasseVO[] featsClasse, AtributosVO bonusEProficienciasAtributos, PericiasVO proficienciasPericias, ProficienciasVO proficiencias) {
         this.nome = nome;
         this.descricao = descricao;
-        this.bonusAtributos = bonusAtributos;
+        this.dadoClasse = dadoClasse;
+        this.featsClasse = featsClasse;
+        this.bonusEProficienciasAtributos = bonusEProficienciasAtributos;
         this.proficienciasPericias = proficienciasPericias;
         this.proficiencias = proficiencias;
     }
 
+    
     public String getNome() {return nome;}
     public void setNome(String nome) {this.nome = nome;}
     
     public String getDescricao() {return descricao;}
     public void setDescricao(String descricao) {this.descricao = descricao;}
+
+    public int getDadoClasse() {return dadoClasse;}
+    public void setDadoClasse(int dadoClasse) {this.dadoClasse = dadoClasse;}
     
-    public AtributosVO getBonusAtributos() {return bonusAtributos;}
-    public void setBonusAtributos(AtributosVO bonusAtributos) {this.bonusAtributos = bonusAtributos;}
+    public FeatClasseVO[]getFeatsClasse() {return featsClasse;}
+    public void setFeatsClasse(FeatClasseVO[] featsClasse) {this.featsClasse = featsClasse;}
+    
+    public AtributosVO getBonusEProficienciasAtributos() {return bonusEProficienciasAtributos;}
+    public void setBonusEProficienciasAtributos(AtributosVO bonusEProficienciasAtributos) {this.bonusEProficienciasAtributos = bonusEProficienciasAtributos;}
     
     public PericiasVO getProficienciasPericias() {return proficienciasPericias;}
     public void setProficienciasPericias(PericiasVO proficienciasPericias) {this.proficienciasPericias = proficienciasPericias;}
