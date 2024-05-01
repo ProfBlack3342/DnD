@@ -14,7 +14,7 @@ import java.util.ArrayList;
  */
 public final class PersonagemVO extends ObjetoVO
 {
-    private int idUsuario = -1;
+    private int idUsuario;
     private ImagemVO imagemPersonagem;
     private ClasseVO classe;
     private SubclasseVO subclasse;
@@ -22,22 +22,26 @@ public final class PersonagemVO extends ObjetoVO
     private SubRacaVO subraca;
     private BackgroundVO background;
     
+    private DetalhesVO detalhes;
+    private BackstoryVO backstory;
     private ProficienciasPersonagemVO proficienciasPersonagem;
     private AtributosPersonagemVO valoresEProficienciasAtributosPersonagem;
     private PericiasPersonagemVO proficienciasPericiasPersonagem;
     private final ArrayList<FeatVO> featsPersonagem = new ArrayList<>();
-    private EquipamentoVO[] equipamentosPersonagem;
+    private EquipamentoVO[] inventarioPersonagem;
     
     private String nome = "Sem Nome";
     private int nivel = 1;
     private int xp = 0;
-    private int hpMaximo = 0;
-    private int hpAtual = 0;
-    private int hpTemp = 0;
-    private int armorClass = 0;
-    private int bonusProficiencia = 0;
     private int iniciativa = 0;
     private boolean inspirado = false;
+
+    public PersonagemVO() {
+    }
+
+    public PersonagemVO(int idUsuario) {
+        this.idUsuario = idUsuario;
+    }
 
     public int getIdUsuario() {return idUsuario;}
     public void setIdUsuario(int idUsuario) {this.idUsuario = idUsuario;}
@@ -59,6 +63,12 @@ public final class PersonagemVO extends ObjetoVO
 
     public BackgroundVO getBackground() {return background;}
     public void setBackground(BackgroundVO background) {this.background = background;}
+
+    public DetalhesVO getDetalhes() {return detalhes;}
+    public void setDetalhes(DetalhesVO detalhes) {this.detalhes = detalhes;}
+
+    public BackstoryVO getBackstory() {return backstory;}
+    public void setBackstory(BackstoryVO backstory) {this.backstory = backstory;}
 
     public ProficienciasPersonagemVO getProficienciasPersonagem() {return proficienciasPersonagem;}
     public void setProficienciasPersonagem(ProficienciasPersonagemVO proficienciasPersonagem) {this.proficienciasPersonagem = proficienciasPersonagem;}
@@ -245,21 +255,6 @@ public final class PersonagemVO extends ObjetoVO
         this.xp = xp;
         setNivelPeloXp();
     }
-    
-    public int getHpMaximo() {return hpMaximo;}
-    public void setHpMaximo(int hpMaximo) {this.hpMaximo = hpMaximo;}
-
-    public int getHpAtual() {return hpAtual;}
-    public void setHpAtual(int hpAtual) {this.hpAtual = hpAtual;}
-
-    public int getHpTemp() {return hpTemp;}
-    public void setHpTemp(int hpTemp) {this.hpTemp = hpTemp;}
-
-    public int getArmorClass() {return armorClass;}
-    public void setArmorClass(int armorClass) {this.armorClass = armorClass;}
-
-    public int getBonusProficiencia() {return bonusProficiencia;}
-    public void setBonusProficiencia(int bonusProficiencia) {this.bonusProficiencia = bonusProficiencia;}
 
     public int getIniciativa() {return iniciativa;}
     public void setIniciativa(int iniciativa) {this.iniciativa = iniciativa;}
@@ -267,6 +262,6 @@ public final class PersonagemVO extends ObjetoVO
     public boolean isInspirado() {return inspirado;}
     public void setInspirado(boolean inspirado) {this.inspirado = inspirado;}
 
-    public EquipamentoVO[] getEquipamentosPersonagem() {return equipamentosPersonagem;}
-    public void setEquipamentosPersonagem(EquipamentoVO[] equipamentosPersonagem) {this.equipamentosPersonagem = equipamentosPersonagem;}
+    public EquipamentoVO[] getInventarioPersonagem() {return inventarioPersonagem;}
+    public void setInventarioPersonagem(EquipamentoVO[] inventarioPersonagem) {this.inventarioPersonagem = inventarioPersonagem;}
 }

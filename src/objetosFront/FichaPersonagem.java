@@ -70,10 +70,9 @@ public class FichaPersonagem
     // Sentidos
     // - Status passivos
     // - Quaisquer buffs de sentidos (Darkvision)
-    
-    // Armor Class
-    // - Sem armor -> 10 + modificador de DEX + bônus(Spell, Trait, etc.) + shield
-    // - Com armor -> AC da armadura + shield
+    private int valorIntuicaoPassiva;
+    private int valorPercepcaoPassiva;
+    private String buffsSentido;
     
     // Iniciativa:
     // - 1d20 + modificador de DEX
@@ -682,7 +681,7 @@ public class FichaPersonagem
         ArrayList<EquipamentoVO> equipamentosJuntos = new ArrayList<>();
         
         if(personagem != null) {
-            EquipamentoVO[] equipamentosPersonagem = personagem.getEquipamentosPersonagem();
+            EquipamentoVO[] equipamentosPersonagem = personagem.getInventarioPersonagem();
             if(equipamentosPersonagem != null)
                 equipamentosJuntos.addAll(Arrays.asList(equipamentosPersonagem));
         }
@@ -694,6 +693,54 @@ public class FichaPersonagem
         
         return equipamentosJuntos.toArray(new EquipamentoVO[0]);
     }
+    public int getPericiaPassiva(PericiasEnum pericia, boolean vantagem, boolean desvantagem) {
+        int retorno = 0;
+        
+        switch(pericia) {
+            case ATLETISMO: {
+                retorno = 10 + modSTR;
+                break;
+            }
+            case ACROBACIA:
+            case FURTIVIDADE:
+            case PRESTIDIGITACAO: {
+                retorno = 10 + modDEX;
+                break;
+            }
+            case ARCANISMO:
+            case HISTORIA:
+            case INVESTIGACAO:
+            case NATUREZA:
+            case RELIGIAO: {
+                retorno = 10 + modINT;
+                break;
+            }
+            case ADESTRAR_ANIMAIS:
+            case INTUICAO:
+            case MEDICINA:
+            case PERCEPCAO:
+            case SOBREVIVENCIA: {
+                retorno = 10 + modWIS;
+                break;
+            }
+            case ATUACAO:
+            case ENGANACAO:
+            case INTIMIDACAO:
+            case PERSUASAO: {
+                retorno = 10 + modCHA;
+                break;
+            }
+        }
+        
+        if(vantagem)
+            retorno += 5;
+        if(desvantagem)
+            retorno -= 5;
+        
+        return retorno;
+                
+    }
+    public int calcularAC(int bonus, int shield) {return 10 + modDEX + bonus + shield;}
     
     public FichaPersonagem(UsuarioVO usuario, PersonagemVO personagem, ClasseVO classe, SubclasseVO subclasse, RacaVO raca, SubRacaVO subraca, BackgroundVO background, BackstoryVO backstory, DetalhesVO detalhes) {
         // Objetos necessários
@@ -742,7 +789,16 @@ public class FichaPersonagem
         personagemInspirado = this.personagem.isInspirado();
         
         // Valor do Bônus de Proficiencia
-        bonusProficienciaPersonagem = this.personagem.getBonusProficiencia();
+        if(nivelPersonagem <= 4)
+            bonusProficienciaPersonagem = 2;
+        else if(nivelPersonagem <= 8)
+            bonusProficienciaPersonagem = 3;
+        else if(nivelPersonagem <= 12)
+            bonusProficienciaPersonagem = 4;
+        else if(nivelPersonagem <= 16)
+            bonusProficienciaPersonagem = 5;
+        else
+            bonusProficienciaPersonagem = 6;
         
         // Saving Throws e suas proficiencias
         proficienciasSaves = new boolean[] {
@@ -790,10 +846,10 @@ public class FichaPersonagem
         nomesSkills = PericiasEnum.getNomesPossiveis();
         
         // Sentidos
-
-        
-        // Armor Class
-
+        for(FeatVO f : feats) {
+            if(f.getNome().equals("Darkvision"))
+                buffsSentido = f.getNome() + "\n" + f.getDescricao();
+        }
         
         // Iniciativa:
 
@@ -870,8 +926,6 @@ public class FichaPersonagem
         //Lista de Spells
         
     }
-            
-    
     
     
 }

@@ -13,6 +13,12 @@ public final class SubRacaVO extends RacaVO
 {
     private int idRaca;
 
+    public SubRacaVO(int idRaca) {
+        this.idRaca = idRaca;
+    }
+
+    
+    
     public SubRacaVO(String nome, String descricao, FeatRacaVO[] traits, AtributosVO bonusAtributos, PericiasVO proficienciasPericias, ProficienciasVO proficiencias, int idRaca) {
         super(nome, descricao, traits, bonusAtributos, proficienciasPericias, proficiencias);
         this.idRaca = idRaca;

@@ -18,6 +18,11 @@ public class RacaVO extends ObjetoVO
     private PericiasVO proficienciasPericias;
     private ProficienciasVO proficiencias;
 
+    public RacaVO() {
+    }
+    
+    
+
     public RacaVO(String nome, String descricao, FeatRacaVO[] featsRaca, AtributosVO bonusEProficienciasAtributos, PericiasVO proficienciasPericias, ProficienciasVO proficiencias) {
         this.nome = nome;
         this.descricao = descricao;

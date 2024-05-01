@@ -13,6 +13,10 @@ public final class SubclasseVO extends ClasseVO
 {
     private int idClasse;
 
+    public SubclasseVO(int idClasse) {
+        this.idClasse = idClasse;
+    }
+
     public SubclasseVO(String nome, String descricao, FeatClasseVO[] featsSubclasse, AtributosVO bonusAtributos, PericiasVO proficienciasPericias, ProficienciasVO proficiencias, int idClasse) {
         super(nome, descricao, 0, featsSubclasse, bonusAtributos, proficienciasPericias, proficiencias);
         this.idClasse = idClasse;

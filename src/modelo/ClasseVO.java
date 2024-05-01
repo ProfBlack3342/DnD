@@ -19,6 +19,11 @@ public class ClasseVO extends ObjetoVO
     private PericiasVO proficienciasPericias;
     private ProficienciasVO proficiencias;
 
+    public ClasseVO() {
+    }
+
+    
+    
     public ClasseVO(String nome, String descricao, int dadoClasse, FeatClasseVO[] featsClasse, AtributosVO bonusEProficienciasAtributos, PericiasVO proficienciasPericias, ProficienciasVO proficiencias) {
         this.nome = nome;
         this.descricao = descricao;
