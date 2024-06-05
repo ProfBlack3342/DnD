@@ -8,10 +8,15 @@ package objetosFront;
  *
  * @author dudup
  */
-public final class Login
+public final class DadosLogin
 {
-    private String usuario;
-    private String senha;
+    private final String usuario;
+    private final String senha;
+
+    public DadosLogin(String usuario, String senha) {
+        this.usuario = usuario;
+        this.senha = senha;
+    }
 
     public String getUsuario() {
         return usuario;

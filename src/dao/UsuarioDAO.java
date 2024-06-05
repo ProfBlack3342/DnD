@@ -14,7 +14,7 @@ import exception.NoDataFoundException;
 import exception.ForbiddenArgumentTypeException;
 import modelo.ObjetoVO;
 import modelo.UsuarioVO;
-import objetosFront.Login;
+import objetosFront.DadosLogin;
 import persistencia.ConexaoBanco;
 import utilidades.Converter;
 import utilidades.Verificar;
@@ -43,12 +43,12 @@ public final class UsuarioDAO extends ObjetoDAO implements IDAO
     
     /**
      * Realiza a verificação de dados para o login de um usuário
-     * @param lVO Objeto que contém os dados necessários para o login
+     * @param dadosLogin Objeto que contém os dados necessários para o login
      * @return O UsuarioVO correspondende aos dados informados, se corretos. Senão retorna null.
      * @throws SQLException Se houver algum erro na comunicação com o banco de dados
      * @throws NoDataFoundException Se os dados informados não corresponderem a nenhum usuário do banco de dados
      */
-    public UsuarioVO login(Login lVO) throws SQLException, NoDataFoundException
+    public UsuarioVO login(DadosLogin dadosLogin) throws SQLException, NoDataFoundException
     {
         String sql = "SELECT * FROM usuario "
                 + "WHERE nomeUsuario = ? "
@@ -57,14 +57,14 @@ public final class UsuarioDAO extends ObjetoDAO implements IDAO
         try(Connection con = new ConexaoBanco().getConexao();
             PreparedStatement pstm = con.prepareStatement(sql);)
         {
-            pstm.setString(1, lVO.getUsuario());
+            pstm.setString(1, dadosLogin.getUsuario());
             
             try(ResultSet rs = pstm.executeQuery();)
             {
                 if( (rs.next()) && (rs.getBoolean("usuarioAtivo")) )
                 {
                     String hash = rs.getString("senhaUsuario");
-                    if(Verificar.compararTextoComHash(lVO.getSenha(), hash))
+                    if(Verificar.compararTextoComHash(dadosLogin.getSenha(), hash))
                     {
                         UsuarioVO uVO = new UsuarioVO();
                         

@@ -10,7 +10,7 @@ import dao.DAOFactory;
 import dao.UsuarioDAO;
 import exception.NoDataFoundException;
 import exception.ForbiddenArgumentTypeException;
-import objetosFront.Login;
+import objetosFront.DadosLogin;
 import modelo.UsuarioVO;
 
 /**
@@ -26,7 +26,7 @@ public final class UsuarioServicos
      * @throws SQLException 
      * @throws NoDataFoundException 
      */
-    public UsuarioVO loginUsuario(Login lVO) throws SQLException, NoDataFoundException
+    public UsuarioVO loginUsuario(DadosLogin lVO) throws SQLException, NoDataFoundException
     {
         UsuarioDAO uDAO = DAOFactory.getUsuarioDAO();
         return uDAO.login(lVO);
