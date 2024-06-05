@@ -74,6 +74,7 @@ public final class PersonagemDAO extends ObjetoDAO implements IDAO {
                 pstm.setInt(9, pVO.getNivel());
                 pstm.setInt(10, pVO.getXp());
                 pstm.setBoolean(11, pVO.isInspirado());
+                
                 pstm.setDate(12, Converter.converterDiaMesAnoParaSQLDate(pVO.getDiaCriacao(), pVO.getMesCriacao(), pVO.getAnoCriacao()));
                 pstm.setBoolean(13, true);
                 
@@ -178,6 +179,7 @@ public final class PersonagemDAO extends ObjetoDAO implements IDAO {
                                 while(rs.next())
                                 {
                                     PersonagemVO pVO = new PersonagemVO();
+                                    
                                     pVO.setId(rs.getInt("idPersonagem"));
                                     
                                     
@@ -228,7 +230,7 @@ public final class PersonagemDAO extends ObjetoDAO implements IDAO {
                     + "xp = ?"
                     + "inspiracao = ?"
                     + "datacriacaopersonagem = ?"
-                    + "Personagemativo = ?"
+                    + "personagemativo = ?"
                     + "WHERE idpersonagem = ? AND idusuario = ?";
             
             try(Connection con = new ConexaoBanco().getConexao();
@@ -244,8 +246,10 @@ public final class PersonagemDAO extends ObjetoDAO implements IDAO {
                 pstm.setInt(8, pVO.getNivel());
                 pstm.setInt(9, pVO.getXp());
                 pstm.setBoolean(10, pVO.isInspirado());
+                
                 pstm.setDate(11, Converter.converterDiaMesAnoParaSQLDate(pVO.getDiaCriacao(), pVO.getMesCriacao(), pVO.getAnoCriacao()));
                 pstm.setBoolean(12, true);
+                
                 pstm.setInt(13, pVO.getId());
                 pstm.setInt(14, pVO.getIdUsuario());
                 

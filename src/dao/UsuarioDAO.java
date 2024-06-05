@@ -67,7 +67,9 @@ public final class UsuarioDAO extends ObjetoDAO implements IDAO
                     if(Verificar.compararTextoComHash(lVO.getSenha(), hash))
                     {
                         UsuarioVO uVO = new UsuarioVO();
+                        
                         uVO.setId(rs.getInt("idUsuario"));
+                        
                         uVO.setIdImagem(rs.getInt("idImagemUsuario"));
                         uVO.setIdTipo(rs.getInt("idTipoUsuario"));
                         uVO.setNome(rs.getString("nomeUsuario"));
@@ -76,6 +78,7 @@ public final class UsuarioDAO extends ObjetoDAO implements IDAO
                         uVO.setDescricao(rs.getString("descricaoUsuario"));
                         uVO.setQuantPersonagensMaxima(rs.getInt("quantPersonagensTotal"));
                         uVO.setQuantPersonagensExistentes(rs.getInt("quantPersonagensCriados"));
+                        
                         String[] diaMesAno = Converter.converterSQLDateParaDiaMesAno(rs.getDate("dataCriacaoUsuario"));
                         uVO.setDiaCriacao(diaMesAno[0]);
                         uVO.setMesCriacao(diaMesAno[1]);
@@ -125,6 +128,7 @@ public final class UsuarioDAO extends ObjetoDAO implements IDAO
                 pstm.setString(6, uVO.getDescricao());
                 pstm.setInt(7, uVO.getQuantPersonagensMaxima());
                 pstm.setInt(8, uVO.getQuantPersonagensExistentes());
+                
                 pstm.setDate(9, Converter.converterDiaMesAnoParaSQLDate(uVO.getDiaCriacao(), uVO.getMesCriacao(), uVO.getAnoCriacao()));
                 pstm.setBoolean(10, true);
 
@@ -155,7 +159,9 @@ public final class UsuarioDAO extends ObjetoDAO implements IDAO
             while(rs.next())
             {
                 UsuarioVO uVO = new UsuarioVO();
+                
                 uVO.setId(rs.getInt("idUsuario"));
+                
                 uVO.setIdImagem(rs.getInt("idImagemUsuario"));
                 uVO.setIdTipo(rs.getInt("idTipoUsuario"));
                 uVO.setNome(rs.getString("nomeUsuario"));
@@ -164,6 +170,7 @@ public final class UsuarioDAO extends ObjetoDAO implements IDAO
                 uVO.setDescricao(rs.getString("descricaoUsuario"));
                 uVO.setQuantPersonagensMaxima(rs.getInt("quantPersonagensTotal"));
                 uVO.setQuantPersonagensExistentes(rs.getInt("quantPersonagensCriados"));
+                
                 String[] diaMesAno = Converter.converterSQLDateParaDiaMesAno(rs.getDate("dataCriacaoUsuario"));
                 uVO.setDiaCriacao(diaMesAno[0]);
                 uVO.setMesCriacao(diaMesAno[1]);
@@ -223,6 +230,7 @@ public final class UsuarioDAO extends ObjetoDAO implements IDAO
                                     UsuarioVO uVO = new UsuarioVO();
                                     
                                     uVO.setId(rs.getInt("idUsuario"));
+                                    
                                     uVO.setIdImagem(rs.getInt("idImagemUsuario"));
                                     uVO.setIdTipo(rs.getInt("idTipoUsuario"));
                                     uVO.setNome(rs.getString("nomeUsuario"));
@@ -287,7 +295,7 @@ public final class UsuarioDAO extends ObjetoDAO implements IDAO
                     + "quantPersonagensTotal = ?, "
                     + "quantPersonagensCriados = ?, "
                     + "usuarioAtivo = ? "
-                    + "WHERE idUsuario = " + uVO.getId();
+                    + "WHERE idUsuario = ?";
             
             try(Connection con = new ConexaoBanco().getConexao();
                 PreparedStatement pstm = con.prepareStatement(sql);)
@@ -301,8 +309,11 @@ public final class UsuarioDAO extends ObjetoDAO implements IDAO
                 pstm.setString(6, uVO.getDescricao());
                 pstm.setInt(7, uVO.getQuantPersonagensMaxima());
                 pstm.setInt(8, uVO.getQuantPersonagensExistentes());
+                
                 pstm.setDate(9, Converter.converterDiaMesAnoParaSQLDate(uVO.getDiaCriacao(), uVO.getMesCriacao(), uVO.getAnoCriacao()));
                 pstm.setBoolean(10, uVO.isAtivo());
+                
+                pstm.setInt(11, uVO.getId());
 
                 pstm.executeUpdate();
             }
