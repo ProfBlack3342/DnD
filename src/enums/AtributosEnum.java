@@ -9,7 +9,8 @@ package enums;
  *
  * @author 181700271
  */
-public enum AtributosEnum {
+public enum AtributosEnum
+{
     STR("Força", "Strength"),
     DEX("Destreza", "Dexterity"),
     CON("Constituição", "Constitution"),
@@ -25,5 +26,5 @@ public enum AtributosEnum {
     }
     
     public String getNomePT() {return nomePT;}
-    public String getNomeEN(){return nomeEN;}
+    public String getNomeEN() {return nomeEN;}
 }

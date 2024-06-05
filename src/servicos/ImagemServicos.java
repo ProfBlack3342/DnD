@@ -17,9 +17,9 @@ import modelo.ImagemVO;
  */
 public class ImagemServicos {
     
-    public ImagemVO[] pesquisarImagemUsuario(String query) throws SQLException, NoDataFoundException {
+    public ImagemVO[] pesquisarImagemUsuario(int opcao, String dado) throws SQLException, NoDataFoundException {
         ImagemUsuarioDAO iuDAO = DAOFactory.getImagemDAO();
-        return iuDAO.pesquisar(query);
+        return iuDAO.pesquisar(opcao, dado);
     }
     
 }

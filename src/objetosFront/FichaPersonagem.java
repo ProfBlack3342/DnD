@@ -843,7 +843,7 @@ public class FichaPersonagem
             this.proficienciasDasPericias.isProficientePericia(PericiasEnum.INTIMIDACAO),
             this.proficienciasDasPericias.isProficientePericia(PericiasEnum.PERSUASAO)
         };
-        nomesSkills = PericiasEnum.getNomesPossiveis();
+        nomesSkills = PericiasEnum.getNomesPericiasPT();
         
         // Sentidos
         for(FeatVO f : feats) {

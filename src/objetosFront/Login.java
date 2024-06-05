@@ -16,14 +16,8 @@ public final class Login
     public String getUsuario() {
         return usuario;
     }
-    public void setUsuario(String nome) {
-        this.usuario = nome;
-    }
 
     public String getSenha() {
         return senha;
-    }
-    public void setSenha(String senha) {
-        this.senha = senha;
     }
 }

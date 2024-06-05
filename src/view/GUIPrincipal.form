@@ -120,10 +120,10 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jLabelImagem" min="-2" pref="86" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="241" max="-2" attributes="0"/>
+                  <Component id="jLabelImagem" min="-2" pref="96" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="231" max="-2" attributes="0"/>
                   <Component id="jLabelNomeUsuario" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace pref="314" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -134,7 +134,8 @@
                   <Component id="jLabelNomeUsuario" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
               </Group>
-              <Group type="102" alignment="0" attributes="0">
+              <Group type="102" alignment="1" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
                   <Component id="jLabelImagem" max="32767" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -143,6 +144,9 @@
       </Layout>
       <SubComponents>
         <Component class="javax.swing.JLabel" name="jLabelImagem">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Imagem Usu&#xe1;rio"/>
+          </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabelNomeUsuario">
           <Properties>

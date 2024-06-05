@@ -32,10 +32,8 @@ public class GUIPrincipal extends javax.swing.JFrame implements InternalFrameLis
     private boolean flagGUIPersonagens = false;
     private boolean flagGUIFichas = false;
     
-    public GUIPrincipal() {
-        initComponents();
-        usuarioVOLogado = null;
-        imagemUsuarioVOLogado = null;
+    private GUIPrincipal() {
+        System.exit(0);
     }
     /**
      * Creates new form GUIPrincipal
@@ -50,7 +48,8 @@ public class GUIPrincipal extends javax.swing.JFrame implements InternalFrameLis
     private void preencherPerfil(){
         try
         {
-            imagemUsuarioVOLogado = ServicosFactory.getImagemServicos().pesquisarImagemUsuario("idImagem = " + usuarioVOLogado.getIdImagem());
+            String dadoPesquisa = Integer.toString(usuarioVOLogado.getIdImagem());
+            imagemUsuarioVOLogado = ServicosFactory.getImagemServicos().pesquisarImagemUsuario(1, dadoPesquisa);
             
             BufferedImage imagemUsuario = ImageIO.read(
                     getClass().getResource(imagemUsuarioVOLogado[0].getCaminhoImagem())
@@ -64,6 +63,7 @@ public class GUIPrincipal extends javax.swing.JFrame implements InternalFrameLis
             JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }
+    
     private void limparPerfil(){
         usuarioVOLogado = null;
         imagemUsuarioVOLogado = null;
@@ -131,6 +131,8 @@ public class GUIPrincipal extends javax.swing.JFrame implements InternalFrameLis
 
         jPanelPerfil.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
+        jLabelImagem.setText("Imagem Usuário");
+
         jLabelNomeUsuario.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabelNomeUsuario.setText("Nome do Usuário");
 
@@ -140,10 +142,10 @@ public class GUIPrincipal extends javax.swing.JFrame implements InternalFrameLis
             jPanelPerfilLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelPerfilLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabelImagem, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(241, 241, 241)
+                .addComponent(jLabelImagem, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(231, 231, 231)
                 .addComponent(jLabelNomeUsuario)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(314, Short.MAX_VALUE))
         );
         jPanelPerfilLayout.setVerticalGroup(
             jPanelPerfilLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -151,7 +153,8 @@ public class GUIPrincipal extends javax.swing.JFrame implements InternalFrameLis
                 .addContainerGap(44, Short.MAX_VALUE)
                 .addComponent(jLabelNomeUsuario)
                 .addGap(42, 42, 42))
-            .addGroup(jPanelPerfilLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelPerfilLayout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(jLabelImagem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );

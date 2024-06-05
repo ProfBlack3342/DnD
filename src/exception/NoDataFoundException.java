@@ -5,7 +5,7 @@
 package exception;
 
 /**
- * Erro que indica que nenhum usuário foi encontrado no banco de dados pelos dados de pesquisa informados
+ * Erro que indica que nenhum dado foi encontrado no banco de dados pela pesquisa
  * @author dudup
  */
 public class NoDataFoundException extends Exception {

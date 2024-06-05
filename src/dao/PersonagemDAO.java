@@ -5,13 +5,14 @@
  */
 package dao;
 
-import exception.NoDataFoundException;
-import exception.ForbiddenArgumentTypeException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+
+import exception.NoDataFoundException;
+import exception.ForbiddenArgumentTypeException;
 import modelo.BackgroundVO;
 import modelo.ClasseVO;
 import modelo.ImagemVO;
@@ -51,9 +52,8 @@ public final class PersonagemDAO extends ObjetoDAO implements IDAO {
     
     @Override
     public void cadastrar(ObjetoVO obVO) throws SQLException, ForbiddenArgumentTypeException {
-        if(!(obVO instanceof PersonagemVO)) {
+        if(!(obVO instanceof PersonagemVO))
             throw new ForbiddenArgumentTypeException("Erro em PersonagemVO.cadastrar: O argumento deve pertencer a classe PersonagemVO!");
-        }
         else
         {
             PersonagemVO pVO = (PersonagemVO) obVO;
@@ -151,15 +151,68 @@ public final class PersonagemDAO extends ObjetoDAO implements IDAO {
     }
 
     @Override
-    public PersonagemVO[] pesquisar(String query) throws SQLException, NoDataFoundException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public PersonagemVO[] pesquisar(int opcao, String dado) throws SQLException, NoDataFoundException {
+        if(dado == null || dado.isEmpty() || dado.isBlank())
+            throw new NoDataFoundException("Erro em UsuarioDAO.pesquisar: Nenhum dado informado!");
+        else
+        {
+            String sql;
+            ArrayList<PersonagemVO> listaPersonagens = new ArrayList<>();
+            
+            try(Connection con = new ConexaoBanco().getConexao();)
+            {
+                switch(opcao)
+                {
+                    case 1: // idPersonagem
+                    {
+                        sql = "SELECT * "
+                                + "FROM personagem "
+                                + "WHERE idPersonagem = ? "
+                                + "LIMIT 1";
+                        
+                        try(PreparedStatement pstm = con.prepareStatement(sql);)
+                        {
+                            pstm.setInt(1, Integer.parseInt(dado));
+                            try(ResultSet rs = pstm.executeQuery();)
+                            {
+                                while(rs.next())
+                                {
+                                    PersonagemVO pVO = new PersonagemVO();
+                                    pVO.setId(rs.getInt("idPersonagem"));
+                                    
+                                    
+                                    
+                                    String[] diaMesAno = Converter.converterSQLDateParaDiaMesAno(rs.getDate("dataCriacaoUsuario"));
+                                    pVO.setDiaCriacao(diaMesAno[0]);
+                                    pVO.setMesCriacao(diaMesAno[1]);
+                                    pVO.setAnoCriacao(diaMesAno[2]);
+                                    pVO.setAtivo(rs.getBoolean("usuarioAtivo"));
+
+                                    listaPersonagens.add(pVO);
+                                }
+                                if(!listaPersonagens.isEmpty())
+                                    return listaPersonagens.toArray(new PersonagemVO[listaPersonagens.size()]);
+                                else
+                                    throw new NoDataFoundException("Erro em UsuarioDAO.pesquisar: Nenhum usuário encontrado com os dados informados!");
+                            }
+                        }
+                    }
+                    
+                    default:
+                        throw new NoDataFoundException("Erro em UsuarioDAO.pesquisar: Opção de pesquisa inválida!");
+                }
+            }
+            catch(SQLException se)
+            {
+                throw new SQLException("Erro na pesquisa de usuários (UsuarioDAO.pesquisar)! " + se.getMessage());
+            }
+        }
     }
 
     @Override
     public void alterar(ObjetoVO obVO) throws SQLException, ForbiddenArgumentTypeException {
-        if(!(obVO instanceof PersonagemVO)) {
+        if(!(obVO instanceof PersonagemVO))
             throw new ForbiddenArgumentTypeException("Erro em PersonagemDAO.alterar: O argumento deve pertencer a classe PersonagemVO!");
-        }
         else
         {
             PersonagemVO pVO = (PersonagemVO) obVO;

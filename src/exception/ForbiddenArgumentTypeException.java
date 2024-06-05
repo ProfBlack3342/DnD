@@ -6,7 +6,7 @@
 package exception;
 
 /**
- * Erro que indica a passagem de um argumento com tipo incorreto
+ * Erro que indica a passagem de um argumento com tipo inválido
  * @author 181700271
  */
 public class ForbiddenArgumentTypeException extends Exception {

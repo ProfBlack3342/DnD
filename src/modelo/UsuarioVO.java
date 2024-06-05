@@ -14,6 +14,7 @@ public final class UsuarioVO extends ObjetoVO
     private int idTipo;
     private String nome;
     private String senha;
+    private String email;
     private String descricao;
     private int quantPersonagensMaxima = 6;
     private int quantPersonagensExistentes = 0;
@@ -45,6 +46,13 @@ public final class UsuarioVO extends ObjetoVO
     }
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getDescricao() {
