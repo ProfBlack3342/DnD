@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 /**
  *
- * @author dudup
+ * @author Eduardo Pereira Moreira
  */
 public final class QuickHash {
     

@@ -14,7 +14,7 @@ import modelo.ImagemVO;
 
 /**
  *
- * @author 181700271
+ * @author Eduardo Pereira Moreira
  */
 public class ImagemServicos {
     

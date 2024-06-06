@@ -9,7 +9,7 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author 181700271
+ * @author Eduardo Pereira Moreira
  */
 public class GUIPersonagens extends javax.swing.JInternalFrame {
 

@@ -6,7 +6,7 @@ package servicos;
 
 /**
  *
- * @author dudup
+ * @author Eduardo Pereira Moreira
  */
 public final class ServicosFactory
 {

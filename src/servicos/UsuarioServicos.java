@@ -15,7 +15,7 @@ import modelo.UsuarioVO;
 
 /**
  *
- * @author dudup
+ * @author Eduardo Pereira Moreira
  */
 public final class UsuarioServicos
 {

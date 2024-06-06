@@ -7,7 +7,7 @@ package view;
 
 /**
  *
- * @author 181700271
+ * @author Eduardo Pereira Moreira
  */
 public class GUIFichas extends javax.swing.JInternalFrame {
     

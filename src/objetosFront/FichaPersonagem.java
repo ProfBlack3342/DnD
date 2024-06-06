@@ -13,7 +13,7 @@ import modelo.*;
 
 /**
  *
- * @author 181700271
+ * @author Eduardo Pereira Moreira
  */
 public class FichaPersonagem
 {

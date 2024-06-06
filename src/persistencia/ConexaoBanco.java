@@ -10,7 +10,7 @@ import java.sql.SQLException;
 
 /**
  *
- * @author dudup
+ * @author Eduardo Pereira Moreira
  */
 public final class ConexaoBanco
 {
@@ -21,7 +21,7 @@ public final class ConexaoBanco
      */
     public Connection getConexao() throws SQLException
     {
-        String url = "jdbc:mysql://localhost:3306/dnd?useTimezone=true&serverTimezone=UTC&user=root&password=";
+        String url = "jdbc:mysql://localhost:3306/dnd?useTimezone=true&serverTimezone=UTC&user=root&password=@Imlolz3342";
         Connection c;
         try { c = DriverManager.getConnection(url); }
         catch (SQLException se) {

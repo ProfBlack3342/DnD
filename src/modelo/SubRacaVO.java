@@ -7,7 +7,7 @@ package modelo;
 
 /**
  *
- * @author 181700271
+ * @author Eduardo Pereira Moreira
  */
 public final class SubRacaVO extends RacaVO
 {
