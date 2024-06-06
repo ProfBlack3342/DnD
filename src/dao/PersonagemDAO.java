@@ -153,7 +153,7 @@ public final class PersonagemDAO extends ObjetoDAO implements IDAO {
 
     @Override
     public PersonagemVO[] pesquisar(int opcao, String dado) throws SQLException, NoDataFoundException {
-        if(dado == null || dado.isEmpty() || dado.isBlank())
+        if(dado == null || dado.isEmpty())
             throw new NoDataFoundException("Erro em UsuarioDAO.pesquisar: Nenhum dado informado!");
         else
         {
