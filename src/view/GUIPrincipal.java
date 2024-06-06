@@ -5,7 +5,6 @@
  */
 package view;
 
-import exception.NoDataFoundException;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -16,6 +15,8 @@ import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.InternalFrameListener;
+
+import exception.NoDataFoundException;
 import modelo.ImagemVO;
 import modelo.UsuarioVO;
 import servicos.ServicosFactory;

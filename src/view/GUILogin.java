@@ -5,10 +5,11 @@
  */
 package view;
 
-import exception.NoDataFoundException;
 import java.awt.event.KeyEvent;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
+
+import exception.NoDataFoundException;
 import modelo.UsuarioVO;
 import objetosFront.DadosLogin;
 import servicos.ServicosFactory;
