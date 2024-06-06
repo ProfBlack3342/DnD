@@ -15,6 +15,9 @@ public final class UsuarioVO extends ObjetoVO
     private String nome;
     private String senha;
     private String email;
+    private String diaAniversario;
+    private String mesAniversario;
+    private String anoAniversario;
     private String descricao;
     private int quantPersonagensMaxima = 6;
     private int quantPersonagensExistentes = 0;
@@ -53,6 +56,30 @@ public final class UsuarioVO extends ObjetoVO
     }
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getDiaAniversario() {
+        return diaAniversario;
+    }
+
+    public void setDiaAniversario(String diaAniversario) {
+        this.diaAniversario = diaAniversario;
+    }
+
+    public String getMesAniversario() {
+        return mesAniversario;
+    }
+
+    public void setMesAniversario(String mesAniversario) {
+        this.mesAniversario = mesAniversario;
+    }
+
+    public String getAnoAniversario() {
+        return anoAniversario;
+    }
+
+    public void setAnoAniversario(String anoAniversario) {
+        this.anoAniversario = anoAniversario;
     }
 
     public String getDescricao() {

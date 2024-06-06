@@ -18,11 +18,6 @@ public final class DadosLogin
         this.senha = senha;
     }
 
-    public String getUsuario() {
-        return usuario;
-    }
-
-    public String getSenha() {
-        return senha;
-    }
+    public String getUsuario() {return usuario;}
+    public String getSenha() {return senha;}
 }

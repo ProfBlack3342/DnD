@@ -40,12 +40,12 @@ public final class PersonagemDAO extends ObjetoDAO implements IDAO {
             idRaca INT NOT NULL,
             idSubraca INT NOT NULL,
             idBackground INT NOT NULL,
-            nome VARCHAR(60) NULL,
-            nivel INT NOT NULL DEFAULT 1,
-            xp INT NOT NULL DEFAULT 0,
-            inspiracao TINYINT(1) NOT NULL DEFAULT 0,
+            nomePersonagem VARCHAR(60) NULL,
+            nivelPersonagem INT NOT NULL DEFAULT 1,
+            xpPersonagem INT NOT NULL DEFAULT 0,
+            inspiracaoPersonagem TINYINT(1) NOT NULL DEFAULT 0,
             dataCriacaoPersonagem DATE NOT NULL,
-            PersonagemAtivo TINYINT(1) NOT NULL DEFAULT 1
+            personagemAtivo TINYINT(1) NOT NULL DEFAULT 1
         )
     */
     
@@ -127,10 +127,10 @@ public final class PersonagemDAO extends ObjetoDAO implements IDAO {
                 bVO.setId(rs.getInt("idbackground"));
                 pVO.setBackground(bVO);
                 
-                pVO.setNome(rs.getString("nome"));
-                pVO.setNivel(rs.getInt("nivel"));
-                pVO.setXp(rs.getInt("xp"));
-                pVO.setInspirado(rs.getBoolean("inspiracao"));
+                pVO.setNome(rs.getString("nomepersonagem"));
+                pVO.setNivel(rs.getInt("nivelpersonagem"));
+                pVO.setXp(rs.getInt("xppersonagem"));
+                pVO.setInspirado(rs.getBoolean("inspiracaopersonagem"));
                 
                 String[] diaMesAno = Converter.converterSQLDateParaDiaMesAno(rs.getDate("datacriacaopersonagem"));
                 pVO.setDiaCriacao(diaMesAno[0]);
@@ -225,10 +225,10 @@ public final class PersonagemDAO extends ObjetoDAO implements IDAO {
                     + "idraca = ?"
                     + "idsubraca = ?"
                     + "idbackground = ?"
-                    + "nome = ?"
-                    + "nivel = ?"
-                    + "xp = ?"
-                    + "inspiracao = ?"
+                    + "nomepersonagem = ?"
+                    + "nivelpersonagem = ?"
+                    + "xppersonagem = ?"
+                    + "inspiracaopersonagem = ?"
                     + "datacriacaopersonagem = ?"
                     + "personagemativo = ?"
                     + "WHERE idpersonagem = ? AND idusuario = ?";

@@ -5,13 +5,14 @@
  */
 package dao;
 
-import exception.ForbiddenArgumentTypeException;
-import exception.NoDataFoundException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+
+import exception.ForbiddenArgumentTypeException;
+import exception.NoDataFoundException;
 import modelo.ImagemVO;
 import modelo.ObjetoVO;
 import persistencia.ConexaoBanco;
@@ -24,12 +25,12 @@ import utilidades.Converter;
 public class ImagemUsuarioDAO extends ObjetoDAO implements IDAO
 {
     /*
-        Tabela ImagemUsuario (
+        ImagemUsuario (
             idImagemUsuario INT NOT NULL,
             caminhoImagemUsuario VARCHAR(260) NOT NULL,
             descricaoImagemUsuario VARCHAR(60) NULL,
-            dataCriacaoUsuario DATE NOT NULL,
-            usuarioAtivo TINYINT(1) NOT NULL DEFAULT 1
+            dataCriacaoImagemUsuario DATE NOT NULL,
+            imagemUsuarioAtiva TINYINT(1) NOT NULL DEFAULT 1
         )
     */
 
@@ -74,7 +75,6 @@ public class ImagemUsuarioDAO extends ObjetoDAO implements IDAO
                                     
                                     iVO.setId(rs.getInt("idImagemUsuario"));
                                     
-                                    iVO.setNomeImagem(rs.getString("nomeimagemusuario"));
                                     iVO.setCaminhoImagem(rs.getString("caminhoimagemusuario"));
                                     iVO.setDescricaoImagem(rs.getString("descricaoimagemusuario"));
                                     
@@ -111,7 +111,6 @@ public class ImagemUsuarioDAO extends ObjetoDAO implements IDAO
                                     
                                     iVO.setId(rs.getInt("idImagemUsuario"));
                                     
-                                    iVO.setNomeImagem(rs.getString("nomeimagemusuario"));
                                     iVO.setCaminhoImagem(rs.getString("caminhoimagemusuario"));
                                     iVO.setDescricaoImagem(rs.getString("descricaoimagemusuario")); 
                                     
@@ -164,7 +163,6 @@ public class ImagemUsuarioDAO extends ObjetoDAO implements IDAO
                                     
                                     iVO.setId(rs.getInt("idImagemUsuario"));
                                     
-                                    iVO.setNomeImagem(rs.getString("nomeimagemusuario"));
                                     iVO.setCaminhoImagem(rs.getString("caminhoimagemusuario"));
                                     iVO.setDescricaoImagem(rs.getString("descricaoimagemusuario"));    
                                     

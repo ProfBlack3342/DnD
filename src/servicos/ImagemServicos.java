@@ -5,10 +5,11 @@
  */
 package servicos;
 
+import java.sql.SQLException;
+
 import dao.DAOFactory;
 import dao.ImagemUsuarioDAO;
 import exception.NoDataFoundException;
-import java.sql.SQLException;
 import modelo.ImagemVO;
 
 /**
