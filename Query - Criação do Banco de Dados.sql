@@ -2,6 +2,7 @@ DROP SCHEMA IF EXISTS dnd;
 CREATE SCHEMA IF NOT EXISTS dnd;
 USE dnd;
 -- ----------------------------------------------------------------------------------------------------
+-- Usuario --------------------------------------------------------------------------------------------
 -- ----------------------------------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS ImagemUsuario (
     idImagemUsuario INT NOT NULL,
@@ -46,6 +47,7 @@ ALTER TABLE Usuario CHANGE COLUMN idUsuario idUsuario INT NOT NULL AUTO_INCREMEN
 ALTER TABLE Usuario ADD CONSTRAINT FK_USUARIO_IMAGEMUSUARIO FOREIGN KEY(idImagemUsuario) REFERENCES ImagemUsuario(idImagemUsuario);
 ALTER TABLE Usuario ADD CONSTRAINT FK_USUARIO_TIPOUSUARIO FOREIGN KEY(idTipoUsuario) REFERENCES TipoUsuario(idTipoUsuario);
 -- ----------------------------------------------------------------------------------------------------
+-- Classe e Subclasse ---------------------------------------------------------------------------------
 -- ----------------------------------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS ImagemClasse (
     idImagemClasse INT NOT NULL,
@@ -98,6 +100,7 @@ ALTER TABLE SubClasse CHANGE COLUMN idSubClasse idSubClasse INT NOT NULL AUTO_IN
 ALTER TABLE SubClasse ADD CONSTRAINT FK_SUBCLASSE_CLASSE FOREIGN KEY(idClasse) REFERENCES Classe(idClasse);
 ALTER TABLE SubClasse ADD CONSTRAINT FK_SUBCLASSE_IMAGEMSUBCLASSE FOREIGN KEY(idImagemSubClasse) REFERENCES ImagemSubClasse(idImagemSubClasse);
 -- ----------------------------------------------------------------------------------------------------
+-- Raça e Subraça -------------------------------------------------------------------------------------
 -- ----------------------------------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS ImagemRaca (
     idImagemRaca INT NOT NULL,
@@ -150,6 +153,7 @@ ALTER TABLE SubRaca CHANGE COLUMN idSubRaca idSubRaca INT NOT NULL AUTO_INCREMEN
 ALTER TABLE SubRaca ADD CONSTRAINT FK_SUBRACA_RACA FOREIGN KEY(idRaca) REFERENCES Raca(idRaca);
 ALTER TABLE SubRaca ADD CONSTRAINT FK_SUBRACA_IMAGEMSUBRACA FOREIGN KEY(idImagemSubRaca) REFERENCES ImagemSubRaca(idImagemSubRaca);
 -- ----------------------------------------------------------------------------------------------------
+-- Background ------------------------------------------------------------------------------------------
 -- ----------------------------------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS ImagemBackground (
     idImagemBackground INT NOT NULL,
@@ -175,6 +179,7 @@ ALTER TABLE Background CHANGE COLUMN idBackground idBackground INT NOT NULL AUTO
 -- FK
 ALTER TABLE Background ADD CONSTRAINT FK_BACKGROUND_IMAGEMBACKGROUND FOREIGN KEY(idImagemBackground) REFERENCES ImagemBackground(idImagemBackground);
 -- ----------------------------------------------------------------------------------------------------
+-- Personagem -----------------------------------------------------------------------------------------
 -- ----------------------------------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS ImagemPersonagem (
     idImagemPersonagem INT NOT NULL,
