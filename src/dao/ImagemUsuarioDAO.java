@@ -46,7 +46,7 @@ public class ImagemUsuarioDAO extends ObjetoDAO implements IDAO
 
     @Override
     public ImagemVO[] pesquisar(int opcao, String dado) throws SQLException, NoDataFoundException {
-        if(dado == null || dado.isEmpty() || dado.isBlank())
+        if(dado == null || dado.isEmpty())
             throw new NoDataFoundException("Erro em ImagemDAO.pesquisar: Nenhum dado informado!");
         else
         {
