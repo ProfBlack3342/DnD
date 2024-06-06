@@ -6,7 +6,7 @@ package exception;
 
 /**
  * Erro que indica que nenhum dado foi encontrado no banco de dados pela pesquisa
- * @author dudup
+ * @author Eduardo Pereira Moreira
  */
 public class NoDataFoundException extends Exception {
 

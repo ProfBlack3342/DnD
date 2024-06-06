@@ -7,7 +7,7 @@ package enums;
 
 /**
  *
- * @author 181700271
+ * @author Eduardo Pereira Moreira
  */
 public enum AtributosEnum
 {

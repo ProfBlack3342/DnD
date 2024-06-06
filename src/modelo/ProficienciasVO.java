@@ -8,7 +8,7 @@ import java.util.HashMap;
 
 /**
  *
- * @author dudup
+ * @author Eduardo Pereira Moreira
  */
 public class ProficienciasVO extends ObjetoVO
 {

@@ -21,7 +21,7 @@ import utilidades.Verificar;
 
 /**
  *
- * @author dudup
+ * @author Eduardo Pereira Moreira
  */
 public final class UsuarioDAO extends ObjetoDAO implements IDAO
 {

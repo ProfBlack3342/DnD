@@ -6,7 +6,7 @@ package modelo;
 
 /**
  *
- * @author dudup
+ * @author Eduardo Pereira Moreira
  */
 public final class FeatClasseVO extends FeatVO
 {

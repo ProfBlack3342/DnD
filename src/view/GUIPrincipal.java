@@ -22,7 +22,7 @@ import servicos.ServicosFactory;
 
 /**
  *
- * @author 181700271
+ * @author Eduardo Pereira Moreira
  */
 public class GUIPrincipal extends javax.swing.JFrame implements InternalFrameListener{
 

@@ -26,7 +26,7 @@ import utilidades.Converter;
 
 /**
  *
- * @author 181700271
+ * @author Eduardo Pereira Moreira
  */
 public final class PersonagemDAO extends ObjetoDAO implements IDAO {
 

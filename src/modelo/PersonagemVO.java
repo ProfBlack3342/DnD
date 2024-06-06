@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 /**
  *
- * @author 181700271
+ * @author Eduardo Pereira Moreira
  */
 public final class PersonagemVO extends ObjetoVO
 {

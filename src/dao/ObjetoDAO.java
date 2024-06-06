@@ -6,7 +6,7 @@ package dao;
 
 /**
  *
- * @author dudup
+ * @author Eduardo Pereira Moreira
  */
 public abstract class ObjetoDAO
 {

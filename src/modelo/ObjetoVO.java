@@ -7,7 +7,7 @@ package modelo;
 
 /**
  *
- * @author 181700271
+ * @author Eduardo Pereira Moreira
  */
 public abstract class ObjetoVO
 {

@@ -9,7 +9,7 @@ import java.util.HashMap;
 
 /**
  *
- * @author dudup
+ * @author Eduardo Pereira Moreira
  */
 public class PericiasVO extends ObjetoVO
 {

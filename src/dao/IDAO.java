@@ -13,7 +13,7 @@ import modelo.ObjetoVO;
 
 /**
  *
- * @author 181700271
+ * @author Eduardo Pereira Moreira
  */
 public interface IDAO
 {

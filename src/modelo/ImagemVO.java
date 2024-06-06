@@ -6,7 +6,7 @@ package modelo;
 
 /**
  *
- * @author dudup
+ * @author Eduardo Pereira Moreira
  */
 public class ImagemVO extends ObjetoVO
 {

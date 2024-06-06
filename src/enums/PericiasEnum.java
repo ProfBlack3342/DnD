@@ -6,7 +6,7 @@ package enums;
 
 /**
  *
- * @author dudup
+ * @author Eduardo Pereira Moreira
  */
 public enum PericiasEnum
 {

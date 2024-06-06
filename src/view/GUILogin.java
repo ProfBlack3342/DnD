@@ -15,7 +15,7 @@ import servicos.ServicosFactory;
 
 /**
  *
- * @author 181700271
+ * @author Eduardo Pereira Moreira
  */
 public class GUILogin extends javax.swing.JFrame {
 
