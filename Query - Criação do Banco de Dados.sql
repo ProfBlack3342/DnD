@@ -1,3 +1,4 @@
+-- ----------------------------------------------------------------------------------------------------
 DROP SCHEMA IF EXISTS dnd;
 CREATE SCHEMA IF NOT EXISTS dnd;
 USE dnd;
@@ -5,9 +6,10 @@ USE dnd;
 -- ----------------------------------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS ImagemUsuario (
     idImagemUsuario INT NOT NULL,
-    nomeImagemUsuario VARCHAR(20) NOT NULL,
     caminhoImagemUsuario VARCHAR(260) NOT NULL,
-    descricaoImagemUsuario VARCHAR(60) NULL
+    descricaoImagemUsuario VARCHAR(60) NULL,
+    dataCriacaoImagemUsuario DATE NOT NULL,
+    imagemUsuarioAtiva TINYINT(1) NOT NULL DEFAULT 1
 );
 -- PK
 ALTER TABLE ImagemUsuario ADD CONSTRAINT PK_IMAGEMUSUARIO PRIMARY KEY(idImagemUsuario);
@@ -16,7 +18,9 @@ ALTER TABLE ImagemUsuario CHANGE COLUMN idImagemUsuario idImagemUsuario INT NOT 
 CREATE TABLE IF NOT EXISTS TipoUsuario (
     idTipoUsuario INT NOT NULL,
     nomeTipoUsuario VARCHAR(20) NOT NULL UNIQUE,
-    descricaoTipoUsuario VARCHAR(60) NULL
+    descricaoTipoUsuario VARCHAR(60) NULL,
+    dataCriacaoTipoUsuario DATE NOT NULL,
+    tipoUsuarioAtivo TINYINT(1) NOT NULL DEFAULT 1
 );
 -- PK
 ALTER TABLE TipoUsuario ADD CONSTRAINT PK_TIPOUSUARIO PRIMARY KEY(idTipoUsuario);
@@ -27,8 +31,8 @@ CREATE TABLE IF NOT EXISTS Usuario (
     idImagemUsuario INT NULL,
     idTipoUsuario INT NOT NULL,
     nomeUsuario VARCHAR(60) NOT NULL UNIQUE,
-    emailUsuario VARCHAR(60) NOT NULL UNIQUE,
-    senhaUsuario CHAR(60) NOT NULL,					-- Hash da senha gerado com JBCrypt
+    senhaUsuario CHAR(60) NOT NULL,
+    emailUsuario VARCHAR(60) NOT NULL,
     dataAniversarioUsuario DATE NOT NULL,
     descricaoUsuario VARCHAR(60) NULL,
     quantPersonagensTotal INT NOT NULL DEFAULT 6,
@@ -46,9 +50,10 @@ ALTER TABLE Usuario ADD CONSTRAINT FK_USUARIO_TIPOUSUARIO FOREIGN KEY(idTipoUsua
 -- ----------------------------------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS ImagemClasse (
     idImagemClasse INT NOT NULL,
-    nomeImagemClasse VARCHAR(20) NOT NULL,
     caminhoImagemClasse VARCHAR(260) NOT NULL,
-    descricaoImagemClasse VARCHAR(60) NULL
+    descricaoImagemClasse VARCHAR(60) NULL,
+    dataCriacaoImagemClasse DATE NOT NULL,
+    imagemClasseAtiva TINYINT(1) NOT NULL DEFAULT 1
 );
 -- PK
 ALTER TABLE ImagemClasse ADD CONSTRAINT PK_IMAGEMCLASSE PRIMARY KEY(idImagemClasse);
@@ -58,21 +63,22 @@ CREATE TABLE IF NOT EXISTS Classe (
     idClasse INT NOT NULL,
     idImagemClasse INT NOT NULL,
     
-    dataCriacaoPersonagem DATE NOT NULL,
-    personagemAtivo TINYINT(1) NOT NULL DEFAULT 1
+    dataCriacaoClasse DATE NOT NULL,
+    classeAtiva TINYINT(1) NOT NULL DEFAULT 1
 );
 -- PK
 ALTER TABLE Classe ADD CONSTRAINT PK_CLASSE PRIMARY KEY(idClasse);
 ALTER TABLE Classe CHANGE COLUMN idClasse idClasse INT NOT NULL AUTO_INCREMENT;
 -- FK
-ALTER TABLE Classe ADD CONSTRAINT FK_RACA_IMAGEMCLASSE FOREIGN KEY(idImagemClasse) REFERENCES ImagemClasse(idImagemClasse);
+ALTER TABLE Classe ADD CONSTRAINT FK_CLASSE_IMAGEMCLASSE FOREIGN KEY(idImagemClasse) REFERENCES ImagemClasse(idImagemClasse);
 -- ----------------------------------------------------------------------------------------------------
 -- ----------------------------------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS ImagemSubClasse (
     idImagemSubClasse INT NOT NULL,
-    nomeImagemSubClasse VARCHAR(20) NOT NULL,
     caminhoImagemSubClasse VARCHAR(260) NOT NULL,
-    descricaoImagemSubClasse VARCHAR(60) NULL
+    descricaoImagemSubClasse VARCHAR(60) NULL,
+    dataCriacaoImagemSubClasse DATE NOT NULL,
+    imagemSubClasseAtiva TINYINT(1) NOT NULL DEFAULT 1
 );
 -- PK
 ALTER TABLE ImagemSubClasse ADD CONSTRAINT PK_IMAGEMSUBCLASSE PRIMARY KEY(idImagemSubClasse);
@@ -83,21 +89,23 @@ CREATE TABLE IF NOT EXISTS SubClasse (
 	idClasse INT NOT NULL,
     idImagemSubClasse INT NOT NULL,
     
-    dataCriacaoPersonagem DATE NOT NULL,
-    personagemAtivo TINYINT(1) NOT NULL DEFAULT 1
+    dataCriacaoSubClasse DATE NOT NULL,
+    subClasseAtiva TINYINT(1) NOT NULL DEFAULT 1
 );
 -- PK
 ALTER TABLE SubClasse ADD CONSTRAINT PK_SUBCLASSE PRIMARY KEY(idSubClasse);
 ALTER TABLE SubClasse CHANGE COLUMN idSubClasse idSubClasse INT NOT NULL AUTO_INCREMENT;
 -- FK
-ALTER TABLE SubClasse ADD CONSTRAINT FK_RACA_IMAGEMSUBCLASSE FOREIGN KEY(idImagemSubClasse) REFERENCES ImagemSubClasse(idImagemSubClasse);
+ALTER TABLE SubClasse ADD CONSTRAINT FK_SUBCLASSE_CLASSE FOREIGN KEY(idClasse) REFERENCES Classe(idClasse);
+ALTER TABLE SubClasse ADD CONSTRAINT FK_SUBCLASSE_IMAGEMSUBCLASSE FOREIGN KEY(idImagemSubClasse) REFERENCES ImagemSubClasse(idImagemSubClasse);
 -- ----------------------------------------------------------------------------------------------------
 -- ----------------------------------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS ImagemRaca (
     idImagemRaca INT NOT NULL,
-    nomeImagemRaca VARCHAR(20) NOT NULL,
     caminhoImagemRaca VARCHAR(260) NOT NULL,
-    descricaoImagemRaca VARCHAR(60) NULL
+    descricaoImagemRaca VARCHAR(60) NULL,
+    dataCriacaoImagemRaca DATE NOT NULL,
+    imagemRacaAtiva TINYINT(1) NOT NULL DEFAULT 1
 );
 -- PK
 ALTER TABLE ImagemRaca ADD CONSTRAINT PK_IMAGEMRACA PRIMARY KEY(idImagemRaca);
@@ -107,21 +115,22 @@ CREATE TABLE IF NOT EXISTS Raca (
     idRaca INT NOT NULL,
     idImagemRaca INT NOT NULL,
     
-    dataCriacaoPersonagem DATE NOT NULL,
-    personagemAtivo TINYINT(1) NOT NULL DEFAULT 1
+    dataCriacaoRaca DATE NOT NULL,
+    racaAtiva TINYINT(1) NOT NULL DEFAULT 1
 );
 -- PK
 ALTER TABLE Raca ADD CONSTRAINT PK_RACA PRIMARY KEY(idRaca);
 ALTER TABLE Raca CHANGE COLUMN idRaca idRaca INT NOT NULL AUTO_INCREMENT;
 -- FK
-ALTER TABLE Raca ADD CONSTRAINT FK_RACA_IMAGEMPERSONAGEM FOREIGN KEY(idImagemRaca) REFERENCES ImagemRaca(idImagemRaca);
+ALTER TABLE Raca ADD CONSTRAINT FK_RACA_IMAGEMRACA FOREIGN KEY(idImagemRaca) REFERENCES ImagemRaca(idImagemRaca);
 -- ----------------------------------------------------------------------------------------------------
 -- ----------------------------------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS ImagemSubRaca (
     idImagemSubRaca INT NOT NULL,
-    nomeImagemSubRaca VARCHAR(20) NOT NULL,
     caminhoImagemSubRaca VARCHAR(260) NOT NULL,
-    descricaoImagemSubRaca VARCHAR(60) NULL
+    descricaoImagemSubRaca VARCHAR(60) NULL,
+    dataCriacaoImagemSubRaca DATE NOT NULL,
+    imagemSubRacaAtiva TINYINT(1) NOT NULL DEFAULT 1
 );
 -- PK
 ALTER TABLE ImagemSubRaca ADD CONSTRAINT PK_IMAGEMSUBRACA PRIMARY KEY(idImagemSubRaca);
@@ -132,15 +141,77 @@ CREATE TABLE IF NOT EXISTS SubRaca (
     idRaca INT NULL,
     idImagemSubRaca INT NOT NULL,
     
-    dataCriacaoPersonagem DATE NOT NULL,
-    personagemAtivo TINYINT(1) NOT NULL DEFAULT 1
+    dataCriacaoSubRaca DATE NOT NULL,
+    subRacaAtiva TINYINT(1) NOT NULL DEFAULT 1
 );
 -- PK
 ALTER TABLE SubRaca ADD CONSTRAINT PK_SUBRACA PRIMARY KEY(idSubRaca, idRaca);
 ALTER TABLE SubRaca CHANGE COLUMN idSubRaca idSubRaca INT NOT NULL AUTO_INCREMENT;
 -- FK
 ALTER TABLE SubRaca ADD CONSTRAINT FK_SUBRACA_RACA FOREIGN KEY(idRaca) REFERENCES Raca(idRaca);
-ALTER TABLE SubRaca ADD CONSTRAINT FK_RACA_IMAGEMPERSONAGEM FOREIGN KEY(idImagemSubRaca) REFERENCES ImagemSubRaca(idImagemSubRaca);
+ALTER TABLE SubRaca ADD CONSTRAINT FK_SUBRACA_IMAGEMSUBRACA FOREIGN KEY(idImagemSubRaca) REFERENCES ImagemSubRaca(idImagemSubRaca);
+-- ----------------------------------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS ImagemBackground (
+    idImagemBackground INT NOT NULL,
+    caminhoImagemBackground VARCHAR(260) NOT NULL,
+    descricaoImagemBackground VARCHAR(60) NULL,
+    dataCriacaoImagemBackground DATE NOT NULL,
+    imagemBackgroundAtiva TINYINT(1) NOT NULL DEFAULT 1
+);
+-- PK
+ALTER TABLE ImagemBackground ADD CONSTRAINT PK_IMAGEMBACKGROUND PRIMARY KEY(idImagemBackground);
+ALTER TABLE ImagemBackground CHANGE COLUMN idImagemBackground idImagemBackground INT NOT NULL AUTO_INCREMENT;
+-- ----------------------------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS Background (
+    idBackground INT NOT NULL,
+    idImagemBackground INT NOT NULL,
+    
+    dataCriacaoBackground DATE NOT NULL,
+    BackgroundAtivo TINYINT(1) NOT NULL DEFAULT 1
+);
+-- PK
+ALTER TABLE Background ADD CONSTRAINT PK_BACKGROUND PRIMARY KEY(idBackground);
+ALTER TABLE Background CHANGE COLUMN idBackground idBackground INT NOT NULL AUTO_INCREMENT;
+-- FK
+ALTER TABLE Background ADD CONSTRAINT FK_BACKGROUND_IMAGEMBACKGROUND FOREIGN KEY(idImagemBackground) REFERENCES ImagemBackground(idImagemBackground);
+-- ----------------------------------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS ImagemPersonagem (
+    idImagemPersonagem INT NOT NULL,
+    caminhoImagemPersonagem VARCHAR(260) NOT NULL,
+    descricaoImagemPersonagem VARCHAR(60) NULL,
+    dataCriacaoImagemPersonagem DATE NOT NULL,
+    imagemPersonagemAtiva TINYINT(1) NOT NULL DEFAULT 1
+);
+-- PK
+ALTER TABLE ImagemPersonagem ADD CONSTRAINT PK_IMAGEMPERSONAGEM PRIMARY KEY(idImagemPersonagem);
+ALTER TABLE ImagemPersonagem CHANGE COLUMN idImagemPersonagem idImagemPersonagem INT NOT NULL AUTO_INCREMENT;
+-- ----------------------------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS Personagem (
+    idPersonagem INT NOT NULL,
+    idUsuario INT NOT NULL,
+    idImagemPersonagem INT NOT NULL,
+    idClasse INT NOT NULL,
+    idSubclasse INT NOT NULL,
+    idRaca INT NOT NULL,
+    idSubraca INT NOT NULL,
+    idBackground INT NOT NULL,
+    nomePersonagem VARCHAR(60) NULL,
+    nivelPersonagem INT NOT NULL DEFAULT 1,
+    xpPersonagem INT NOT NULL DEFAULT 0,
+    inspiracaoPersonagem TINYINT(1) NOT NULL DEFAULT 0,
+    dataCriacaoPersonagem DATE NOT NULL,
+    personagemAtivo TINYINT(1) NOT NULL DEFAULT 1
+);
+-- PK
+ALTER TABLE Personagem ADD CONSTRAINT PK_PERSONAGEM PRIMARY KEY(idPersonagem, idUsuario);
+ALTER TABLE Personagem CHANGE COLUMN idPersonagem idPersonagem INT NOT NULL AUTO_INCREMENT;
+-- FK
+ALTER TABLE Personagem ADD CONSTRAINT FK_PERSONAGEM_USUARIO FOREIGN KEY(idUsuario) REFERENCES Usuario(idUsuario);
+ALTER TABLE Personagem ADD CONSTRAINT FK_PERSONAGEM_IMAGEMPERSONAGEM FOREIGN KEY(idImagemPersonagem) REFERENCES ImagemPersonagem(idImagemPersonagem);
+ALTER TABLE Personagem ADD CONSTRAINT FK_PERSONAGEM_RACA FOREIGN KEY(idRaca) REFERENCES Raca(idRaca);
+ALTER TABLE Personagem ADD CONSTRAINT FK_PERSONAGEM_CLASSE FOREIGN KEY(idClasse) REFERENCES Classe(idClasse);
 -- ----------------------------------------------------------------------------------------------------
 -- ----------------------------------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS HabilidadesPersonagem (
@@ -195,57 +266,5 @@ ALTER TABLE ProficienciasSkillPersonagem ADD CONSTRAINT PK_PROFICIENCIASSKILLPER
 ALTER TABLE ProficienciasSkillPersonagem CHANGE COLUMN idProficienciasSkillPersonagem idProficienciasSkillPersonagem INT NOT NULL AUTO_INCREMENT;
 -- FK
 ALTER TABLE ProficienciasSkillPersonagem ADD CONSTRAINT FK_PROFICIENCIASSKILLPERSONAGEM_PERSONAGEM FOREIGN KEY(idPersonagem, idUsuario) REFERENCES Personagem(idPersonagem, idUsuario);
--- ----------------------------------------------------------------------------------------------------
--- ----------------------------------------------------------------------------------------------------
-CREATE TABLE IF NOT EXISTS ImagemPersonagem (
-    idImagemPersonagem INT NOT NULL,
-    nomeImagemPersonagem VARCHAR(20) NOT NULL,
-    caminhoImagemPersonagem VARCHAR(260) NOT NULL,
-    descricaoImagemPersonagem VARCHAR(60) NULL
-);
--- PK
-ALTER TABLE ImagemPersonagem ADD CONSTRAINT PK_IMAGEMPERSONAGEM PRIMARY KEY(idImagemPersonagem);
-ALTER TABLE ImagemPersonagem CHANGE COLUMN idImagemPersonagem idImagemPersonagem INT NOT NULL AUTO_INCREMENT;
--- ----------------------------------------------------------------------------------------------------
-CREATE TABLE IF NOT EXISTS Personagem (
-    idPersonagem INT NOT NULL,
-    idUsuario INT NOT NULL,
-    idImagemPersonagem INT NULL,
-    idDescricaoPersonagem INT NULL,
-    idRaca INT NOT NULL,
-    idClasse INT NOT NULL,
-    nomePersonagem VARCHAR(60) NOT NULL UNIQUE,
-    nivel INT NOT NULL DEFAULT 0,
-    valorSTR INT NOT NULL DEFAULT 10,
-    valorDEX INT NOT NULL DEFAULT 10,
-    valorCON INT NOT NULL DEFAULT 10,
-    valorINT INT NOT NULL DEFAULT 10,
-    valorWIS INT NOT NULL DEFAULT 10,
-    valorCHA INT NOT NULL DEFAULT 10,
-    modSTR INT NOT NULL DEFAULT 0,
-    modDEX INT NOT NULL DEFAULT 0,
-    modCON INT NOT NULL DEFAULT 0,
-    modINT INT NOT NULL DEFAULT 0,
-    modWIS INT NOT NULL DEFAULT 0,
-    modCHA INT NOT NULL DEFAULT 0,
-    hpMaximo INT NOT NULL,
-    hpAtual INT NOT NULL,
-    hpTemp INT NOT NULL,
-    ac INT NOT NULL,
-    iniciativa INT NOT NULL,
-    inspiracao TINYINT(1) NOT NULL DEFAULT 0,
-    jornalDeCampo VARCHAR(250) NULL,
-    notasExtras VARCHAR(250) NULL,
-    dataCriacaoPersonagem DATE NOT NULL,
-    personagemAtivo TINYINT(1) NOT NULL DEFAULT 1
-);
--- PK
-ALTER TABLE Personagem ADD CONSTRAINT PK_PERSONAGEM PRIMARY KEY(idPersonagem, idUsuario);
-ALTER TABLE Personagem CHANGE COLUMN idPersonagem idPersonagem INT NOT NULL AUTO_INCREMENT;
--- FK
-ALTER TABLE Personagem ADD CONSTRAINT FK_PERSONAGEM_USUARIO FOREIGN KEY(idUsuario) REFERENCES Usuario(idUsuario);
-ALTER TABLE Personagem ADD CONSTRAINT FK_PERSONAGEM_IMAGEMPERSONAGEM FOREIGN KEY(idImagemPersonagem) REFERENCES ImagemPersonagem(idImagemPersonagem);
-ALTER TABLE Personagem ADD CONSTRAINT FK_PERSONAGEM_RACA FOREIGN KEY(idRaca) REFERENCES Raca(idRaca);
-ALTER TABLE Personagem ADD CONSTRAINT FK_PERSONAGEM_CLASSE FOREIGN KEY(idClasse) REFERENCES Classe(idClasse);
 -- ----------------------------------------------------------------------------------------------------
 -- ----------------------------------------------------------------------------------------------------
