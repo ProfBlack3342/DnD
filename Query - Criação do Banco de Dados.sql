@@ -1,4 +1,3 @@
--- ----------------------------------------------------------------------------------------------------
 DROP SCHEMA IF EXISTS dnd;
 CREATE SCHEMA IF NOT EXISTS dnd;
 USE dnd;
