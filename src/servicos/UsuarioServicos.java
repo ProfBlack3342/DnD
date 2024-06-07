@@ -56,10 +56,15 @@ public final class UsuarioServicos
         return uDAO.listar();
     }
     
+    public UsuarioVO[] pesquisarUsuario(boolean[] filtros, String[] dados) throws SQLException, NoDataFoundException
+    {
+        
+    }
+    
     /**
      * 
-     * @param opcao
-     * @param dado
+     * @param filtros
+     * @param dados
      * @return
      * @throws SQLException 
      * @throws NoDataFoundException 

@@ -210,7 +210,7 @@ public final class UsuarioDAO extends ObjetoDAO implements IDAO
      * @throws NoDataFoundException Se os dados informados não corresponderem a nenhum usuário do banco de dados
      */
     @Override
-    public UsuarioVO[] pesquisar(boolean[] filtros, String[] dados) throws SQLException, NoDataFoundException
+    public UsuarioVO[] pesquisar(boolean[] filtros, String[] dados, int quantDados, String query) throws SQLException, NoDataFoundException
     {
         if(filtros.length)
         

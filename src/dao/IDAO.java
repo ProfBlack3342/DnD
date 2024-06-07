@@ -37,11 +37,13 @@ public interface IDAO
      * 
      * @param filtros
      * @param dados
+     * @param quantDados
+     * @param query
      * @return
      * @throws SQLException 
      * @throws NoDataFoundException 
      */
-    ObjetoVO[] pesquisar(boolean[] filtros, String[] dados) throws SQLException, NoDataFoundException;
+    ObjetoVO[] pesquisar(boolean[] filtros, String[] dados, int quantDados, String query) throws SQLException, NoDataFoundException;
     
     /**
      * 
