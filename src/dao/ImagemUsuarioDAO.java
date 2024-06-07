@@ -133,11 +133,46 @@ public class ImagemUsuarioDAO extends ObjetoDAO implements IDAO
                     for(int i = 0; i < tamanhoArray; i++) {
                         if(filtros[i])
                         {
-                            
+                            switch(i)
+                            {
+                                case 0: //idImagemUsuario
+                                {
+                                    pstm.setInt(cont, Integer.parseInt(dados[i]));
+                                    cont++;
+                                    break;
+                                }
+                                case 1: //caminhoImagemUsuario
+                                {
+                                    pstm.setString(cont, dados[i]);
+                                    cont++;
+                                    break;
+                                }
+                                case 2: //descricaoImagemUsuario
+                                {
+                                    pstm.setString(cont, dados[i]);
+                                    cont++;
+                                    break;
+                                }
+                                case 3: //dataCriacaoImagemUsuario
+                                {
+                                    pstm.setDate(cont, java.sql.Date.valueOf(dados[i]));
+                                    cont++;
+                                    break;
+                                }
+                                case 4: //usuarioAtivo
+                                {
+                                    if(dados[i].toLowerCase().equals("falso"))
+                                        pstm.setBoolean(cont, false);
+                                    else
+                                        pstm.setBoolean(cont, true);
+                                    
+                                    break;
+                                }
+                            }
                         }
                     }
                     
-                    pstm.setInt(1, Integer.parseInt(dado));
+                    
                     try(ResultSet rs = pstm.executeQuery();)
                     {
                         while(rs.next())
