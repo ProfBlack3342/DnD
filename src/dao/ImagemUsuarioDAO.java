@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import enums.QuantColunasBanco;
 import exception.ForbiddenArgumentTypeException;
 import exception.NoDataFoundException;
 import modelo.ImagemVO;
@@ -45,145 +46,122 @@ public class ImagemUsuarioDAO extends ObjetoDAO implements IDAO
     }
 
     @Override
-    public ImagemVO[] pesquisar(int opcao, String dado) throws SQLException, NoDataFoundException {
-        if(dado == null || dado.isEmpty())
-            throw new NoDataFoundException("Erro em ImagemDAO.pesquisar: Nenhum dado informado!");
+    public ImagemVO[] pesquisar(boolean[] filtros, String[] dados) throws SQLException, NoDataFoundException {
+        
+        int tamanhoArray = QuantColunasBanco.IMAGEM_USUARIO.getQuantColunas();
+        
+        if(filtros == null || dados == null)
+            throw new NoDataFoundException("Erro em ImagemDAO.pesquisar: Filtro ou Dados não informados!");
+        else if(filtros.length != tamanhoArray || dados.length != tamanhoArray)
+            throw new NoDataFoundException("Erro em ImagemDAO.pesquisar: Quantidade de dados/filtros inválida!");
         else
         {
-            String sql;
+            StringBuffer sql = new StringBuffer("SELECT * FROM imagemUsuario WHERE");
             ArrayList<ImagemVO> listaResultados = new ArrayList<>();
             
             try(Connection con = new ConexaoBanco().getConexao();)
             {
-                switch(opcao)
+                boolean flagAnd = false;
+                for(int i = 0; i < tamanhoArray; i++)
                 {
-                    case 1: // idImagemUsuario
+                    if(filtros[i])
                     {
-                        sql = "SELECT * "
-                                + "FROM imagemUsuario "
-                                + "WHERE idImagemUsuario = ? "
-                                + "LIMIT 1";
-                        
-                        try(PreparedStatement pstm = con.prepareStatement(sql);)
+                        switch(i)
                         {
-                            pstm.setInt(1, Integer.parseInt(dado));
-                            try(ResultSet rs = pstm.executeQuery();)
+                            case 0:
                             {
-                                while(rs.next())
-                                {
-                                    ImagemVO iVO = new ImagemVO();
-                                    
-                                    iVO.setId(rs.getInt("idImagemUsuario"));
-                                    
-                                    iVO.setCaminhoImagem(rs.getString("caminhoimagemusuario"));
-                                    iVO.setDescricaoImagem(rs.getString("descricaoimagemusuario"));
-                                    
-                                    String[] diaMesAno = Converter.converterSQLDateParaDiaMesAno(rs.getDate("dataCriacaoImagemUsuario"));
-                                    iVO.setDiaCriacao(diaMesAno[0]);
-                                    iVO.setMesCriacao(diaMesAno[1]);
-                                    iVO.setAnoCriacao(diaMesAno[2]);
-                                    iVO.setAtivo(rs.getBoolean("imagemUsuarioAtivo"));
-                                    
-                                    listaResultados.add(iVO);
-                                }
-                                if(!listaResultados.isEmpty())
-                                    return listaResultados.toArray(new ImagemVO[listaResultados.size()]);
+                                sql.append(" idImagemUsuario = ?");
+                                flagAnd = true;
+                                
+                                break;
+                            }
+                            case 1:
+                            {
+                                if(flagAnd)
+                                    sql.append(" AND caminhoImagemUsuario = ?");
                                 else
-                                    throw new NoDataFoundException("Erro em ImagemDAO.pesquisar: Nenhuma imagem registrada com esse id!");
+                                {
+                                    sql.append(" caminhoImagemUsuario = ?");
+                                    flagAnd = true;
+                                }
+                                
+                                break;
+                            }
+                            case 2:
+                            {
+                                if(flagAnd)
+                                    sql.append(" AND descricaoImagemUsuario = ?");
+                                else
+                                {
+                                    sql.append(" descricaoImagemUsuario = ?");
+                                    flagAnd = true;
+                                }
+                                
+                                break;
+                            }
+                            case 3:
+                            {
+                                if(flagAnd)
+                                    sql.append(" AND dataCriacaoImagemUsuario = ?");
+                                else
+                                {
+                                    sql.append(" dataCriacaoImagemUsuario = ?");
+                                    flagAnd = true;
+                                }
+                                
+                                break;
+                            }
+                            case 4:
+                            {
+                                if(flagAnd)
+                                    sql.append(" AND usuarioAtivo = ?");
+                                else
+                                {
+                                    sql.append(" usuarioAtivo = ?");
+                                    flagAnd = true;
+                                }
+                                
+                                break;
                             }
                         }
                     }
-                    
-                    case 2: // dataCriacaoImagemUsuario
-                    {
-                        sql = "SELECT * "
-                                + "FROM imagemUsuario "
-                                + "WHERE dataCriacaoImagemUsuario = ?";
-                        
-                        try(PreparedStatement pstm = con.prepareStatement(sql);)
-                        {
-                            pstm.setDate(1, java.sql.Date.valueOf(dado));
-                            try(ResultSet rs = pstm.executeQuery();)
-                            {
-                                while(rs.next())
-                                {
-                                    ImagemVO iVO = new ImagemVO();
-                                    
-                                    iVO.setId(rs.getInt("idImagemUsuario"));
-                                    
-                                    iVO.setCaminhoImagem(rs.getString("caminhoimagemusuario"));
-                                    iVO.setDescricaoImagem(rs.getString("descricaoimagemusuario")); 
-                                    
-                                    String[] diaMesAno = Converter.converterSQLDateParaDiaMesAno(rs.getDate("dataCriacaoImagemUsuario"));
-                                    iVO.setDiaCriacao(diaMesAno[0]);
-                                    iVO.setMesCriacao(diaMesAno[1]);
-                                    iVO.setAnoCriacao(diaMesAno[2]);
-                                    iVO.setAtivo(rs.getBoolean("imagemUsuarioAtivo"));
-                                    
-                                    listaResultados.add(iVO);
-                                }
-                                if(!listaResultados.isEmpty())
-                                    return listaResultados.toArray(new ImagemVO[listaResultados.size()]);
-                                else
-                                    throw new NoDataFoundException("Erro em ImagemDAO.pesquisar: Nenhuma imagem registrada com criação nessa data!");
-                            }
-                        }
-                    }
+                }
                 
-                    case 3: // usuarioAtivo
-                    {
-                        sql = "SELECT * "
-                                + "FROM imagemUsuario "
-                                + "WHERE imagemUsuarioAtivo = ?";
-                        
-                        try(PreparedStatement pstm = con.prepareStatement(sql);)
+                try(PreparedStatement pstm = con.prepareStatement(sql.toString());)
+                {
+                    int cont = 1;
+                    for(int i = 0; i < tamanhoArray; i++) {
+                        if(filtros[i])
                         {
-                            boolean ativa;
-                            switch (dado.toLowerCase())
-                            {
-                                case "verdadeiro":
-                                case "sim":
-                                    ativa = true;
-                                    break;
-                                case "falso":
-                                case "não":
-                                    ativa = false;
-                                    break;
-                                default:
-                                    throw new NoDataFoundException("Erro em ImagemDAO.pesquisar: Dado informado é inválido!");
-                            }
                             
-                            pstm.setBoolean(1, ativa);
-                            
-                            try(ResultSet rs = pstm.executeQuery();)
-                            {
-                                while(rs.next())
-                                {
-                                    ImagemVO iVO = new ImagemVO();
-                                    
-                                    iVO.setId(rs.getInt("idImagemUsuario"));
-                                    
-                                    iVO.setCaminhoImagem(rs.getString("caminhoimagemusuario"));
-                                    iVO.setDescricaoImagem(rs.getString("descricaoimagemusuario"));    
-                                    
-                                    String[] diaMesAno = Converter.converterSQLDateParaDiaMesAno(rs.getDate("dataCriacaoImagemUsuario"));
-                                    iVO.setDiaCriacao(diaMesAno[0]);
-                                    iVO.setMesCriacao(diaMesAno[1]);
-                                    iVO.setAnoCriacao(diaMesAno[2]);
-                                    iVO.setAtivo(rs.getBoolean("imagemUsuarioAtivo"));
-                                    
-                                    listaResultados.add(iVO);
-                                }
-                                if(!listaResultados.isEmpty())
-                                    return listaResultados.toArray(new ImagemVO[listaResultados.size()]);
-                                else
-                                    throw new NoDataFoundException("Erro em ImagemDAO.pesquisar: Nenhuma imagem registrada está ativa!");
-                            }
                         }
                     }
                     
-                    default:
-                        throw new NoDataFoundException("Erro em ImagemDAO.pesquisar: Opção de pesquisa inválida!");
+                    pstm.setInt(1, Integer.parseInt(dado));
+                    try(ResultSet rs = pstm.executeQuery();)
+                    {
+                        while(rs.next())
+                        {
+                            ImagemVO iVO = new ImagemVO();
+
+                            iVO.setId(rs.getInt("idImagemUsuario"));
+
+                            iVO.setCaminhoImagem(rs.getString("caminhoimagemusuario"));
+                            iVO.setDescricaoImagem(rs.getString("descricaoimagemusuario"));
+
+                            String[] diaMesAno = Converter.converterSQLDateParaDiaMesAno(rs.getDate("dataCriacaoImagemUsuario"));
+                            iVO.setDiaCriacao(diaMesAno[0]);
+                            iVO.setMesCriacao(diaMesAno[1]);
+                            iVO.setAnoCriacao(diaMesAno[2]);
+                            iVO.setAtivo(rs.getBoolean("imagemUsuarioAtiva"));
+
+                            listaResultados.add(iVO);
+                        }
+                        if(!listaResultados.isEmpty())
+                            return listaResultados.toArray(new ImagemVO[listaResultados.size()]);
+                        else
+                            throw new NoDataFoundException("Erro em ImagemDAO.pesquisar: Nenhuma imagem registrada com esse id!");
+                    }
                 }
             }
             catch(SQLException se)

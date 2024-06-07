@@ -201,17 +201,23 @@ public final class UsuarioDAO extends ObjetoDAO implements IDAO
         }
     }
     
+    public UsuarioVO[] pesquisarId(int id) throws SQLException, NoDataFoundException {
+        return pesquisar(new boolean[0], new String[]{Integer.toString(id)});
+    }
     /**
      * 
-     * @param opcao
-     * @param dado
+     * @param filtros
+     * @param dados
      * @return
      * @throws SQLException Se houver algum erro na comunicação com o banco de dados
      * @throws NoDataFoundException Se os dados informados não corresponderem a nenhum usuário do banco de dados
      */
     @Override
-    public UsuarioVO[] pesquisar(int opcao, String dado) throws SQLException, NoDataFoundException
+    public UsuarioVO[] pesquisar(boolean[] filtros, String[] dados) throws SQLException, NoDataFoundException
     {
+        if(filtros.length)
+        
+        
         if(dado == null || dado.isEmpty())
             throw new NoDataFoundException("Erro em UsuarioDAO.pesquisar: Nenhum dado informado!");
         else
@@ -227,7 +233,7 @@ public final class UsuarioDAO extends ObjetoDAO implements IDAO
                     {
                         sql = "SELECT * "
                                 + "FROM usuario "
-                                + "WHERE idUsuario = ? "
+                                + "WHERE idUsuario = ?"
                                 + "LIMIT 1";
                         
                         try(PreparedStatement pstm = con.prepareStatement(sql);)

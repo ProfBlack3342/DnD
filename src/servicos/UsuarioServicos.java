@@ -64,10 +64,10 @@ public final class UsuarioServicos
      * @throws SQLException 
      * @throws NoDataFoundException 
      */
-    public UsuarioVO[] pesquisarUsuario(int opcao, String dado) throws SQLException, NoDataFoundException
+    public UsuarioVO[] pesquisarUsuario(boolean[] filtros, String[] dados) throws SQLException, NoDataFoundException
     {
         UsuarioDAO uDAO = DAOFactory.getUsuarioDAO();
-        return uDAO.pesquisar(opcao, dado);
+        return uDAO.pesquisar(filtros, dados);
     }
     
     /**

@@ -11,8 +11,8 @@ INSERT INTO ImagemClasse (
 	)
 VALUES (
 		null,
-        "C:\\Users\\dudup\\Documents\\NetBeansProjects\\DnD\\src\\img\\coconut.jpg",
-        "Imagem Default Classe",
+        "/img/coconut.jpg",
+        "Coco",
         '2024-06-05',
         true
 	);
@@ -26,8 +26,8 @@ INSERT INTO ImagemSubClasse (
 	)
 VALUES (
 		null,
-        "C:\\Users\\dudup\\Documents\\NetBeansProjects\\DnD\\src\\img\\coconut.jpg",
-        "Imagem Default Subclasse",
+        "/img/coconut.jpg",
+        "Coco",
         '2024-06-05',
         true
 	);
@@ -42,8 +42,8 @@ INSERT INTO ImagemRaca (
 	)
 VALUES (
 		null,
-        "C:\\Users\\dudup\\Documents\\NetBeansProjects\\DnD\\src\\img\\coconut.jpg",
-        "Imagem Default Raça",
+        "img/coconut.jpg",
+        "Coco",
         '2024-06-05',
         true
 	);
@@ -57,8 +57,8 @@ INSERT INTO ImagemSubRaca (
 	)
 VALUES (
 		null,
-        "C:\\Users\\dudup\\Documents\\NetBeansProjects\\DnD\\src\\img\\coconut.jpg",
-        "Imagem Default Subraça",
+        "img/coconut.jpg",
+        "Coco",
         '2024-06-05',
         true
 	);
@@ -73,8 +73,8 @@ INSERT INTO ImagemBackground (
 	)
 VALUES (
 		null,
-        "C:\\Users\\dudup\\Documents\\NetBeansProjects\\DnD\\src\\img\\coconut.jpg",
-        "Imagem Default Background",
+        "img/coconut.jpg",
+        "Coco",
         '2024-06-05',
         true
 	);
@@ -89,8 +89,8 @@ INSERT INTO ImagemUsuario (
 	)
 VALUES (
 		null, 
-		"C:\\Users\\dudup\\Documents\\NetBeansProjects\\DnD\\src\\img\\coconut.jpg",
-        "Imagem Default Usuario",
+		"img/coconut.jpg",
+        "Coco",
         '2024-04-12',
 		true
 	);
@@ -132,8 +132,8 @@ INSERT INTO ImagemPersonagem (
 	)
 VALUES (
 		null,
-        "C:\\Users\\dudup\\Documents\\NetBeansProjects\\DnD\\src\\img\\coconut.jpg",
-        "Imagem Default Personagem",
+        "img/coconut.jpg",
+        "Coco",
         '2024-06-05',
         true
 	);
@@ -222,7 +222,7 @@ VALUES (
 		null, 
 		1, 
 		1, 
-		"adminTeste", 
+		"admin", 
 		"$2a$12$5v7aVg.vH6ITJpBtg.wZi.ltuu6kGi/QHtPRBxFOgl5pXVG2XY/U6", 
         "admin@teste.com",
 		"1995-06-06", 
@@ -235,7 +235,7 @@ VALUES (
 		null, 
 		1, 
 		2, 
-		"gmTeste",
+		"gm",
 		"$2a$12$OdWIpJv/K8An3agDEWzFl.JJ28fnP1PisgLQjgMda5qHQAaFrVYMe", 
         "gm@teste.com", 
 		"1995-06-06", 
@@ -248,7 +248,7 @@ VALUES (
 		null, 
 		1, 
 		3, 
-		"jogadorTeste",
+		"user",
 		"$2a$12$yVKR9Rwm9o8Ho0bSuUhrNeyXVk1.3.7PgWJ.usozPjVew4134YOia", 
         "usuario@teste.com", 
 		"1995-06-06", 

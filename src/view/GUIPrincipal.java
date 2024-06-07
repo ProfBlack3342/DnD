@@ -28,13 +28,17 @@ import servicos.ServicosFactory;
 public class GUIPrincipal extends javax.swing.JFrame implements InternalFrameListener{
 
     private UsuarioVO usuarioVOLogado;
-    private ImagemVO[] imagemUsuarioVOLogado;
     
     private boolean flagGUIPersonagens = false;
     private boolean flagGUIFichas = false;
     
     private GUIPrincipal() {
-        System.exit(0);
+        JOptionPane.showMessageDialog(null, "Erro: Faça login antes de utilizar o programa!", "Erro", JOptionPane.ERROR_MESSAGE);
+        GUILogin guiL = new GUILogin();
+        guiL.setVisible(true);
+        
+        setVisible(false);
+        dispose();
     }
     /**
      * Creates new form GUIPrincipal
@@ -49,25 +53,21 @@ public class GUIPrincipal extends javax.swing.JFrame implements InternalFrameLis
     private void preencherPerfil(){
         try
         {
-            String dadoPesquisa = Integer.toString(usuarioVOLogado.getIdImagem());
-            imagemUsuarioVOLogado = ServicosFactory.getImagemServicos().pesquisarImagemUsuario(1, dadoPesquisa);
-            
-            BufferedImage imagemUsuario = ImageIO.read(
-                    getClass().getResource(imagemUsuarioVOLogado[0].getCaminhoImagem())
-            );
+            String caminhoImagem = ServicosFactory.getImagemServicos().pesquisarImagemUsuario(usuarioVOLogado.getIdImagem()).getCaminhoImagem();
+            BufferedImage imagemUsuario = ImageIO.read(getClass().getResourceAsStream(caminhoImagem));
             
             jLabelImagem.setIcon(new ImageIcon(imagemUsuario));
+            jLabelImagem.setText(null);
             jLabelNomeUsuario.setText(usuarioVOLogado.getNome());
         }
-        catch (SQLException | NoDataFoundException | IOException ex)
+        catch (SQLException | NoDataFoundException | IOException | IllegalArgumentException ex)
         {
-            JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro/aaa", JOptionPane.ERROR_MESSAGE);
         }
     }
     
     private void limparPerfil(){
         usuarioVOLogado = null;
-        imagemUsuarioVOLogado = null;
         jLabelImagem.setIcon(null);
         jLabelNomeUsuario.setText(null);
     }
