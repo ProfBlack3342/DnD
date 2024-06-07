@@ -201,9 +201,6 @@ public final class UsuarioDAO extends ObjetoDAO implements IDAO
         }
     }
     
-    public UsuarioVO[] pesquisarId(int id) throws SQLException, NoDataFoundException {
-        return pesquisar(new boolean[0], new String[]{Integer.toString(id)});
-    }
     /**
      * 
      * @param filtros
