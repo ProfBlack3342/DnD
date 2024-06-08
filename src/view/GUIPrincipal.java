@@ -55,9 +55,7 @@ public class GUIPrincipal extends javax.swing.JFrame implements InternalFrameLis
     private void preencherPerfil(){
         try
         {
-            ImagemPersonagemVO imagemPersonagem = new ImagemPersonagemVO();
-            imagemPersonagem.setValorColuna(ColunasImagemUsuarioEnum.ID_IMAGEM_USUARIO, usuarioVOLogado.getIdImagem());
-            imagemPersonagem = ServicosFactory.getImagemServicos().pesquisarImagemUsuario(imagemPersonagem)[0];
+            ImagemPersonagemVO imagemPersonagem = ServicosFactory.getImagemServicos().pesquisarImagemUsuario(usuarioVOLogado.getIdImagem());
             String caminhoImagem = (String) imagemPersonagem.getValorColuna(ColunasImagemUsuarioEnum.CAMINHO_IMAGEM_USUARIO);
             BufferedImage imagemUsuario = ImageIO.read(getClass().getResourceAsStream(caminhoImagem));
             

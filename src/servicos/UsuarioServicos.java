@@ -56,23 +56,16 @@ public final class UsuarioServicos
         return uDAO.listar();
     }
     
-    public UsuarioVO[] pesquisarUsuario(boolean[] filtros, String[] dados) throws SQLException, NoDataFoundException
-    {
-        
-    }
-    
     /**
-     * 
-     * @param filtros
-     * @param dados
+     *
+     * @param uVO
      * @return
-     * @throws SQLException 
-     * @throws NoDataFoundException 
+     * @throws SQLException
+     * @throws NoDataFoundException
      */
-    public UsuarioVO[] pesquisarUsuario(boolean[] filtros, String[] dados) throws SQLException, NoDataFoundException
+    public UsuarioVO[] pesquisarUsuario(UsuarioVO uVO) throws SQLException, NoDataFoundException
     {
-        UsuarioDAO uDAO = DAOFactory.getUsuarioDAO();
-        return uDAO.pesquisar(filtros, dados);
+        return DAOFactory.getUsuarioDAO().pesquisar(uVO);
     }
     
     /**

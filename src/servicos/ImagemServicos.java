@@ -16,6 +16,11 @@ import modelo.ImagemPersonagemVO;
  * @author Eduardo Pereira Moreira
  */
 public class ImagemServicos {
+    
+    public ImagemPersonagemVO pesquisarImagemUsuario(int id) throws SQLException, NoDataFoundException, IllegalArgumentException {
+        return DAOFactory.getImagemDAO().pesquisar(id);
+    }
+    
     public ImagemPersonagemVO[] pesquisarImagemUsuario(ImagemPersonagemVO ipVO) throws SQLException, NoDataFoundException, IllegalArgumentException {
         return DAOFactory.getImagemDAO().pesquisar(ipVO);
     }

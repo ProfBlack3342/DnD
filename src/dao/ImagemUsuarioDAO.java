@@ -46,11 +46,58 @@ public class ImagemUsuarioDAO extends ObjetoDAO implements IDAO
     public ImagemPersonagemVO[] listar() throws SQLException, NoDataFoundException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+    
+    public ImagemPersonagemVO pesquisar(int id) throws SQLException, NoDataFoundException
+    {
+        String query = "SELECT * FROM imagemUsuario WHERE " + ColunasImagemUsuarioEnum.ID_IMAGEM_USUARIO.getNome() + " = ?";
+        
+        try(Connection con = new ConexaoBanco().getConexao();
+                PreparedStatement pstm = con.prepareStatement(query);)
+        {
+            pstm.setInt(1, id);
+        
+            try(ResultSet rs = pstm.executeQuery();)
+            {
+                ImagemPersonagemVO ipVOsaida = new ImagemPersonagemVO();
+                    
+                if(rs.next())
+                {
+                    ipVOsaida.setValorColuna(
+                            ColunasImagemUsuarioEnum.ID_IMAGEM_USUARIO,
+                            rs.getInt(ColunasImagemUsuarioEnum.ID_IMAGEM_USUARIO.getNome()));
+                    ipVOsaida.setValorColuna(
+                            ColunasImagemUsuarioEnum.CAMINHO_IMAGEM_USUARIO,
+                            rs.getString(ColunasImagemUsuarioEnum.CAMINHO_IMAGEM_USUARIO.getNome()));
+                    ipVOsaida.setValorColuna(
+                            ColunasImagemUsuarioEnum.DESCRICAO_IMAGEM_USUARIO,
+                            rs.getString(ColunasImagemUsuarioEnum.DESCRICAO_IMAGEM_USUARIO.getNome()));
+                    ipVOsaida.setValorColuna(
+                            ColunasImagemUsuarioEnum.DATA_CRIACAO_IMAGEM_USUARIO,
+                            Converter.converterSQLDateParaDiaMesAno(rs.getDate(ColunasImagemUsuarioEnum.DATA_CRIACAO_IMAGEM_USUARIO.getNome())));
+                    ipVOsaida.setValorColuna(
+                            ColunasImagemUsuarioEnum.IMAGEM_USUARIO_ATIVA,
+                            rs.getBoolean(ColunasImagemUsuarioEnum.IMAGEM_USUARIO_ATIVA.getNome()));
+                    
+                    return ipVOsaida;
+                }
+                else
+                    throw new NoDataFoundException("Erro em ImagemDAO.pesquisar: Nenhuma imagem registrada com esse id!");
+            }
+        }
+        catch(SQLException se)
+        {
+            throw new SQLException("Erro em ImagemUsuarioDAO.pesquisar: " + se.getMessage());
+        }
+        catch(IllegalArgumentException ie)
+        {
+            throw new IllegalArgumentException("Erro em ImagemUsuarioDAO.pesquisar: Formato da data informada é inválido (Deve ser Ano-Mês-Dia)!");
+        }
+    }
 
     @Override
-    public ImagemPersonagemVO[] pesquisar(ObjetoVO imagemPersonagem) throws SQLException, NoDataFoundException
+    public ImagemPersonagemVO[] pesquisar(ObjetoVO oVO) throws SQLException, NoDataFoundException
     {
-        ImagemPersonagemVO ipVO = (ImagemPersonagemVO) imagemPersonagem;
+        ImagemPersonagemVO ipVO = (ImagemPersonagemVO) oVO;
         
         final StringBuilder query = new StringBuilder("SELECT * FROM imagemUsuario WHERE");
         ColunasImagemUsuarioEnum[] colunas = ColunasImagemUsuarioEnum.values();
@@ -142,11 +189,9 @@ public class ImagemUsuarioDAO extends ObjetoDAO implements IDAO
                 }
             }
 
-            ArrayList<ImagemPersonagemVO> listaResultados = new ArrayList<>();
-            
-            
             try(ResultSet rs = pstm.executeQuery();)
             {
+                ArrayList<ImagemPersonagemVO> listaResultados = new ArrayList<>();
                 while(rs.next())
                 {
                     ImagemPersonagemVO ipVOsaida = new ImagemPersonagemVO();

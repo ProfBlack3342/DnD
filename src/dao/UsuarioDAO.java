@@ -4,6 +4,7 @@
  */
 package dao;
 
+import enums.ColunasUsuarioEnum;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -203,26 +204,25 @@ public final class UsuarioDAO extends ObjetoDAO implements IDAO
     
     /**
      * 
-     * @param filtros
-     * @param dados
+     * @param uVO
      * @return
      * @throws SQLException Se houver algum erro na comunicação com o banco de dados
      * @throws NoDataFoundException Se os dados informados não corresponderem a nenhum usuário do banco de dados
      */
     @Override
-    public UsuarioVO[] pesquisar(boolean[] filtros, String[] dados, int quantDados, String query) throws SQLException, NoDataFoundException
+    public UsuarioVO[] pesquisar(ObjetoVO oVO) throws SQLException, NoDataFoundException
     {
-        ImagemPersonagemVO ipVO = (ImagemPersonagemVO) imagemPersonagem;
+        UsuarioVO uVO = (UsuarioVO) oVO;
         
         final StringBuilder query = new StringBuilder("SELECT * FROM imagemUsuario WHERE");
-        ColunasImagemUsuarioEnum[] colunas = ColunasImagemUsuarioEnum.values();
-        ArrayList<ColunasImagemUsuarioEnum> colunasModificadas = new ArrayList<>();
+        ColunasUsuarioEnum[] colunas = ColunasUsuarioEnum.values();
+        ArrayList<ColunasUsuarioEnum> colunasModificadas = new ArrayList<>();
         
         boolean temValor = false;
         boolean flagAnd = false;
-        for(ColunasImagemUsuarioEnum coluna : colunas)
+        for(ColunasUsuarioEnum coluna : colunas)
         {
-            Object valor = ipVO.getValorColuna(coluna);
+            Object valor = uVO.getValorColuna(coluna);
             if(valor != null)
             {
                 if(!temValor)
@@ -254,31 +254,31 @@ public final class UsuarioDAO extends ObjetoDAO implements IDAO
                 {
                     case ID_IMAGEM_USUARIO:
                     {
-                        int idImagem = (Integer)ipVO.getValorColuna(ColunasImagemUsuarioEnum.ID_IMAGEM_USUARIO);
+                        int idImagem = (Integer)uVO.getValorColuna(ColunasImagemUsuarioEnum.ID_IMAGEM_USUARIO);
                         pstm.setInt(i + 1, idImagem);
                         break;
                     }
                     case CAMINHO_IMAGEM_USUARIO:
                     {
-                        String caminhoImagem = (String)ipVO.getValorColuna(ColunasImagemUsuarioEnum.CAMINHO_IMAGEM_USUARIO);
+                        String caminhoImagem = (String)uVO.getValorColuna(ColunasImagemUsuarioEnum.CAMINHO_IMAGEM_USUARIO);
                         pstm.setString(i + 1, caminhoImagem);
                         break;
                     }
                     case DESCRICAO_IMAGEM_USUARIO:
                     {
-                        String descricaoImagem = (String)ipVO.getValorColuna(ColunasImagemUsuarioEnum.DESCRICAO_IMAGEM_USUARIO);
+                        String descricaoImagem = (String)uVO.getValorColuna(ColunasImagemUsuarioEnum.DESCRICAO_IMAGEM_USUARIO);
                         pstm.setString(i + 1, descricaoImagem);
                         break;
                     }
                     case DATA_CRIACAO_IMAGEM_USUARIO:
                     {
-                        String dataCriacaoImagem = (String) ipVO.getValorColuna(ColunasImagemUsuarioEnum.DATA_CRIACAO_IMAGEM_USUARIO);
+                        String dataCriacaoImagem = (String) uVO.getValorColuna(ColunasImagemUsuarioEnum.DATA_CRIACAO_IMAGEM_USUARIO);
                         pstm.setDate(i + 1, java.sql.Date.valueOf(dataCriacaoImagem));
                         break;
                     }
                     case IMAGEM_USUARIO_ATIVA:
                     {
-                        String imagemAtivaString = (String) ipVO.getValorColuna(ColunasImagemUsuarioEnum.IMAGEM_USUARIO_ATIVA);
+                        String imagemAtivaString = (String) uVO.getValorColuna(ColunasImagemUsuarioEnum.IMAGEM_USUARIO_ATIVA);
                         boolean imagemAtiva;
                         switch (imagemAtivaString)
                         {
