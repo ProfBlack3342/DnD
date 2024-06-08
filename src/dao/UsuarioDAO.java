@@ -204,7 +204,7 @@ public final class UsuarioDAO extends ObjetoDAO implements IDAO
     
     /**
      * 
-     * @param uVO
+     * @param oVO
      * @return
      * @throws SQLException Se houver algum erro na comunicação com o banco de dados
      * @throws NoDataFoundException Se os dados informados não corresponderem a nenhum usuário do banco de dados
