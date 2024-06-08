@@ -27,17 +27,17 @@ public enum ColunasImagemUsuarioEnum
     IMAGEM_USUARIO_ATIVA("imagemUsuarioAtiva", TiposDadosBancoEnum.TINYINT, false);
     
     private final String nome;
-    private final TiposDadosBancoEnum tipoDado;
+    private final TiposDadosBancoEnum tipo;
     private final boolean possivelNulo;
 
-    private ColunasImagemUsuarioEnum(String nome, TiposDadosBancoEnum tipoDado, boolean possivelNulo) {
+    private ColunasImagemUsuarioEnum(String nome, TiposDadosBancoEnum tipo, boolean possivelNulo) {
         this.nome = nome;
-        this.tipoDado = tipoDado;
+        this.tipo = tipo;
         this.possivelNulo = possivelNulo;
     }
 
     public String getNome() {return nome;}
-    public TiposDadosBancoEnum getTipoDado() {return tipoDado;}
+    public TiposDadosBancoEnum getTipo() {return tipo;}
     public boolean isPossivelNulo() {return possivelNulo;}
     
     public static int getQuantColunas() {return values().length;}

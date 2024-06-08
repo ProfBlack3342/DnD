@@ -5,6 +5,7 @@
  */
 package view;
 
+import enums.ColunasImagemUsuarioEnum;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -17,6 +18,7 @@ import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.InternalFrameListener;
 
 import exception.NoDataFoundException;
+import modelo.ImagemPersonagemVO;
 import modelo.ImagemVO;
 import modelo.UsuarioVO;
 import servicos.ServicosFactory;
@@ -53,7 +55,10 @@ public class GUIPrincipal extends javax.swing.JFrame implements InternalFrameLis
     private void preencherPerfil(){
         try
         {
-            String caminhoImagem = ServicosFactory.getImagemServicos().pesquisarImagemUsuario(usuarioVOLogado.getIdImagem()).getCaminhoImagem();
+            ImagemPersonagemVO imagemPersonagem = new ImagemPersonagemVO();
+            imagemPersonagem.setValorColuna(ColunasImagemUsuarioEnum.ID_IMAGEM_USUARIO, usuarioVOLogado.getIdImagem());
+            imagemPersonagem = ServicosFactory.getImagemServicos().pesquisarImagemUsuario(imagemPersonagem)[0];
+            String caminhoImagem = (String) imagemPersonagem.getValorColuna(ColunasImagemUsuarioEnum.CAMINHO_IMAGEM_USUARIO);
             BufferedImage imagemUsuario = ImageIO.read(getClass().getResourceAsStream(caminhoImagem));
             
             jLabelImagem.setIcon(new ImageIcon(imagemUsuario));

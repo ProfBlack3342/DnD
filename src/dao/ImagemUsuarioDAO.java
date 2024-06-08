@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import enums.ColunasImagemUsuarioEnum;
 import exception.ForbiddenArgumentTypeException;
 import exception.NoDataFoundException;
+import java.util.HashMap;
+import modelo.ImagemPersonagemVO;
 import modelo.ImagemVO;
 import modelo.ObjetoVO;
 import persistencia.ConexaoBanco;
@@ -41,95 +43,134 @@ public class ImagemUsuarioDAO extends ObjetoDAO implements IDAO
     }
 
     @Override
-    public ImagemVO[] listar() throws SQLException, NoDataFoundException {
+    public ImagemPersonagemVO[] listar() throws SQLException, NoDataFoundException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public ImagemVO[] pesquisar(boolean[] filtros, String[] dados, int quantDados, String query) throws SQLException, NoDataFoundException {
+    public ImagemPersonagemVO[] pesquisar(ObjetoVO imagemPersonagem) throws SQLException, NoDataFoundException
+    {
+        ImagemPersonagemVO ipVO = (ImagemPersonagemVO) imagemPersonagem;
         
-        int tamanhoArray = ColunasImagemUsuarioEnum.getQuantColunas();
+        final StringBuilder query = new StringBuilder("SELECT * FROM imagemUsuario WHERE");
+        ColunasImagemUsuarioEnum[] colunas = ColunasImagemUsuarioEnum.values();
+        ArrayList<ColunasImagemUsuarioEnum> colunasModificadas = new ArrayList<>();
+        
+        boolean temValor = false;
+        boolean flagAnd = false;
+        for(ColunasImagemUsuarioEnum coluna : colunas)
+        {
+            Object valor = ipVO.getValorColuna(coluna);
+            if(valor != null)
+            {
+                if(!temValor)
+                    temValor = true;
+                
+                if (flagAnd)
+                {
+                    query.append(" AND ").append(coluna.getNome()).append(" = ?");
+                    colunasModificadas.add(coluna);
+                }
+                else
+                {
+                    query.append(" ").append(coluna.getNome()).append(" = ?");
+                    colunasModificadas.add(coluna);
+                    flagAnd = true;
+                }
+            }
+        }
+        
         
         try(Connection con = new ConexaoBanco().getConexao();
-                PreparedStatement pstm = con.prepareStatement(query);)
+                PreparedStatement pstm = con.prepareStatement(query.toString());)
         {
-            ArrayList<ImagemVO> listaResultados = new ArrayList<>();
-            int cont = 1;
-            int quant = quantDados;
             
-            for(int i = 0; i < tamanhoArray; i++)
+            
+            for(int i = 0; i < colunasModificadas.size(); i++)
             {
-                if(quant > 0 || filtros[i])
+                switch(colunasModificadas.get(i))
                 {
-                    switch(i)
+                    case ID_IMAGEM_USUARIO:
                     {
-                        case 0: //idImagemUsuario
+                        int idImagem = (Integer)ipVO.getValorColuna(ColunasImagemUsuarioEnum.ID_IMAGEM_USUARIO);
+                        pstm.setInt(i + 1, idImagem);
+                        break;
+                    }
+                    case CAMINHO_IMAGEM_USUARIO:
+                    {
+                        String caminhoImagem = (String)ipVO.getValorColuna(ColunasImagemUsuarioEnum.CAMINHO_IMAGEM_USUARIO);
+                        pstm.setString(i + 1, caminhoImagem);
+                        break;
+                    }
+                    case DESCRICAO_IMAGEM_USUARIO:
+                    {
+                        String descricaoImagem = (String)ipVO.getValorColuna(ColunasImagemUsuarioEnum.DESCRICAO_IMAGEM_USUARIO);
+                        pstm.setString(i + 1, descricaoImagem);
+                        break;
+                    }
+                    case DATA_CRIACAO_IMAGEM_USUARIO:
+                    {
+                        String dataCriacaoImagem = (String) ipVO.getValorColuna(ColunasImagemUsuarioEnum.DATA_CRIACAO_IMAGEM_USUARIO);
+                        pstm.setDate(i + 1, java.sql.Date.valueOf(dataCriacaoImagem));
+                        break;
+                    }
+                    case IMAGEM_USUARIO_ATIVA:
+                    {
+                        String imagemAtivaString = (String) ipVO.getValorColuna(ColunasImagemUsuarioEnum.IMAGEM_USUARIO_ATIVA);
+                        boolean imagemAtiva;
+                        switch (imagemAtivaString)
                         {
-                            pstm.setInt(cont, Integer.parseInt(dados[i]));
-                            
-                            cont++;
-                            quant--;
-                            break;
+                            case "verdadeiro":
+                            case "true":
+                            {
+                                imagemAtiva = true;
+                                break;
+                            }
+                            case "falso":
+                            case "false":
+                            {
+                                imagemAtiva = false;
+                                break;
+                            }
+                            default:
+                                throw new NoDataFoundException("Erro em ImagemUsuarioDAO.pesquisar: Valor de IMAGEM_USUARIO_ATIVA não é válido!");
                         }
-                        case 1: //caminhoImagemUsuario
-                        {
-                            pstm.setString(cont, dados[i]);
-                            
-                            cont++;
-                            quant--;
-                            break;
-                        }
-                        case 2: //descricaoImagemUsuario
-                        {
-                            pstm.setString(cont, dados[i]);
-                            
-                            cont++;
-                            quant--;
-                            break;
-                        }
-                        case 3: //dataCriacaoImagemUsuario
-                        {
-                            pstm.setDate(cont, java.sql.Date.valueOf(dados[i]));
-                            
-                            cont++;
-                            quant--;
-                            break;
-                        }
-                        case 4: //usuarioAtivo
-                        {
-                            if(dados[i].toLowerCase().equals("falso"))
-                                pstm.setBoolean(cont, false);
-                            else
-                                pstm.setBoolean(cont, true);
-                            
-                            break;
-                        }
+                        
+                        pstm.setBoolean(i + 1, imagemAtiva);
+                        break;
                     }
                 }
             }
 
-
+            ArrayList<ImagemPersonagemVO> listaResultados = new ArrayList<>();
+            
+            
             try(ResultSet rs = pstm.executeQuery();)
             {
                 while(rs.next())
                 {
-                    ImagemVO iVO = new ImagemVO();
+                    ImagemPersonagemVO ipVOsaida = new ImagemPersonagemVO();
+                    
+                    ipVOsaida.setValorColuna(
+                            ColunasImagemUsuarioEnum.ID_IMAGEM_USUARIO,
+                            rs.getInt(ColunasImagemUsuarioEnum.ID_IMAGEM_USUARIO.getNome()));
+                    ipVOsaida.setValorColuna(
+                            ColunasImagemUsuarioEnum.CAMINHO_IMAGEM_USUARIO,
+                            rs.getString(ColunasImagemUsuarioEnum.CAMINHO_IMAGEM_USUARIO.getNome()));
+                    ipVOsaida.setValorColuna(
+                            ColunasImagemUsuarioEnum.DESCRICAO_IMAGEM_USUARIO,
+                            rs.getString(ColunasImagemUsuarioEnum.DESCRICAO_IMAGEM_USUARIO.getNome()));
+                    ipVOsaida.setValorColuna(
+                            ColunasImagemUsuarioEnum.DATA_CRIACAO_IMAGEM_USUARIO,
+                            Converter.converterSQLDateParaDiaMesAno(rs.getDate(ColunasImagemUsuarioEnum.DATA_CRIACAO_IMAGEM_USUARIO.getNome())));
+                    ipVOsaida.setValorColuna(
+                            ColunasImagemUsuarioEnum.IMAGEM_USUARIO_ATIVA,
+                            rs.getBoolean(ColunasImagemUsuarioEnum.IMAGEM_USUARIO_ATIVA.getNome()));
 
-                    iVO.setId(rs.getInt("idImagemUsuario"));
-
-                    iVO.setCaminhoImagem(rs.getString("caminhoimagemusuario"));
-                    iVO.setDescricaoImagem(rs.getString("descricaoimagemusuario"));
-
-                    String[] diaMesAno = Converter.converterSQLDateParaDiaMesAno(rs.getDate("dataCriacaoImagemUsuario"));
-                    iVO.setDiaCriacao(diaMesAno[0]);
-                    iVO.setMesCriacao(diaMesAno[1]);
-                    iVO.setAnoCriacao(diaMesAno[2]);
-                    iVO.setAtivo(rs.getBoolean("imagemUsuarioAtiva"));
-
-                    listaResultados.add(iVO);
+                    listaResultados.add(ipVOsaida);
                 }
                 if(!listaResultados.isEmpty())
-                    return listaResultados.toArray(new ImagemVO[listaResultados.size()]);
+                    return listaResultados.toArray(new ImagemPersonagemVO[listaResultados.size()]);
                 else
                     throw new NoDataFoundException("Erro em ImagemDAO.pesquisar: Nenhuma imagem registrada com esse id!");
             }

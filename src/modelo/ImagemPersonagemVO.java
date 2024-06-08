@@ -6,17 +6,18 @@ package modelo;
 
 import enums.ColunasImagemUsuarioEnum;
 import java.util.HashMap;
+import utilidades.Converter;
 
 /**
  *
  * @author dudup
  */
-public class ImagemPersonagemVO
+public class ImagemPersonagemVO extends ObjetoVO
 {
-    private final HashMap<ColunasImagemUsuarioEnum, String> valoresColuna;
+    private final HashMap<ColunasImagemUsuarioEnum, Object> valoresColunas;
 
     public ImagemPersonagemVO() {
-        valoresColuna = new HashMap<>();
+        valoresColunas = new HashMap<>();
     }
     
     /**
@@ -24,8 +25,12 @@ public class ImagemPersonagemVO
      * @param coluna
      * @return
      */
-    public String getValorColuna(ColunasImagemUsuarioEnum coluna) {
-        return valoresColuna.get(coluna);
+    public Object getValorColuna(ColunasImagemUsuarioEnum coluna) {
+        return valoresColunas.get(coluna);
+    }
+    
+    public HashMap<ColunasImagemUsuarioEnum, Object> getValoresColunas() {
+        return valoresColunas;
     }
     
     /**
@@ -33,9 +38,9 @@ public class ImagemPersonagemVO
      * @param coluna
      * @param valor
      */
-    public void setValorColuna(ColunasImagemUsuarioEnum coluna, String valor) {
-        valoresColuna.remove(coluna);
-        valoresColuna.put(coluna, valor);
+    public void setValorColuna(ColunasImagemUsuarioEnum coluna, Object valor) {
+        valoresColunas.remove(coluna);
+        valoresColunas.put(coluna, valor);
     }
     
     /**
@@ -43,6 +48,8 @@ public class ImagemPersonagemVO
      * @param valorColuna
      */
     public void replaceValorColuna (HashMap<ColunasImagemUsuarioEnum, String> valorColuna) {
-        valoresColuna.putAll(valorColuna);
+        valoresColunas.putAll(valorColuna);
     }
+    
+    
 }
