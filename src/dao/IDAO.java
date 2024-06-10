@@ -36,11 +36,13 @@ public interface IDAO
     /**
      * 
      * @param obVO
+     * @param query
+     * @param indicesDados
      * @return
      * @throws SQLException 
      * @throws NoDataFoundException 
      */
-    ObjetoVO[] pesquisar(ObjetoVO obVO) throws SQLException, NoDataFoundException;
+    ObjetoVO[] pesquisar(ObjetoVO obVO, String query, int[] indicesDados) throws SQLException, NoDataFoundException;
     
     /**
      * 

@@ -5,7 +5,6 @@
  */
 package view;
 
-import enums.ColunasImagemUsuarioEnum;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -18,8 +17,7 @@ import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.InternalFrameListener;
 
 import exception.NoDataFoundException;
-import modelo.ImagemPersonagemVO;
-import modelo.ImagemVO;
+import modelo.ImagemUsuarioVO;
 import modelo.UsuarioVO;
 import servicos.ServicosFactory;
 
@@ -55,13 +53,13 @@ public class GUIPrincipal extends javax.swing.JFrame implements InternalFrameLis
     private void preencherPerfil(){
         try
         {
-            ImagemPersonagemVO imagemPersonagem = ServicosFactory.getImagemServicos().pesquisarImagemUsuario(usuarioVOLogado.getIdImagem());
-            String caminhoImagem = (String) imagemPersonagem.getValorColuna(ColunasImagemUsuarioEnum.CAMINHO_IMAGEM_USUARIO);
+            ImagemUsuarioVO imagemPersonagem = ServicosFactory.getImagemServicos().pesquisarImagemUsuario(usuarioVOLogado.getIdImagem());
+            String caminhoImagem = imagemPersonagem.getCaminhoImagemUsuario();
             BufferedImage imagemUsuario = ImageIO.read(getClass().getResourceAsStream(caminhoImagem));
             
             jLabelImagem.setIcon(new ImageIcon(imagemUsuario));
             jLabelImagem.setText(null);
-            jLabelNomeUsuario.setText(usuarioVOLogado.getNome());
+            jLabelNomeUsuario.setText(usuarioVOLogado.getNomeUsuario());
         }
         catch (SQLException | NoDataFoundException | IOException | IllegalArgumentException ex)
         {

@@ -48,23 +48,25 @@ public enum PericiasEnum
     public AtributosEnum getModificador() {return modificador;}
     
     public static String[] getNomesPericiasPT() {
-        int tamanho = values().length;
-        String[] valoresPossiveis = new String[tamanho];
+        PericiasEnum[] valoresEnum = values();
+        int tamanhoArray = valoresEnum.length;
+        String[] valoresString = new String[tamanhoArray];
         
-        for(int i = 0; i < tamanho; i ++) {
-            valoresPossiveis[i] = values()[i].nomePT;
+        for(int i = 0; i < tamanhoArray; i ++) {
+            valoresString[i] = valoresEnum[i].nomePT;
         }
         
-        return valoresPossiveis;
+        return valoresString;
     }
     public static String[] getNomesPericiasEN() {
-        int tamanho = values().length;
-        String[] valoresPossiveis = new String[tamanho];
+        PericiasEnum[] valoresEnum = values();
+        int tamanhoArray = valoresEnum.length;
+        String[] valoresString = new String[tamanhoArray];
         
-        for(int i = 0; i < tamanho; i ++) {
-            valoresPossiveis[i] = values()[i].nomeEN;
+        for(int i = 0; i < tamanhoArray; i ++) {
+            valoresString[i] = valoresEnum[i].nomeEN;
         }
         
-        return valoresPossiveis;
+        return valoresString;
     }
 }

@@ -59,13 +59,15 @@ public final class UsuarioServicos
     /**
      *
      * @param uVO
+     * @param query
+     * @param indicesDados
      * @return
      * @throws SQLException
      * @throws NoDataFoundException
      */
-    public UsuarioVO[] pesquisarUsuario(UsuarioVO uVO) throws SQLException, NoDataFoundException
+    public UsuarioVO[] pesquisarUsuario(UsuarioVO uVO, String query, int[] indicesDados) throws SQLException, NoDataFoundException
     {
-        return DAOFactory.getUsuarioDAO().pesquisar(uVO);
+        return DAOFactory.getUsuarioDAO().pesquisar(uVO, query, indicesDados);
     }
     
     /**

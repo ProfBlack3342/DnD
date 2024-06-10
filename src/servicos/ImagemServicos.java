@@ -9,7 +9,7 @@ import java.sql.SQLException;
 
 import dao.DAOFactory;
 import exception.NoDataFoundException;
-import modelo.ImagemPersonagemVO;
+import modelo.ImagemUsuarioVO;
 
 /**
  *
@@ -17,11 +17,18 @@ import modelo.ImagemPersonagemVO;
  */
 public class ImagemServicos {
     
-    public ImagemPersonagemVO pesquisarImagemUsuario(int id) throws SQLException, NoDataFoundException, IllegalArgumentException {
-        return DAOFactory.getImagemDAO().pesquisar(id);
+    public ImagemUsuarioVO pesquisarImagemUsuario(int id) throws SQLException, NoDataFoundException, IllegalArgumentException {
+        String query = "SELECT * "
+                + "FROM " + ImagemUsuarioVO.getNomeTabela() + " "
+                + "WHERE " + ImagemUsuarioVO.getNomesColunas()[0] + " = ?";
+        
+        ImagemUsuarioVO iuVO = new ImagemUsuarioVO();
+        iuVO.setId(id);
+        
+        return DAOFactory.getImagemDAO().pesquisar(iuVO, query, new int[]{0})[0];
     }
     
-    public ImagemPersonagemVO[] pesquisarImagemUsuario(ImagemPersonagemVO ipVO) throws SQLException, NoDataFoundException, IllegalArgumentException {
-        return DAOFactory.getImagemDAO().pesquisar(ipVO);
+    public ImagemUsuarioVO[] pesquisarImagemUsuario(ImagemUsuarioVO iuVO, String query, int[] indicesDados) throws SQLException, NoDataFoundException, IllegalArgumentException {
+        return DAOFactory.getImagemDAO().pesquisar(iuVO, query, indicesDados);
     }
 }

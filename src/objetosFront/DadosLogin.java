@@ -11,13 +11,13 @@ package objetosFront;
 public final class DadosLogin
 {
     private final String usuario;
-    private final String senha;
+    private final String hashSenha;
 
     public DadosLogin(String usuario, String senha) {
         this.usuario = usuario;
-        this.senha = senha;
+        this.hashSenha = senha;
     }
 
     public String getUsuario() {return usuario;}
-    public String getSenha() {return senha;}
+    public String getHashSenha() {return hashSenha;}
 }

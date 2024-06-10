@@ -7,7 +7,7 @@ USE dnd;
 CREATE TABLE IF NOT EXISTS ImagemUsuario (
     idImagemUsuario INT NOT NULL,
     caminhoImagemUsuario VARCHAR(260) NOT NULL,
-    descricaoImagemUsuario VARCHAR(60) NULL,
+    descricaoImagemUsuario VARCHAR(400) NULL,
     dataCriacaoImagemUsuario DATE NOT NULL,
     imagemUsuarioAtiva TINYINT(1) NOT NULL DEFAULT 1
 );
@@ -17,8 +17,8 @@ ALTER TABLE ImagemUsuario CHANGE COLUMN idImagemUsuario idImagemUsuario INT NOT 
 -- ----------------------------------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS TipoUsuario (
     idTipoUsuario INT NOT NULL,
-    nomeTipoUsuario VARCHAR(20) NOT NULL UNIQUE,
-    descricaoTipoUsuario VARCHAR(60) NULL,
+    nomeTipoUsuario VARCHAR(50) NOT NULL UNIQUE,
+    descricaoTipoUsuario VARCHAR(400) NULL,
     dataCriacaoTipoUsuario DATE NOT NULL,
     tipoUsuarioAtivo TINYINT(1) NOT NULL DEFAULT 1
 );
@@ -30,11 +30,11 @@ CREATE TABLE IF NOT EXISTS Usuario (
     idUsuario INT NOT NULL,
     idImagemUsuario INT NULL,
     idTipoUsuario INT NOT NULL,
-    nomeUsuario VARCHAR(60) NOT NULL UNIQUE,
+    nomeUsuario VARCHAR(50) NOT NULL UNIQUE,
     senhaUsuario CHAR(60) NOT NULL,
-    emailUsuario VARCHAR(60) NOT NULL,
+    emailUsuario VARCHAR(70) NOT NULL,
     dataAniversarioUsuario DATE NOT NULL,
-    descricaoUsuario VARCHAR(60) NULL,
+    descricaoUsuario VARCHAR(400) NULL,
     quantPersonagensTotal INT NOT NULL DEFAULT 6,
     quantPersonagensCriados INT NOT NULL DEFAULT 0,
     dataCriacaoUsuario DATE NOT NULL,
@@ -52,7 +52,7 @@ ALTER TABLE Usuario ADD CONSTRAINT FK_USUARIO_TIPOUSUARIO FOREIGN KEY(idTipoUsua
 CREATE TABLE IF NOT EXISTS ImagemClasse (
     idImagemClasse INT NOT NULL,
     caminhoImagemClasse VARCHAR(260) NOT NULL,
-    descricaoImagemClasse VARCHAR(60) NULL,
+    descricaoImagemClasse VARCHAR(400) NULL,
     dataCriacaoImagemClasse DATE NOT NULL,
     imagemClasseAtiva TINYINT(1) NOT NULL DEFAULT 1
 );
@@ -77,7 +77,7 @@ ALTER TABLE Classe ADD CONSTRAINT FK_CLASSE_IMAGEMCLASSE FOREIGN KEY(idImagemCla
 CREATE TABLE IF NOT EXISTS ImagemSubClasse (
     idImagemSubClasse INT NOT NULL,
     caminhoImagemSubClasse VARCHAR(260) NOT NULL,
-    descricaoImagemSubClasse VARCHAR(60) NULL,
+    descricaoImagemSubClasse VARCHAR(400) NULL,
     dataCriacaoImagemSubClasse DATE NOT NULL,
     imagemSubClasseAtiva TINYINT(1) NOT NULL DEFAULT 1
 );
@@ -105,7 +105,7 @@ ALTER TABLE SubClasse ADD CONSTRAINT FK_SUBCLASSE_IMAGEMSUBCLASSE FOREIGN KEY(id
 CREATE TABLE IF NOT EXISTS ImagemRaca (
     idImagemRaca INT NOT NULL,
     caminhoImagemRaca VARCHAR(260) NOT NULL,
-    descricaoImagemRaca VARCHAR(60) NULL,
+    descricaoImagemRaca VARCHAR(400) NULL,
     dataCriacaoImagemRaca DATE NOT NULL,
     imagemRacaAtiva TINYINT(1) NOT NULL DEFAULT 1
 );
@@ -130,7 +130,7 @@ ALTER TABLE Raca ADD CONSTRAINT FK_RACA_IMAGEMRACA FOREIGN KEY(idImagemRaca) REF
 CREATE TABLE IF NOT EXISTS ImagemSubRaca (
     idImagemSubRaca INT NOT NULL,
     caminhoImagemSubRaca VARCHAR(260) NOT NULL,
-    descricaoImagemSubRaca VARCHAR(60) NULL,
+    descricaoImagemSubRaca VARCHAR(400) NULL,
     dataCriacaoImagemSubRaca DATE NOT NULL,
     imagemSubRacaAtiva TINYINT(1) NOT NULL DEFAULT 1
 );
@@ -158,7 +158,7 @@ ALTER TABLE SubRaca ADD CONSTRAINT FK_SUBRACA_IMAGEMSUBRACA FOREIGN KEY(idImagem
 CREATE TABLE IF NOT EXISTS ImagemBackground (
     idImagemBackground INT NOT NULL,
     caminhoImagemBackground VARCHAR(260) NOT NULL,
-    descricaoImagemBackground VARCHAR(60) NULL,
+    descricaoImagemBackground VARCHAR(400) NULL,
     dataCriacaoImagemBackground DATE NOT NULL,
     imagemBackgroundAtiva TINYINT(1) NOT NULL DEFAULT 1
 );
@@ -184,7 +184,7 @@ ALTER TABLE Background ADD CONSTRAINT FK_BACKGROUND_IMAGEMBACKGROUND FOREIGN KEY
 CREATE TABLE IF NOT EXISTS ImagemPersonagem (
     idImagemPersonagem INT NOT NULL,
     caminhoImagemPersonagem VARCHAR(260) NOT NULL,
-    descricaoImagemPersonagem VARCHAR(60) NULL,
+    descricaoImagemPersonagem VARCHAR(400) NULL,
     dataCriacaoImagemPersonagem DATE NOT NULL,
     imagemPersonagemAtiva TINYINT(1) NOT NULL DEFAULT 1
 );
@@ -201,7 +201,7 @@ CREATE TABLE IF NOT EXISTS Personagem (
     idRaca INT NOT NULL,
     idSubraca INT NOT NULL,
     idBackground INT NOT NULL,
-    nomePersonagem VARCHAR(60) NULL,
+    nomePersonagem VARCHAR(50) NULL,
     nivelPersonagem INT NOT NULL DEFAULT 1,
     xpPersonagem INT NOT NULL DEFAULT 0,
     inspiracaoPersonagem TINYINT(1) NOT NULL DEFAULT 0,

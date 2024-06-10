@@ -14,6 +14,24 @@ import java.util.ArrayList;
  */
 public final class PersonagemVO extends ObjetoVO
 {
+    /*
+        Tabela Personagem (
+            idPersonagem INT NOT NULL,
+            idUsuario INT NOT NULL,
+            idImagemPersonagem INT NOT NULL,
+            idClasse INT NOT NULL,
+            idSubclasse INT NOT NULL,
+            idRaca INT NOT NULL,
+            idSubraca INT NOT NULL,
+            idBackground INT NOT NULL,
+            nomePersonagem VARCHAR(50) NULL,
+            nivelPersonagem INT NOT NULL DEFAULT 1,
+            xpPersonagem INT NOT NULL DEFAULT 0,
+            inspiracaoPersonagem TINYINT(1) NOT NULL DEFAULT 0,
+            dataCriacaoPersonagem DATE NOT NULL,
+            personagemAtivo TINYINT(1) NOT NULL DEFAULT 1
+        )
+    */
     private int idUsuario;
     private ImagemVO imagemPersonagem;
     private ClasseVO classe;

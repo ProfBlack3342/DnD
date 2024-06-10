@@ -42,7 +42,7 @@ public class GUILogin extends javax.swing.JFrame {
             
             UsuarioVO usuario = ServicosFactory.getUsuarioServicos().loginUsuario(dadosLogin);
             if(usuario == null)
-                JOptionPane.showMessageDialog(null, "Erro: Usuário ou senha não correspondem a nenhuma registrada", "Erro", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Erro: Usuário ou senha não correspondem a nenhum registrado", "Erro", JOptionPane.ERROR_MESSAGE);
             else
             {
                 JOptionPane.showMessageDialog(null, "Login realizado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);

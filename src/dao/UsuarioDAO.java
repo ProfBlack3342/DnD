@@ -4,7 +4,6 @@
  */
 package dao;
 
-import enums.ColunasUsuarioEnum;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -52,8 +51,11 @@ public final class UsuarioDAO extends ObjetoDAO implements IDAO
      */
     public UsuarioVO login(DadosLogin dadosLogin) throws SQLException, NoDataFoundException
     {
-        String sql = "SELECT * FROM usuario "
-                + "WHERE nomeUsuario = ? "
+        String[] nomesColunas = UsuarioVO.getNomesColunas();
+        
+        String sql = "SELECT * "
+                + "FROM " + UsuarioVO.getNomeTabela() + " "
+                + "WHERE " + nomesColunas[3] + " = ? "
                 + "LIMIT 1";
         
         try(Connection con = new ConexaoBanco().getConexao();
@@ -63,41 +65,36 @@ public final class UsuarioDAO extends ObjetoDAO implements IDAO
             
             try(ResultSet rs = pstm.executeQuery();)
             {
-                if( (rs.next()) && (rs.getBoolean("usuarioAtivo")) )
+                if( (rs.next()) && (rs.getBoolean(nomesColunas[11])) )
                 {
-                    String hash = rs.getString("senhaUsuario");
-                    if(Verificar.compararTextoComHash(dadosLogin.getSenha(), hash))
+                    String hash = rs.getString(nomesColunas[4]);
+                    if(Verificar.compararTextoComHash(dadosLogin.getHashSenha(), hash))
                     {
                         UsuarioVO uVO = new UsuarioVO();
                         
-                        uVO.setId(rs.getInt("idUsuario"));
+                        uVO.setId(rs.getInt(nomesColunas[0]));
                         
-                        uVO.setIdImagem(rs.getInt("idImagemUsuario"));
-                        uVO.setIdTipo(rs.getInt("idTipoUsuario"));
-                        uVO.setNome(rs.getString("nomeUsuario"));
-                        uVO.setSenha(rs.getString("senhaUsuario"));
-                        uVO.setEmail(rs.getString("emailUsuario"));
-                        String[] diaMesAnoAniversario = Converter.converterSQLDateParaDiaMesAno(rs.getDate("dataAniversarioUsuario"));
-                        uVO.setDiaAniversario(diaMesAnoAniversario[0]);
-                        uVO.setMesAniversario(diaMesAnoAniversario[1]);
-                        uVO.setAnoAniversario(diaMesAnoAniversario[2]);
-                        uVO.setDescricao(rs.getString("descricaoUsuario"));
-                        uVO.setQuantPersonagensMaxima(rs.getInt("quantPersonagensTotal"));
-                        uVO.setQuantPersonagensExistentes(rs.getInt("quantPersonagensCriados"));
+                        uVO.setIdImagem(rs.getInt(nomesColunas[1]));
+                        uVO.setIdTipo(rs.getInt(nomesColunas[2]));
+                        uVO.setNomeUsuario(rs.getString(nomesColunas[3]));
+                        uVO.setSenhaUsuario(hash);
+                        uVO.setEmailUsuario(rs.getString(nomesColunas[5]));
+                        uVO.setDataAniversarioUsuario(rs.getDate(nomesColunas[6]));
                         
-                        String[] diaMesAnoCriacao = Converter.converterSQLDateParaDiaMesAno(rs.getDate("dataCriacaoUsuario"));
-                        uVO.setDiaCriacao(diaMesAnoCriacao[0]);
-                        uVO.setMesCriacao(diaMesAnoCriacao[1]);
-                        uVO.setAnoCriacao(diaMesAnoCriacao[2]);
-                        uVO.setAtivo(rs.getBoolean("usuarioAtivo"));
+                        uVO.setDescricaoUsuario(rs.getString(nomesColunas[7]));
+                        uVO.setQuantPersonagensTotal(rs.getInt(nomesColunas[8]));
+                        uVO.setQuantPersonagensCriados(rs.getInt(nomesColunas[9]));
+                        
+                        uVO.setDataCriacao(rs.getDate(nomesColunas[10]));
+                        uVO.setAtivo(rs.getBoolean(nomesColunas[11]));
                         
                         return uVO;
                     }
                     else
-                        return null;
+                        throw new NoDataFoundException("Erro em UsuarioDAO.login: Senha inválida!");
                 }
                 else
-                    throw new NoDataFoundException("Erro em UsuarioDAO.login: Usuário e/ou Senha inválidos!");
+                    throw new NoDataFoundException("Erro em UsuarioDAO.login: Usuário não encontrado!");
             }
         }
         catch(SQLException SE)
@@ -113,38 +110,33 @@ public final class UsuarioDAO extends ObjetoDAO implements IDAO
      * @throws ForbiddenArgumentTypeException Se obVO não pertencer a classe UsuarioVO
      */
     @Override
-    public void cadastrar(ObjetoVO obVO) throws SQLException, ForbiddenArgumentTypeException {
-        if(!(obVO instanceof UsuarioVO))
-            throw new ForbiddenArgumentTypeException("Erro em UsuarioDAO.cadastrar: O argumento deve pertencer a classe UsuarioVO!");
-        else
-        {
-            UsuarioVO uVO = (UsuarioVO) obVO;
-            String sql = "INSERT INTO usuario "
-                    + "VALUES (null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            
-            try(Connection con = new ConexaoBanco().getConexao();
-                    PreparedStatement pstm = con.prepareStatement(sql);)
-            {
-                pstm.setInt(1, uVO.getIdImagem());
-                pstm.setInt(2, uVO.getIdTipo());
-                pstm.setString(3, uVO.getNome());
-                uVO.setSenha(Converter.converterTextoParaHash(uVO.getSenha()));
-                pstm.setString(4, uVO.getSenha());
-                pstm.setString(5, uVO.getEmail());
-                pstm.setDate(6, Converter.converterDiaMesAnoParaSQLDate(uVO.getDiaAniversario(), uVO.getMesAniversario(), uVO.getAnoAniversario()));
-                pstm.setString(7, uVO.getDescricao());
-                pstm.setInt(8, uVO.getQuantPersonagensMaxima());
-                pstm.setInt(9, uVO.getQuantPersonagensExistentes());
-                
-                pstm.setDate(10, Converter.converterDiaMesAnoParaSQLDate(uVO.getDiaCriacao(), uVO.getMesCriacao(), uVO.getAnoCriacao()));
-                pstm.setBoolean(11, true);
+    public void cadastrar(ObjetoVO obVO) throws SQLException, ForbiddenArgumentTypeException
+    {
+        UsuarioVO uVO = (UsuarioVO) obVO;
+        String sql = "INSERT INTO " + UsuarioVO.getNomeTabela() + " "
+                + "VALUES (null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-                pstm.execute();
-            }
-            catch(SQLException se)
-            {
-                throw new SQLException("Erro no cadastro do usuário (UsuarioDAO.cadastrar)! " + se.getMessage());
-            }
+        try(Connection con = new ConexaoBanco().getConexao();
+                PreparedStatement pstm = con.prepareStatement(sql);)
+        {
+            pstm.setInt(1, uVO.getIdImagem());
+            pstm.setInt(2, uVO.getIdTipo());
+            pstm.setString(3, uVO.getNomeUsuario());
+            pstm.setString(4, Converter.converterTextoParaHash(uVO.getSenhaUsuario()));
+            pstm.setString(5, uVO.getEmailUsuario());
+            pstm.setDate(6, uVO.getDataAniversarioUsuario());
+            pstm.setString(7, uVO.getDescricaoUsuario());
+            pstm.setInt(8, uVO.getQuantPersonagensTotal());
+            pstm.setInt(9, uVO.getQuantPersonagensCriados());
+
+            pstm.setDate(10, uVO.getDataCriacao());
+            pstm.setBoolean(11, uVO.isAtivo());
+
+            pstm.execute();
+        }
+        catch(SQLException se)
+        {
+            throw new SQLException("Erro no cadastro do usuário (UsuarioDAO.cadastrar)! " + se.getMessage());
         }
     }
     
@@ -156,37 +148,34 @@ public final class UsuarioDAO extends ObjetoDAO implements IDAO
     @Override
     public UsuarioVO[] listar() throws SQLException, NoDataFoundException
     {
-        String sql = "SELECT * FROM usuario";
-        ArrayList<UsuarioVO> listaUsuarios = new ArrayList<>();
-        
+        String sql = "SELECT * FROM " + UsuarioVO.getNomeTabela();
+
         try(Connection con = new ConexaoBanco().getConexao();
             PreparedStatement pstm = con.prepareStatement(sql);
             ResultSet rs = pstm.executeQuery();)
         {
+            ArrayList<UsuarioVO> listaUsuarios = new ArrayList<>();
+            String[] nomesColunas = UsuarioVO.getNomesColunas();
+            
             while(rs.next())
             {
                 UsuarioVO uVO = new UsuarioVO();
                         
-                uVO.setId(rs.getInt("idUsuario"));
+                uVO.setId(rs.getInt(nomesColunas[0]));
 
-                uVO.setIdImagem(rs.getInt("idImagemUsuario"));
-                uVO.setIdTipo(rs.getInt("idTipoUsuario"));
-                uVO.setNome(rs.getString("nomeUsuario"));
-                uVO.setSenha(rs.getString("senhaUsuario"));
-                uVO.setEmail(rs.getString("emailUsuario"));
-                String[] diaMesAnoAniversario = Converter.converterSQLDateParaDiaMesAno(rs.getDate("dataAniversarioUsuario"));
-                uVO.setDiaAniversario(diaMesAnoAniversario[0]);
-                uVO.setMesAniversario(diaMesAnoAniversario[1]);
-                uVO.setAnoAniversario(diaMesAnoAniversario[2]);
-                uVO.setDescricao(rs.getString("descricaoUsuario"));
-                uVO.setQuantPersonagensMaxima(rs.getInt("quantPersonagensTotal"));
-                uVO.setQuantPersonagensExistentes(rs.getInt("quantPersonagensCriados"));
+                uVO.setIdImagem(rs.getInt(nomesColunas[1]));
+                uVO.setIdTipo(rs.getInt(nomesColunas[2]));
+                uVO.setNomeUsuario(rs.getString(nomesColunas[3]));
+                uVO.setSenhaUsuario(rs.getString(nomesColunas[4]));
+                uVO.setEmailUsuario(rs.getString(nomesColunas[5]));
+                uVO.setDataAniversarioUsuario(rs.getDate(nomesColunas[6]));
 
-                String[] diaMesAnoCriacao = Converter.converterSQLDateParaDiaMesAno(rs.getDate("dataCriacaoUsuario"));
-                uVO.setDiaCriacao(diaMesAnoCriacao[0]);
-                uVO.setMesCriacao(diaMesAnoCriacao[1]);
-                uVO.setAnoCriacao(diaMesAnoCriacao[2]);
-                uVO.setAtivo(rs.getBoolean("usuarioAtivo"));
+                uVO.setDescricaoUsuario(rs.getString(nomesColunas[7]));
+                uVO.setQuantPersonagensTotal(rs.getInt(nomesColunas[8]));
+                uVO.setQuantPersonagensCriados(rs.getInt(nomesColunas[9]));
+
+                uVO.setDataCriacao(rs.getDate(nomesColunas[10]));
+                uVO.setAtivo(rs.getBoolean(nomesColunas[11]));
                 
                 listaUsuarios.add(uVO);
             }
@@ -205,134 +194,91 @@ public final class UsuarioDAO extends ObjetoDAO implements IDAO
     /**
      * 
      * @param oVO
+     * @param query
+     * @param indicesDados
      * @return
      * @throws SQLException Se houver algum erro na comunicação com o banco de dados
      * @throws NoDataFoundException Se os dados informados não corresponderem a nenhum usuário do banco de dados
      */
     @Override
-    public UsuarioVO[] pesquisar(ObjetoVO oVO) throws SQLException, NoDataFoundException
+    public UsuarioVO[] pesquisar(ObjetoVO oVO, String query, int[] indicesDados) throws SQLException, NoDataFoundException, IllegalArgumentException
     {
         UsuarioVO uVO = (UsuarioVO) oVO;
         
-        final StringBuilder query = new StringBuilder("SELECT * FROM imagemUsuario WHERE");
-        ColunasUsuarioEnum[] colunas = ColunasUsuarioEnum.values();
-        ArrayList<ColunasUsuarioEnum> colunasModificadas = new ArrayList<>();
-        
-        boolean temValor = false;
-        boolean flagAnd = false;
-        for(ColunasUsuarioEnum coluna : colunas)
-        {
-            Object valor = uVO.getValorColuna(coluna);
-            if(valor != null)
-            {
-                if(!temValor)
-                    temValor = true;
-                
-                if (flagAnd)
-                {
-                    query.append(" AND ").append(coluna.getNome()).append(" = ?");
-                    colunasModificadas.add(coluna);
-                }
-                else
-                {
-                    query.append(" ").append(coluna.getNome()).append(" = ?");
-                    colunasModificadas.add(coluna);
-                    flagAnd = true;
-                }
-            }
-        }
-        
-        
         try(Connection con = new ConexaoBanco().getConexao();
-                PreparedStatement pstm = con.prepareStatement(query.toString());)
+                PreparedStatement pstm = con.prepareStatement(query);)
         {
             
-            
-            for(int i = 0; i < colunasModificadas.size(); i++)
-            {
-                switch(colunasModificadas.get(i))
+            for(int i = 1; i <= indicesDados.length; i++) {
+                switch(indicesDados[i - 1])
                 {
-                    case ID_IMAGEM_USUARIO:
-                    {
-                        int idImagem = (Integer)uVO.getValorColuna(ColunasImagemUsuarioEnum.ID_IMAGEM_USUARIO);
-                        pstm.setInt(i + 1, idImagem);
+                    case 0:
+                        pstm.setInt(i, uVO.getId());
                         break;
-                    }
-                    case CAMINHO_IMAGEM_USUARIO:
-                    {
-                        String caminhoImagem = (String)uVO.getValorColuna(ColunasImagemUsuarioEnum.CAMINHO_IMAGEM_USUARIO);
-                        pstm.setString(i + 1, caminhoImagem);
+                    case 1:
+                        pstm.setInt(i, uVO.getIdImagem());
                         break;
-                    }
-                    case DESCRICAO_IMAGEM_USUARIO:
-                    {
-                        String descricaoImagem = (String)uVO.getValorColuna(ColunasImagemUsuarioEnum.DESCRICAO_IMAGEM_USUARIO);
-                        pstm.setString(i + 1, descricaoImagem);
+                    case 2:
+                        pstm.setInt(i, uVO.getIdTipo());
                         break;
-                    }
-                    case DATA_CRIACAO_IMAGEM_USUARIO:
-                    {
-                        String dataCriacaoImagem = (String) uVO.getValorColuna(ColunasImagemUsuarioEnum.DATA_CRIACAO_IMAGEM_USUARIO);
-                        pstm.setDate(i + 1, java.sql.Date.valueOf(dataCriacaoImagem));
+                    case 3:
+                        pstm.setString(i, uVO.getNomeUsuario());
                         break;
-                    }
-                    case IMAGEM_USUARIO_ATIVA:
-                    {
-                        String imagemAtivaString = (String) uVO.getValorColuna(ColunasImagemUsuarioEnum.IMAGEM_USUARIO_ATIVA);
-                        boolean imagemAtiva;
-                        switch (imagemAtivaString)
-                        {
-                            case "verdadeiro":
-                            case "true":
-                            {
-                                imagemAtiva = true;
-                                break;
-                            }
-                            case "falso":
-                            case "false":
-                            {
-                                imagemAtiva = false;
-                                break;
-                            }
-                            default:
-                                throw new NoDataFoundException("Erro em ImagemUsuarioDAO.pesquisar: Valor de IMAGEM_USUARIO_ATIVA não é válido!");
-                        }
-                        
-                        pstm.setBoolean(i + 1, imagemAtiva);
+                    case 4:
+                        pstm.setString(i, uVO.getSenhaUsuario());
                         break;
-                    }
+                    case 5:
+                        pstm.setString(i, uVO.getEmailUsuario());
+                        break;
+                    case 6:
+                        pstm.setDate(i, uVO.getDataAniversarioUsuario());
+                        break;
+                    case 7:
+                        pstm.setString(i, uVO.getDescricaoUsuario());
+                        break;
+                    case 8:
+                        pstm.setInt(i, uVO.getQuantPersonagensTotal());
+                        break;
+                    case 9:
+                        pstm.setInt(i, uVO.getQuantPersonagensCriados());
+                        break;
+                    case 10:
+                        pstm.setDate(i, uVO.getDataCriacao());
+                        break;
+                    case 11:
+                        pstm.setBoolean(i, uVO.isAtivo());
+                        break;
+                    default:
+                        throw new IllegalArgumentException("Erro em UsuarioDAO.pesquisar: Indice de dados não corresponde a nenhum em UsuarioVO!");
                 }
             }
-
-            ArrayList<ImagemPersonagemVO> listaResultados = new ArrayList<>();
-            
             
             try(ResultSet rs = pstm.executeQuery();)
             {
+                ArrayList<UsuarioVO> listaResultados = new ArrayList<>();
+                String[] nomesColunas = UsuarioVO.getNomesColunas();
+            
                 while(rs.next())
                 {
-                    ImagemPersonagemVO ipVOsaida = new ImagemPersonagemVO();
+                    UsuarioVO uVOsaida = new UsuarioVO();
                     
-                    ipVOsaida.setValorColuna(
-                            ColunasImagemUsuarioEnum.ID_IMAGEM_USUARIO,
-                            rs.getInt(ColunasImagemUsuarioEnum.ID_IMAGEM_USUARIO.getNome()));
-                    ipVOsaida.setValorColuna(
-                            ColunasImagemUsuarioEnum.CAMINHO_IMAGEM_USUARIO,
-                            rs.getString(ColunasImagemUsuarioEnum.CAMINHO_IMAGEM_USUARIO.getNome()));
-                    ipVOsaida.setValorColuna(
-                            ColunasImagemUsuarioEnum.DESCRICAO_IMAGEM_USUARIO,
-                            rs.getString(ColunasImagemUsuarioEnum.DESCRICAO_IMAGEM_USUARIO.getNome()));
-                    ipVOsaida.setValorColuna(
-                            ColunasImagemUsuarioEnum.DATA_CRIACAO_IMAGEM_USUARIO,
-                            Converter.converterSQLDateParaDiaMesAno(rs.getDate(ColunasImagemUsuarioEnum.DATA_CRIACAO_IMAGEM_USUARIO.getNome())));
-                    ipVOsaida.setValorColuna(
-                            ColunasImagemUsuarioEnum.IMAGEM_USUARIO_ATIVA,
-                            rs.getBoolean(ColunasImagemUsuarioEnum.IMAGEM_USUARIO_ATIVA.getNome()));
+                    uVOsaida.setId(rs.getInt(nomesColunas[0]));
+                    uVOsaida.setIdImagem(rs.getInt(nomesColunas[1]));
+                    uVOsaida.setIdTipo(rs.getInt(nomesColunas[2]));
+                    uVOsaida.setNomeUsuario(rs.getString(nomesColunas[3]));
+                    uVOsaida.setSenhaUsuario(nomesColunas[4]);
+                    uVOsaida.setEmailUsuario(nomesColunas[5]);
+                    uVOsaida.setDataAniversarioUsuario(rs.getDate(nomesColunas[6]));
+                    uVOsaida.setDescricaoUsuario(nomesColunas[7]);
+                    uVOsaida.setQuantPersonagensTotal(rs.getInt(nomesColunas[8]));
+                    uVOsaida.setQuantPersonagensCriados(rs.getInt(nomesColunas[9]));
+                    uVOsaida.setDataCriacao(rs.getDate(nomesColunas[10]));
+                    uVOsaida.setAtivo(rs.getBoolean(nomesColunas[11]));
 
-                    listaResultados.add(ipVOsaida);
+                    listaResultados.add(uVOsaida);
                 }
                 if(!listaResultados.isEmpty())
-                    return listaResultados.toArray(new ImagemPersonagemVO[listaResultados.size()]);
+                    return listaResultados.toArray(new UsuarioVO[listaResultados.size()]);
                 else
                     throw new NoDataFoundException("Erro em ImagemDAO.pesquisar: Nenhuma imagem registrada com esse id!");
             }
@@ -354,49 +300,49 @@ public final class UsuarioDAO extends ObjetoDAO implements IDAO
      * @throws ForbiddenArgumentTypeException Se obVO não pertencer a classe UsuarioVO
      */
     @Override
-    public void alterar(ObjetoVO obVO) throws SQLException, ForbiddenArgumentTypeException {
-        if(obVO instanceof UsuarioVO)
+    public void alterar(ObjetoVO obVO) throws SQLException, ForbiddenArgumentTypeException
+    {
+        UsuarioVO uVO = (UsuarioVO) obVO;
+        String[] nomesColunas = UsuarioVO.getNomesColunas();
+        String sql = "UPDATE " + UsuarioVO.getNomeTabela() + " SET "
+                + nomesColunas[1] + " = ?, "
+                + nomesColunas[2] + " = ?, "
+                + nomesColunas[3] + " = ?, "
+                + nomesColunas[4] + " = ?, "
+                + nomesColunas[5] + " = ?, "
+                + nomesColunas[6] + " = ?, "
+                + nomesColunas[7] + " = ?, "
+                + nomesColunas[8] + " = ?, "
+                + nomesColunas[9] + " = ?, "
+                + nomesColunas[10] + " = ?, "
+                + nomesColunas[11] + " = ? "
+                + "WHERE " + nomesColunas[0] + " = ?";
+        
+        
+        try(Connection con = new ConexaoBanco().getConexao();
+            PreparedStatement pstm = con.prepareStatement(sql);)
         {
-            UsuarioVO uVO = (UsuarioVO) obVO;
-            String sql = "UPDATE usuario SET "
-                    + "idImagemUsuario = ?, "
-                    + "idTipoUsuario = ?, "
-                    + "nomeUsuario = ?, "
-                    + "senhaUsuario = ?, "
-                    + "emailUsuario = ?, "
-                    + "dataAniversarioUsuario = ?"
-                    + "descricaoUsuario = ?, "
-                    + "quantPersonagensTotal = ?, "
-                    + "quantPersonagensCriados = ?, "
-                    + "usuarioAtivo = ? "
-                    + "WHERE idUsuario = ?";
+            pstm.setInt(1, uVO.getIdImagem());
+            pstm.setInt(2, uVO.getIdTipo());
+            pstm.setString(3, uVO.getNomeUsuario());
+            pstm.setString(4, Converter.converterTextoParaHash(uVO.getSenhaUsuario()));
+            pstm.setString(5, uVO.getEmailUsuario());
+            pstm.setDate(6, uVO.getDataAniversarioUsuario());
+            pstm.setString(7, uVO.getDescricaoUsuario());
+            pstm.setInt(8, uVO.getQuantPersonagensTotal());
+            pstm.setInt(9, uVO.getQuantPersonagensCriados());
             
-            try(Connection con = new ConexaoBanco().getConexao();
-                PreparedStatement pstm = con.prepareStatement(sql);)
-            {
-                pstm.setInt(1, uVO.getIdImagem());
-                pstm.setInt(2, uVO.getIdTipo());
-                pstm.setString(3, uVO.getNome());
-                uVO.setSenha(Converter.converterTextoParaHash(uVO.getSenha()));
-                pstm.setString(4, uVO.getSenha());
-                pstm.setString(5, uVO.getEmail());
-                pstm.setDate(6, Converter.converterDiaMesAnoParaSQLDate(uVO.getDiaAniversario(), uVO.getMesAniversario(), uVO.getAnoAniversario()));
-                pstm.setString(7, uVO.getDescricao());
-                pstm.setInt(8, uVO.getQuantPersonagensMaxima());
-                pstm.setInt(9, uVO.getQuantPersonagensExistentes());
-                
-                pstm.setBoolean(10, true);
-                pstm.setInt(11, uVO.getId());
+            pstm.setDate(10, uVO.getDataCriacao());
+            pstm.setBoolean(11, uVO.isAtivo());
+            
+            pstm.setInt(12, uVO.getId());
 
-                pstm.executeUpdate();
-            }
-            catch(SQLException se)
-            {
-                throw new SQLException("Erro ao alterar usuário (UsuarioDAO.alterar)! " + se.getMessage());
-            }
+            pstm.executeUpdate();
         }
-        else
-            throw new ForbiddenArgumentTypeException("Erro em UsuarioDAO.alterar: O argumento deve pertencer a classe UsuarioVO!");
+        catch(SQLException se)
+        {
+            throw new SQLException("Erro ao alterar usuário (UsuarioDAO.alterar)! " + se.getMessage());
+        }
     }
     
     /**
@@ -405,9 +351,10 @@ public final class UsuarioDAO extends ObjetoDAO implements IDAO
      * @throws SQLException Se houver algum erro na comunicação com o banco de dados
      */
     @Override
-    public void excluir(int id) throws SQLException{
-        String sql = "DELETE FROM usuario "
-                + "WHERE idusuario = ?";
+    public void excluir(int id) throws SQLException
+    {
+        String sql = "DELETE FROM " + UsuarioVO.getNomeTabela() + " "
+                + "WHERE " + UsuarioVO.getNomesColunas()[0] + " = ?";
         
         try(Connection con = new ConexaoBanco().getConexao();
             PreparedStatement pstm = con.prepareStatement(sql);)
