@@ -69,7 +69,7 @@ public class GUIPrincipal extends javax.swing.JFrame implements InternalFrameLis
         try
         {
             ImagemUsuarioVO imagemPersonagem = ServicosFactory.getImagemServicos().pesquisarImagemUsuario(usuarioVOLogado.getIdImagem());
-            String caminhoImagem = imagemPersonagem.getCaminhoImagemUsuario();
+            String caminhoImagem = imagemPersonagem.getCaminhoImagem();
             BufferedImage imagemUsuario = ImageIO.read(getClass().getResourceAsStream(caminhoImagem));
             
             jLabelImagem.setIcon(new ImageIcon(imagemUsuario));

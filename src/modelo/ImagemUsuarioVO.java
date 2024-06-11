@@ -10,7 +10,7 @@ import java.sql.Date;
  *
  * @author dudup
  */
-public class ImagemUsuarioVO extends ObjetoVO
+public class ImagemUsuarioVO extends ImagemVO
 {
     private static final String NOME_TABELA = "ImagemUsuario";
     /*
@@ -29,51 +29,17 @@ public class ImagemUsuarioVO extends ObjetoVO
         "dataCriacaoImagemUsuario",
         "imagemUsuarioAtiva"
     };
-    private static final int LIMITE_CAMINHO_IMAGEM_USUARIO = 260;
-    private static final int LIMITE_DESCRICAO_IMAGEM_USUARIO = 400;
-    
-    private String caminhoImagemUsuario;
-    private String descricaoImagemUsuario;
 
-    public ImagemUsuarioVO()
-    {
-        this.caminhoImagemUsuario = null;
-        this.descricaoImagemUsuario = null;
+    public ImagemUsuarioVO() {
+        
     }
-    public ImagemUsuarioVO(String caminhoImagemUsuario, String descricaoImagemUsuario, int id, Date dataCriacao)
-    {
-        super(id, dataCriacao);
-        formatarCaminhoImagemUsuario(caminhoImagemUsuario);
-        formatarDescricaoImagemUsuario(descricaoImagemUsuario);
+    public ImagemUsuarioVO(int id, Date dataCriacao, String caminhoImagem, String descricaoImagem) {
+        super(id, dataCriacao, caminhoImagem, descricaoImagem);
     }
-    public ImagemUsuarioVO(String caminhoImagemUsuario, String descricaoImagemUsuario, int id, int diaCriacao, int mesCriacao, int anoCriacao)
-    {
-        super(id, diaCriacao, mesCriacao, anoCriacao);
-        formatarCaminhoImagemUsuario(caminhoImagemUsuario);
-        formatarDescricaoImagemUsuario(descricaoImagemUsuario);
+    public ImagemUsuarioVO(int id, int diaCriacao, int mesCriacao, int anoCriacao, String caminhoImagem, String descricaoImagem) {
+        super(id, diaCriacao, mesCriacao, anoCriacao, caminhoImagem, descricaoImagem);
     }
     
-    private void formatarCaminhoImagemUsuario(String caminhoImagemUsuario) {
-        if(caminhoImagemUsuario.length() > LIMITE_CAMINHO_IMAGEM_USUARIO)
-            this.caminhoImagemUsuario = caminhoImagemUsuario.substring(0, LIMITE_CAMINHO_IMAGEM_USUARIO);
-        else
-            this.caminhoImagemUsuario = caminhoImagemUsuario;
-    }
-    private void formatarDescricaoImagemUsuario(String descricaoImagemUsuario) {
-        if(descricaoImagemUsuario.length() > LIMITE_DESCRICAO_IMAGEM_USUARIO)
-            this.descricaoImagemUsuario = descricaoImagemUsuario.substring(0, LIMITE_DESCRICAO_IMAGEM_USUARIO);
-        else
-            this.descricaoImagemUsuario = descricaoImagemUsuario;
-    }
-
     public static String getNomeTabela() {return NOME_TABELA;}
     public static String[] getNomesColunas() {return NOMES_COLUNAS;}
-    public static int getLimiteCaminhoImagemUsuario() {return LIMITE_CAMINHO_IMAGEM_USUARIO;}
-    public static int getLimiteDescricaoImagemUsuario() {return LIMITE_DESCRICAO_IMAGEM_USUARIO;}
-
-    public String getCaminhoImagemUsuario() {return caminhoImagemUsuario;}
-    public void setCaminhoImagemUsuario(String caminhoImagemUsuario) {formatarCaminhoImagemUsuario(caminhoImagemUsuario);}
-
-    public String getDescricaoImagemUsuario() {return descricaoImagemUsuario;}
-    public void setDescricaoImagemUsuario(String descricaoImagemUsuario){formatarDescricaoImagemUsuario(descricaoImagemUsuario);}
 }

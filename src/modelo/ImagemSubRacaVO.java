@@ -2,13 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package dao;
+package modelo;
 
 /**
  *
- * @author Eduardo Pereira Moreira
+ * @author dudup
  */
-public abstract class ObjetoDAO implements IDAO
+public class ImagemSubRacaVO extends ImagemVO
 {
     
 }

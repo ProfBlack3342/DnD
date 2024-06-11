@@ -20,7 +20,7 @@ import persistencia.ConexaoBanco;
  *
  * @author Eduardo Pereira Moreira
  */
-public final class PersonagemDAO extends ObjetoDAO implements IDAO
+public final class PersonagemDAO extends ObjetoDAO
 {
     /*
         Tabela Personagem (

@@ -20,7 +20,7 @@ import persistencia.ConexaoBanco;
  *
  * @author Eduardo Pereira Moreira
  */
-public class ImagemUsuarioDAO extends ObjetoDAO implements IDAO
+public class ImagemUsuarioDAO extends ObjetoDAO
 {
     /*
         ImagemUsuario (
@@ -79,10 +79,10 @@ public class ImagemUsuarioDAO extends ObjetoDAO implements IDAO
                         pstm.setInt( i, iuVO.getId());
                         break;
                     case 1:
-                        pstm.setString( i, iuVO.getCaminhoImagemUsuario());
+                        pstm.setString( i, iuVO.getCaminhoImagem());
                         break;
                     case 2:
-                        pstm.setString( i, iuVO.getDescricaoImagemUsuario());
+                        pstm.setString( i, iuVO.getDescricaoImagem());
                         break;
                     case 3:
                         pstm.setDate( i, iuVO.getDataCriacao());
@@ -105,8 +105,8 @@ public class ImagemUsuarioDAO extends ObjetoDAO implements IDAO
                     ImagemUsuarioVO iuVOsaida = new ImagemUsuarioVO();
                     
                     iuVOsaida.setId(rs.getInt(nomesColunas[0]));
-                    iuVOsaida.setCaminhoImagemUsuario(rs.getString(nomesColunas[1]));
-                    iuVOsaida.setDescricaoImagemUsuario(rs.getString(nomesColunas[2]));
+                    iuVOsaida.setCaminhoImagem(rs.getString(nomesColunas[1]));
+                    iuVOsaida.setDescricaoImagem(rs.getString(nomesColunas[2]));
                     iuVOsaida.setDataCriacao(rs.getDate(nomesColunas[3]));
 
                     listaResultados.add(iuVOsaida);
