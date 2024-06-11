@@ -7,9 +7,7 @@ package servicos;
 import java.sql.SQLException;
 
 import dao.DAOFactory;
-import dao.UsuarioDAO;
 import exception.NoDataFoundException;
-import modelo.ObjetoVO;
 import objetosFront.DadosLogin;
 import modelo.UsuarioVO;
 

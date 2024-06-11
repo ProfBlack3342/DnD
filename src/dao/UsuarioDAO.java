@@ -130,11 +130,11 @@ public final class UsuarioDAO extends ObjetoDAO implements IDAO
             pstm.setDate(10, uVO.getDataCriacao());
             pstm.setBoolean(11, uVO.isAtivo());
 
-            pstm.execute();
+            pstm.executeUpdate();
         }
         catch(SQLException se)
         {
-            throw new SQLException("Erro no cadastro do usuário (UsuarioDAO.cadastrar)! " + se.getMessage());
+            throw new SQLException("Erro em UsuarioDAO.cadastrar: " + se.getMessage());
         }
     }
     
@@ -186,7 +186,7 @@ public final class UsuarioDAO extends ObjetoDAO implements IDAO
         }
         catch(SQLException se)
         {
-            throw new SQLException("Erro na listagem de usuários (UsuarioDAO.listar)! " + se.getMessage());
+            throw new SQLException("Erro em UsuarioDAO.listar: " + se.getMessage());
         }
     }
     
@@ -280,16 +280,16 @@ public final class UsuarioDAO extends ObjetoDAO implements IDAO
                 if(!listaResultados.isEmpty())
                     return listaResultados.toArray(new UsuarioVO[listaResultados.size()]);
                 else
-                    throw new NoDataFoundException("Erro em ImagemDAO.pesquisar: Nenhuma imagem registrada com esse id!");
+                    throw new NoDataFoundException("Erro em UsuarioDAO.pesquisar: Nenhum usuário registrado com esses dados!");
             }
         }
         catch(SQLException se)
         {
-            throw new SQLException("Erro em ImagemUsuarioDAO.pesquisar: " + se.getMessage());
+            throw new SQLException("Erro em UsuarioDAO.pesquisar: " + se.getMessage());
         }
         catch(IllegalArgumentException ie)
         {
-            throw new IllegalArgumentException("Erro em ImagemUsuarioDAO.pesquisar: Formato da data informada é inválido (Deve ser Ano-Mês-Dia)!");
+            throw new IllegalArgumentException("Erro em UsuarioDAO.pesquisar: " + ie.getMessage());
         }
     }
     
@@ -342,7 +342,7 @@ public final class UsuarioDAO extends ObjetoDAO implements IDAO
         }
         catch(SQLException se)
         {
-            throw new SQLException("Erro ao alterar usuário (UsuarioDAO.alterar)! " + se.getMessage());
+            throw new SQLException("Erro em UsuarioDAO.alterar: " + se.getMessage());
         }
     }
     
@@ -363,11 +363,11 @@ public final class UsuarioDAO extends ObjetoDAO implements IDAO
             PreparedStatement pstm = con.prepareStatement(sql);)
         {
             pstm.setInt(1, uVO.getId());
-            pstm.execute();
+            pstm.executeUpdate();
         }
         catch(SQLException se)
         {
-            throw new SQLException("Erro ao excluir usuário (UsuarioDAO.excluir)! " + se.getMessage());
+            throw new SQLException("Erro em UsuarioDAO.excluir: " + se.getMessage());
         }
     }
 }

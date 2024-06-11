@@ -12,13 +12,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import exception.NoDataFoundException;
-import modelo.BackgroundVO;
-import modelo.ClasseVO;
 import modelo.ObjetoVO;
 import modelo.PersonagemVO;
-import modelo.RacaVO;
-import modelo.SubRacaVO;
-import modelo.SubclasseVO;
 import persistencia.ConexaoBanco;
 
 /**
@@ -78,7 +73,7 @@ public final class PersonagemDAO extends ObjetoDAO implements IDAO
             pstm.setDate(13, pVO.getDataCriacao());
             pstm.setBoolean(14, pVO.isAtivo());
             
-            pstm.execute();
+            pstm.executeUpdate();
         }
         catch(SQLException se)
         {
@@ -136,7 +131,7 @@ public final class PersonagemDAO extends ObjetoDAO implements IDAO
         }
         catch(SQLException se)
         {
-            throw new SQLException("Erro na listagem de Personagens (PersonagemVO.listar)! " + se.getMessage());
+            throw new SQLException("Erro em PersonagemVO.listar: " + se.getMessage());
         }
     }
 
@@ -155,7 +150,104 @@ public final class PersonagemDAO extends ObjetoDAO implements IDAO
     {
         PersonagemVO pVO = (PersonagemVO) obVO;
         
-        throw new UnsupportedOperationException("Not supported yet.");
+        try(Connection con = new ConexaoBanco().getConexao();
+                PreparedStatement pstm = con.prepareStatement(query);)
+        {
+            for(int i = 1; i <= indicesDados.length; i++) {
+                switch(indicesDados[i - 1])
+                {
+                     case 0:
+                        pstm.setInt(i, pVO.getId());
+                        break;
+                     case 1:
+                         pstm.setInt(i, pVO.getIdUsuario());
+                         break;
+                     case 2:
+                         pstm.setInt(i, pVO.getIdImagemPersonagem());
+                         break;
+                     case 3:
+                         pstm.setInt(i, pVO.getIdClasse());
+                         break;
+                     case 4:
+                         pstm.setInt(i, pVO.getIdSubclasse());
+                         break;
+                     case 5:
+                         pstm.setInt(i, pVO.getIdRaca());
+                         break;
+                     case 6:
+                         pstm.setInt(i, pVO.getIdSubraca());
+                         break;
+                     case 7:
+                         pstm.setInt(i, pVO.getIdBackground());
+                         break;
+                     case 8:
+                         pstm.setString(i, pVO.getNomePersonagem());
+                         break;
+                     case 9:
+                         pstm.setInt(i, pVO.getNivelPersonagem());
+                         break;
+                     case 10:
+                         pstm.setInt(i, pVO.getXpPersonagem());
+                         break;
+                     case 11:
+                         pstm.setBoolean(i, pVO.isInspirado());
+                         break;
+                     case 12:
+                         pstm.setString(i, pVO.getDescricaoPersonagem());
+                         break;
+                     case 13:
+                         pstm.setDate(i, pVO.getDataCriacao());
+                         break;
+                     case 14:
+                         pstm.setBoolean(i, pVO.isAtivo());
+                         break;
+                     default:
+                         throw new IllegalArgumentException("Erro em PersonagemDAO.pesquisar: Indice de dados não corresponde a nenhum em PersonagemVO!");
+                }
+            }
+            
+            try(ResultSet rs = pstm.executeQuery();)
+            {
+                ArrayList<PersonagemVO> listaResultados = new ArrayList<>();
+                String[] nomesColunas = PersonagemVO.getNomesColunas();
+                
+                while(rs.next())
+                {
+                    PersonagemVO pVOsaida = new PersonagemVO();
+                    
+                    pVOsaida.setId(rs.getInt(nomesColunas[0]));
+                    pVOsaida.setIdUsuario(rs.getInt(nomesColunas[1]));
+                    pVOsaida.setIdImagemPersonagem(rs.getInt(nomesColunas[2]));
+                    pVOsaida.setIdClasse(rs.getInt(nomesColunas[3]));
+                    pVOsaida.setIdSubclasse(rs.getInt(nomesColunas[4]));
+                    pVOsaida.setIdRaca(rs.getInt(nomesColunas[5]));
+                    pVOsaida.setIdSubraca(rs.getInt(nomesColunas[6]));
+                    pVOsaida.setIdBackground(rs.getInt(nomesColunas[7]));
+                    pVOsaida.setNomePersonagem(rs.getString(nomesColunas[8]));
+                    pVOsaida.setNivelPersonagem(rs.getInt(nomesColunas[9]));
+                    pVOsaida.setXpPersonagem(rs.getInt(nomesColunas[10]));
+                    pVOsaida.setInspirado(rs.getBoolean(nomesColunas[11]));
+                    pVOsaida.setDescricaoPersonagem(rs.getString(nomesColunas[12]));
+                    
+                    pVOsaida.setDataCriacao(rs.getDate(nomesColunas[13]));
+                    pVOsaida.setAtivo(rs.getBoolean(nomesColunas[14]));
+                    
+                    listaResultados.add(pVOsaida);
+                }
+                if(!listaResultados.isEmpty())
+                    return listaResultados.toArray(new PersonagemVO[listaResultados.size()]);
+                else
+                    throw new NoDataFoundException("Erro em PersonagemDAO.pesquisar: Nenhum personagem registrado com esses dados!");
+            }
+        }
+        catch(SQLException se)
+        {
+            throw new SQLException("Erro em PersonagemDAO.pesquisar: " + se.getMessage());
+        }
+        catch(IllegalArgumentException ie)
+        {
+            throw new IllegalArgumentException("Erro em PersonagemDAO.pesquisar: " + ie.getMessage());
+        }
     }
 
     /**
@@ -189,11 +281,26 @@ public final class PersonagemDAO extends ObjetoDAO implements IDAO
         try(Connection con = new ConexaoBanco().getConexao();
             PreparedStatement pstm = con.prepareStatement(sql);)
         {
+            pstm.setInt(1, pVO.getIdUsuario());
+            pstm.setInt(2, pVO.getIdImagemPersonagem());
+            pstm.setInt(3, pVO.getIdClasse());
+            pstm.setInt(4, pVO.getIdSubclasse());
+            pstm.setInt(5, pVO.getIdRaca());
+            pstm.setInt(6, pVO.getIdSubraca());
+            pstm.setInt(7, pVO.getIdBackground());
+            pstm.setString(8, pVO.getNomePersonagem());
+            pstm.setInt(9, pVO.getNivelPersonagem());
+            pstm.setInt(10, pVO.getXpPersonagem());
+            pstm.setBoolean(11, pVO.isInspirado());
+            pstm.setString(12, pVO.getDescricaoPersonagem());
+            pstm.setDate(13, pVO.getDataCriacao());
+            pstm.setBoolean(14, pVO.isAtivo());
             
+            pstm.executeUpdate();
         }
         catch(SQLException se)
         {
-            throw new SQLException("Erro ao alterar personagem (PersonagemVO.alterar)! " + se.getMessage());
+            throw new SQLException("Erro em PersonagemVO.alterar: " + se.getMessage());
         }
     }
 
@@ -214,11 +321,11 @@ public final class PersonagemDAO extends ObjetoDAO implements IDAO
             PreparedStatement pstm = con.prepareStatement(sql);)
         {
             pstm.setInt(1, pVO.getId());
-            pstm.execute();
+            pstm.executeUpdate();
         }
         catch(SQLException se)
         {
-            throw new SQLException("Erro ao excluir personagem (PersonagemVO.excluir)! " + se.getMessage());
+            throw new SQLException("Erro em PersonagemVO.excluir: " + se.getMessage());
         }
     }
     

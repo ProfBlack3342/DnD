@@ -114,7 +114,7 @@ public class ImagemUsuarioDAO extends ObjetoDAO implements IDAO
                 if(!listaResultados.isEmpty())
                     return listaResultados.toArray(new ImagemUsuarioVO[listaResultados.size()]);
                 else
-                    throw new NoDataFoundException("Erro em ImagemUsuarioDAO.pesquisar: Nenhuma imagem registrada com esse id!");
+                    throw new NoDataFoundException("Erro em ImagemUsuarioDAO.pesquisar: Nenhuma imagem registrada com esses dados!");
             }
         }
         catch(SQLException se)
@@ -123,7 +123,7 @@ public class ImagemUsuarioDAO extends ObjetoDAO implements IDAO
         }
         catch(IllegalArgumentException ie)
         {
-            throw new IllegalArgumentException("Erro em ImagemUsuarioDAO.pesquisar: Formato da data informada é inválido (Deve ser Ano-Mês-Dia)!");
+            throw new IllegalArgumentException("Erro em ImagemUsuarioDAO.pesquisar: " + ie.getMessage());
         }
     }
 
