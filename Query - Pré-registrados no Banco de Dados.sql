@@ -42,7 +42,7 @@ INSERT INTO ImagemRaca (
 	)
 VALUES (
 		null,
-        "img/coconut.jpg",
+        "/img/coconut.jpg",
         "Coco",
         '2024-06-05',
         true
@@ -57,7 +57,7 @@ INSERT INTO ImagemSubRaca (
 	)
 VALUES (
 		null,
-        "img/coconut.jpg",
+        "/img/coconut.jpg",
         "Coco",
         '2024-06-05',
         true
@@ -73,7 +73,7 @@ INSERT INTO ImagemBackground (
 	)
 VALUES (
 		null,
-        "img/coconut.jpg",
+        "/img/coconut.jpg",
         "Coco",
         '2024-06-05',
         true
@@ -89,7 +89,7 @@ INSERT INTO ImagemUsuario (
 	)
 VALUES (
 		null, 
-		"img/coconut.jpg",
+		"/img/coconut.jpg",
         "Coco",
         '2024-04-12',
 		true
@@ -132,7 +132,7 @@ INSERT INTO ImagemPersonagem (
 	)
 VALUES (
 		null,
-        "img/coconut.jpg",
+        "/img/coconut.jpg",
         "Coco",
         '2024-06-05',
         true
