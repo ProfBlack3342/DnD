@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import dao.DAOFactory;
 import dao.UsuarioDAO;
 import exception.NoDataFoundException;
-import exception.ForbiddenArgumentTypeException;
+import modelo.ObjetoVO;
 import objetosFront.DadosLogin;
 import modelo.UsuarioVO;
 
@@ -23,37 +23,50 @@ public final class UsuarioServicos
      * 
      * @param lVO
      * @return
+     * @throws NoDataFoundException
      * @throws SQLException 
-     * @throws NoDataFoundException 
      */
-    public UsuarioVO loginUsuario(DadosLogin lVO) throws SQLException, NoDataFoundException
-    {
-        UsuarioDAO uDAO = DAOFactory.getUsuarioDAO();
-        return uDAO.login(lVO);
+    public UsuarioVO loginUsuario(DadosLogin lVO) throws NoDataFoundException, SQLException {
+        return DAOFactory.getUsuarioDAO().login(lVO);
     }
     
     /**
      * 
      * @param uVO
      * @throws SQLException
-     * @throws ForbiddenArgumentTypeException 
      */
-    public void cadastrarUsuario(UsuarioVO uVO) throws SQLException, ForbiddenArgumentTypeException 
-    {
-        UsuarioDAO uDAO = DAOFactory.getUsuarioDAO();
-        uDAO.cadastrar(uVO);
+    public void cadastrarUsuario(UsuarioVO uVO) throws SQLException {
+        DAOFactory.getUsuarioDAO().cadastrar(uVO);
     }
     
     /**
      * 
      * @return
-     * @throws SQLException 
      * @throws NoDataFoundException 
+     * @throws SQLException 
      */
-    public UsuarioVO[] listarUsuarios() throws SQLException, NoDataFoundException
-    {
-        UsuarioDAO uDAO = DAOFactory.getUsuarioDAO();
-        return uDAO.listar();
+    public UsuarioVO[] listarUsuarios() throws NoDataFoundException, SQLException {
+        return DAOFactory.getUsuarioDAO().listar();
+    }
+    
+    /**
+     *
+     * @param idUsuario
+     * @return
+     * @throws IllegalArgumentException
+     * @throws NoDataFoundException
+     * @throws SQLException
+     */
+    public UsuarioVO pesquisarUsuario(int idUsuario) throws IllegalArgumentException, NoDataFoundException, SQLException {
+        String query = "SELECT * "
+                + "FROM " + UsuarioVO.getNomeTabela() + " "
+                + "WHERE " + UsuarioVO.getNomesColunas()[0] + " = ? "
+                + "LIMIT 1";
+        
+        UsuarioVO uVO = new UsuarioVO();
+        uVO.setId(idUsuario);
+        
+        return DAOFactory.getUsuarioDAO().pesquisar(uVO, query, new int[]{0})[0];
     }
     
     /**
@@ -62,11 +75,11 @@ public final class UsuarioServicos
      * @param query
      * @param indicesDados
      * @return
-     * @throws SQLException
+     * @throws IllegalArgumentException
      * @throws NoDataFoundException
+     * @throws SQLException
      */
-    public UsuarioVO[] pesquisarUsuario(UsuarioVO uVO, String query, int[] indicesDados) throws SQLException, NoDataFoundException
-    {
+    public UsuarioVO[] pesquisarUsuarios(UsuarioVO uVO, String query, int[] indicesDados) throws IllegalArgumentException, NoDataFoundException, SQLException {
         return DAOFactory.getUsuarioDAO().pesquisar(uVO, query, indicesDados);
     }
     
@@ -74,22 +87,17 @@ public final class UsuarioServicos
      * 
      * @param uVO
      * @throws SQLException
-     * @throws ForbiddenArgumentTypeException 
      */
-    public void alterarUsuario(UsuarioVO uVO) throws SQLException, ForbiddenArgumentTypeException 
-    {
-        UsuarioDAO uDAO = DAOFactory.getUsuarioDAO();
-        uDAO.alterar(uVO);
+    public void alterarUsuario(UsuarioVO uVO) throws SQLException {
+        DAOFactory.getUsuarioDAO().alterar(uVO);
     }
     
     /**
      * 
-     * @param idUsuario
+     * @param uVO
      * @throws SQLException 
      */
-    public void excluirUsuario(int idUsuario) throws SQLException
-    {
-        UsuarioDAO uDAO = DAOFactory.getUsuarioDAO();
-        uDAO.excluir(idUsuario);
+    public void excluirUsuario(UsuarioVO uVO) throws SQLException {
+        DAOFactory.getUsuarioDAO().excluir(uVO);
     }
 }

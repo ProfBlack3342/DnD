@@ -11,7 +11,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import exception.NoDataFoundException;
-import exception.ForbiddenArgumentTypeException;
 import modelo.ObjetoVO;
 import modelo.UsuarioVO;
 import objetosFront.DadosLogin;
@@ -46,10 +45,10 @@ public final class UsuarioDAO extends ObjetoDAO implements IDAO
      * Realiza a verificação de dados para o login de um usuário
      * @param dadosLogin Objeto que contém os dados necessários para o login
      * @return O UsuarioVO correspondende aos dados informados, se corretos. Senão retorna null.
-     * @throws SQLException Se houver algum erro na comunicação com o banco de dados
-     * @throws NoDataFoundException Se os dados informados não corresponderem a nenhum usuário do banco de dados
+     * @throws NoDataFoundException
+     * @throws SQLException
      */
-    public UsuarioVO login(DadosLogin dadosLogin) throws SQLException, NoDataFoundException
+    public UsuarioVO login(DadosLogin dadosLogin) throws NoDataFoundException, SQLException
     {
         String[] nomesColunas = UsuarioVO.getNomesColunas();
         
@@ -106,11 +105,10 @@ public final class UsuarioDAO extends ObjetoDAO implements IDAO
     /**
      * 
      * @param obVO
-     * @throws SQLException Se houver algum erro na comunicação com o banco de dados
-     * @throws ForbiddenArgumentTypeException Se obVO não pertencer a classe UsuarioVO
+     * @throws SQLException
      */
     @Override
-    public void cadastrar(ObjetoVO obVO) throws SQLException, ForbiddenArgumentTypeException
+    public void cadastrar(ObjetoVO obVO) throws SQLException
     {
         UsuarioVO uVO = (UsuarioVO) obVO;
         String sql = "INSERT INTO " + UsuarioVO.getNomeTabela() + " "
@@ -143,10 +141,11 @@ public final class UsuarioDAO extends ObjetoDAO implements IDAO
     /**
      * 
      * @return
-     * @throws SQLException Se houver algum erro na comunicação com o banco de dados
+     * @throws NoDataFoundException
+     * @throws SQLException
      */
     @Override
-    public UsuarioVO[] listar() throws SQLException, NoDataFoundException
+    public UsuarioVO[] listar() throws NoDataFoundException, SQLException
     {
         String sql = "SELECT * FROM " + UsuarioVO.getNomeTabela();
 
@@ -197,11 +196,12 @@ public final class UsuarioDAO extends ObjetoDAO implements IDAO
      * @param query
      * @param indicesDados
      * @return
-     * @throws SQLException Se houver algum erro na comunicação com o banco de dados
-     * @throws NoDataFoundException Se os dados informados não corresponderem a nenhum usuário do banco de dados
+     * @throws IllegalArgumentException
+     * @throws NoDataFoundException
+     * @throws SQLException
      */
     @Override
-    public UsuarioVO[] pesquisar(ObjetoVO oVO, String query, int[] indicesDados) throws SQLException, NoDataFoundException, IllegalArgumentException
+    public UsuarioVO[] pesquisar(ObjetoVO oVO, String query, int[] indicesDados) throws IllegalArgumentException, NoDataFoundException, SQLException
     {
         UsuarioVO uVO = (UsuarioVO) oVO;
         
@@ -297,13 +297,14 @@ public final class UsuarioDAO extends ObjetoDAO implements IDAO
      * 
      * @param obVO
      * @throws SQLException Se houver algum erro na comunicação com o banco de dados
-     * @throws ForbiddenArgumentTypeException Se obVO não pertencer a classe UsuarioVO
+     * @throws IllegalArgumentException
      */
     @Override
-    public void alterar(ObjetoVO obVO) throws SQLException, ForbiddenArgumentTypeException
+    public void alterar(ObjetoVO obVO) throws SQLException
     {
         UsuarioVO uVO = (UsuarioVO) obVO;
         String[] nomesColunas = UsuarioVO.getNomesColunas();
+        
         String sql = "UPDATE " + UsuarioVO.getNomeTabela() + " SET "
                 + nomesColunas[1] + " = ?, "
                 + nomesColunas[2] + " = ?, "
@@ -347,24 +348,26 @@ public final class UsuarioDAO extends ObjetoDAO implements IDAO
     
     /**
      * 
-     * @param id
+     * @param obVO
      * @throws SQLException Se houver algum erro na comunicação com o banco de dados
      */
     @Override
-    public void excluir(int id) throws SQLException
+    public void excluir(ObjetoVO obVO) throws SQLException
     {
+        UsuarioVO uVO = (UsuarioVO) obVO;
+        
         String sql = "DELETE FROM " + UsuarioVO.getNomeTabela() + " "
                 + "WHERE " + UsuarioVO.getNomesColunas()[0] + " = ?";
         
         try(Connection con = new ConexaoBanco().getConexao();
             PreparedStatement pstm = con.prepareStatement(sql);)
         {
-            pstm.setInt(1, id);
+            pstm.setInt(1, uVO.getId());
             pstm.execute();
         }
         catch(SQLException se)
         {
-            throw new SQLException("Erro ao excluir usuário (UsuarioDAO.excluirUsuario)! " + se.getMessage());
+            throw new SQLException("Erro ao excluir usuário (UsuarioDAO.excluir)! " + se.getMessage());
         }
     }
 }

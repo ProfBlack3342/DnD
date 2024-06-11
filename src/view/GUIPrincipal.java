@@ -31,6 +31,8 @@ public class GUIPrincipal extends javax.swing.JFrame implements InternalFrameLis
     
     private boolean flagGUIPersonagens = false;
     private boolean flagGUIFichas = false;
+    private boolean flagGUIAdminUsuarios = false;
+    private boolean flagGUIAdminPersonagens = false;
     
     private GUIPrincipal() {
         JOptionPane.showMessageDialog(null, "Erro: Faça login antes de utilizar o programa!", "Erro", JOptionPane.ERROR_MESSAGE);
@@ -50,7 +52,20 @@ public class GUIPrincipal extends javax.swing.JFrame implements InternalFrameLis
         preencherPerfil();
     }
     
-    private void preencherPerfil(){
+    private void preencherPerfil() {
+        if(usuarioVOLogado.getIdTipo() == 1)
+        {
+            jMenuAdmin.setEnabled(true);
+            jMenuItemAdminUsuarios.setEnabled(true);
+            jMenuItemPersonagens.setEnabled(true);
+        }
+        else
+        {
+            jMenuItemAdminUsuarios.setEnabled(false);
+            jMenuItemPersonagens.setEnabled(false);
+            jMenuAdmin.setEnabled(false);
+        }
+        
         try
         {
             ImagemUsuarioVO imagemPersonagem = ServicosFactory.getImagemServicos().pesquisarImagemUsuario(usuarioVOLogado.getIdImagem());
@@ -63,36 +78,56 @@ public class GUIPrincipal extends javax.swing.JFrame implements InternalFrameLis
         }
         catch (SQLException | NoDataFoundException | IOException | IllegalArgumentException ex)
         {
-            JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro/aaa", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Erro em GUIPrincipal.preencherPerfil: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }
     
-    private void limparPerfil(){
+    private void limparPerfil() {
         usuarioVOLogado = null;
         jLabelImagem.setIcon(null);
         jLabelNomeUsuario.setText(null);
     }
     
-    private void abrirGUIPersonagens(){ 
-        if(!flagGUIPersonagens){
+    private void abrirGUIPersonagens() { 
+        if(!flagGUIPersonagens) {
             GUIPersonagens guiP = new GUIPersonagens(usuarioVOLogado.getId());
             jdpPrincipal.add(guiP);
             guiP.setVisible(true);
-            flagGUIPersonagens = true;
             guiP.addInternalFrameListener(this);
+            flagGUIPersonagens = true;
         }
     }
-    private void abrirGUIFichas(){
-        if(!flagGUIFichas){
+    private void abrirGUIFichas() {
+        if(!flagGUIFichas) {
             GUIFichas guiF = new GUIFichas(usuarioVOLogado.getId());
             jdpPrincipal.add(guiF);
             guiF.setVisible(true);
-            flagGUIFichas = true;
             guiF.addInternalFrameListener(this);
+            flagGUIFichas = true;
         }
     }
     
-    private void logoff(){
+    private void abrirGUIAdminUsuarios() {
+        if(!flagGUIAdminUsuarios) {
+            GUIAdminUsuarios guiAU = new GUIAdminUsuarios();
+            jdpPrincipal.add(guiAU);
+            guiAU.setVisible(true);
+            guiAU.addInternalFrameListener(this);
+            flagGUIAdminUsuarios = true;
+        }
+    }
+    
+    private void abrirGUIAdminPersonagens() {
+        if(!flagGUIAdminPersonagens) {
+            GUIAdminPersonagens guiAP = new GUIAdminPersonagens();
+            jdpPrincipal.add(guiAP);
+            guiAP.setVisible(true);
+            guiAP.addInternalFrameListener(this);
+            flagGUIAdminPersonagens = true;
+        }
+    }
+    
+    private void logoff() {
         limparPerfil();
         
         GUILogin guiL = new GUILogin();
@@ -102,7 +137,7 @@ public class GUIPrincipal extends javax.swing.JFrame implements InternalFrameLis
         dispose();
     }
     
-    private void encerrar(){
+    private void encerrar() {
         limparPerfil();
         System.exit(0);
     }
@@ -122,11 +157,14 @@ public class GUIPrincipal extends javax.swing.JFrame implements InternalFrameLis
         jdpPrincipal = new javax.swing.JDesktopPane();
         jMenuBar = new javax.swing.JMenuBar();
         jMenuPersonagens = new javax.swing.JMenu();
-        jmiPersonagens = new javax.swing.JMenuItem();
-        jmiFichas = new javax.swing.JMenuItem();
+        jMenuItemPersonagens = new javax.swing.JMenuItem();
+        jMenuItemFichas = new javax.swing.JMenuItem();
+        jMenuAdmin = new javax.swing.JMenu();
+        jMenuItemAdminUsuarios = new javax.swing.JMenuItem();
+        jMenuItemAdminPersonagens = new javax.swing.JMenuItem();
         jMenuSair = new javax.swing.JMenu();
-        jmiLogoff = new javax.swing.JMenuItem();
-        jmiEncerrar = new javax.swing.JMenuItem();
+        jMenuItemLogoff = new javax.swing.JMenuItem();
+        jMenuItemEncerrar = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(800, 600));
@@ -177,61 +215,94 @@ public class GUIPrincipal extends javax.swing.JFrame implements InternalFrameLis
 
         jMenuPersonagens.setText("Personagens");
 
-        jmiPersonagens.setText("Criar/Editar Personagem");
-        jmiPersonagens.addActionListener(new java.awt.event.ActionListener() {
+        jMenuItemPersonagens.setText("Criar/Editar Personagem");
+        jMenuItemPersonagens.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jmiPersonagensActionPerformed(evt);
+                jMenuItemPersonagensActionPerformed(evt);
             }
         });
-        jmiPersonagens.addKeyListener(new java.awt.event.KeyAdapter() {
+        jMenuItemPersonagens.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                jmiPersonagensKeyPressed(evt);
+                jMenuItemPersonagensKeyPressed(evt);
             }
         });
-        jMenuPersonagens.add(jmiPersonagens);
+        jMenuPersonagens.add(jMenuItemPersonagens);
 
-        jmiFichas.setText("Fichas dos Personagens");
-        jmiFichas.addActionListener(new java.awt.event.ActionListener() {
+        jMenuItemFichas.setText("Criar/Editar Fichas");
+        jMenuItemFichas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jmiFichasActionPerformed(evt);
+                jMenuItemFichasActionPerformed(evt);
             }
         });
-        jmiFichas.addKeyListener(new java.awt.event.KeyAdapter() {
+        jMenuItemFichas.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                jmiFichasKeyPressed(evt);
+                jMenuItemFichasKeyPressed(evt);
             }
         });
-        jMenuPersonagens.add(jmiFichas);
+        jMenuPersonagens.add(jMenuItemFichas);
 
         jMenuBar.add(jMenuPersonagens);
 
+        jMenuAdmin.setText("Administração");
+        jMenuAdmin.setEnabled(false);
+
+        jMenuItemAdminUsuarios.setText("Administrar Usuários");
+        jMenuItemAdminUsuarios.setEnabled(false);
+        jMenuItemAdminUsuarios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemAdminUsuariosActionPerformed(evt);
+            }
+        });
+        jMenuItemAdminUsuarios.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jMenuItemAdminUsuariosKeyPressed(evt);
+            }
+        });
+        jMenuAdmin.add(jMenuItemAdminUsuarios);
+
+        jMenuItemAdminPersonagens.setText("Administrar Personagens");
+        jMenuItemAdminPersonagens.setEnabled(false);
+        jMenuItemAdminPersonagens.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemAdminPersonagensActionPerformed(evt);
+            }
+        });
+        jMenuItemAdminPersonagens.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jMenuItemAdminPersonagensKeyPressed(evt);
+            }
+        });
+        jMenuAdmin.add(jMenuItemAdminPersonagens);
+
+        jMenuBar.add(jMenuAdmin);
+
         jMenuSair.setText("Sair");
 
-        jmiLogoff.setText("Fazer Logoff");
-        jmiLogoff.addActionListener(new java.awt.event.ActionListener() {
+        jMenuItemLogoff.setText("Fazer Logoff");
+        jMenuItemLogoff.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jmiLogoffActionPerformed(evt);
+                jMenuItemLogoffActionPerformed(evt);
             }
         });
-        jmiLogoff.addKeyListener(new java.awt.event.KeyAdapter() {
+        jMenuItemLogoff.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                jmiLogoffKeyPressed(evt);
+                jMenuItemLogoffKeyPressed(evt);
             }
         });
-        jMenuSair.add(jmiLogoff);
+        jMenuSair.add(jMenuItemLogoff);
 
-        jmiEncerrar.setText("Encerrar o Programa");
-        jmiEncerrar.addActionListener(new java.awt.event.ActionListener() {
+        jMenuItemEncerrar.setText("Encerrar o Programa");
+        jMenuItemEncerrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jmiEncerrarActionPerformed(evt);
+                jMenuItemEncerrarActionPerformed(evt);
             }
         });
-        jmiEncerrar.addKeyListener(new java.awt.event.KeyAdapter() {
+        jMenuItemEncerrar.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                jmiEncerrarKeyPressed(evt);
+                jMenuItemEncerrarKeyPressed(evt);
             }
         });
-        jMenuSair.add(jmiEncerrar);
+        jMenuSair.add(jMenuItemEncerrar);
 
         jMenuBar.add(jMenuSair);
 
@@ -261,45 +332,65 @@ public class GUIPrincipal extends javax.swing.JFrame implements InternalFrameLis
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jmiLogoffActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiLogoffActionPerformed
+    private void jMenuItemLogoffActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemLogoffActionPerformed
         logoff();
-    }//GEN-LAST:event_jmiLogoffActionPerformed
+    }//GEN-LAST:event_jMenuItemLogoffActionPerformed
 
-    private void jmiLogoffKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jmiLogoffKeyPressed
+    private void jMenuItemLogoffKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jMenuItemLogoffKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             logoff();
         }
-    }//GEN-LAST:event_jmiLogoffKeyPressed
+    }//GEN-LAST:event_jMenuItemLogoffKeyPressed
 
-    private void jmiEncerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiEncerrarActionPerformed
+    private void jMenuItemEncerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemEncerrarActionPerformed
         encerrar();
-    }//GEN-LAST:event_jmiEncerrarActionPerformed
+    }//GEN-LAST:event_jMenuItemEncerrarActionPerformed
 
-    private void jmiEncerrarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jmiEncerrarKeyPressed
+    private void jMenuItemEncerrarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jMenuItemEncerrarKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             encerrar();
         }
-    }//GEN-LAST:event_jmiEncerrarKeyPressed
+    }//GEN-LAST:event_jMenuItemEncerrarKeyPressed
 
-    private void jmiPersonagensActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiPersonagensActionPerformed
+    private void jMenuItemPersonagensActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemPersonagensActionPerformed
         abrirGUIPersonagens();
-    }//GEN-LAST:event_jmiPersonagensActionPerformed
+    }//GEN-LAST:event_jMenuItemPersonagensActionPerformed
 
-    private void jmiPersonagensKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jmiPersonagensKeyPressed
+    private void jMenuItemPersonagensKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jMenuItemPersonagensKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             abrirGUIPersonagens();
         }
-    }//GEN-LAST:event_jmiPersonagensKeyPressed
+    }//GEN-LAST:event_jMenuItemPersonagensKeyPressed
 
-    private void jmiFichasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiFichasActionPerformed
+    private void jMenuItemFichasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemFichasActionPerformed
         abrirGUIFichas();
-    }//GEN-LAST:event_jmiFichasActionPerformed
+    }//GEN-LAST:event_jMenuItemFichasActionPerformed
 
-    private void jmiFichasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jmiFichasKeyPressed
+    private void jMenuItemFichasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jMenuItemFichasKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             abrirGUIFichas();
         }
-    }//GEN-LAST:event_jmiFichasKeyPressed
+    }//GEN-LAST:event_jMenuItemFichasKeyPressed
+
+    private void jMenuItemAdminUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemAdminUsuariosActionPerformed
+        abrirGUIAdminPersonagens();
+    }//GEN-LAST:event_jMenuItemAdminUsuariosActionPerformed
+
+    private void jMenuItemAdminUsuariosKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jMenuItemAdminUsuariosKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            abrirGUIAdminPersonagens();
+        }
+    }//GEN-LAST:event_jMenuItemAdminUsuariosKeyPressed
+
+    private void jMenuItemAdminPersonagensActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemAdminPersonagensActionPerformed
+        abrirGUIAdminUsuarios();
+    }//GEN-LAST:event_jMenuItemAdminPersonagensActionPerformed
+
+    private void jMenuItemAdminPersonagensKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jMenuItemAdminPersonagensKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            abrirGUIAdminUsuarios();
+        }
+    }//GEN-LAST:event_jMenuItemAdminPersonagensKeyPressed
 
     /**
      * @param args the command line arguments
@@ -339,15 +430,18 @@ public class GUIPrincipal extends javax.swing.JFrame implements InternalFrameLis
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabelImagem;
     private javax.swing.JLabel jLabelNomeUsuario;
+    private javax.swing.JMenu jMenuAdmin;
     private javax.swing.JMenuBar jMenuBar;
+    private javax.swing.JMenuItem jMenuItemAdminPersonagens;
+    private javax.swing.JMenuItem jMenuItemAdminUsuarios;
+    private javax.swing.JMenuItem jMenuItemEncerrar;
+    private javax.swing.JMenuItem jMenuItemFichas;
+    private javax.swing.JMenuItem jMenuItemLogoff;
+    private javax.swing.JMenuItem jMenuItemPersonagens;
     private javax.swing.JMenu jMenuPersonagens;
     private javax.swing.JMenu jMenuSair;
     private javax.swing.JPanel jPanelPerfil;
     private javax.swing.JDesktopPane jdpPrincipal;
-    private javax.swing.JMenuItem jmiEncerrar;
-    private javax.swing.JMenuItem jmiFichas;
-    private javax.swing.JMenuItem jmiLogoff;
-    private javax.swing.JMenuItem jmiPersonagens;
     // End of variables declaration//GEN-END:variables
 
     @Override
@@ -368,6 +462,12 @@ public class GUIPrincipal extends javax.swing.JFrame implements InternalFrameLis
         }
         else if(iFrame instanceof GUIFichas) {
             flagGUIFichas = false;
+        }
+        else if(iFrame instanceof GUIAdminUsuarios) {
+            flagGUIAdminUsuarios = false;
+        }
+        else if(iFrame instanceof GUIAdminPersonagens) {
+            flagGUIAdminPersonagens = false;
         }
     }
 

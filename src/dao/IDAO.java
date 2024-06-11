@@ -8,7 +8,6 @@ package dao;
 import java.sql.SQLException;
 
 import exception.NoDataFoundException;
-import exception.ForbiddenArgumentTypeException;
 import modelo.ObjetoVO;
 
 /**
@@ -21,17 +20,16 @@ public interface IDAO
      * 
      * @param obVO
      * @throws SQLException
-     * @throws ForbiddenArgumentTypeException 
      */
-    void cadastrar(ObjetoVO obVO) throws SQLException, ForbiddenArgumentTypeException;
+    void cadastrar(ObjetoVO obVO) throws SQLException;
     
     /**
      * 
      * @return
-     * @throws SQLException 
      * @throws NoDataFoundException 
+     * @throws SQLException 
      */
-    ObjetoVO[] listar() throws SQLException, NoDataFoundException;
+    ObjetoVO[] listar() throws NoDataFoundException, SQLException;
     
     /**
      * 
@@ -39,23 +37,23 @@ public interface IDAO
      * @param query
      * @param indicesDados
      * @return
-     * @throws SQLException 
-     * @throws NoDataFoundException 
+     * @throws IllegalArgumentException
+     * @throws exception.NoDataFoundException
+     * @throws java.sql.SQLException
      */
-    ObjetoVO[] pesquisar(ObjetoVO obVO, String query, int[] indicesDados) throws SQLException, NoDataFoundException;
+    ObjetoVO[] pesquisar(ObjetoVO obVO, String query, int[] indicesDados) throws IllegalArgumentException, NoDataFoundException, SQLException;
     
     /**
      * 
      * @param obVO
      * @throws SQLException
-     * @throws ForbiddenArgumentTypeException 
      */
-    void alterar(ObjetoVO obVO) throws SQLException, ForbiddenArgumentTypeException;
+    void alterar(ObjetoVO obVO) throws SQLException;
     
     /**
      * 
-     * @param id
+     * @param obVO
      * @throws SQLException  
      */
-    void excluir(int id)throws SQLException;
+    void excluir(ObjetoVO obVO)throws SQLException;
 }

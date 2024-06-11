@@ -15,12 +15,41 @@ import modelo.ImagemUsuarioVO;
  *
  * @author Eduardo Pereira Moreira
  */
-public class ImagemServicos {
+public class ImagemServicos
+{
+    /**
+     *
+     * @param iuVO
+     * @throws IllegalArgumentException
+     * @throws SQLException
+     */
+    public void cadastrarImagemUsuario(ImagemUsuarioVO iuVO) throws SQLException {
+        DAOFactory.getImagemDAO().cadastrar(iuVO);
+    }
     
-    public ImagemUsuarioVO pesquisarImagemUsuario(int id) throws SQLException, NoDataFoundException, IllegalArgumentException {
+    /**
+     *
+     * @return
+     * @throws NoDataFoundException
+     * @throws SQLException
+     */
+    public ImagemUsuarioVO[] listarImagensUsuario() throws NoDataFoundException, SQLException {
+        return DAOFactory.getImagemDAO().listar();
+    }
+    
+    /**
+     *
+     * @param id
+     * @return
+     * @throws IllegalArgumentException
+     * @throws NoDataFoundException
+     * @throws SQLException
+     */
+    public ImagemUsuarioVO pesquisarImagemUsuario(int id) throws IllegalArgumentException, NoDataFoundException, SQLException {
         String query = "SELECT * "
                 + "FROM " + ImagemUsuarioVO.getNomeTabela() + " "
-                + "WHERE " + ImagemUsuarioVO.getNomesColunas()[0] + " = ?";
+                + "WHERE " + ImagemUsuarioVO.getNomesColunas()[0] + " = ? "
+                + "LIMIT 1";
         
         ImagemUsuarioVO iuVO = new ImagemUsuarioVO();
         iuVO.setId(id);
@@ -28,7 +57,35 @@ public class ImagemServicos {
         return DAOFactory.getImagemDAO().pesquisar(iuVO, query, new int[]{0})[0];
     }
     
-    public ImagemUsuarioVO[] pesquisarImagemUsuario(ImagemUsuarioVO iuVO, String query, int[] indicesDados) throws SQLException, NoDataFoundException, IllegalArgumentException {
+    /**
+     *
+     * @param iuVO
+     * @param query
+     * @param indicesDados
+     * @return
+     * @throws IllegalArgumentException
+     * @throws NoDataFoundException
+     * @throws SQLException
+     */
+    public ImagemUsuarioVO[] pesquisarImagensUsuario(ImagemUsuarioVO iuVO, String query, int[] indicesDados) throws IllegalArgumentException, NoDataFoundException, SQLException {
         return DAOFactory.getImagemDAO().pesquisar(iuVO, query, indicesDados);
+    }
+    
+    /**
+     *
+     * @param iuVO
+     * @throws SQLException
+     */
+    public void alterarImagemUsuario(ImagemUsuarioVO iuVO) throws SQLException {
+        DAOFactory.getImagemDAO().alterar(iuVO);
+    }
+    
+    /**
+     *
+     * @param iuVO
+     * @throws SQLException
+     */
+    public void excluirImagemUsuario(ImagemUsuarioVO iuVO) throws SQLException {
+        DAOFactory.getImagemDAO().excluir(iuVO);
     }
 }

@@ -10,17 +10,25 @@ package dao;
  */
 public final class DAOFactory
 {
-    private static final UsuarioDAO USUARIO_DAO = new UsuarioDAO();
     private static final ImagemUsuarioDAO IMAGEM_DAO = new ImagemUsuarioDAO();
+    private static final UsuarioDAO USUARIO_DAO = new UsuarioDAO();
+    private static final PersonagemDAO PERSONAGEM_DAO = new PersonagemDAO();
+    
+    /**
+     * 
+     * @return 
+     */
+    public static ImagemUsuarioDAO getImagemDAO() {return IMAGEM_DAO;}
     
     /**
      * 
      * @return 
      */
     public static UsuarioDAO getUsuarioDAO() {return USUARIO_DAO;}
+    
     /**
-     * 
-     * @return 
+     *
+     * @return
      */
-    public static ImagemUsuarioDAO getImagemDAO() {return IMAGEM_DAO;}
+    public static PersonagemDAO getPersonagemDAO() {return PERSONAGEM_DAO;}
 }

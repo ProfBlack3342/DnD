@@ -14,6 +14,7 @@ import java.util.ArrayList;
  */
 public final class PersonagemVO extends ObjetoVO
 {
+    private static final String NOME_TABELA = "Personagem";
     /*
         Tabela Personagem (
             idPersonagem INT NOT NULL,
@@ -28,18 +29,50 @@ public final class PersonagemVO extends ObjetoVO
             nivelPersonagem INT NOT NULL DEFAULT 1,
             xpPersonagem INT NOT NULL DEFAULT 0,
             inspiracaoPersonagem TINYINT(1) NOT NULL DEFAULT 0,
+            descricaoPersonagem VARCHAR(2000) NULL,
             dataCriacaoPersonagem DATE NOT NULL,
             personagemAtivo TINYINT(1) NOT NULL DEFAULT 1
         )
     */
+    private static final String[] NOMES_COLUNAS = new String[]{
+        "idPersonagem",
+        "idUsuario",
+        "idImagemPersonagem",
+        "idClasse",
+        "idSubclasse",
+        "idRaca",
+        "idSubraca",
+        "idBackground",
+        "nomePersonagem",
+        "nivelPersonagem",
+        "xpPersonagem",
+        "inspiracaoPersonagem",
+        "descricaoPersonagem",
+        "dataCriacaoPersonagem",
+        "personagemAtivo"
+    };
+    private static final int LIMITE_NOME_PERSONAGEM = 50;
+    private static final int LIMITE_DESCRICAO_PERSONAGEM = 2000;
+    
     private int idUsuario;
+    private int idImagemPersonagem;
+    private int idClasse;
+    private int idSubclasse;
+    private int idRaca;
+    private int idSubraca;
+    private int idBackground;
+    private String nomePersonagem;
+    private int nivelPersonagem = 1;
+    private int xpPersonagem = 0;
+    private boolean inspirado = false;
+    private String descricaoPersonagem;
+    
     private ImagemVO imagemPersonagem;
     private ClasseVO classe;
     private SubclasseVO subclasse;
     private RacaVO raca;
     private SubRacaVO subraca;
     private BackgroundVO background;
-    
     private DetalhesVO detalhes;
     private BackstoryVO backstory;
     private ProficienciasPersonagemVO proficienciasPersonagem;
@@ -48,12 +81,6 @@ public final class PersonagemVO extends ObjetoVO
     private final ArrayList<FeatVO> featsPersonagem = new ArrayList<>();
     private EquipamentoVO[] inventarioPersonagem;
     
-    private String nome = "Sem Nome";
-    private int nivel = 1;
-    private int xp = 0;
-    private int iniciativa = 0;
-    private boolean inspirado = false;
-
     public PersonagemVO() {
     }
 
@@ -61,12 +88,207 @@ public final class PersonagemVO extends ObjetoVO
         this.idUsuario = idUsuario;
     }
 
+    public static String getNomeTabela() {return NOME_TABELA;}
+    public static String[] getNomesColunas() {return NOMES_COLUNAS;}
+    public static int getLimiteNomePersonagem() {return LIMITE_NOME_PERSONAGEM;}
+    public static int getLimiteDescricaoPersonagem() {return LIMITE_DESCRICAO_PERSONAGEM;}
+
+    
     public int getIdUsuario() {return idUsuario;}
     public void setIdUsuario(int idUsuario) {this.idUsuario = idUsuario;}
 
     public ImagemVO getImagemPersonagem() {return imagemPersonagem;}
     public void setImagemPersonagem(ImagemVO imagemPersonagem) {this.imagemPersonagem = imagemPersonagem;}
 
+    public int getIdImagemPersonagem() {return idImagemPersonagem;}
+    public void setIdImagemPersonagem(int idImagemPersonagem) {this.idImagemPersonagem = idImagemPersonagem;}
+
+    public int getIdClasse() {return idClasse;}
+    public void setIdClasse(int idClasse) {this.idClasse = idClasse;}
+
+    public int getIdSubclasse() {return idSubclasse;}
+    public void setIdSubclasse(int idSubclasse) {this.idSubclasse = idSubclasse;}
+
+    public int getIdRaca() {return idRaca;}
+    public void setIdRaca(int idRaca) {this.idRaca = idRaca;}
+
+    public int getIdSubraca() {return idSubraca;}
+    public void setIdSubraca(int idSubraca) {this.idSubraca = idSubraca;}
+
+    public int getIdBackground() {return idBackground;}
+    public void setIdBackground(int idBackground) {this.idBackground = idBackground;}
+
+    public String getNomePersonagem() {return nomePersonagem;}
+    public void setNomePersonagem(String nomePersonagem) {this.nomePersonagem = nomePersonagem;}
+
+    private void setNivelPeloXp() {
+        if(xpPersonagem < 300)
+            nivelPersonagem = 1;
+        else if(xpPersonagem < 900)
+            nivelPersonagem = 2;
+        else if(xpPersonagem < 2700)
+            nivelPersonagem = 3;
+        else if(xpPersonagem < 6500)
+            nivelPersonagem = 4;
+        else if(xpPersonagem < 14000)
+            nivelPersonagem = 5;
+        else if(xpPersonagem < 23000)
+            nivelPersonagem = 6;
+        else if(xpPersonagem < 34000)
+            nivelPersonagem = 7;
+        else if(xpPersonagem < 48000)
+            nivelPersonagem = 8;
+        else if(xpPersonagem < 64000)
+            nivelPersonagem = 9;
+        else if(xpPersonagem < 85000)
+            nivelPersonagem = 10;
+        else if(xpPersonagem < 100000)
+            nivelPersonagem = 11;
+        else if(xpPersonagem < 120000)
+            nivelPersonagem = 12;
+        else if(xpPersonagem < 140000)
+            nivelPersonagem = 13;
+        else if(xpPersonagem < 165000)
+            nivelPersonagem = 14;
+        else if(xpPersonagem < 195000)
+            nivelPersonagem = 15;
+        else if(xpPersonagem < 225000)
+            nivelPersonagem = 16;
+        else if(xpPersonagem < 265000)
+            nivelPersonagem = 17;
+        else if(xpPersonagem < 305000)
+            nivelPersonagem = 18;
+        else if(xpPersonagem < 355000)
+            nivelPersonagem = 19;
+        else
+            nivelPersonagem = 20;
+        
+    }
+    private void setXpPeloNivel() {
+        switch(nivelPersonagem) {
+            case 1:
+            {
+                xpPersonagem = 0;
+                break;
+            }
+            case 2:
+            {
+                xpPersonagem = 300;
+                break;
+            }
+            case 3:
+            {
+                xpPersonagem = 900;
+                break;
+            }
+            case 4:
+            {
+                xpPersonagem = 2700;
+                break;
+            }
+            case 5:
+            {
+                xpPersonagem = 6500;
+                break;
+            }
+            case 6:
+            {
+                xpPersonagem = 14000;
+                break;
+            }
+            case 7:
+            {
+                xpPersonagem = 23000;
+                break;
+            }
+            case 8:
+            {
+                xpPersonagem = 34000;
+                break;
+            }
+            case 9:
+            {
+                xpPersonagem = 48000;
+                break;
+            }
+            case 10:
+            {
+                xpPersonagem = 64000;
+                break;
+            }
+            case 11:
+            {
+                xpPersonagem = 85000;
+                break;
+            }
+            case 12:
+            {
+                xpPersonagem = 100000;
+                break;
+            }
+            case 13:
+            {
+                xpPersonagem = 120000;
+                break;
+            }
+            case 14:
+            {
+                xpPersonagem = 140000;
+                break;
+            }
+            case 15:
+            {
+                xpPersonagem = 165000;
+                break;
+            }
+            case 16:
+            {
+                xpPersonagem = 195000;
+                break;
+            }
+            case 17:
+            {
+                xpPersonagem = 225000;
+                break;
+            }
+            case 18:
+            {
+                xpPersonagem = 265000;
+                break;
+            }
+            case 19:
+            {
+                xpPersonagem = 305000;
+                break;
+            }
+            case 20:
+            {
+                xpPersonagem = 355000;
+                break;
+            }
+            default:
+                break;
+        }
+    }
+    
+    public int getNivelPersonagem() {return nivelPersonagem;}
+    public void setNivelPersonagem(int nivelPersonagem) {
+        this.nivelPersonagem = nivelPersonagem;
+        setXpPeloNivel();
+    }
+    
+    public int getXpPersonagem() {return xpPersonagem;}
+    public void setXpPersonagem(int xpPersonagem) {
+        this.xpPersonagem = xpPersonagem;
+        setNivelPeloXp();
+    }
+    
+    public boolean isInspirado() {return inspirado;}
+    public void setInspirado(boolean inspirado) {this.inspirado = inspirado;}
+
+    public String getDescricaoPersonagem() {return descricaoPersonagem;}
+    public void setDescricaoPersonagem(String descricaoPersonagem) {this.descricaoPersonagem = descricaoPersonagem;}
+    
     public ClasseVO getClasse() {return classe;}
     public void setClasse(ClasseVO classe) {this.classe = classe;}
 
@@ -108,177 +330,6 @@ public final class PersonagemVO extends ObjetoVO
     }
     public void addFeatPersonagem(FeatVO featPersonagem) {this.featsPersonagem.add(featPersonagem);}
     public void removeFeatPersonagem(int indice) {featsPersonagem.remove(indice);}
-
-    public String getNome() {return nome;}
-    public void setNome(String nome) {this.nome = nome;}
-
-    private void setNivelPeloXp() {
-        if(xp < 300)
-            nivel = 1;
-        else if(xp < 900)
-            nivel = 2;
-        else if(xp < 2700)
-            nivel = 3;
-        else if(xp < 6500)
-            nivel = 4;
-        else if(xp < 14000)
-            nivel = 5;
-        else if(xp < 23000)
-            nivel = 6;
-        else if(xp < 34000)
-            nivel = 7;
-        else if(xp < 48000)
-            nivel = 8;
-        else if(xp < 64000)
-            nivel = 9;
-        else if(xp < 85000)
-            nivel = 10;
-        else if(xp < 100000)
-            nivel = 11;
-        else if(xp < 120000)
-            nivel = 12;
-        else if(xp < 140000)
-            nivel = 13;
-        else if(xp < 165000)
-            nivel = 14;
-        else if(xp < 195000)
-            nivel = 15;
-        else if(xp < 225000)
-            nivel = 16;
-        else if(xp < 265000)
-            nivel = 17;
-        else if(xp < 305000)
-            nivel = 18;
-        else if(xp < 355000)
-            nivel = 19;
-        else
-            nivel = 20;
-        
-    }
-    private void setXpPeloNivel() {
-        switch(nivel) {
-            case 1:
-            {
-                xp = 0;
-                break;
-            }
-            case 2:
-            {
-                xp = 300;
-                break;
-            }
-            case 3:
-            {
-                xp = 900;
-                break;
-            }
-            case 4:
-            {
-                xp = 2700;
-                break;
-            }
-            case 5:
-            {
-                xp = 6500;
-                break;
-            }
-            case 6:
-            {
-                xp = 14000;
-                break;
-            }
-            case 7:
-            {
-                xp = 23000;
-                break;
-            }
-            case 8:
-            {
-                xp = 34000;
-                break;
-            }
-            case 9:
-            {
-                xp = 48000;
-                break;
-            }
-            case 10:
-            {
-                xp = 64000;
-                break;
-            }
-            case 11:
-            {
-                xp = 85000;
-                break;
-            }
-            case 12:
-            {
-                xp = 100000;
-                break;
-            }
-            case 13:
-            {
-                xp = 120000;
-                break;
-            }
-            case 14:
-            {
-                xp = 140000;
-                break;
-            }
-            case 15:
-            {
-                xp = 165000;
-                break;
-            }
-            case 16:
-            {
-                xp = 195000;
-                break;
-            }
-            case 17:
-            {
-                xp = 225000;
-                break;
-            }
-            case 18:
-            {
-                xp = 265000;
-                break;
-            }
-            case 19:
-            {
-                xp = 305000;
-                break;
-            }
-            case 20:
-            {
-                xp = 355000;
-                break;
-            }
-            default:
-                break;
-        }
-    }
-    
-    public int getNivel() {return nivel;}
-    public void setNivel(int nivel) {
-        this.nivel = nivel;
-        setXpPeloNivel();
-    }
-    
-    public int getXp() {return xp;}
-    public void setXp(int xp) {
-        this.xp = xp;
-        setNivelPeloXp();
-    }
-
-    public int getIniciativa() {return iniciativa;}
-    public void setIniciativa(int iniciativa) {this.iniciativa = iniciativa;}
-    
-    public boolean isInspirado() {return inspirado;}
-    public void setInspirado(boolean inspirado) {this.inspirado = inspirado;}
 
     public EquipamentoVO[] getInventarioPersonagem() {return inventarioPersonagem;}
     public void setInventarioPersonagem(EquipamentoVO[] inventarioPersonagem) {this.inventarioPersonagem = inventarioPersonagem;}

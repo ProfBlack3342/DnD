@@ -10,8 +10,15 @@ package servicos;
  */
 public final class ServicosFactory
 {
-    private static final UsuarioServicos USUARIO_SERVICOS = new UsuarioServicos();
     private static final ImagemServicos IMAGEM_SERVICOS = new ImagemServicos();
+    private static final UsuarioServicos USUARIO_SERVICOS = new UsuarioServicos();
+    private static final PersonagemServicos PERSONAGEM_SERVICOS = new PersonagemServicos();
+    
+    /**
+     * 
+     * @return 
+     */
+    public static ImagemServicos getImagemServicos() {return IMAGEM_SERVICOS;}
     
     /**
      * 
@@ -20,8 +27,8 @@ public final class ServicosFactory
     public static UsuarioServicos getUsuarioServicos() {return USUARIO_SERVICOS;}
     
     /**
-     * 
-     * @return 
+     *
+     * @return
      */
-    public static ImagemServicos getImagemServicos() {return IMAGEM_SERVICOS;}
+    public static PersonagemServicos getPersonagemServicos() {return PERSONAGEM_SERVICOS;}
 }

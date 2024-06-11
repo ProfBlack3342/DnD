@@ -205,6 +205,7 @@ CREATE TABLE IF NOT EXISTS Personagem (
     nivelPersonagem INT NOT NULL DEFAULT 1,
     xpPersonagem INT NOT NULL DEFAULT 0,
     inspiracaoPersonagem TINYINT(1) NOT NULL DEFAULT 0,
+    descricaoPersonagem VARCHAR(2000) NULL,
     dataCriacaoPersonagem DATE NOT NULL,
     personagemAtivo TINYINT(1) NOT NULL DEFAULT 1
 );

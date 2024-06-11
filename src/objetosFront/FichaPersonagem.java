@@ -763,8 +763,8 @@ public class FichaPersonagem
         
         // Cabeçalho 1
         nomePersonagem = this.personagem.getNome();
-        nivelPersonagem = this.personagem.getNivel();
-        xpPersonagem = this.personagem.getXp();
+        nivelPersonagem = this.personagem.getNivelPersonagem();
+        xpPersonagem = this.personagem.getXpPersonagem();
         nomeUsuario = this.usuario.getNome();
         nomeClasse = this.classe.getNome() + " (" + this.subclasse.getNome() + ")";
         nomeRaca = this.raca.getNome() + " (" + this.subraca.getNome() + ")";

@@ -76,7 +76,7 @@ public final class UsuarioVO extends ObjetoVO
         this.dataAniversarioUsuario = null;
         this.descricaoUsuario = null;
     }
-    public UsuarioVO(int idImagem, int idTipo, String nomeUsuario, String senhaUsuario, String emailUsuario, Date dataAniversarioUsuario, String descricaoUsuario, int id, Date dataCriacao)
+    public UsuarioVO(int id, Date dataCriacao, int idImagem, int idTipo, String nomeUsuario, String senhaUsuario, String emailUsuario, Date dataAniversarioUsuario, String descricaoUsuario)
     {
         super(id, dataCriacao);
         this.idImagem = idImagem;
@@ -88,7 +88,7 @@ public final class UsuarioVO extends ObjetoVO
         setDiaMesAnoAniversario(this.dataAniversarioUsuario);
         this.descricaoUsuario = descricaoUsuario;
     }
-    public UsuarioVO(int idImagem, int idTipo, String nomeUsuario, String senhaUsuario, String emailUsuario, int diaAniversarioUsuario, int mesAniversarioUsuario, int anoAniversarioUsuario, String descricaoUsuario, int id, Date dataCriacao)
+    public UsuarioVO(int id, Date dataCriacao, int idImagem, int idTipo, String nomeUsuario, String senhaUsuario, String emailUsuario, int diaAniversarioUsuario, int mesAniversarioUsuario, int anoAniversarioUsuario, String descricaoUsuario)
     {
         super(id, dataCriacao);
         this.idImagem = idImagem;
@@ -102,7 +102,7 @@ public final class UsuarioVO extends ObjetoVO
         setDataAniversario(this.diaAniversarioUsuario, this.mesAniversarioUsuario, this.anoAniversarioUsuario);
         formatarDescricaoUsuario(descricaoUsuario);
     }
-    public UsuarioVO(int idImagem, int idTipo, String nomeUsuario, String senhaUsuario, String emailUsuario, Date dataAniversarioUsuario, String descricaoUsuario, int id, int diaCriacao, int mesCriacao, int anoCriacao)
+    public UsuarioVO(int id, int diaCriacao, int mesCriacao, int anoCriacao, int idImagem, int idTipo, String nomeUsuario, String senhaUsuario, String emailUsuario, Date dataAniversarioUsuario, String descricaoUsuario)
     {
         super(id, diaCriacao, mesCriacao, anoCriacao);
         this.idImagem = idImagem;
@@ -114,7 +114,7 @@ public final class UsuarioVO extends ObjetoVO
         setDiaMesAnoAniversario(this.dataAniversarioUsuario);
         formatarDescricaoUsuario(descricaoUsuario);
     }
-    public UsuarioVO(int idImagem, int idTipo, String nomeUsuario, String senhaUsuario, String emailUsuario, int diaAniversarioUsuario, int mesAniversarioUsuario, int anoAniversarioUsuario, String descricaoUsuario, int id, int diaCriacao, int mesCriacao, int anoCriacao)
+    public UsuarioVO(int id, int diaCriacao, int mesCriacao, int anoCriacao, int idImagem, int idTipo, String nomeUsuario, String senhaUsuario, String emailUsuario, int diaAniversarioUsuario, int mesAniversarioUsuario, int anoAniversarioUsuario, String descricaoUsuario)
     {
         super(id, diaCriacao, mesCriacao, anoCriacao);
         this.idImagem = idImagem;

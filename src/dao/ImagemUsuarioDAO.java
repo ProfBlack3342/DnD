@@ -11,7 +11,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import exception.ForbiddenArgumentTypeException;
 import exception.NoDataFoundException;
 import modelo.ImagemUsuarioVO;
 import modelo.ObjetoVO;
@@ -33,18 +32,39 @@ public class ImagemUsuarioDAO extends ObjetoDAO implements IDAO
         )
     */
 
+    /**
+     *
+     * @param obVO
+     * @throws SQLException
+     */
     @Override
-    public void cadastrar(ObjetoVO obVO) throws SQLException, ForbiddenArgumentTypeException {
+    public void cadastrar(ObjetoVO obVO) throws SQLException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     *
+     * @return
+     * @throws SQLException
+     * @throws NoDataFoundException
+     */
     @Override
     public ImagemUsuarioVO[] listar() throws SQLException, NoDataFoundException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     *
+     * @param oVO
+     * @param query
+     * @param indicesDados
+     * @return
+     * @throws IllegalArgumentException
+     * @throws NoDataFoundException
+     * @throws SQLException
+     */
     @Override
-    public ImagemUsuarioVO[] pesquisar(ObjetoVO oVO, String query, int[] indicesDados) throws SQLException, NoDataFoundException, IllegalArgumentException
+    public ImagemUsuarioVO[] pesquisar(ObjetoVO oVO, String query, int[] indicesDados) throws IllegalArgumentException, NoDataFoundException, SQLException
     {
         ImagemUsuarioVO iuVO = (ImagemUsuarioVO) oVO;
         
@@ -107,13 +127,23 @@ public class ImagemUsuarioDAO extends ObjetoDAO implements IDAO
         }
     }
 
+    /**
+     *
+     * @param obVO
+     * @throws SQLException
+     */
     @Override
-    public void alterar(ObjetoVO obVO) throws SQLException, ForbiddenArgumentTypeException {
+    public void alterar(ObjetoVO obVO) throws SQLException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     *
+     * @param obVO
+     * @throws SQLException
+     */
     @Override
-    public void excluir(int id) throws SQLException {
+    public void excluir(ObjetoVO obVO) throws SQLException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

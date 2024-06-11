@@ -9,12 +9,12 @@ package view;
  *
  * @author 181700271
  */
-public class GUIAdminPersonagens extends javax.swing.JInternalFrame {
+public class GUIAdminUsuarios extends javax.swing.JInternalFrame {
 
     /**
-     * Creates new form GUIAdminPersonagens
+     * Creates new form GUIAdminUsuarios
      */
-    public GUIAdminPersonagens() {
+    public GUIAdminUsuarios() {
         initComponents();
     }
 
