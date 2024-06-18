@@ -13,6 +13,7 @@ public class GUIPersonagens extends javax.swing.JInternalFrame {
 
     /**
      * Creates new form GUIPersonagens
+     * @param idUsuario
      */
     public GUIPersonagens(int idUsuario) {
         initComponents();
