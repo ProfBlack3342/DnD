@@ -31,3 +31,4 @@ nbproject/private/private.properties
 nbproject/project.properties
 nbproject/private/private.xml
 nbproject/private/private.properties
+src/persistencia/ConexaoBanco.java
