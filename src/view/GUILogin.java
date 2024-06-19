@@ -56,6 +56,9 @@ public class GUILogin extends javax.swing.JFrame implements ItemListener {
         jcbAnoAniversarioCadastro.addItemListener(this);
         jcbMesAniversarioCadastro.addItemListener(this);
         jcbDiaAniversarioCadastro.addItemListener(this);
+        
+        limparLogin();
+        limparCadastro();
     }
     
     private void carregarImagens()
@@ -172,9 +175,9 @@ public class GUILogin extends javax.swing.JFrame implements ItemListener {
         jtfEmailCadastro.setText(null);
         jpfSenhaCadastro1.setText(null);
         jpfSenhaCadastro2.setText(null);
-        jcbDiaAniversarioCadastro.setSelectedIndex(0);
-        jcbMesAniversarioCadastro.setSelectedIndex(0);
-        jcbAnoAniversarioCadastro.setSelectedIndex(0);
+        jcbDiaAniversarioCadastro.setSelectedIndex(-1);
+        jcbMesAniversarioCadastro.setSelectedIndex(-1);
+        jcbAnoAniversarioCadastro.setSelectedIndex(-1);
         jTextPaneDescricaoCadastro.setText(null);
     }
     
@@ -182,17 +185,36 @@ public class GUILogin extends javax.swing.JFrame implements ItemListener {
     {
         try
         {
-            DadosLogin dadosLogin = new DadosLogin(jtfUsuarioLogin.getText(), new String(jpfSenhaLogin.getPassword()));
-            limparLogin();
+            String usuario = jtfUsuarioLogin.getText();
             
-            UsuarioVO uVO = ServicosFactory.getUsuarioServicos().loginUsuario(dadosLogin);
-            if(uVO == null)
-                JOptionPane.showMessageDialog(null, "Erro: Usuário ou senha não correspondem a nenhum registrado", "Erro", JOptionPane.ERROR_MESSAGE);
+            if(!usuario.isEmpty())
+            {
+                char[] senha = jpfSenhaLogin.getPassword();
+                
+                if(senha.length != 0)
+                {
+                    DadosLogin dadosLogin = new DadosLogin(usuario, new String(senha));
+                    limparLogin();
+
+                    UsuarioVO uVO = ServicosFactory.getUsuarioServicos().loginUsuario(dadosLogin);
+                    if(uVO == null)
+                        JOptionPane.showMessageDialog(null, "Erro: Usuário ou senha não correspondem a nenhum registrado!", "Erro", JOptionPane.ERROR_MESSAGE);
+                    else
+                    {
+                        JOptionPane.showMessageDialog(null, "Login realizado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                        abrirGUIPrincipal(uVO);
+                    }
+                }
+                else
+                {
+                    JOptionPane.showMessageDialog(null, "Erro: Digite uma senha...", "Erro", JOptionPane.ERROR_MESSAGE);
+                }
+            }
             else
             {
-                JOptionPane.showMessageDialog(null, "Login realizado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-                abrirGUIPrincipal(uVO);
+                JOptionPane.showMessageDialog(null, "Erro: Digite um usuário...", "Erro", JOptionPane.ERROR_MESSAGE);
             }
+            
         }
         catch(NoDataFoundException | SQLException | NullPointerException e)
         {
@@ -205,76 +227,84 @@ public class GUILogin extends javax.swing.JFrame implements ItemListener {
         try
         {
             String nome = jtfNomeCadastro.getText();
-            if(nome != null)
+            
+            if(!nome.isEmpty())
             {
                 char[] senha1c = jpfSenhaCadastro1.getPassword();
                 char[] senha2c = jpfSenhaCadastro2.getPassword();
                 
-                if(senha1c != null && senha2c != null && senha1c.length >= 1 && senha2c.length >= 1)
+                if(senha1c.length != 0)
                 {
-                    String senha1 = new String(senha1c);
-                    String senha2 = new String(senha2c);
-                    
-                    if(senha1.equals(senha2))
+                    if(senha2c.length != 0)
                     {
-                        String email = jtfEmailCadastro.getText();
-                        if(email != null)
+                        String senha1 = new String(senha1c);
+                        String senha2 = new String(senha2c);
+                        
+                        if(senha1.equals(senha2))
                         {
-                            Object diaAniversarioObj = jcbDiaAniversarioCadastro.getSelectedItem();
-                            Object mesAniversarioObj = jcbMesAniversarioCadastro.getSelectedItem();
-                            Object anoAniversarioObj = jcbAnoAniversarioCadastro.getSelectedItem();
-                            if(diaAniversarioObj != null && mesAniversarioObj != null && anoAniversarioObj != null)
+                            String email = jtfEmailCadastro.getText();
+                            
+                            if(!email.isEmpty())
                             {
-                                String diaAniversario = String.valueOf(diaAniversarioObj);
-                                String mesAniversario = String.valueOf(mesAniversarioObj);
-                                String anoAniversario = String.valueOf(anoAniversarioObj);
-
-                                String descricao = jTextPaneDescricaoCadastro.getDocument().getText(0, jTextPaneDescricaoCadastro.getDocument().getLength());
-
-                                if(descricao == null)
-                                    descricao = "";
+                                Object diaAniversarioObj = jcbDiaAniversarioCadastro.getSelectedItem();
+                                Object mesAniversarioObj = jcbMesAniversarioCadastro.getSelectedItem();
+                                Object anoAniversarioObj = jcbAnoAniversarioCadastro.getSelectedItem();
                                 
-                                UsuarioVO uVO =  new UsuarioVO(
-                                        0,
-                                        new Date(System.currentTimeMillis()),
-                                        1,
-                                        3,
-                                        nome,
-                                        senha1,
-                                        email,
-                                        Integer.parseInt(diaAniversario),
-                                        Integer.parseInt(mesAniversario),
-                                        Integer.parseInt(anoAniversario),
-                                        descricao
-                                );
-                                
-                                ServicosFactory.getUsuarioServicos().cadastrarUsuario(uVO);
-                                JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso! Realizando login...", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-                                abrirGUIPrincipal(uVO);
+                                if(diaAniversarioObj != null && mesAniversarioObj != null && anoAniversarioObj != null)
+                                {
+                                    String diaAniversario = String.valueOf(diaAniversarioObj);
+                                    String mesAniversario = String.valueOf(mesAniversarioObj);
+                                    String anoAniversario = String.valueOf(anoAniversarioObj);
+
+                                    String descricao = jTextPaneDescricaoCadastro.getDocument().getText(0, jTextPaneDescricaoCadastro.getDocument().getLength());
+
+                                    if(descricao == null)
+                                        descricao = "";
+
+                                    UsuarioVO uVO =  new UsuarioVO(
+                                            0,
+                                            new Date(System.currentTimeMillis()),
+                                            1,
+                                            3,
+                                            nome,
+                                            senha1,
+                                            email,
+                                            Integer.parseInt(diaAniversario),
+                                            Integer.parseInt(mesAniversario),
+                                            Integer.parseInt(anoAniversario),
+                                            descricao
+                                    );
+
+                                    ServicosFactory.getUsuarioServicos().cadastrarUsuario(uVO);
+                                    JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso! Fazendo login...", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                                    abrirGUIPrincipal(uVO);
+                                }
+                                else
+                                {
+                                    JOptionPane.showMessageDialog(null, "Escolha uma data completa de aniversário...", "Erro", JOptionPane.ERROR_MESSAGE);
+                                }
+
                             }
                             else
                             {
-                                JOptionPane.showMessageDialog(null, "Escolha uma data completa de aniversário...", "Erro", JOptionPane.ERROR_MESSAGE);
+                                JOptionPane.showMessageDialog(null, "Digite um e-mail...", "Erro", JOptionPane.ERROR_MESSAGE);
                             }
-
                         }
                         else
                         {
-                            JOptionPane.showMessageDialog(null, "Digite um e-mail...", "Erro", JOptionPane.ERROR_MESSAGE);
+                            jpfSenhaCadastro1.setText(null);
+                            jpfSenhaCadastro2.setText(null);
+                            JOptionPane.showMessageDialog(null, "As senhas não são iguais, digite-a novamente...", "Erro", JOptionPane.ERROR_MESSAGE);
                         }
                     }
                     else
                     {
-                        jpfSenhaCadastro1.setText(null);
-                        jpfSenhaCadastro2.setText(null);
-                        JOptionPane.showMessageDialog(null, "As senhas não são iguais, tente novamente...", "Erro", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "Confirme a senha...", "Erro", JOptionPane.ERROR_MESSAGE);
                     }
                 }
                 else
                 {
-                    jpfSenhaCadastro1.setText(null);
-                    jpfSenhaCadastro2.setText(null);
-                    JOptionPane.showMessageDialog(null, "Digite a senha em ambos os campos...", "Erro", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Digite uma senha...", "Erro", JOptionPane.ERROR_MESSAGE);
                 }
             }
             else
@@ -282,7 +312,7 @@ public class GUILogin extends javax.swing.JFrame implements ItemListener {
                 JOptionPane.showMessageDialog(null, "Digite um nome...", "Erro", JOptionPane.ERROR_MESSAGE);
             }
         }
-        catch(BadLocationException | SQLException blE)
+        catch(BadLocationException | NullPointerException | SQLException blE)
         {
             JOptionPane.showMessageDialog(null, blE.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
@@ -557,7 +587,7 @@ public class GUILogin extends javax.swing.JFrame implements ItemListener {
 
         jlblAnoAniversarioCadastro.setText("Ano:");
 
-        jcbAnoAniversarioCadastro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1900" }));
+        jcbAnoAniversarioCadastro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2024" }));
 
         jbtnCadastrar.setText("Cadastrar");
         jbtnCadastrar.addActionListener(new java.awt.event.ActionListener() {
@@ -799,7 +829,6 @@ public class GUILogin extends javax.swing.JFrame implements ItemListener {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPaneDescricaoCadastro;
     private javax.swing.JTabbedPane jTabbedPane;
     private javax.swing.JTextPane jTextPaneDescricaoCadastro;
@@ -848,18 +877,15 @@ public class GUILogin extends javax.swing.JFrame implements ItemListener {
         
         if(ie.getStateChange() == ItemEvent.SELECTED)
         {
-            if(jc == jcbAnoAniversarioCadastro)
-            {
+            if(jc == jcbAnoAniversarioCadastro) {
                 jcbMesAniversarioCadastro.setSelectedIndex(-1);
                 jcbDiaAniversarioCadastro.removeAllItems();
                 jcbDiaAniversarioCadastro.setSelectedIndex(-1);
             }
-            else if(jc == jcbMesAniversarioCadastro)
-            {
+            else if(jc == jcbMesAniversarioCadastro) {
                 Object ano = jcbAnoAniversarioCadastro.getSelectedItem();
                 
-                if(ano != null)
-                {
+                if(ano != null) {
                     jcbDiaAniversarioCadastro.removeAllItems();
                     montarComboBoxDiaAniversario(
                             Integer.parseInt(String.valueOf(jcbMesAniversarioCadastro.getSelectedItem())),
