@@ -21,4 +21,37 @@ public final class Verificar
     public static boolean compararTextoComHash(String texto, String hash) {
         return BCrypt.checkpw(texto, hash);
     }
+    
+    /**
+     * Esse método verifica se o usuário digitou apenas números inteiros
+     * @param c String de entrada com no mínimo 1 e no máximo 8 algoritmos
+     * @return true se todos os caracteres da string forem números inteiros; false se não forem
+     * @since 1.0
+     */
+    public static boolean verificarNumeroInteiro(String c)
+    {
+        return c.matches("^[0-9]{1,8}$");
+    }
+    
+    /**
+     * Esse método verifica se o usuário digitou apenas um números real
+     * @param c String de entrada
+     * @return true se a string for um número real; false se não for
+     * @since 1.0
+     */
+    public static boolean verificarNumeroReal(String c)
+    {
+        return c.matches("^\\d*[0-9](\\.\\d*[0-9])?$");
+    }
+    
+    /**
+     * Esse método verifica se o usuário digitou apenas letras maiúsculas ou minúsculas
+     * @param c String de entrada com no mínimo 1 e no máximo 50 caracteres
+     * @return true se todos os caracteres da string forem letras maiúsculos/minúsculos; false se não forem
+     * @since 1.0
+     */
+    public static boolean verificarTexto(String c)
+    {
+        return c.matches("^[a-zA-ZáÁéÉíÍóÓúÚâÂêÊôÔãÃõÕçÇ ]{1,50}$");
+    }
 }
