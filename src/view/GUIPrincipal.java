@@ -75,6 +75,8 @@ public class GUIPrincipal extends javax.swing.JFrame implements InternalFrameLis
             jLabelImagem.setIcon(new ImageIcon(imagemUsuario));
             jLabelImagem.setText(null);
             jLabelNomeUsuario.setText(usuarioVOLogado.getNomeUsuario());
+            jlblQuantP.setText(usuarioVOLogado.getQuantPersonagensCriados() + "/" + usuarioVOLogado.getQuantPersonagensTotal() + " Personagens Criados");
+            jtaDescricaoUsuario.setText(usuarioVOLogado.getDescricaoUsuario());
         }
         catch (SQLException | NoDataFoundException | IOException | IllegalArgumentException ex)
         {
@@ -154,6 +156,14 @@ public class GUIPrincipal extends javax.swing.JFrame implements InternalFrameLis
         jPanelPerfil = new javax.swing.JPanel();
         jLabelImagem = new javax.swing.JLabel();
         jLabelNomeUsuario = new javax.swing.JLabel();
+        jlblQuantP = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jtaDescricaoUsuario = new javax.swing.JTextArea();
+        jpnlAcoes = new javax.swing.JPanel();
+        jbtnCriarPersonagem = new javax.swing.JButton();
+        jbtnCriarFicha = new javax.swing.JButton();
+        jbtnInformacoesDnD = new javax.swing.JButton();
+        jbtnEditarDadosPessoais = new javax.swing.JButton();
         jdpPrincipal = new javax.swing.JDesktopPane();
         jMenuBar = new javax.swing.JMenuBar();
         jMenuPersonagens = new javax.swing.JMenu();
@@ -174,7 +184,57 @@ public class GUIPrincipal extends javax.swing.JFrame implements InternalFrameLis
         jLabelImagem.setText("Imagem Usuário");
 
         jLabelNomeUsuario.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabelNomeUsuario.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelNomeUsuario.setText("Nome do Usuário");
+
+        jlblQuantP.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlblQuantP.setText("QuantPCriados/QuantPTotal");
+
+        jtaDescricaoUsuario.setEditable(false);
+        jtaDescricaoUsuario.setColumns(20);
+        jtaDescricaoUsuario.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jtaDescricaoUsuario.setRows(5);
+        jtaDescricaoUsuario.setText("Descrição do Usuário");
+        jScrollPane1.setViewportView(jtaDescricaoUsuario);
+
+        jpnlAcoes.setBorder(javax.swing.BorderFactory.createTitledBorder("Ações Rápidas"));
+
+        jbtnCriarPersonagem.setText("Criar Personagem");
+
+        jbtnCriarFicha.setText("Criar Ficha");
+
+        jbtnInformacoesDnD.setText("Informações sobre DnD");
+
+        jbtnEditarDadosPessoais.setText("Editar Dados Pessoais");
+
+        javax.swing.GroupLayout jpnlAcoesLayout = new javax.swing.GroupLayout(jpnlAcoes);
+        jpnlAcoes.setLayout(jpnlAcoesLayout);
+        jpnlAcoesLayout.setHorizontalGroup(
+            jpnlAcoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpnlAcoesLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jpnlAcoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jbtnCriarPersonagem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jbtnCriarFicha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jpnlAcoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jbtnInformacoesDnD, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jbtnEditarDadosPessoais, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        jpnlAcoesLayout.setVerticalGroup(
+            jpnlAcoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpnlAcoesLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jpnlAcoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jbtnCriarPersonagem)
+                    .addComponent(jbtnInformacoesDnD))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jpnlAcoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jbtnCriarFicha)
+                    .addComponent(jbtnEditarDadosPessoais))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout jPanelPerfilLayout = new javax.swing.GroupLayout(jPanelPerfil);
         jPanelPerfil.setLayout(jPanelPerfilLayout);
@@ -183,20 +243,31 @@ public class GUIPrincipal extends javax.swing.JFrame implements InternalFrameLis
             .addGroup(jPanelPerfilLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabelImagem, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(231, 231, 231)
-                .addComponent(jLabelNomeUsuario)
-                .addContainerGap(314, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanelPerfilLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabelNomeUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jlblQuantP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jpnlAcoes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanelPerfilLayout.setVerticalGroup(
             jPanelPerfilLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelPerfilLayout.createSequentialGroup()
-                .addContainerGap(44, Short.MAX_VALUE)
-                .addComponent(jLabelNomeUsuario)
-                .addGap(42, 42, 42))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelPerfilLayout.createSequentialGroup()
+            .addGroup(jPanelPerfilLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabelImagem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanelPerfilLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabelImagem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1)
+                    .addComponent(jpnlAcoes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
+            .addGroup(jPanelPerfilLayout.createSequentialGroup()
+                .addGap(35, 35, 35)
+                .addComponent(jLabelNomeUsuario)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jlblQuantP)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jdpPrincipal.setBackground(new java.awt.Color(255, 255, 255));
@@ -206,7 +277,7 @@ public class GUIPrincipal extends javax.swing.JFrame implements InternalFrameLis
         jdpPrincipal.setLayout(jdpPrincipalLayout);
         jdpPrincipalLayout.setHorizontalGroup(
             jdpPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 784, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         jdpPrincipalLayout.setVerticalGroup(
             jdpPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -441,7 +512,15 @@ public class GUIPrincipal extends javax.swing.JFrame implements InternalFrameLis
     private javax.swing.JMenu jMenuPersonagens;
     private javax.swing.JMenu jMenuSair;
     private javax.swing.JPanel jPanelPerfil;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton jbtnCriarFicha;
+    private javax.swing.JButton jbtnCriarPersonagem;
+    private javax.swing.JButton jbtnEditarDadosPessoais;
+    private javax.swing.JButton jbtnInformacoesDnD;
     private javax.swing.JDesktopPane jdpPrincipal;
+    private javax.swing.JLabel jlblQuantP;
+    private javax.swing.JPanel jpnlAcoes;
+    private javax.swing.JTextArea jtaDescricaoUsuario;
     // End of variables declaration//GEN-END:variables
 
     @Override
