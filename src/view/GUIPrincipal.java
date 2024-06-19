@@ -157,7 +157,7 @@ public class GUIPrincipal extends javax.swing.JFrame implements InternalFrameLis
         jLabelImagem = new javax.swing.JLabel();
         jLabelNomeUsuario = new javax.swing.JLabel();
         jlblQuantP = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
+        jScrollPaneDescricao = new javax.swing.JScrollPane();
         jtaDescricaoUsuario = new javax.swing.JTextArea();
         jpnlAcoes = new javax.swing.JPanel();
         jbtnCriarPersonagem = new javax.swing.JButton();
@@ -195,7 +195,7 @@ public class GUIPrincipal extends javax.swing.JFrame implements InternalFrameLis
         jtaDescricaoUsuario.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jtaDescricaoUsuario.setRows(5);
         jtaDescricaoUsuario.setText("Descrição do Usuário");
-        jScrollPane1.setViewportView(jtaDescricaoUsuario);
+        jScrollPaneDescricao.setViewportView(jtaDescricaoUsuario);
 
         jpnlAcoes.setBorder(javax.swing.BorderFactory.createTitledBorder("Ações Rápidas"));
 
@@ -248,7 +248,7 @@ public class GUIPrincipal extends javax.swing.JFrame implements InternalFrameLis
                     .addComponent(jLabelNomeUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jlblQuantP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPaneDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jpnlAcoes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
@@ -259,7 +259,7 @@ public class GUIPrincipal extends javax.swing.JFrame implements InternalFrameLis
                 .addContainerGap()
                 .addGroup(jPanelPerfilLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabelImagem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1)
+                    .addComponent(jScrollPaneDescricao)
                     .addComponent(jpnlAcoes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
             .addGroup(jPanelPerfilLayout.createSequentialGroup()
@@ -512,7 +512,7 @@ public class GUIPrincipal extends javax.swing.JFrame implements InternalFrameLis
     private javax.swing.JMenu jMenuPersonagens;
     private javax.swing.JMenu jMenuSair;
     private javax.swing.JPanel jPanelPerfil;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPaneDescricao;
     private javax.swing.JButton jbtnCriarFicha;
     private javax.swing.JButton jbtnCriarPersonagem;
     private javax.swing.JButton jbtnEditarDadosPessoais;
