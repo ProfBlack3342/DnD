@@ -5,10 +5,12 @@
  */
 package view;
 
+import java.awt.Desktop;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.net.URI;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JInternalFrame;
@@ -17,6 +19,7 @@ import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.InternalFrameListener;
 
 import exception.NoDataFoundException;
+import java.net.URISyntaxException;
 import modelo.ImagemUsuarioVO;
 import modelo.UsuarioVO;
 import servicos.ServicosFactory;
@@ -25,14 +28,17 @@ import servicos.ServicosFactory;
  *
  * @author Eduardo Pereira Moreira
  */
-public class GUIPrincipal extends javax.swing.JFrame implements InternalFrameListener{
-
+public class GUIPrincipal extends javax.swing.JFrame implements InternalFrameListener
+{
     private UsuarioVO usuarioVOLogado;
     
-    private boolean flagGUIPersonagens = false;
-    private boolean flagGUIFichas = false;
-    private boolean flagGUIAdminUsuarios = false;
     private boolean flagGUIAdminPersonagens = false;
+    private boolean flagGUIAdminUsuarios = false;
+    private boolean flagGUICriarFicha = false;
+    private boolean flagGUICriarPersonagem = false;
+    private boolean flagGUIEditarDadosPessoais = false;
+    private boolean flagGUIFichas = false;
+    private boolean flagGUIPersonagens = false;
     
     private GUIPrincipal() {
         JOptionPane.showMessageDialog(null, "Erro: Faça login antes de utilizar o programa!", "Erro", JOptionPane.ERROR_MESSAGE);
@@ -52,7 +58,30 @@ public class GUIPrincipal extends javax.swing.JFrame implements InternalFrameLis
         preencherPerfil();
     }
     
-    private void preencherPerfil() {
+    private void encerrar()
+    {
+        limparPerfil();
+        System.exit(0);
+    }
+    private void logoff()
+    {
+        limparPerfil();
+        
+        GUILogin guiL = new GUILogin();
+        guiL.setVisible(true);
+        
+        setVisible(false);
+        dispose();
+    }
+    
+    private void limparPerfil()
+    {
+        usuarioVOLogado = null;
+        jLabelImagem.setIcon(null);
+        jLabelNomeUsuario.setText(null);
+    }
+    private void preencherPerfil()
+    {
         if(usuarioVOLogado.getIdTipo() == 1)
         {
             jMenuAdmin.setEnabled(true);
@@ -83,43 +112,9 @@ public class GUIPrincipal extends javax.swing.JFrame implements InternalFrameLis
             JOptionPane.showMessageDialog(null, "Erro em GUIPrincipal.preencherPerfil: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
-    private void limparPerfil() {
-        usuarioVOLogado = null;
-        jLabelImagem.setIcon(null);
-        jLabelNomeUsuario.setText(null);
-    }
-    
-    private void abrirGUIPersonagens() { 
-        if(!flagGUIPersonagens) {
-            GUIPersonagens guiP = new GUIPersonagens(usuarioVOLogado.getId());
-            jdpPrincipal.add(guiP);
-            guiP.setVisible(true);
-            guiP.addInternalFrameListener(this);
-            flagGUIPersonagens = true;
-        }
-    }
-    private void abrirGUIFichas() {
-        if(!flagGUIFichas) {
-            GUIFichas guiF = new GUIFichas(usuarioVOLogado.getId());
-            jdpPrincipal.add(guiF);
-            guiF.setVisible(true);
-            guiF.addInternalFrameListener(this);
-            flagGUIFichas = true;
-        }
-    }
-    
-    private void abrirGUIAdminUsuarios() {
-        if(!flagGUIAdminUsuarios) {
-            GUIAdminUsuarios guiAU = new GUIAdminUsuarios();
-            jdpPrincipal.add(guiAU);
-            guiAU.setVisible(true);
-            guiAU.addInternalFrameListener(this);
-            flagGUIAdminUsuarios = true;
-        }
-    }
-    
-    private void abrirGUIAdminPersonagens() {
+
+    private void abrirGUIAdminPersonagens()
+    {
         if(!flagGUIAdminPersonagens) {
             GUIAdminPersonagens guiAP = new GUIAdminPersonagens();
             jdpPrincipal.add(guiAP);
@@ -128,20 +123,74 @@ public class GUIPrincipal extends javax.swing.JFrame implements InternalFrameLis
             flagGUIAdminPersonagens = true;
         }
     }
-    
-    private void logoff() {
-        limparPerfil();
-        
-        GUILogin guiL = new GUILogin();
-        guiL.setVisible(true);
-        
-        setVisible(false);
-        dispose();
+    private void abrirGUIAdminUsuarios()
+    {
+        if(!flagGUIAdminUsuarios) {
+            GUIAdminUsuarios guiAU = new GUIAdminUsuarios();
+            jdpPrincipal.add(guiAU);
+            guiAU.setVisible(true);
+            guiAU.addInternalFrameListener(this);
+            flagGUIAdminUsuarios = true;
+        }
     }
-    
-    private void encerrar() {
-        limparPerfil();
-        System.exit(0);
+    private void abrirGUICriarFicha()
+    {
+        if(!flagGUICriarFicha && (usuarioVOLogado.getQuantPersonagensCriados() > 0) ) {
+            GUICriarFicha guiCF = new GUICriarFicha();
+            jdpPrincipal.add(guiCF);
+            guiCF.setVisible(true);
+            guiCF.addInternalFrameListener(this);
+            flagGUICriarFicha = true;
+        }
+    }
+    private void abrirGUICriarPersonagem()
+    {
+        if(!flagGUICriarPersonagem && (usuarioVOLogado.getQuantPersonagensCriados() < usuarioVOLogado.getQuantPersonagensTotal()) ) {
+            GUICriarPersonagem guiCP = new GUICriarPersonagem(usuarioVOLogado);
+            jdpPrincipal.add(guiCP);
+            guiCP.setVisible(true);
+            guiCP.addInternalFrameListener(this);
+            flagGUICriarPersonagem = true;
+        }
+    }
+    private void abrirGUIEditarDadosPessoais()
+    {
+        if(!flagGUIEditarDadosPessoais){
+            GUIEditarDadosPessoais guiEDP = new GUIEditarDadosPessoais();
+            jdpPrincipal.add(guiEDP);
+            guiEDP.setVisible(true);
+            guiEDP.addInternalFrameListener(this);
+            flagGUIEditarDadosPessoais = true;
+        }
+    }
+    private void abrirGUIFichas()
+    {
+        if(!flagGUIFichas) {
+            GUIFichas guiF = new GUIFichas(usuarioVOLogado.getId());
+            jdpPrincipal.add(guiF);
+            guiF.setVisible(true);
+            guiF.addInternalFrameListener(this);
+            flagGUIFichas = true;
+        }
+    }
+    private void abrirGUIPersonagens()
+    { 
+        if(!flagGUIPersonagens) {
+            GUIPersonagens guiP = new GUIPersonagens(usuarioVOLogado.getId());
+            jdpPrincipal.add(guiP);
+            guiP.setVisible(true);
+            guiP.addInternalFrameListener(this);
+            flagGUIPersonagens = true;
+        }
+    }
+    private void abrirInfoDnD()
+    {
+        try {
+            if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE))
+                Desktop.getDesktop().browse(new URI("http://www.livrodobardo.com.br/"));
+        }catch(IOException | URISyntaxException e) {
+            JOptionPane.showMessageDialog(null, "Erro em GUIPrincipal.abrirInfoDnD: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+        }
     }
     
     /**
@@ -200,12 +249,52 @@ public class GUIPrincipal extends javax.swing.JFrame implements InternalFrameLis
         jpnlAcoes.setBorder(javax.swing.BorderFactory.createTitledBorder("Ações Rápidas"));
 
         jbtnCriarPersonagem.setText("Criar Personagem");
+        jbtnCriarPersonagem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnCriarPersonagemActionPerformed(evt);
+            }
+        });
+        jbtnCriarPersonagem.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jbtnCriarPersonagemKeyPressed(evt);
+            }
+        });
 
         jbtnCriarFicha.setText("Criar Ficha");
+        jbtnCriarFicha.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnCriarFichaActionPerformed(evt);
+            }
+        });
+        jbtnCriarFicha.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jbtnCriarFichaKeyPressed(evt);
+            }
+        });
 
         jbtnInformacoesDnD.setText("Informações sobre DnD");
+        jbtnInformacoesDnD.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnInformacoesDnDActionPerformed(evt);
+            }
+        });
+        jbtnInformacoesDnD.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jbtnInformacoesDnDKeyPressed(evt);
+            }
+        });
 
         jbtnEditarDadosPessoais.setText("Editar Dados Pessoais");
+        jbtnEditarDadosPessoais.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnEditarDadosPessoaisActionPerformed(evt);
+            }
+        });
+        jbtnEditarDadosPessoais.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jbtnEditarDadosPessoaisKeyPressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jpnlAcoesLayout = new javax.swing.GroupLayout(jpnlAcoes);
         jpnlAcoes.setLayout(jpnlAcoesLayout);
@@ -463,6 +552,46 @@ public class GUIPrincipal extends javax.swing.JFrame implements InternalFrameLis
         }
     }//GEN-LAST:event_jMenuItemAdminPersonagensKeyPressed
 
+    private void jbtnCriarPersonagemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCriarPersonagemActionPerformed
+        abrirGUICriarPersonagem();
+    }//GEN-LAST:event_jbtnCriarPersonagemActionPerformed
+
+    private void jbtnCriarPersonagemKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jbtnCriarPersonagemKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            abrirGUICriarPersonagem();
+        }
+    }//GEN-LAST:event_jbtnCriarPersonagemKeyPressed
+
+    private void jbtnCriarFichaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCriarFichaActionPerformed
+        abrirGUICriarFicha();
+    }//GEN-LAST:event_jbtnCriarFichaActionPerformed
+
+    private void jbtnCriarFichaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jbtnCriarFichaKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            abrirGUICriarFicha();
+        }
+    }//GEN-LAST:event_jbtnCriarFichaKeyPressed
+
+    private void jbtnInformacoesDnDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnInformacoesDnDActionPerformed
+        abrirInfoDnD();
+    }//GEN-LAST:event_jbtnInformacoesDnDActionPerformed
+
+    private void jbtnInformacoesDnDKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jbtnInformacoesDnDKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            abrirInfoDnD();
+        }
+    }//GEN-LAST:event_jbtnInformacoesDnDKeyPressed
+
+    private void jbtnEditarDadosPessoaisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnEditarDadosPessoaisActionPerformed
+        abrirGUIEditarDadosPessoais();
+    }//GEN-LAST:event_jbtnEditarDadosPessoaisActionPerformed
+
+    private void jbtnEditarDadosPessoaisKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jbtnEditarDadosPessoaisKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            abrirGUIEditarDadosPessoais();
+        }
+    }//GEN-LAST:event_jbtnEditarDadosPessoaisKeyPressed
+
     /**
      * @param args the command line arguments
      */
@@ -536,16 +665,20 @@ public class GUIPrincipal extends javax.swing.JFrame implements InternalFrameLis
     @Override
     public void internalFrameClosed(InternalFrameEvent ife) {
         JInternalFrame iFrame = ife.getInternalFrame();
-        if(iFrame instanceof GUIPersonagens) {
+        
+        if(iFrame instanceof GUIAdminPersonagens) {
+            flagGUICriarPersonagem = false;
+        }else if(iFrame instanceof GUIAdminUsuarios) {
             flagGUIPersonagens = false;
-        }
-        else if(iFrame instanceof GUIFichas) {
+        }else if(iFrame instanceof GUICriarFicha) {
+            flagGUICriarFicha = false;
+        }else if(iFrame instanceof GUICriarPersonagem) {
             flagGUIFichas = false;
-        }
-        else if(iFrame instanceof GUIAdminUsuarios) {
+        }else if(iFrame instanceof GUIEditarDadosPessoais) {
+            flagGUIEditarDadosPessoais = false;
+        }else if(iFrame instanceof GUIFichas) {
             flagGUIAdminUsuarios = false;
-        }
-        else if(iFrame instanceof GUIAdminPersonagens) {
+        }else if(iFrame instanceof GUIPersonagens) {
             flagGUIAdminPersonagens = false;
         }
     }

@@ -274,21 +274,37 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Criar Personagem"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbtnCriarPersonagemActionPerformed"/>
+                <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jbtnCriarPersonagemKeyPressed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="jbtnCriarFicha">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Criar Ficha"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbtnCriarFichaActionPerformed"/>
+                <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jbtnCriarFichaKeyPressed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="jbtnInformacoesDnD">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Informa&#xe7;&#xf5;es sobre DnD"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbtnInformacoesDnDActionPerformed"/>
+                <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jbtnInformacoesDnDKeyPressed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="jbtnEditarDadosPessoais">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Editar Dados Pessoais"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbtnEditarDadosPessoaisActionPerformed"/>
+                <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jbtnEditarDadosPessoaisKeyPressed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

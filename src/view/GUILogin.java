@@ -23,13 +23,14 @@ import javax.swing.text.BadLocationException;
 import modelo.UsuarioVO;
 import objetosFront.DadosLogin;
 import servicos.ServicosFactory;
+import utilidades.Verificar;
 
 /**
  *
  * @author Eduardo Pereira Moreira
  */
-public class GUILogin extends javax.swing.JFrame implements ItemListener {
-
+public class GUILogin extends javax.swing.JFrame implements ItemListener
+{
     /**
      * Creates new form GUILoginI
      */
@@ -38,27 +39,28 @@ public class GUILogin extends javax.swing.JFrame implements ItemListener {
         inicializarTelas();
     }
     
-    private void inicializarTelas()
+    private void sair()
     {
-        carregarImagens();
-        
-        jcbAnoAniversarioCadastro.removeAllItems();
-        montarComboBoxAnoAniversario();
-        jcbAnoAniversarioCadastro.setSelectedIndex(-1);
-        
-        jcbMesAniversarioCadastro.removeAllItems();
-        montarComboBoxMesAniversario();
-        jcbMesAniversarioCadastro.setSelectedIndex(-1);
-        
-        jcbDiaAniversarioCadastro.removeAllItems();
-        jcbDiaAniversarioCadastro.setSelectedIndex(-1);
-        
-        jcbAnoAniversarioCadastro.addItemListener(this);
-        jcbMesAniversarioCadastro.addItemListener(this);
-        jcbDiaAniversarioCadastro.addItemListener(this);
-        
         limparLogin();
         limparCadastro();
+        System.exit(0);
+    }
+    
+    private void limparCadastro()
+    {
+        jtfNomeCadastro.setText(null);
+        jtfEmailCadastro.setText(null);
+        jpfSenhaCadastro1.setText(null);
+        jpfSenhaCadastro2.setText(null);
+        jcbDiaAniversarioCadastro.setSelectedIndex(-1);
+        jcbMesAniversarioCadastro.setSelectedIndex(-1);
+        jcbAnoAniversarioCadastro.setSelectedIndex(-1);
+        jTextPaneDescricaoCadastro.setText(null);
+    }
+    private void limparLogin()
+    {
+        jtfUsuarioLogin.setText(null);
+        jpfSenhaLogin.setText(null);
     }
     
     private void carregarImagens()
@@ -101,6 +103,28 @@ public class GUILogin extends javax.swing.JFrame implements ItemListener {
             JOptionPane.showMessageDialog(null, "Erro em GUILogin.carregarImagens: " + ioE.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }
+    private void inicializarTelas()
+    {
+        carregarImagens();
+        
+        jcbAnoAniversarioCadastro.removeAllItems();
+        montarComboBoxAnoAniversario();
+        jcbAnoAniversarioCadastro.setSelectedIndex(-1);
+        
+        jcbMesAniversarioCadastro.removeAllItems();
+        montarComboBoxMesAniversario();
+        jcbMesAniversarioCadastro.setSelectedIndex(-1);
+        
+        jcbDiaAniversarioCadastro.removeAllItems();
+        jcbDiaAniversarioCadastro.setSelectedIndex(-1);
+        
+        jcbAnoAniversarioCadastro.addItemListener(this);
+        jcbMesAniversarioCadastro.addItemListener(this);
+        jcbDiaAniversarioCadastro.addItemListener(this);
+        
+        limparLogin();
+        limparCadastro();
+    }
 
     private void montarComboBoxAnoAniversario()
     {
@@ -111,7 +135,6 @@ public class GUILogin extends javax.swing.JFrame implements ItemListener {
         
         jcbAnoAniversarioCadastro.setSelectedIndex(-1);
     }
-    
     private void montarComboBoxMesAniversario()
     {
         for(int i = 1; i <= 12; i++){
@@ -120,7 +143,6 @@ public class GUILogin extends javax.swing.JFrame implements ItemListener {
         
         jcbMesAniversarioCadastro.setSelectedIndex(-1);
     }
-    
     private void montarComboBoxDiaAniversario(int mes, int ano)
     {
         int diasNoMes;
@@ -161,65 +183,6 @@ public class GUILogin extends javax.swing.JFrame implements ItemListener {
         }
         
         jcbDiaAniversarioCadastro.setSelectedIndex(-1);
-    }
-    
-    private void limparLogin()
-    {
-        jtfUsuarioLogin.setText(null);
-        jpfSenhaLogin.setText(null);
-    }
-    
-    private void limparCadastro()
-    {
-        jtfNomeCadastro.setText(null);
-        jtfEmailCadastro.setText(null);
-        jpfSenhaCadastro1.setText(null);
-        jpfSenhaCadastro2.setText(null);
-        jcbDiaAniversarioCadastro.setSelectedIndex(-1);
-        jcbMesAniversarioCadastro.setSelectedIndex(-1);
-        jcbAnoAniversarioCadastro.setSelectedIndex(-1);
-        jTextPaneDescricaoCadastro.setText(null);
-    }
-    
-    private void tentarLogin()
-    {
-        try
-        {
-            String usuario = jtfUsuarioLogin.getText();
-            
-            if(!usuario.isEmpty())
-            {
-                char[] senha = jpfSenhaLogin.getPassword();
-                
-                if(senha.length != 0)
-                {
-                    DadosLogin dadosLogin = new DadosLogin(usuario, new String(senha));
-                    limparLogin();
-
-                    UsuarioVO uVO = ServicosFactory.getUsuarioServicos().loginUsuario(dadosLogin);
-                    if(uVO == null)
-                        JOptionPane.showMessageDialog(null, "Erro: Usuário ou senha não correspondem a nenhum registrado!", "Erro", JOptionPane.ERROR_MESSAGE);
-                    else
-                    {
-                        JOptionPane.showMessageDialog(null, "Login realizado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-                        abrirGUIPrincipal(uVO);
-                    }
-                }
-                else
-                {
-                    JOptionPane.showMessageDialog(null, "Erro: Digite uma senha...", "Erro", JOptionPane.ERROR_MESSAGE);
-                }
-            }
-            else
-            {
-                JOptionPane.showMessageDialog(null, "Erro: Digite um usuário...", "Erro", JOptionPane.ERROR_MESSAGE);
-            }
-            
-        }
-        catch(NoDataFoundException | SQLException | NullPointerException e)
-        {
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
-        }
     }
     
     private void tentarCadastro()
@@ -317,6 +280,52 @@ public class GUILogin extends javax.swing.JFrame implements ItemListener {
             JOptionPane.showMessageDialog(null, blE.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }
+    private void tentarLogin()
+    {
+        try
+        {
+            String usuario = jtfUsuarioLogin.getText();
+            
+            if(!usuario.isEmpty())
+            {
+                if(Verificar.verificarTextoComNumeros(usuario))
+                {
+                    char[] senha = jpfSenhaLogin.getPassword();
+
+                    if(senha.length != 0)
+                    {
+                        DadosLogin dadosLogin = new DadosLogin(usuario, new String(senha));
+
+                        UsuarioVO uVO = ServicosFactory.getUsuarioServicos().loginUsuario(dadosLogin);
+                        if(uVO == null)
+                            JOptionPane.showMessageDialog(null, "Erro: Usuário ou senha não correspondem a nenhum registrado!", "Erro", JOptionPane.ERROR_MESSAGE);
+                        else
+                        {
+                            JOptionPane.showMessageDialog(null, "Login realizado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                            abrirGUIPrincipal(uVO);
+                        }
+                    }
+                    else
+                    {
+                        JOptionPane.showMessageDialog(null, "Erro: Digite uma senha...", "Erro", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+                else
+                {
+                    JOptionPane.showMessageDialog(null, "Erro: Digite o usuário somente com letras e números!", "Erro", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(null, "Erro: Digite um usuário...", "Erro", JOptionPane.ERROR_MESSAGE);
+            }
+            
+        }
+        catch(NoDataFoundException | SQLException | NullPointerException e)
+        {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+    }
     
     private void abrirGUIPrincipal(UsuarioVO usuario)
     {
@@ -330,13 +339,6 @@ public class GUILogin extends javax.swing.JFrame implements ItemListener {
         dispose();
     }
     
-    private void sair()
-    {
-        limparLogin();
-        limparCadastro();
-        System.exit(0);
-    }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
