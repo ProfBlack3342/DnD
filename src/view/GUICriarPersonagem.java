@@ -198,8 +198,7 @@ public class GUICriarPersonagem extends javax.swing.JInternalFrame implements It
                 idRaca,
                 idSubraca,
                 idBackground,
-                TITLE_PROPERTY,
-                IS_ICON_PROPERTY
+                "Nome"
         );
     }
 
