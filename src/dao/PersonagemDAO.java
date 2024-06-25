@@ -32,11 +32,7 @@ public final class PersonagemDAO extends ObjetoDAO
             idRaca INT NOT NULL,
             idSubraca INT NOT NULL,
             idBackground INT NOT NULL,
-            nomePersonagem VARCHAR(60) NULL,
-            nivelPersonagem INT NOT NULL DEFAULT 1,
-            xpPersonagem INT NOT NULL DEFAULT 0,
-            inspiracaoPersonagem TINYINT(1) NOT NULL DEFAULT 0,
-            descricaoPersonagem VARCHAR(2000) NULL,
+            nomePersonagem VARCHAR(50) NULL,
             dataCriacaoPersonagem DATE NOT NULL,
             personagemAtivo TINYINT(1) NOT NULL DEFAULT 1
         )
@@ -66,12 +62,8 @@ public final class PersonagemDAO extends ObjetoDAO
             pstm.setInt(6, pVO.getIdSubraca());
             pstm.setInt(7, pVO.getIdBackground());
             pstm.setString(8, pVO.getNomePersonagem());
-            pstm.setInt(9, pVO.getNivelPersonagem());
-            pstm.setInt(10, pVO.getXpPersonagem());
-            pstm.setBoolean(11, pVO.isInspirado());
-            pstm.setString(12, pVO.getDescricaoPersonagem());
-            pstm.setDate(13, pVO.getDataCriacao());
-            pstm.setBoolean(14, pVO.isAtivo());
+            pstm.setDate(9, pVO.getDataCriacao());
+            pstm.setBoolean(10, pVO.isAtivo());
             
             pstm.executeUpdate();
         }
@@ -113,13 +105,9 @@ public final class PersonagemDAO extends ObjetoDAO
                 pVO.setIdSubraca(rs.getInt(nomesColunas[6]));
                 pVO.setIdBackground(rs.getInt(nomesColunas[7]));
                 pVO.setNomePersonagem(rs.getString(nomesColunas[8]));
-                pVO.setNivelPersonagem(rs.getInt(nomesColunas[9]));
-                pVO.setXpPersonagem(rs.getInt(nomesColunas[10]));
-                pVO.setInspirado(rs.getBoolean(nomesColunas[11]));
-                pVO.setDescricaoPersonagem(rs.getString(nomesColunas[12]));
                 
-                pVO.setDataCriacao(rs.getDate(nomesColunas[13]));
-                pVO.setAtivo(rs.getBoolean(nomesColunas[14]));
+                pVO.setDataCriacao(rs.getDate(nomesColunas[9]));
+                pVO.setAtivo(rs.getBoolean(nomesColunas[10]));
                 
                 listaPersonagens.add(pVO);
             }
@@ -184,21 +172,9 @@ public final class PersonagemDAO extends ObjetoDAO
                          pstm.setString(i, pVO.getNomePersonagem());
                          break;
                      case 9:
-                         pstm.setInt(i, pVO.getNivelPersonagem());
-                         break;
-                     case 10:
-                         pstm.setInt(i, pVO.getXpPersonagem());
-                         break;
-                     case 11:
-                         pstm.setBoolean(i, pVO.isInspirado());
-                         break;
-                     case 12:
-                         pstm.setString(i, pVO.getDescricaoPersonagem());
-                         break;
-                     case 13:
                          pstm.setDate(i, pVO.getDataCriacao());
                          break;
-                     case 14:
+                     case 10:
                          pstm.setBoolean(i, pVO.isAtivo());
                          break;
                      default:
@@ -224,13 +200,9 @@ public final class PersonagemDAO extends ObjetoDAO
                     pVOsaida.setIdSubraca(rs.getInt(nomesColunas[6]));
                     pVOsaida.setIdBackground(rs.getInt(nomesColunas[7]));
                     pVOsaida.setNomePersonagem(rs.getString(nomesColunas[8]));
-                    pVOsaida.setNivelPersonagem(rs.getInt(nomesColunas[9]));
-                    pVOsaida.setXpPersonagem(rs.getInt(nomesColunas[10]));
-                    pVOsaida.setInspirado(rs.getBoolean(nomesColunas[11]));
-                    pVOsaida.setDescricaoPersonagem(rs.getString(nomesColunas[12]));
                     
-                    pVOsaida.setDataCriacao(rs.getDate(nomesColunas[13]));
-                    pVOsaida.setAtivo(rs.getBoolean(nomesColunas[14]));
+                    pVOsaida.setDataCriacao(rs.getDate(nomesColunas[9]));
+                    pVOsaida.setAtivo(rs.getBoolean(nomesColunas[10]));
                     
                     listaResultados.add(pVOsaida);
                 }
@@ -272,10 +244,6 @@ public final class PersonagemDAO extends ObjetoDAO
                 + nomesColunas[8] + " = ?, "
                 + nomesColunas[9] + " = ?, "
                 + nomesColunas[10] + " = ?, "
-                + nomesColunas[11] + " = ?, "
-                + nomesColunas[12] + " = ?, "
-                + nomesColunas[13] + " = ?, "
-                + nomesColunas[14] + " = ? "
                 + "WHERE" + nomesColunas[0] + " = ?";
         
         try(Connection con = new ConexaoBanco().getConexao();
@@ -289,12 +257,9 @@ public final class PersonagemDAO extends ObjetoDAO
             pstm.setInt(6, pVO.getIdSubraca());
             pstm.setInt(7, pVO.getIdBackground());
             pstm.setString(8, pVO.getNomePersonagem());
-            pstm.setInt(9, pVO.getNivelPersonagem());
-            pstm.setInt(10, pVO.getXpPersonagem());
-            pstm.setBoolean(11, pVO.isInspirado());
-            pstm.setString(12, pVO.getDescricaoPersonagem());
-            pstm.setDate(13, pVO.getDataCriacao());
-            pstm.setBoolean(14, pVO.isAtivo());
+            
+            pstm.setDate(9, pVO.getDataCriacao());
+            pstm.setBoolean(10, pVO.isAtivo());
             
             pstm.executeUpdate();
         }
