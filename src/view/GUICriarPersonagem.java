@@ -244,7 +244,7 @@ public class GUICriarPersonagem extends javax.swing.JInternalFrame implements It
         jbtnCriarRaca = new javax.swing.JButton();
         jbtnCriarBackground = new javax.swing.JButton();
 
-        jPanelSelecaoClasse.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Classe"));
+        jPanelSelecaoClasse.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Escolha uma Classe"));
 
         jcbClasses.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Classe" }));
 
@@ -270,7 +270,7 @@ public class GUICriarPersonagem extends javax.swing.JInternalFrame implements It
                 .addComponent(jScrollPaneClasse, javax.swing.GroupLayout.DEFAULT_SIZE, 252, Short.MAX_VALUE))
         );
 
-        jPanelSelecaoSubclasse.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "SubClasse"));
+        jPanelSelecaoSubclasse.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Escolha uma SubClasse"));
 
         jcbSubclasses.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
@@ -319,7 +319,7 @@ public class GUICriarPersonagem extends javax.swing.JInternalFrame implements It
 
         jTabbedPane1.addTab("Classe", jPanelClasse);
 
-        jPanelSelecaoRaca.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Raça"));
+        jPanelSelecaoRaca.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Escolha uma Raça"));
 
         jcbRacas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Raça" }));
 
@@ -345,7 +345,7 @@ public class GUICriarPersonagem extends javax.swing.JInternalFrame implements It
                 .addComponent(jScrollPaneRaca, javax.swing.GroupLayout.DEFAULT_SIZE, 252, Short.MAX_VALUE))
         );
 
-        jPanelSelecaoSubraca.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "SubRaça"));
+        jPanelSelecaoSubraca.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Escolha uma SubRaça"));
 
         jcbSubracas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Subraça" }));
 
@@ -394,7 +394,7 @@ public class GUICriarPersonagem extends javax.swing.JInternalFrame implements It
 
         jTabbedPane1.addTab("Raça", jPanelRaca);
 
-        jPanelSelecaoBackground.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Background"));
+        jPanelSelecaoBackground.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Escolha um Background"));
 
         jcbBackgrounds.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Background" }));
 
@@ -439,17 +439,17 @@ public class GUICriarPersonagem extends javax.swing.JInternalFrame implements It
 
         jTabbedPane1.addTab("Background", jPanelBackground);
 
-        jPanelPreenchimentoBackstory.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Backstory"));
+        jPanelPreenchimentoBackstory.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         javax.swing.GroupLayout jPanelPreenchimentoBackstoryLayout = new javax.swing.GroupLayout(jPanelPreenchimentoBackstory);
         jPanelPreenchimentoBackstory.setLayout(jPanelPreenchimentoBackstoryLayout);
         jPanelPreenchimentoBackstoryLayout.setHorizontalGroup(
             jPanelPreenchimentoBackstoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 703, Short.MAX_VALUE)
+            .addGap(0, 711, Short.MAX_VALUE)
         );
         jPanelPreenchimentoBackstoryLayout.setVerticalGroup(
             jPanelPreenchimentoBackstoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 584, Short.MAX_VALUE)
+            .addGap(0, 602, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout jPanelBackstoryLayout = new javax.swing.GroupLayout(jPanelBackstory);
@@ -469,7 +469,7 @@ public class GUICriarPersonagem extends javax.swing.JInternalFrame implements It
                 .addContainerGap())
         );
 
-        jTabbedPane1.addTab("Backstory", jPanelBackstory);
+        jTabbedPane1.addTab("Descrição", jPanelBackstory);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Ações"));
 
