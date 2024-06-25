@@ -5,10 +5,19 @@
  */
 package servicos;
 
+import dao.DAOFactory;
+import exception.NoDataFoundException;
+import java.sql.SQLException;
+import modelo.ClasseVO;
+
 /**
  *
  * @author 181700271
  */
 public class ClasseServicos {
+    
+    public ClasseVO[] listarClasses() throws NoDataFoundException, SQLException {
+        return DAOFactory.getClasseDAO().listar();
+    }
     
 }

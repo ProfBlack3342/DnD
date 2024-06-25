@@ -8,6 +8,8 @@ package dao;
 import exception.NoDataFoundException;
 import java.sql.SQLException;
 import modelo.ObjetoVO;
+import modelo.RacaVO;
+import modelo.SubRacaVO;
 
 /**
  *
@@ -21,12 +23,16 @@ public class SubRacaDAO extends RacaDAO
     }
 
     @Override
-    public ObjetoVO[] listar() throws NoDataFoundException, SQLException {
+    public SubRacaVO[] listar() throws NoDataFoundException, SQLException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    public SubRacaVO[] listar(int idRaca) throws NoDataFoundException, SQLException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public ObjetoVO[] pesquisar(ObjetoVO obVO, String query, int[] indicesDados) throws IllegalArgumentException, NoDataFoundException, SQLException {
+    public SubRacaVO[] pesquisar(ObjetoVO obVO, String query, int[] indicesDados) throws IllegalArgumentException, NoDataFoundException, SQLException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

@@ -5,10 +5,17 @@
  */
 package servicos;
 
+import dao.DAOFactory;
+import exception.NoDataFoundException;
+import java.sql.SQLException;
+import modelo.BackgroundVO;
+
 /**
  *
  * @author 181700271
  */
 public class BackgroundServicos {
-    
+    public BackgroundVO[] listarBackgrounds() throws NoDataFoundException, SQLException {
+        return DAOFactory.getBackgroundDAO().listar();
+    }
 }

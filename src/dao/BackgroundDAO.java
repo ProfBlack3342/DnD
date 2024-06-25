@@ -7,6 +7,7 @@ package dao;
 
 import exception.NoDataFoundException;
 import java.sql.SQLException;
+import modelo.BackgroundVO;
 import modelo.ObjetoVO;
 
 /**
@@ -21,12 +22,12 @@ public class BackgroundDAO extends ObjetoDAO
     }
 
     @Override
-    public ObjetoVO[] listar() throws NoDataFoundException, SQLException {
+    public BackgroundVO[] listar() throws NoDataFoundException, SQLException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public ObjetoVO[] pesquisar(ObjetoVO obVO, String query, int[] indicesDados) throws IllegalArgumentException, NoDataFoundException, SQLException {
+    public BackgroundVO[] pesquisar(ObjetoVO obVO, String query, int[] indicesDados) throws IllegalArgumentException, NoDataFoundException, SQLException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
