@@ -12,6 +12,7 @@ public final class ServicosFactory
 {
     private static final BackgroundServicos BACKGROUND_SERVICOS = new BackgroundServicos();
     private static final ClasseServicos CLASSE_SERVICOS = new ClasseServicos();
+    private static final DescricaoPersonagemServicos DESCRICAO_PERSONAGEM_SERVICOS = new DescricaoPersonagemServicos();
     private static final ImagemServicos IMAGEM_SERVICOS = new ImagemServicos();
     private static final PersonagemServicos PERSONAGEM_SERVICOS = new PersonagemServicos();
     private static final RacaServicos RACA_SERVICOS = new RacaServicos();
@@ -30,6 +31,12 @@ public final class ServicosFactory
      * @return
      */
     public static ClasseServicos getClasseServicos() {return CLASSE_SERVICOS;}
+    
+    /**
+     *
+     * @return
+     */
+    public static DescricaoPersonagemServicos getDescricaoPersonagemServicos() {return DESCRICAO_PERSONAGEM_SERVICOS;}
     
     /**
      * 
