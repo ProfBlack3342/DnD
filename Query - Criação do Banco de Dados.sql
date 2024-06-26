@@ -207,7 +207,8 @@ CREATE TABLE IF NOT EXISTS DescricaoPersonagem (
 ALTER TABLE DescricaoPersonagem ADD CONSTRAINT PK_DESCRICAOPERSONAGEM PRIMARY KEY(idDescricaoPersonagem);
 ALTER TABLE DescricaoPersonagem CHANGE COLUMN idDescricaoPersonagem idDescricaoPersonagem INT NOT NULL AUTO_INCREMENT;
 -- FK
-ALTER TABLE DescricaoPersonagem ADD CONSTRAINT FK_DESCRICAOPERSONAGEM_ FOREIGN KEY(idPersonagem) REFERENCES Personagem(idPersonagem);
+ALTER TABLE DescricaoPersonagem ADD CONSTRAINT FK_DESCRICAOPERSONAGEM_PERSONAGEM FOREIGN KEY(idPersonagem) REFERENCES Personagem(idPersonagem);
+ALTER TABLE DescricaoPersonagem ADD CONSTRAINT FK_DESCRICAOPERSONAGEM_PERSONAGEM_USUARIO FOREIGN KEY(idUsuario) REFERENCES Personagem(idUsuario);
 -- ----------------------------------------------------------------------------------------------------
 -- Personagem -----------------------------------------------------------------------------------------
 -- ----------------------------------------------------------------------------------------------------
@@ -241,9 +242,9 @@ ALTER TABLE Personagem CHANGE COLUMN idPersonagem idPersonagem INT NOT NULL AUTO
 -- FK
 ALTER TABLE Personagem ADD CONSTRAINT FK_PERSONAGEM_USUARIO FOREIGN KEY(idUsuario) REFERENCES Usuario(idUsuario);
 ALTER TABLE Personagem ADD CONSTRAINT FK_PERSONAGEM_IMAGEMPERSONAGEM FOREIGN KEY(idImagemPersonagem) REFERENCES ImagemPersonagem(idImagemPersonagem);
-ALTER TABLE Personagem ADD CONSTRAINT FK_PERSONAGEM_CLASSE FOREIGN KEY(idClasse) REFERENCES SubClasse(idClasse);
+ALTER TABLE Personagem ADD CONSTRAINT FK_PERSONAGEM_SUBCLASSE_CLASSE FOREIGN KEY(idClasse) REFERENCES SubClasse(idClasse);
 ALTER TABLE Personagem ADD CONSTRAINT FK_PERSONAGEM_SUBCLASSE FOREIGN KEY(idSubclasse) REFERENCES SubClasse(idSubclasse);
-ALTER TABLE Personagem ADD CONSTRAINT FK_PERSONAGEM_RACA FOREIGN KEY(idRaca) REFERENCES SubRaca(idRaca);
+ALTER TABLE Personagem ADD CONSTRAINT FK_PERSONAGEM_SUBRACA_RACA FOREIGN KEY(idRaca) REFERENCES SubRaca(idRaca);
 ALTER TABLE Personagem ADD CONSTRAINT FK_PERSONAGEM_SUBRACA FOREIGN KEY(idSubraca) REFERENCES SubRaca(idSubraca);
 ALTER TABLE Personagem ADD CONSTRAINT FK_PERSONAGEM_BACKGROUND FOREIGN KEY(idBackground) REFERENCES Background(idBackground);
 -- ----------------------------------------------------------------------------------------------------
