@@ -12,8 +12,10 @@ import java.awt.event.KeyEvent;
 import java.sql.Date;
 import java.sql.SQLException;
 import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
 import modelo.BackgroundVO;
 import modelo.ClasseVO;
+import modelo.DescricaoPersonagemVO;
 import modelo.PersonagemVO;
 import modelo.RacaVO;
 import modelo.SubClasseVO;
@@ -75,17 +77,18 @@ public class GUICriarPersonagem extends javax.swing.JInternalFrame implements It
     
     private void inicializar() 
     {
+        limparComboBoxes();
+        limparTexto();
+        
+        carregarClasses();
+        carregarRacas();
+        carregarBackgrounds();
+        
         jcbBackgrounds.addItemListener(this);
         jcbClasses.addItemListener(this);
         jcbSubclasses.addItemListener(this);
         jcbRacas.addItemListener(this);
         jcbSubracas.addItemListener(this);
-        
-        limparComboBoxes();
-        limparTexto();
-        carregarBackgrounds();
-        carregarClasses();
-        carregarRacas();
     }
     
     private void carregarBackgrounds()
@@ -99,7 +102,7 @@ public class GUICriarPersonagem extends javax.swing.JInternalFrame implements It
         }
         catch(NoDataFoundException | SQLException e)
         {
-            
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
         
     }
@@ -116,7 +119,7 @@ public class GUICriarPersonagem extends javax.swing.JInternalFrame implements It
         }
         catch(NoDataFoundException | SQLException e)
         {
-            
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }
     
@@ -132,7 +135,7 @@ public class GUICriarPersonagem extends javax.swing.JInternalFrame implements It
         }
         catch(NoDataFoundException | SQLException e)
         {
-            
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }
     
@@ -148,7 +151,7 @@ public class GUICriarPersonagem extends javax.swing.JInternalFrame implements It
             }
             catch(NoDataFoundException | SQLException e)
             {
-                
+                JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
             }
         }
         else
@@ -170,7 +173,7 @@ public class GUICriarPersonagem extends javax.swing.JInternalFrame implements It
             }
             catch(NoDataFoundException | SQLException e)
             {
-                
+                JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
             }
         }
         else
@@ -182,15 +185,18 @@ public class GUICriarPersonagem extends javax.swing.JInternalFrame implements It
     
     private void tentarCriarPersonagem()
     {
+        Date data = new Date(System.currentTimeMillis());
+        
         int idBackground = backgrounds[jcbBackgrounds.getSelectedIndex()].getId();
         int idClasse = classes[jcbClasses.getSelectedIndex()].getId();
         int idRaca = racas[jcbRacas.getSelectedIndex()].getId();
         int idSubclasse = subclasses[jcbSubclasses.getSelectedIndex()].getId();
         int idSubraca = subRacas[jcbRacas.getSelectedIndex()].getId();
         
+        
         PersonagemVO pVO = new PersonagemVO(
                 0,
-                new Date(System.currentTimeMillis()),
+                data,
                 usuarioLogado.getId(),
                 1,
                 idClasse,
@@ -200,6 +206,37 @@ public class GUICriarPersonagem extends javax.swing.JInternalFrame implements It
                 idBackground,
                 "Nome"
         );
+        
+        DescricaoPersonagemVO dpVO = new DescricaoPersonagemVO(
+                WIDTH,
+                data,
+                idRaca,
+                idSubraca,
+                title,
+                idRaca,
+                ABORT,
+                ERROR,
+                title,
+                title,
+                title,
+                title,
+                title,
+                title,
+                title,
+                title,
+                title,
+                title,
+                title
+        );
+        try
+        {
+            ServicosFactory.getPersonagemServicos().cadastrarPersonagem(pVO);
+            ServicosFactory.getDescricaoPersonagemServicos().cadastrarDescricaoPersonagem(dpVO);
+        }
+        catch(SQLException e)
+        {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     /**
@@ -682,25 +719,67 @@ public class GUICriarPersonagem extends javax.swing.JInternalFrame implements It
         {
             if(jc == jcbClasses)
             {
-                jTextAreaClasse.setText(classes[jcbClasses.getSelectedIndex()].getDescricao());
-                carregarSubclasses();
+                jTextAreaClasse.setText(null);
             }
             else if(jc == jcbRacas)
             {
-                jTextAreaRacas.setText(racas[jcbRacas.getSelectedIndex()].getDescricao());
-                carregarSubracas();
+                jTextAreaRacas.setText(null);
             }
             else if(jc == jcbBackgrounds)
             {
-                jTextAreaBackground.setText(backgrounds[jcbBackgrounds.getSelectedIndex()].getDescricao());
+                jTextAreaBackground.setText(null);
             }
             else if(jc == jcbSubclasses)
             {
-                jTextAreaSubclasse.setText(subclasses[jcbSubclasses.getSelectedIndex()].getDescricao());
+                jTextAreaSubclasse.setText(null);
             }
             else if(jc == jcbSubracas)
             {
-                jTextAreaSubRacas.setText(subRacas[jcbSubracas.getSelectedIndex()].getDescricao());
+                jTextAreaSubRacas.setText(null);
+            }
+        }
+        else if(ie.getStateChange() == ItemEvent.DESELECTED)
+        {
+            if(jc == jcbClasses)
+            {
+                int indice = jcbClasses.getSelectedIndex();
+                
+                if(indice != -1)
+                {
+                    jTextAreaClasse.setText(classes[indice].getDescricao());
+                    carregarSubclasses();
+                }
+            }
+            else if(jc == jcbRacas)
+            {
+                int indice = jcbRacas.getSelectedIndex();
+                
+                if(indice != -1)
+                {
+                    jTextAreaRacas.setText(racas[indice].getDescricao());
+                    carregarSubracas();
+                }
+            }
+            else if(jc == jcbBackgrounds)
+            {
+                int indice = jcbBackgrounds.getSelectedIndex();
+                
+                if(indice != -1)
+                    jTextAreaBackground.setText(backgrounds[indice].getDescricao());
+            }
+            else if(jc == jcbSubclasses)
+            {
+                int indice = jcbSubclasses.getSelectedIndex();
+                
+                if(indice != -1)
+                    jTextAreaSubclasse.setText(subclasses[indice].getDescricao());
+            }
+            else if(jc == jcbSubracas)
+            {
+                int indice = jcbSubracas.getSelectedIndex();
+                
+                if(indice != -1)
+                    jTextAreaSubRacas.setText(subRacas[indice].getDescricao());
             }
         }
     }
