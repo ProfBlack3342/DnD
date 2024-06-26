@@ -179,6 +179,36 @@ ALTER TABLE Background CHANGE COLUMN idBackground idBackground INT NOT NULL AUTO
 -- FK
 ALTER TABLE Background ADD CONSTRAINT FK_BACKGROUND_IMAGEMBACKGROUND FOREIGN KEY(idImagemBackground) REFERENCES ImagemBackground(idImagemBackground);
 -- ----------------------------------------------------------------------------------------------------
+-- DescricaoPersonagem -----------------------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS DescricaoPersonagem (
+    idDescricaoPersonagem INT NOT NULL,
+    idPersonagem INT NOT NULL,
+    idUsuario INT NOT NULL,
+    alinhamento VARCHAR(30) NULL,
+    idade INT NULL,
+    altura INT NULL,
+    peso INT NULL,
+    olhos VARCHAR(20) NULL,
+    pele VARCHAR(30) NULL,
+    cabelo VARCHAR(30) NULL,
+    aparencia VARCHAR(400) NULL,
+    historia VARCHAR(2000) NULL,
+    personalidade VARCHAR(1200) NULL,
+    ideais VARCHAR(50) NULL,
+    ligacoes VARCHAR(50) NULL,
+    defeitos VARCHAR(50) NULL,
+    aliados VARCHAR(50) NULL,
+    outrasInformacoes VARCHAR(2000) NULL,
+    dataCriacaoDescricaoPersonagem DATE NOT NULL,
+    descricaoPersonagemAtivo TINYINT(1) NOT NULL DEFAULT 1
+);
+-- PK
+ALTER TABLE DescricaoPersonagem ADD CONSTRAINT PK_DESCRICAOPERSONAGEM PRIMARY KEY(idDescricaoPersonagem);
+ALTER TABLE DescricaoPersonagem CHANGE COLUMN idDescricaoPersonagem idDescricaoPersonagem INT NOT NULL AUTO_INCREMENT;
+-- FK
+ALTER TABLE DescricaoPersonagem ADD CONSTRAINT FK_DESCRICAOPERSONAGEM_ FOREIGN KEY(idPersonagem) REFERENCES Personagem(idPersonagem);
+-- ----------------------------------------------------------------------------------------------------
 -- Personagem -----------------------------------------------------------------------------------------
 -- ----------------------------------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS ImagemPersonagem (
@@ -202,10 +232,6 @@ CREATE TABLE IF NOT EXISTS Personagem (
     idSubraca INT NOT NULL,
     idBackground INT NOT NULL,
     nomePersonagem VARCHAR(50) NULL,
-    nivelPersonagem INT NOT NULL DEFAULT 1,
-    xpPersonagem INT NOT NULL DEFAULT 0,
-    inspiracaoPersonagem TINYINT(1) NOT NULL DEFAULT 0,
-    descricaoPersonagem VARCHAR(2000) NULL,
     dataCriacaoPersonagem DATE NOT NULL,
     personagemAtivo TINYINT(1) NOT NULL DEFAULT 1
 );
@@ -215,8 +241,11 @@ ALTER TABLE Personagem CHANGE COLUMN idPersonagem idPersonagem INT NOT NULL AUTO
 -- FK
 ALTER TABLE Personagem ADD CONSTRAINT FK_PERSONAGEM_USUARIO FOREIGN KEY(idUsuario) REFERENCES Usuario(idUsuario);
 ALTER TABLE Personagem ADD CONSTRAINT FK_PERSONAGEM_IMAGEMPERSONAGEM FOREIGN KEY(idImagemPersonagem) REFERENCES ImagemPersonagem(idImagemPersonagem);
-ALTER TABLE Personagem ADD CONSTRAINT FK_PERSONAGEM_RACA FOREIGN KEY(idRaca) REFERENCES Raca(idRaca);
-ALTER TABLE Personagem ADD CONSTRAINT FK_PERSONAGEM_CLASSE FOREIGN KEY(idClasse) REFERENCES Classe(idClasse);
+ALTER TABLE Personagem ADD CONSTRAINT FK_PERSONAGEM_CLASSE FOREIGN KEY(idClasse) REFERENCES SubClasse(idClasse);
+ALTER TABLE Personagem ADD CONSTRAINT FK_PERSONAGEM_SUBCLASSE FOREIGN KEY(idSubclasse) REFERENCES SubClasse(idSubclasse);
+ALTER TABLE Personagem ADD CONSTRAINT FK_PERSONAGEM_RACA FOREIGN KEY(idRaca) REFERENCES SubRaca(idRaca);
+ALTER TABLE Personagem ADD CONSTRAINT FK_PERSONAGEM_SUBRACA FOREIGN KEY(idSubraca) REFERENCES SubRaca(idSubraca);
+ALTER TABLE Personagem ADD CONSTRAINT FK_PERSONAGEM_BACKGROUND FOREIGN KEY(idBackground) REFERENCES Background(idBackground);
 -- ----------------------------------------------------------------------------------------------------
 -- ----------------------------------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS HabilidadesPersonagem (
