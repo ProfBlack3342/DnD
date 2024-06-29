@@ -183,7 +183,17 @@ INSERT INTO Classe (
 )
 VALUES (
 	null,
-    
+    1,
+    "Feiticeiro",
+    "Feiticeiros carregam uma herança mágica, dada a eles por virtude de uma linhagem exótica, influência sobrenatural ou exposição à uma força cósmica. É impossível estudar feitiçaria assim como é impossível aprender a viver uma vida lendária: Ninguém escolhe feitiçaria, o poder escolhe o feiticeiro.",
+    6,
+    1,
+    0,
+    5,
+    0,
+    2,
+    2,
+    6,
     CURDATE(),
 	true
 );
@@ -221,7 +231,11 @@ INSERT INTO SubClasse (
 )
 VALUES (
 	null,
-    
+    1,
+    1,
+    "Alma Divina",
+    "Sua magia inata vem da conexão com uma divindade que lhe escolheu como seu agente.",
+    5,
     CURDATE(),
 	true
 );
@@ -257,12 +271,21 @@ INSERT INTO Raca (
     tamanhoRaca,
     velocidadeRaca,
     quantFeaturesRaca,
+    quantIdiomasRaca,
     dataCriacaoRaca,
     racaAtiva
 )
 VALUES (
 	null,
-    
+    1,
+    "Aasimar",
+    "Descendentes de criaturas celestiais, Aasimares parecem humanos gloriosos e heroicos. Aasimares costumam tentar disfarçar sua linhagem para enfrentar o mal sem chamar atenção.",
+    2,
+    120,
+    "Médio",
+    9,
+    4,
+    2,
     CURDATE(),
 	true
 );
@@ -301,7 +324,12 @@ INSERT INTO SubRaca (
 )
 VALUES (
 	null,
-    
+    1,
+    1,
+    "Protetor",
+    "Protector aasimar are charged by the powers of good to guard the weak, to strike at evil wherever it arises, and to stand vigilant against the darkness. From a young age, a protector aasimar receives advice and directives that urge to stand against evil.",
+    1,
+    1,
     CURDATE(),
 	true
 );
@@ -346,6 +374,7 @@ VALUES (
     1,
     "Acólito",
     "Você passou sua vida em serviço de um templo. Você age como um intermediário entre o reino do sagrado e do mundo mortal, fazendo ritos sagrados e oferecendo sacrifícios para guiar os fieis à presença do divino. Acólito e clérigo não são a mesma coisa: Um milagreiro andarilho pode ser respeitado como canalizador do divino, mas não ter nenhuma autoridade na religião.",
+    15,
     5,
     2,
     0,
