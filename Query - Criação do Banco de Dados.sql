@@ -265,6 +265,7 @@ CREATE TABLE IF NOT EXISTS Raca (
     tamanhoRaca VARCHAR(20) NOT NULL,
     velocidadeRaca INT NOT NULL,
     quantFeaturesRaca INT NOT NULL,
+    quantIdiomasRaca INT NOT NULL,
     
     dataCriacaoRaca DATE NOT NULL,
     racaAtiva TINYINT(1) NOT NULL DEFAULT 1
