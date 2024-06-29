@@ -11,20 +11,22 @@ package enums;
  */
 public enum AtributosEnum
 {
-    STR("Força", "Strength"),
-    DEX("Destreza", "Dexterity"),
-    CON("Constituição", "Constitution"),
-    INT("Inteligência", "Intelligence"),
-    WIS("Sabedoria", "Wisdom"),
-    CHA("Carisma", "Charisma");
+    STR("STR", "Força", "Strength"),
+    DEX("DEX", "Destreza", "Dexterity"),
+    CON("CON", "Constituição", "Constitution"),
+    INT("INT", "Inteligência", "Intelligence"),
+    WIS("WIS", "Sabedoria", "Wisdom"),
+    CHA("CHA", "Carisma", "Charisma");
     
-    private final String nomePT, nomeEN;
+    private final String abreviacao, nomePT, nomeEN;
 
-    private AtributosEnum(String nomePT, String nomeEN) {
+    private AtributosEnum(String abreviacao, String nomePT, String nomeEN) {
+        this.abreviacao = abreviacao;
         this.nomePT = nomePT;
         this.nomeEN = nomeEN;
     }
     
+    public String getAbreviacao() {return abreviacao;}
     public String getNomePT() {return nomePT;}
     public String getNomeEN() {return nomeEN;}
 }
