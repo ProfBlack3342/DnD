@@ -1,19 +1,21 @@
-use dnd;
 -- ----------------------------------------------------------------------------------------------------
+USE dnd;
+
 -- ----------------------------------------------------------------------------------------------------
+-- Usuarios Para Teste --------------------------------------------------------------------------------
 -- ----------------------------------------------------------------------------------------------------
 INSERT INTO Usuario (
-		idUsuario, 
-		idImagemUsuario, 
-		idTipoUsuario, 
-		nomeUsuario, 
-		senhaUsuario, 
-		emailUsuario, 
-        dataAniversarioUsuario,
-		descricaoUsuario, 
-		quantPersonagensTotal, 
-		quantPersonagensCriados, 
-		dataCriacaoUsuario, 
+		idUsuario,
+		idImagemUsuario,
+		idTipoUsuario,
+		nomeUsuario,
+		senhaUsuario,
+		emailUsuario,
+		dataAniversarioUsuario,
+		descricaoUsuario,
+		quantPersonagensTotalUsuario,
+		quantPersonagensCriadosUsuario,
+		dataCriacaoUsuario,
 		usuarioAtivo
 	)
 VALUES (
@@ -32,7 +34,7 @@ VALUES (
 	), (
 		null, 
 		1, 
-		2, 
+		3, 
 		"gm",
 		"$2a$12$OdWIpJv/K8An3agDEWzFl.JJ28fnP1PisgLQjgMda5qHQAaFrVYMe", 
         "gm@teste.com", 
@@ -45,7 +47,7 @@ VALUES (
 	), (
 		null, 
 		1, 
-		3, 
+		2, 
 		"user",
 		"$2a$12$yVKR9Rwm9o8Ho0bSuUhrNeyXVk1.3.7PgWJ.usozPjVew4134YOia", 
         "usuario@teste.com", 
@@ -56,75 +58,6 @@ VALUES (
 		'2024-04-12', 
 		true
 	);
--- ----------------------------------------------------------------------------------------------------
--- ----------------------------------------------------------------------------------------------------
-INSERT INTO Personagem (
-		idPersonagem,
-        idUsuario,
-        idImagemPersonagem,
-        idClasse,
-        idSubclasse,
-        idRaca,
-        idSubraca,
-        idBackground,
-        nomePersonagem,
-        nivelPersonagem,
-        xpPersonagem,
-        inspiracaoPersonagem,
-        dataCriacaoPersonagem,
-        personagemAtivo
-	)
-VALUES (
-		
-	);
--- ----------------------------------------------------------------------------------------------------
-INSERT INTO HabilidadesPersonagem (
-		idHabilidadesPersonagem,
-        idPersonagem,
-        idUsuario,
-        valorSTRBase,
-        proficienteSaveSTR,
-        valorDEXBase,
-        proficienteSaveDEX,
-        valorCONBase,
-        proficienteSaveCON,
-        valorINTBase,
-        proficienteSaveINT,
-        valorWISBase,
-        proficienteSaveWIS,
-        valorCHABase,
-        proficienteSaveCHA
-	)
-VALUES (
-		
-	);
--- ----------------------------------------------------------------------------------------------------
-INSERT INTO ProficienciasSkillPersonagem (
-		idProficienciasSkillPersonagem,
-        idPersonagem,
-        idUsuario,
-        proficienteAtletismo,
-        proficienteAcrobacia,
-        proficienteFurtividade,
-        proficientePrestidigitacao,
-        proficienteArcanismo,
-        proficienteHistoria,
-        proficienteInvestigacao,
-        proficienteNatureza,
-        proficienteReligiao,
-        proficienteAdestrarAnimais,
-        proficienteIntuicao,
-        proficienteMedicina,
-        proficientePercepcao,
-        proficienteSobrevivencia,
-        proficienteAtuacao,
-        proficienteEnganacao,
-        proficienteIntimidacao,
-        proficientePersuasao
-	)
-VALUES (
-		
-	);
--- ----------------------------------------------------------------------------------------------------
+    
 -- ----------------------------------------------------------------------------------------------------
 -- ----------------------------------------------------------------------------------------------------
