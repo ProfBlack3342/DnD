@@ -18,15 +18,15 @@ public enum AtributosEnum
     WIS("WIS", "Sabedoria", "Wisdom"),
     CHA("CHA", "Carisma", "Charisma");
     
-    private final String abreviacao, nomePT, nomeEN;
+    private final String abreviacaoEnumBanco, nomePT, nomeEN;
 
-    private AtributosEnum(String abreviacao, String nomePT, String nomeEN) {
-        this.abreviacao = abreviacao;
+    private AtributosEnum(String abreviacaoEnumBanco, String nomePT, String nomeEN) {
+        this.abreviacaoEnumBanco = abreviacaoEnumBanco;
         this.nomePT = nomePT;
         this.nomeEN = nomeEN;
     }
     
-    public String getAbreviacao() {return abreviacao;}
+    public String getAbreviacaoEnumBanco() {return abreviacaoEnumBanco;}
     public String getNomePT() {return nomePT;}
     public String getNomeEN() {return nomeEN;}
 }
