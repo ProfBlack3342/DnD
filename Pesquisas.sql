@@ -4,5 +4,14 @@ USE dnd;
 
 SELECT * FROM usuario;
 
+SELECT * FROM Classe 
+INNER JOIN SubClasse
+ON Classe.idClasse = SubClasse.idClasse;
+
+SELECT * FROM Raca 
+INNER JOIN SubRaca
+ON Raca.idRaca= SubRaca.idRaca;
+
+SELECT * FROM background;
 -- ----------------------------------------------------------------------------------------------------
 -- ----------------------------------------------------------------------------------------------------
