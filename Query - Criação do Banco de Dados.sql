@@ -1,44 +1,10 @@
--- ----------------------------------------------------------------------------------------------------
--- ----------------------------------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 DROP SCHEMA IF EXISTS dnd;
 CREATE SCHEMA IF NOT EXISTS dnd;
 USE dnd;
-
--- ----------------------------------------------------------------------------------------------------
--- Arma -----------------------------------------------------------------------------------------------
--- ----------------------------------------------------------------------------------------------------
-CREATE TABLE IF NOT EXISTS Arma (
-    idArma INT NOT NULL,
-    
-    nomeArma VARCHAR(50) NOT NULL,
-    descricaoArma VARCHAR(400) NOT NULL,
-    dadoArma INT NULL,
-    multiplicadorDadoArma INT NOT NULL DEFAULT 1,
-    
-    dataCriacaoArma DATE NOT NULL,
-    ArmaAtiva TINYINT(1) NOT NULL DEFAULT 1
-);
--- PK
-ALTER TABLE Arma ADD CONSTRAINT PK_ARMA PRIMARY KEY(idArma);
-ALTER TABLE Arma CHANGE COLUMN idArma idArma INT NOT NULL AUTO_INCREMENT;
-
--- ----------------------------------------------------------------------------------------------------
--- Armadura -------------------------------------------------------------------------------------------
--- ----------------------------------------------------------------------------------------------------
-CREATE TABLE IF NOT EXISTS Armadura (
-    idArmadura INT NOT NULL,
-    
-    nomeArmadura VARCHAR(50) NOT NULL,
-    descricaoArmadura VARCHAR(400) NOT NULL,
-    dadoArmadura INT NULL,
-    multiplicadorDadoArmadura INT NOT NULL DEFAULT 1,
-    
-    dataCriacaoArmadura DATE NOT NULL,
-    ArmaduraAtiva TINYINT(1) NOT NULL DEFAULT 1
-);
--- PK
-ALTER TABLE Armadura ADD CONSTRAINT PK_ARMADURA PRIMARY KEY(idArmadura);
-ALTER TABLE Armadura CHANGE COLUMN idArmadura idArmadura INT NOT NULL AUTO_INCREMENT;
+-- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 -- ----------------------------------------------------------------------------------------------------
 -- Atributo -------------------------------------------------------------------------------------------
@@ -46,7 +12,7 @@ ALTER TABLE Armadura CHANGE COLUMN idArmadura idArmadura INT NOT NULL AUTO_INCRE
 CREATE TABLE IF NOT EXISTS Atributo (
     idAtributo INT NOT NULL,
     
-    nomeAtributo VARCHAR(50) NOT NULL,
+    nomeAtributo VARCHAR(50) NOT NULL UNIQUE,
     descricaoAtributo VARCHAR(400) NOT NULL,
     
     dataCriacaoAtributo DATE NOT NULL,
@@ -55,6 +21,225 @@ CREATE TABLE IF NOT EXISTS Atributo (
 -- PK
 ALTER TABLE Atributo ADD CONSTRAINT PK_ATRIBUTO PRIMARY KEY(idAtributo);
 ALTER TABLE Atributo CHANGE COLUMN idAtributo idAtributo INT NOT NULL AUTO_INCREMENT;
+
+-- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+-- ----------------------------------------------------------------------------------------------------
+-- Tipo de Arma ---------------------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS TipoArma (
+    idTipoArma INT NOT NULL,
+    
+    nomeTipoArma VARCHAR(50) NOT NULL UNIQUE,
+    descricaoTipoArma VARCHAR(400) NULL,
+    
+    dataCriacaoTipoArma DATE NOT NULL,
+    tipoArmaAtivo TINYINT(1) NOT NULL DEFAULT 1
+);
+-- PK
+ALTER TABLE TipoArma ADD CONSTRAINT PK_TIPOARMA PRIMARY KEY(idTipoArma);
+ALTER TABLE TipoArma CHANGE COLUMN idTipoArma idTipoArma INT NOT NULL AUTO_INCREMENT;
+
+-- ----------------------------------------------------------------------------------------------------
+-- Tipo de Dano ---------------------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS TipoDano (
+    idTipoDano INT NOT NULL,
+    
+    nomeTipoDano VARCHAR(50) NOT NULL UNIQUE,
+    abreviacaoNomeTipoDano VARCHAR(2) NOT NULL UNIQUE,
+    descricaoTipoDano VARCHAR(400) NOT NULL,
+    
+    dataCriacaoTipoDano DATE NOT NULL,
+    tipoDanoAtivo TINYINT(1) NOT NULL DEFAULT 1
+);
+-- PK
+ALTER TABLE TipoDano ADD CONSTRAINT PK_TIPODANO PRIMARY KEY(idTipoDano);
+ALTER TABLE TipoDano CHANGE COLUMN idTipoDano idTipoDano INT NOT NULL AUTO_INCREMENT;
+
+-- ----------------------------------------------------------------------------------------------------
+-- Propriedade de Arma --------------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS PropriedadeArma (
+    idPropriedadeArma INT NOT NULL,
+    
+    nomePropriedadeArma VARCHAR(50) NOT NULL,
+    descricaoPropriedadeArma VARCHAR(400) NOT NULL,
+    
+    dataCriacaoPropriedadeArma DATE NOT NULL,
+    propriedadeArmaAtiva TINYINT(1) NOT NULL DEFAULT 1
+);
+-- PK
+ALTER TABLE PropriedadeArma ADD CONSTRAINT PK_PROPRIEDADEARMA PRIMARY KEY(idPropriedadeArma);
+ALTER TABLE PropriedadeArma CHANGE COLUMN idPropriedadeArma idPropriedadeArma INT NOT NULL AUTO_INCREMENT;
+
+-- ----------------------------------------------------------------------------------------------------
+-- Arma -----------------------------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS Arma (
+    idArma INT NOT NULL,
+    
+    idTipoArma INT NOT NULL,
+    nomeArma VARCHAR(50) NOT NULL,
+    descricaoArma VARCHAR(400) NOT NULL,
+    precoCobreArma INT NOT NULL,
+    precoPrataArma INT NOT NULL,
+    precoElectrumArma INT NOT NULL,
+    precoOuroArma INT NOT NULL,
+    precoPlatinaArma INT NOT NULL,
+    multiplicadorDadoArma INT NOT NULL DEFAULT 1,
+    dadoArma INT NOT NULL,
+    idTipoDano INT NULL,
+    pesoArma DOUBLE(5, 3) NOT NULL,
+    quantPropriedadesArma INT NOT NULL,
+    
+    dataCriacaoArma DATE NOT NULL,
+    armaAtiva TINYINT(1) NOT NULL DEFAULT 1
+);
+-- PK
+ALTER TABLE Arma ADD CONSTRAINT PK_ARMA PRIMARY KEY(idArma);
+ALTER TABLE Arma CHANGE COLUMN idArma idArma INT NOT NULL AUTO_INCREMENT;
+-- FK
+ALTER TABLE Arma ADD CONSTRAINT FK_ARMA_TIPOARMA FOREIGN KEY(idTipoArma) REFERENCES TipoArma(idTipoArma);
+ALTER TABLE Arma ADD CONSTRAINT FK_ARMA_TIPODANO FOREIGN KEY(idTipoDano) REFERENCES TipoDano(idTipoDano);
+
+-- ----------------------------------------------------------------------------------------------------
+-- Relação Arma_Propriedade ---------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS Arma_Propriedade (
+    idArma INT NOT NULL,
+    idPropriedadeArma INT NOT NULL,
+    
+    distancaDesvantagemArma_Propriedade INT NULL,
+    distanciaFalhaArma_Propriedade INT NULL
+);
+-- PK
+ALTER TABLE Arma_Propriedade ADD CONSTRAINT PK_ARMA_PROPRIEDADE PRIMARY KEY(idArma, idPropriedadeArma);
+-- FK
+ALTER TABLE Arma_Propriedade ADD CONSTRAINT FK_ARMA_PROPRIEDADE_ARMA FOREIGN KEY(idArma) REFERENCES Arma(idArma);
+ALTER TABLE Arma_Propriedade ADD CONSTRAINT FK_ARMA_PROPRIEDADE_PROPRIEDADE FOREIGN KEY(idPropriedadeArma) REFERENCES PropriedadeArma(idPropriedadeArma);
+
+-- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+-- ----------------------------------------------------------------------------------------------------
+-- Tipo de Armadura -----------------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS TipoArmadura (
+    idTipoArmadura INT NOT NULL,
+    
+    nomeTipoArmadura VARCHAR(50) NOT NULL,
+    descricaoTipoArmadura VARCHAR(400) NOT NULL,
+    
+    dataCriacaoTipoArmadura DATE NOT NULL,
+    tipoArmaduraAtiva TINYINT(1) NOT NULL DEFAULT 1
+);
+-- PK
+ALTER TABLE TipoArmadura ADD CONSTRAINT PK_TIPOARMADURA PRIMARY KEY(idTipoArmadura);
+ALTER TABLE TipoArmadura CHANGE COLUMN idTipoArmadura idTipoArmadura INT NOT NULL AUTO_INCREMENT;
+
+-- ----------------------------------------------------------------------------------------------------
+-- Armadura -------------------------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS Armadura (
+    idArmadura INT NOT NULL,
+    
+    idTipoArmadura INT NOT NULL,
+    
+    nomeArmadura VARCHAR(50) NOT NULL,
+    descricaoArmadura VARCHAR(400) NOT NULL,
+    precoCobreArmadura INT NOT NULL,
+    precoPrataArmadura INT NOT NULL,
+    precoElectrumArmadura INT NOT NULL,
+    precoOuroArmadura INT NOT NULL,
+    precoPlatinaArmadura INT NOT NULL,
+    ValorCaArmadura INT NOT NULL,
+    RequisitoStrArmadura INT NOT NULL,
+    armaduraTemDesvantagemFurtividade TINYINT(1) NOT NULL,
+    pesoArmadura DOUBLE(5, 2) NOT NULL,
+    
+    dataCriacaoArmadura DATE NOT NULL,
+    armaduraAtiva TINYINT(1) NOT NULL DEFAULT 1
+);
+-- PK
+ALTER TABLE Armadura ADD CONSTRAINT PK_ARMADURA PRIMARY KEY(idArmadura);
+ALTER TABLE Armadura CHANGE COLUMN idArmadura idArmadura INT NOT NULL AUTO_INCREMENT;
+-- FK
+ALTER TABLE Armadura ADD CONSTRAINT FK_ARMADURA_TIPOARMADURA FOREIGN KEY(idTipoArmadura) REFERENCES TipoArmadura(idTipoArmadura);
+
+-- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+-- ----------------------------------------------------------------------------------------------------
+-- Equipamento de Aventura ----------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS EquipamentoAventura (
+    idEquipamentoAventura INT NOT NULL,
+    
+    nomeEquipamentoAventura VARCHAR(50) NOT NULL,
+    descricaoEquipamentoAventura VARCHAR(400) NOT NULL,
+    precoCobreEquipamentoAventura INT NOT NULL,
+    precoPrataEquipamentoAventura INT NOT NULL,
+    precoElectrumEquipamentoAventura INT NOT NULL,
+    precoOuroEquipamentoAventura INT NOT NULL,
+    precoPlatinaEquipamentoAventura INT NOT NULL,
+    pesoEquipamentoAventura DOUBLE(5, 2) NOT NULL,
+    
+    dataCriacaoEquipamentoAventura DATE NOT NULL,
+    equipamentoAventuraAtivo TINYINT(1) NOT NULL DEFAULT 1
+);
+-- PK
+ALTER TABLE EquipamentoAventura ADD CONSTRAINT PK_EQUIPAMENTOAVENTURA PRIMARY KEY(idEquipamentoAventura);
+ALTER TABLE EquipamentoAventura CHANGE COLUMN idEquipamentoAventura idEquipamentoAventura INT NOT NULL AUTO_INCREMENT;
+
+-- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+-- ----------------------------------------------------------------------------------------------------
+-- Tipo de Ferramenta ---------------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS TipoFerramenta (
+    idTipoFerramenta INT NOT NULL,
+    
+    nomeTipoFerramenta VARCHAR(50) NOT NULL,
+    descricaoTipoFerramenta VARCHAR(400) NOT NULL,
+    
+    dataCriacaoTipoFerramenta DATE NOT NULL,
+    tipoFerramentaAtivo TINYINT(1) NOT NULL DEFAULT 1
+);
+-- PK
+ALTER TABLE TipoFerramenta ADD CONSTRAINT PK_TIPOFERRAMENTA PRIMARY KEY(idTipoFerramenta);
+ALTER TABLE TipoFerramenta CHANGE COLUMN idTipoFerramenta idTipoFerramenta INT NOT NULL AUTO_INCREMENT;
+
+-- ----------------------------------------------------------------------------------------------------
+-- Ferramenta -----------------------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS Ferramenta (
+    idFerramenta INT NOT NULL,
+    
+    idTipoFerramenta INT NOT NULL,
+    
+    nomeFerramenta VARCHAR(50) NOT NULL,
+    descricaoFerramenta VARCHAR(400) NOT NULL,
+    precoCobreFerramenta INT NOT NULL,
+    precoPrataFerramenta INT NOT NULL,
+    precoElectrumFerramenta INT NOT NULL,
+    precoOuroFerramenta INT NOT NULL,
+    precoPlatinaFerramenta INT NOT NULL,
+    pesoFerramenta DOUBLE(5, 2) NOT NULL,
+    
+    dataCriacaoFerramenta DATE NOT NULL,
+    ferramentaAtiva TINYINT(1) NOT NULL DEFAULT 1
+);
+-- PK
+ALTER TABLE Ferramenta ADD CONSTRAINT PK_FERRAMENTA PRIMARY KEY(idFerramenta);
+ALTER TABLE Ferramenta CHANGE COLUMN idFerramenta idFerramenta INT NOT NULL AUTO_INCREMENT;
+-- FK
+ALTER TABLE Ferramenta ADD CONSTRAINT FK_FERRAMENTA_TIPOFERRAMENTA FOREIGN KEY(idTipoFerramenta) REFERENCES TipoFerramenta(idTipoFerramenta);
+
+-- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 -- ----------------------------------------------------------------------------------------------------
 -- Feature --------------------------------------------------------------------------------------------
@@ -79,21 +264,8 @@ CREATE TABLE IF NOT EXISTS Feature (
 ALTER TABLE Feature ADD CONSTRAINT PK_FEATURE PRIMARY KEY(idFeature);
 ALTER TABLE Feature CHANGE COLUMN idFeature idFeature INT NOT NULL AUTO_INCREMENT;
 
--- ----------------------------------------------------------------------------------------------------
--- Ferramenta -----------------------------------------------------------------------------------------
--- ----------------------------------------------------------------------------------------------------
-CREATE TABLE IF NOT EXISTS Ferramenta (
-    idFerramenta INT NOT NULL,
-    
-    nomeFerramenta VARCHAR(50) NOT NULL,
-    descricaoFerramenta VARCHAR(400) NOT NULL,
-    
-    dataCriacaoFerramenta DATE NOT NULL,
-    ferramentaAtiva TINYINT(1) NOT NULL DEFAULT 1
-);
--- PK
-ALTER TABLE Ferramenta ADD CONSTRAINT PK_FERRAMENTA PRIMARY KEY(idFerramenta);
-ALTER TABLE Ferramenta CHANGE COLUMN idFerramenta idFerramenta INT NOT NULL AUTO_INCREMENT;
+-- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 -- ----------------------------------------------------------------------------------------------------
 -- Linguagem ------------------------------------------------------------------------------------------
@@ -110,6 +282,9 @@ CREATE TABLE IF NOT EXISTS Linguagem (
 -- PK
 ALTER TABLE Linguagem ADD CONSTRAINT PK_LINGUAGEM PRIMARY KEY(idLinguagem);
 ALTER TABLE Linguagem CHANGE COLUMN idLinguagem idLinguagem INT NOT NULL AUTO_INCREMENT;
+
+-- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 -- ----------------------------------------------------------------------------------------------------
 -- Pericia --------------------------------------------------------------------------------------------
@@ -129,6 +304,44 @@ ALTER TABLE Pericia ADD CONSTRAINT PK_PERICIA PRIMARY KEY(idPericia, idAtributoP
 ALTER TABLE Pericia CHANGE COLUMN idPericia idPericia INT NOT NULL AUTO_INCREMENT;
 -- FK
 ALTER TABLE Pericia ADD CONSTRAINT FK_PERICIA_ATRIBUTO FOREIGN KEY(idAtributoPericia) REFERENCES Atributo(idAtributo);
+
+-- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+-- ----------------------------------------------------------------------------------------------------
+-- Proficiencia de Arma da Classe ---------------------------------------------------------------------
+-- ----------------------------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS ProficienciaArmaDaClasse (
+    idClasse INT NOT NULL,
+    idTipoArma INT NOT NULL,
+    
+    dataCriacaoProficienciaArmaDaClasse DATE NOT NULL,
+    proficienciaArmaDaClasseAtiva TINYINT(1) NOT NULL DEFAULT 1
+);
+-- PK
+ALTER TABLE ProficienciaArmaDaClasse ADD CONSTRAINT PK_PROFICIENCIAARMADACLASSE PRIMARY KEY(idClasse, idTipoArma);
+-- FK
+ALTER TABLE ProficienciaArmaDaClasse ADD CONSTRAINT FK_PROFICIENCIAARMADACLASSE_CLASSE FOREIGN KEY(idClasse) REFERENCES Classe(idClasse);
+ALTER TABLE ProficienciaArmaDaClasse ADD CONSTRAINT FK_PROFICIENCIAARMADACLASSE_TIPOARMA FOREIGN KEY(idTipoArma) REFERENCES TipoArma(idTipoArma);
+
+-- ----------------------------------------------------------------------------------------------------
+-- Proficiencia de Armadura da Classe -----------------------------------------------------------------
+-- ----------------------------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS ProficienciaArmaduraDaClasse (
+    idClasse INT NOT NULL,
+    idTipoArmadura INT NOT NULL,
+    
+    dataCriacaoProficienciaArmaduraDaClasse DATE NOT NULL,
+    proficienciaArmaduraDaClasseAtiva TINYINT(1) NOT NULL DEFAULT 1
+);
+-- PK
+ALTER TABLE ProficienciaArmaduraDaClasse ADD CONSTRAINT PK_PROFICIENCIAARMADURADACLASSE PRIMARY KEY(idClasse, idTipoArma);
+-- FK
+ALTER TABLE ProficienciaArmaduraDaClasse ADD CONSTRAINT FK_PROFICIENCIAARMADURADACLASSE_CLASSE FOREIGN KEY(idClasse) REFERENCES Classe(idClasse);
+ALTER TABLE ProficienciaArmaduraDaClasse ADD CONSTRAINT FK_PROFICIENCIAARMADURADACLASSE_TIPOARMADURA FOREIGN KEY(idTipoArmadura) REFERENCES TipoArmadura(idTipoArmadura);
+
+-- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 -- ----------------------------------------------------------------------------------------------------
 -- Spell ----------------------------------------------------------------------------------------------
@@ -150,6 +363,9 @@ CREATE TABLE IF NOT EXISTS Spell (
 -- PK
 ALTER TABLE Spell ADD CONSTRAINT PK_SPELL PRIMARY KEY(idSpell);
 ALTER TABLE Spell CHANGE COLUMN idSpell idSpell INT NOT NULL AUTO_INCREMENT;
+
+-- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 -- ----------------------------------------------------------------------------------------------------
 -- Imagem de Classe -----------------------------------------------------------------------------------
@@ -177,14 +393,16 @@ CREATE TABLE IF NOT EXISTS Classe (
     
     nomeClasse VARCHAR(50) NOT NULL UNIQUE,
     descricaoClasse VARCHAR(400) NOT NULL,
+    bonusProficienciaInicialClasse INT NOT NULL,
     dadoClasse INT NOT NULL,
-    classeTemSpells TINYINT(1) NOT NULL,
-    quantProficienciasArmaduraClasse INT NOT NULL,
     quantProficienciasArmasClasse INT NOT NULL,
+    quantProficienciasArmaduraClasse INT NOT NULL,
     quantProficienciasFerramentasClasse INT NOT NULL,
     quantProficienciasPericiasClasse INT NOT NULL,
     quantProficienciasSavesAtributosClasse INT NOT NULL,
+    quantEquipamentosIniciaisClasse INT NOT NULL,
     quantFeaturesClasse INT NOT NULL,
+    classeTemSpells TINYINT(1) NOT NULL,
     
     dataCriacaoClasse DATE NOT NULL,
     classeAtiva TINYINT(1) NOT NULL DEFAULT 1
@@ -233,6 +451,9 @@ ALTER TABLE SubClasse CHANGE COLUMN idSubClasse idSubClasse INT NOT NULL AUTO_IN
 -- FK
 ALTER TABLE SubClasse ADD CONSTRAINT FK_SUBCLASSE_CLASSE FOREIGN KEY(idClasse) REFERENCES Classe(idClasse);
 ALTER TABLE SubClasse ADD CONSTRAINT FK_SUBCLASSE_IMAGEMSUBCLASSE FOREIGN KEY(idImagemSubClasse) REFERENCES ImagemSubClasse(idImagemSubClasse);
+
+-- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 -- ----------------------------------------------------------------------------------------------------
 -- Imagem de Raça -------------------------------------------------------------------------------------
@@ -316,6 +537,9 @@ ALTER TABLE SubRaca CHANGE COLUMN idSubRaca idSubRaca INT NOT NULL AUTO_INCREMEN
 ALTER TABLE SubRaca ADD CONSTRAINT FK_SUBRACA_RACA FOREIGN KEY(idRaca) REFERENCES Raca(idRaca);
 ALTER TABLE SubRaca ADD CONSTRAINT FK_SUBRACA_IMAGEMSUBRACA FOREIGN KEY(idImagemSubRaca) REFERENCES ImagemSubRaca(idImagemSubRaca);
 
+-- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 -- ----------------------------------------------------------------------------------------------------
 -- Imagem de Background -------------------------------------------------------------------------------
 -- ----------------------------------------------------------------------------------------------------
@@ -357,6 +581,9 @@ ALTER TABLE Background ADD CONSTRAINT PK_BACKGROUND PRIMARY KEY(idBackground);
 ALTER TABLE Background CHANGE COLUMN idBackground idBackground INT NOT NULL AUTO_INCREMENT;
 -- FK
 ALTER TABLE Background ADD CONSTRAINT FK_BACKGROUND_IMAGEMBACKGROUND FOREIGN KEY(idImagemBackground) REFERENCES ImagemBackground(idImagemBackground);
+
+-- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 -- ----------------------------------------------------------------------------------------------------
 -- Imagem de Usuario ----------------------------------------------------------------------------------
@@ -417,6 +644,9 @@ ALTER TABLE Usuario CHANGE COLUMN idUsuario idUsuario INT NOT NULL AUTO_INCREMEN
 ALTER TABLE Usuario ADD CONSTRAINT FK_USUARIO_IMAGEMUSUARIO FOREIGN KEY(idImagemUsuario) REFERENCES ImagemUsuario(idImagemUsuario);
 ALTER TABLE Usuario ADD CONSTRAINT FK_USUARIO_TIPOUSUARIO FOREIGN KEY(idTipoUsuario) REFERENCES TipoUsuario(idTipoUsuario);
 
+-- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 -- ----------------------------------------------------------------------------------------------------
 -- Imagem do Personagem -------------------------------------------------------------------------------
 -- ----------------------------------------------------------------------------------------------------
@@ -476,6 +706,9 @@ ALTER TABLE Personagem ADD CONSTRAINT FK_PERSONAGEM_IMAGEMPERSONAGEM FOREIGN KEY
 ALTER TABLE Personagem ADD CONSTRAINT FK_PERSONAGEM_SUBCLASSE FOREIGN KEY(idSubclassePersonagem, idClassePersonagem) REFERENCES SubClasse(idSubClasse, idClasse);
 ALTER TABLE Personagem ADD CONSTRAINT FK_PERSONAGEM_SUBRACA_RACA FOREIGN KEY(idSubracaPersonagem, idRacaPersonagem) REFERENCES SubRaca(idSubRaca, idRaca);
 ALTER TABLE Personagem ADD CONSTRAINT FK_PERSONAGEM_BACKGROUND FOREIGN KEY(idBackgroundPersonagem) REFERENCES Background(idBackground);
+
+-- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 -- ----------------------------------------------------------------------------------------------------
 -- Background_Armadura --------------------------------------------------------------------------------
@@ -580,6 +813,19 @@ ALTER TABLE Classe_Atributo ADD CONSTRAINT PK_CLASSE_ATRIBUTO PRIMARY KEY(idClas
 -- FK
 ALTER TABLE Classe_Atributo ADD CONSTRAINT FK_CLASSE_ATRIBUTO_CLASSE FOREIGN KEY(idClasse) REFERENCES Classe(idClasse);
 ALTER TABLE Classe_Atributo ADD CONSTRAINT FK_CLASSE_ATRIBUTO_ATRIBUTO FOREIGN KEY(idAtributo) REFERENCES Atributo(idAtributo);
+
+-- ----------------------------------------------------------------------------------------------------
+-- Classe_Equipamento -------------------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS Classe_Equipamento (
+	idClasse INT NOT NULL,
+    idFeature INT NOT NULL
+);
+-- PK
+ALTER TABLE Classe_Feature ADD CONSTRAINT PK_CLASSE_FEATURE PRIMARY KEY(idClasse, idFeature);
+-- FK
+ALTER TABLE Classe_Feature ADD CONSTRAINT FK_CLASSE_FEATURE_CLASSE FOREIGN KEY(idClasse) REFERENCES Classe(idClasse);
+ALTER TABLE Classe_Feature ADD CONSTRAINT FK_CLASSE_FEATURE_FEATURE FOREIGN KEY(idFeature) REFERENCES Feature(idFeature);
 
 -- ----------------------------------------------------------------------------------------------------
 -- Classe_Feature -------------------------------------------------------------------------------------
@@ -792,5 +1038,5 @@ ALTER TABLE SubRaca_Feature ADD CONSTRAINT PK_SUBRACA_FEATURE PRIMARY KEY(idSubR
 ALTER TABLE SubRaca_Feature ADD CONSTRAINT FK_SUBRACA_FEATURE_RACA FOREIGN KEY(idSubRaca, idRaca) REFERENCES SubRaca(idSubRaca, idRaca);
 ALTER TABLE SubRaca_Feature ADD CONSTRAINT FK_SUBRACA_FEATURE_FEATURE FOREIGN KEY(idFeature) REFERENCES Feature(idFeature);
 
--- ----------------------------------------------------------------------------------------------------
--- ----------------------------------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
