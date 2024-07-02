@@ -128,9 +128,10 @@ VALUES
 INSERT INTO Arma_Propriedade
 	( idArma, idPropriedadeArma, distancaDesvantagemArma_Propriedade, distanciaFalhaArma_Propriedade )
 VALUES 
-	( 2, 1, null, null ),
+	( 2, 1, null, null ),	-- Adaga
 	( 2, 3, 6, 18 ),
     ( 2, 7, null, null ),
+    
     ( idArma, idPropriedadeArma, distancaDesvantagemArma_Propriedade, distanciaFalhaArma_Propriedade );
 
 -- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -246,8 +247,8 @@ VALUES
 INSERT INTO Feature
 	( idFeature, nomeFeature, descricaoFeature, featureConcedeProficienciaArma, featureConcedeProficienciaArmadura, featureConcedeProficienciaFerramenta, featureConcedeProficienciaLinguagem, featureConcedeProficienciaPericia, featureConcedeProficienciaSaveAtributo, featureConcedeSpell, dataCriacaoFeature, featureAtiva )
 VALUES
-	( null, "", "", featureConcedeProficienciaArma, featureConcedeProficienciaArmadura, featureConcedeProficienciaFerramenta, featureConcedeProficienciaLinguagem, featureConcedeProficienciaPericia, featureConcedeProficienciaSaveAtributo, featureConcedeSpell, CURDATE(), 1 ),
-	( null, "", "", featureConcedeProficienciaArma, featureConcedeProficienciaArmadura, featureConcedeProficienciaFerramenta, featureConcedeProficienciaLinguagem, featureConcedeProficienciaPericia, featureConcedeProficienciaSaveAtributo, featureConcedeSpell, CURDATE(), 1 );
+	( null, "NomeFeature", "DescriçãoFeature", featureConcedeProficienciaArma, featureConcedeProficienciaArmadura, featureConcedeProficienciaFerramenta, featureConcedeProficienciaLinguagem, featureConcedeProficienciaPericia, featureConcedeProficienciaSaveAtributo, featureConcedeSpell, CURDATE(), 1 ),
+	( null, "NomeFeature", "DescriçãoFeature", featureConcedeProficienciaArma, featureConcedeProficienciaArmadura, featureConcedeProficienciaFerramenta, featureConcedeProficienciaLinguagem, featureConcedeProficienciaPericia, featureConcedeProficienciaSaveAtributo, featureConcedeSpell, CURDATE(), 1 );
 
 -- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -329,7 +330,8 @@ VALUES
 INSERT INTO SubClasse
 	( idSubClasse, idClasse, idImagemSubClasse, nomeSubClasse, descricaoSubClasse, quantFeaturesSubClasse, dataCriacaoSubClasse, subClasseAtiva )
 VALUES
-	( null, 1, 1, "Alma Divina", "Sua magia inata vem da conexão com uma divindade que lhe escolheu como seu agente.", 5, CURDATE(), 1 );
+	( null, 1, 1, "Alma Divina", "Sua magia inata vem da conexão com uma divindade que lhe escolheu como seu agente.", 5, CURDATE(), 1 ),
+    ( null, idClasse, idImagemSubClasse, nomeSubClasse, descricaoSubClasse, quantFeaturesSubClasse, dataCriacaoSubClasse, subClasseAtiva );
     
 -- ----------------------------------------------------------------------------------------------------
 -- Imagem Padrão da Raça ------------------------------------------------------------------------------
@@ -345,7 +347,9 @@ VALUES
 INSERT INTO Raca
 	( idRaca, idImagemRaca, nomeRaca, descricaoRaca, valorBuffAtributoRaca, idadeMaxRaca, tamanhoRaca, velocidadeRaca, quantFeaturesRaca, quantIdiomasRaca, dataCriacaoRaca,racaAtiva )
 VALUES
-	( null, 1, "Aasimar", "Descendentes de criaturas celestiais, Aasimares parecem humanos gloriosos e heroicos. Aasimares costumam tentar disfarçar sua linhagem para enfrentar o mal sem chamar atenção.", 2, 120, "Médio", 9, 4, 2, CURDATE(), 1 );
+	( null, idImagemRaca, nomeRaca, descricaoRaca, valorBuffAtributoRaca, idadeMaxRaca, tamanhoRaca, velocidadeRaca, quantFeaturesRaca, quantIdiomasRaca, dataCriacaoRaca,racaAtiva ),
+	( null, 1, "Aasimar", "Descendentes de criaturas celestiais, Aasimares parecem humanos gloriosos e heroicos. Aasimares costumam tentar disfarçar sua linhagem para enfrentar o mal sem chamar atenção.", 2, 120, "Médio", 9, 4, 2, CURDATE(), 1 ),
+    ( null, idImagemRaca, nomeRaca, descricaoRaca, valorBuffAtributoRaca, idadeMaxRaca, tamanhoRaca, velocidadeRaca, quantFeaturesRaca, quantIdiomasRaca, dataCriacaoRaca,racaAtiva );
 
 -- ----------------------------------------------------------------------------------------------------
 -- Imagem Padrão da SubRaça ---------------------------------------------------------------------------
@@ -377,7 +381,8 @@ VALUES
 INSERT INTO Background
 	( idBackground, idImagemBackground, nomeBackground, descricaoBackground, dinheiroInicialBackground, quantEquipamentosIniciaisBackground, quantLinguagensIniciaisBackground, quantProficienciasFerramentasBackground, quantProficienciasPericiasBackground, quantFeaturesBackground, dataCriacaoBackground, BackgroundAtivo )
 VALUES
-	( null, 1, "Acólito", "Você passou sua vida em serviço de um templo. Você age como um intermediário entre o reino do sagrado e do mundo mortal, fazendo ritos sagrados e oferecendo sacrifícios para guiar os fieis à presença do divino. Acólito e clérigo não são a mesma coisa: Um milagreiro andarilho pode ser respeitado como canalizador do divino, mas não ter nenhuma autoridade na religião.", 15, 5, 2, 0, 2, 1, CURDATE(), 1 );
+	( null, 1, "Acólito", "Você passou sua vida em serviço de um templo. Você age como um intermediário entre o reino do sagrado e do mundo mortal, fazendo ritos sagrados e oferecendo sacrifícios para guiar os fieis à presença do divino. Acólito e clérigo não são a mesma coisa: Um milagreiro andarilho pode ser respeitado como canalizador do divino, mas não ter nenhuma autoridade na religião.", 15, 5, 2, 0, 2, 1, CURDATE(), 1 ),
+    ( null, idImagemBackground, nomeBackground, descricaoBackground, dinheiroInicialBackground, quantEquipamentosIniciaisBackground, quantLinguagensIniciaisBackground, quantProficienciasFerramentasBackground, quantProficienciasPericiasBackground, quantFeaturesBackground, dataCriacaoBackground, BackgroundAtivo );
     
 
 -- ----------------------------------------------------------------------------------------------------
@@ -401,14 +406,10 @@ VALUES
 -- ----------------------------------------------------------------------------------------------------
 -- Imagem Padrão do Personagem ------------------------------------------------------------------------
 -- ----------------------------------------------------------------------------------------------------
-INSERT INTO ImagemPersonagem ( 
-	idImagemPersonagem, 
-	caminhoImagemPersonagem, 
-	descricaoImagemPersonagem, 
-	dataCriacaoImagemPersonagem, 
-	imagemPersonagemAtiva 
-)
-VALUES ( null, "/img/imagemPadrao.png", "Imagem Padrão", CURDATE(), 1 );
+INSERT INTO ImagemPersonagem
+	( idImagemPersonagem, caminhoImagemPersonagem, descricaoImagemPersonagem, dataCriacaoImagemPersonagem, imagemPersonagemAtiva )
+VALUES
+	( null, "/img/imagemPadrao.png", "Imagem Padrão", CURDATE(), 1 );
 
 -- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

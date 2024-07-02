@@ -272,7 +272,7 @@ public class GUIPrincipal extends javax.swing.JFrame implements InternalFrameLis
             }
         });
 
-        jbtnInformacoesDnD.setText("Informações sobre DnD");
+        jbtnInformacoesDnD.setText("Informações sobre DnD (Link)");
         jbtnInformacoesDnD.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbtnInformacoesDnDActionPerformed(evt);

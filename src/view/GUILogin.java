@@ -15,7 +15,9 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.time.Month;
 import java.time.Year;
+import java.util.Calendar;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
@@ -52,7 +54,9 @@ public class GUILogin extends javax.swing.JFrame implements ItemListener
         jtfEmailCadastro.setText(null);
         jpfSenhaCadastro1.setText(null);
         jpfSenhaCadastro2.setText(null);
+        jcbDiaAniversarioCadastro.removeAllItems();
         jcbDiaAniversarioCadastro.setSelectedIndex(-1);
+        jcbMesAniversarioCadastro.removeAllItems();
         jcbMesAniversarioCadastro.setSelectedIndex(-1);
         jcbAnoAniversarioCadastro.setSelectedIndex(-1);
         jTextPaneDescricaoCadastro.setText(null);
@@ -106,17 +110,7 @@ public class GUILogin extends javax.swing.JFrame implements ItemListener
     private void inicializarTelas()
     {
         carregarImagens();
-        
-        jcbAnoAniversarioCadastro.removeAllItems();
         montarComboBoxAnoAniversario();
-        jcbAnoAniversarioCadastro.setSelectedIndex(-1);
-        
-        jcbMesAniversarioCadastro.removeAllItems();
-        montarComboBoxMesAniversario();
-        jcbMesAniversarioCadastro.setSelectedIndex(-1);
-        
-        jcbDiaAniversarioCadastro.removeAllItems();
-        jcbDiaAniversarioCadastro.setSelectedIndex(-1);
         
         jcbAnoAniversarioCadastro.addItemListener(this);
         jcbMesAniversarioCadastro.addItemListener(this);
@@ -128,38 +122,52 @@ public class GUILogin extends javax.swing.JFrame implements ItemListener
 
     private void montarComboBoxAnoAniversario()
     {
-        int anoAtual = Year.now().getValue();
+        jcbAnoAniversarioCadastro.removeAllItems();
+        
+        int anoAtual = Calendar.getInstance().get(Calendar.YEAR);
+        
         for(int i = 0; i <= 120; i++) {
             jcbAnoAniversarioCadastro.addItem(Integer.toString((anoAtual - 120 + i)));
         }
         
         jcbAnoAniversarioCadastro.setSelectedIndex(-1);
     }
-    private void montarComboBoxMesAniversario()
+    private void montarComboBoxMesAniversario(int anoSelecionado)
     {
-        for(int i = 1; i <= 12; i++){
+        jcbMesAniversarioCadastro.removeAllItems();
+        
+        int mesLimite;
+        
+        if(anoSelecionado == Calendar.getInstance().get(Calendar.YEAR))
+            mesLimite = Calendar.getInstance().get(Calendar.MONTH) + 1;
+        else
+            mesLimite = 12;
+        
+        for(int i = 1; i <= mesLimite; i++){
             jcbMesAniversarioCadastro.addItem(Integer.toString(i));
         }
         
         jcbMesAniversarioCadastro.setSelectedIndex(-1);
     }
-    private void montarComboBoxDiaAniversario(int mes, int ano)
+    private void montarComboBoxDiaAniversario(int mesSelecionado, int anoSelecionado)
     {
+        jcbDiaAniversarioCadastro.removeAllItems();
+        
         int diasNoMes;
         
-        if(mes <= 7)
+        if(mesSelecionado <= 7)
         {
-            if(mes % 2 == 0)
+            if(mesSelecionado % 2 == 0)
             {
-                if(mes != 2)
+                if(mesSelecionado != 2)
                     diasNoMes = 30;
                 else
                 {
                     boolean bisexto;
-                    if(ano % 4 == 0)
-                        bisexto = (ano % 100) != 0;
+                    if(anoSelecionado % 4 == 0)
+                        bisexto = (anoSelecionado % 100) != 0;
                     else 
-                        bisexto = (ano % 400) == 0;
+                        bisexto = (anoSelecionado % 400) == 0;
                     
                     if(bisexto)
                         diasNoMes = 29;
@@ -172,11 +180,15 @@ public class GUILogin extends javax.swing.JFrame implements ItemListener
         }
         else
         {
-            if(mes % 2 == 0)
+            if(mesSelecionado % 2 == 0)
                 diasNoMes = 31;
             else
                 diasNoMes = 30;
         }
+        
+        Calendar data = Calendar.getInstance();
+        if( (anoSelecionado == data.get(Calendar.YEAR) ) && (mesSelecionado == data.get(Calendar.MONTH) + 1) )
+            diasNoMes = diasNoMes - (diasNoMes - data.get(Calendar.DAY_OF_MONTH));     //Ajustando para o usuário não selecionar uma data no futuro
         
         for(int i = 1; i <= diasNoMes; i++) {
             jcbDiaAniversarioCadastro.addItem(Integer.toString(i));
@@ -185,89 +197,173 @@ public class GUILogin extends javax.swing.JFrame implements ItemListener
         jcbDiaAniversarioCadastro.setSelectedIndex(-1);
     }
     
+    private String testarCadastro()
+    {
+        boolean temErro = false;
+        StringBuilder textoErro = new StringBuilder("Erro: ");
+        
+        String nome = jtfNomeCadastro.getText();
+        if(nome.isEmpty())
+        {
+            // Nome vazio
+        }
+        else if(Verificar.verificarTextoComNumeros(nome))
+        {
+            // Nome inválido
+        }
+        
+        char[] senha1c = jpfSenhaCadastro1.getPassword();
+        char[] senha2c = jpfSenhaCadastro2.getPassword();
+        boolean senhaVazia = false;
+        if(senha1c.length == 0)
+        {
+            // Senha vazia
+            senhaVazia = true;
+            
+        }
+        
+        if(senha2c.length == 0)
+        {
+            // Confirmação de senha vazia
+            senhaVazia = true;
+        }
+        
+        String senha1 = new String(senha1c);
+        String senha2 = new String(senha2c);
+        if(!senhaVazia && senha1.equals(senha2))
+        {
+            // Senha e confirmação diferentes
+        }
+        
+        String email = jtfEmailCadastro.getText();
+        if(email.isEmpty())
+        {
+            // E-mail vazio
+        }
+        else if(Verificar.verificarEmail(email))
+        {
+            // E-mail inválido
+        }
+        
+        Object diaAniversarioObj = jcbDiaAniversarioCadastro.getSelectedItem();
+        Object mesAniversarioObj = jcbMesAniversarioCadastro.getSelectedItem();
+        Object anoAniversarioObj = jcbAnoAniversarioCadastro.getSelectedItem();
+
+        if(diaAniversarioObj == null || mesAniversarioObj == null || anoAniversarioObj == null)
+        {
+            // Data de Aniversário Incompleta ou Vazia
+        }
+        
+        String diaAniversario = String.valueOf(diaAniversarioObj);
+        String mesAniversario = String.valueOf(mesAniversarioObj);
+        String anoAniversario = String.valueOf(anoAniversarioObj);
+        
+        if(temErro)
+            return textoErro.toString();
+        else
+            return null;
+    }
+    
     private void tentarCadastro()
     {
+        
         try
         {
             String nome = jtfNomeCadastro.getText();
             
             if(!nome.isEmpty())
             {
-                char[] senha1c = jpfSenhaCadastro1.getPassword();
-                char[] senha2c = jpfSenhaCadastro2.getPassword();
                 
-                if(senha1c.length != 0)
+                if(Verificar.verificarTextoComNumeros(nome))
                 {
-                    if(senha2c.length != 0)
+                    char[] senha1c = jpfSenhaCadastro1.getPassword();
+                    char[] senha2c = jpfSenhaCadastro2.getPassword();
+
+                    if(senha1c.length != 0)
                     {
-                        String senha1 = new String(senha1c);
-                        String senha2 = new String(senha2c);
-                        
-                        if(senha1.equals(senha2))
+                        if(senha2c.length != 0)
                         {
-                            String email = jtfEmailCadastro.getText();
-                            
-                            if(!email.isEmpty())
+                            String senha1 = new String(senha1c);
+                            String senha2 = new String(senha2c);
+
+                            if(senha1.equals(senha2))
                             {
-                                Object diaAniversarioObj = jcbDiaAniversarioCadastro.getSelectedItem();
-                                Object mesAniversarioObj = jcbMesAniversarioCadastro.getSelectedItem();
-                                Object anoAniversarioObj = jcbAnoAniversarioCadastro.getSelectedItem();
-                                
-                                if(diaAniversarioObj != null && mesAniversarioObj != null && anoAniversarioObj != null)
+                                String email = jtfEmailCadastro.getText();
+
+                                if(!email.isEmpty())
                                 {
-                                    String diaAniversario = String.valueOf(diaAniversarioObj);
-                                    String mesAniversario = String.valueOf(mesAniversarioObj);
-                                    String anoAniversario = String.valueOf(anoAniversarioObj);
+                                    if(Verificar.verificarEmail(email))
+                                    {
+                                        Object diaAniversarioObj = jcbDiaAniversarioCadastro.getSelectedItem();
+                                        Object mesAniversarioObj = jcbMesAniversarioCadastro.getSelectedItem();
+                                        Object anoAniversarioObj = jcbAnoAniversarioCadastro.getSelectedItem();
 
-                                    String descricao = jTextPaneDescricaoCadastro.getDocument().getText(0, jTextPaneDescricaoCadastro.getDocument().getLength());
+                                        if(diaAniversarioObj != null && mesAniversarioObj != null && anoAniversarioObj != null)
+                                        {
+                                            String diaAniversario = String.valueOf(diaAniversarioObj);
+                                            String mesAniversario = String.valueOf(mesAniversarioObj);
+                                            String anoAniversario = String.valueOf(anoAniversarioObj);
 
-                                    if(descricao == null)
-                                        descricao = "";
+                                            String descricao = jTextPaneDescricaoCadastro.getDocument().getText(0, jTextPaneDescricaoCadastro.getDocument().getLength());
+                                            
+                                            
+                                            if(descricao == null)
+                                                descricao = "";
+                                            
+                                            UsuarioVO uVO =  new UsuarioVO(
+                                                    0,
+                                                    new Date(System.currentTimeMillis()),
+                                                    1,
+                                                    3,
+                                                    nome,
+                                                    senha1,
+                                                    email,
+                                                    Integer.parseInt(diaAniversario),
+                                                    Integer.parseInt(mesAniversario),
+                                                    Integer.parseInt(anoAniversario),
+                                                    descricao
+                                            );
 
-                                    UsuarioVO uVO =  new UsuarioVO(
-                                            0,
-                                            new Date(System.currentTimeMillis()),
-                                            1,
-                                            3,
-                                            nome,
-                                            senha1,
-                                            email,
-                                            Integer.parseInt(diaAniversario),
-                                            Integer.parseInt(mesAniversario),
-                                            Integer.parseInt(anoAniversario),
-                                            descricao
-                                    );
-
-                                    ServicosFactory.getUsuarioServicos().cadastrarUsuario(uVO);
-                                    JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso! Fazendo login...", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-                                    abrirGUIPrincipal(uVO);
+                                            ServicosFactory.getUsuarioServicos().cadastrarUsuario(uVO);
+                                            JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso! Fazendo login...", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                                            abrirGUIPrincipal(uVO);
+                                        }
+                                        else
+                                        {
+                                            JOptionPane.showMessageDialog(null, "Escolha uma data completa de aniversário...", "Erro", JOptionPane.ERROR_MESSAGE);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        JOptionPane.showMessageDialog(null, "Digite um e-mail válido...", "Erro", JOptionPane.ERROR_MESSAGE);
+                                    }
                                 }
                                 else
                                 {
-                                    JOptionPane.showMessageDialog(null, "Escolha uma data completa de aniversário...", "Erro", JOptionPane.ERROR_MESSAGE);
+                                    JOptionPane.showMessageDialog(null, "Digite um e-mail...", "Erro", JOptionPane.ERROR_MESSAGE);
                                 }
-
                             }
                             else
                             {
-                                JOptionPane.showMessageDialog(null, "Digite um e-mail...", "Erro", JOptionPane.ERROR_MESSAGE);
+                                jpfSenhaCadastro1.setText(null);
+                                jpfSenhaCadastro2.setText(null);
+                                JOptionPane.showMessageDialog(null, "As senhas não são iguais, digite-a novamente...", "Erro", JOptionPane.ERROR_MESSAGE);
                             }
                         }
                         else
                         {
-                            jpfSenhaCadastro1.setText(null);
-                            jpfSenhaCadastro2.setText(null);
-                            JOptionPane.showMessageDialog(null, "As senhas não são iguais, digite-a novamente...", "Erro", JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(null, "Confirme a senha...", "Erro", JOptionPane.ERROR_MESSAGE);
                         }
                     }
                     else
                     {
-                        JOptionPane.showMessageDialog(null, "Confirme a senha...", "Erro", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "Digite uma senha...", "Erro", JOptionPane.ERROR_MESSAGE);
                     }
+                
                 }
                 else
                 {
-                    JOptionPane.showMessageDialog(null, "Digite uma senha...", "Erro", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Erro: Digite o nome somente com letras e números!", "Erro", JOptionPane.ERROR_MESSAGE);
                 }
             }
             else
@@ -879,19 +975,25 @@ public class GUILogin extends javax.swing.JFrame implements ItemListener
         
         if(ie.getStateChange() == ItemEvent.SELECTED)
         {
+            Object anoSelecionado = jcbAnoAniversarioCadastro.getSelectedItem();
+            
             if(jc == jcbAnoAniversarioCadastro) {
-                jcbMesAniversarioCadastro.setSelectedIndex(-1);
-                jcbDiaAniversarioCadastro.removeAllItems();
-                jcbDiaAniversarioCadastro.setSelectedIndex(-1);
+                
+                if(anoSelecionado != null)
+                {
+                    jcbMesAniversarioCadastro.removeAllItems();
+                    montarComboBoxMesAniversario(Integer.parseInt(String.valueOf(anoSelecionado)));
+                    jcbDiaAniversarioCadastro.removeAllItems();
+                    jcbDiaAniversarioCadastro.setSelectedIndex(-1);
+                }
             }
             else if(jc == jcbMesAniversarioCadastro) {
-                Object ano = jcbAnoAniversarioCadastro.getSelectedItem();
                 
-                if(ano != null) {
+                if(anoSelecionado != null) {
                     jcbDiaAniversarioCadastro.removeAllItems();
                     montarComboBoxDiaAniversario(
                             Integer.parseInt(String.valueOf(jcbMesAniversarioCadastro.getSelectedItem())),
-                            Integer.parseInt(String.valueOf(ano))
+                            Integer.parseInt(String.valueOf(anoSelecionado))
                     );
                 }
             }
