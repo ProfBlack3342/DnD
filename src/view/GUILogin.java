@@ -197,19 +197,23 @@ public class GUILogin extends javax.swing.JFrame implements ItemListener
         jcbDiaAniversarioCadastro.setSelectedIndex(-1);
     }
     
-    private String testarCadastro()
+    private void tentarCadastro()
     {
         boolean temErro = false;
-        StringBuilder textoErro = new StringBuilder("Erro: ");
+        StringBuilder textoErro = new StringBuilder("Erro:\n");
         
         String nome = jtfNomeCadastro.getText();
         if(nome.isEmpty())
         {
             // Nome vazio
+            temErro = true;
+            textoErro.append("O campo Nome não foi preenchido!\n");
         }
-        else if(Verificar.verificarTextoComNumeros(nome))
+        else if(!Verificar.verificarTextoComNumeros(nome))
         {
             // Nome inválido
+            temErro = true;
+            textoErro.append("O campo Nome contém dados inválidos!\n");
         }
         
         char[] senha1c = jpfSenhaCadastro1.getPassword();
@@ -218,31 +222,41 @@ public class GUILogin extends javax.swing.JFrame implements ItemListener
         if(senha1c.length == 0)
         {
             // Senha vazia
+            temErro = true;
             senhaVazia = true;
-            
+            textoErro.append("O campo Senha não foi preenchido!\n");
         }
         
         if(senha2c.length == 0)
         {
             // Confirmação de senha vazia
+            temErro = true;
             senhaVazia = true;
+            textoErro.append("O campo Confirme a sua Senha não foi preenchido!\n");
         }
         
         String senha1 = new String(senha1c);
         String senha2 = new String(senha2c);
+        
         if(!senhaVazia && senha1.equals(senha2))
         {
             // Senha e confirmação diferentes
+            temErro = true;
+            textoErro.append("Os campos Senha e Confirme a sua Senha contém valores diferentes entre si!\n");
         }
         
         String email = jtfEmailCadastro.getText();
         if(email.isEmpty())
         {
             // E-mail vazio
+            temErro = true;
+            textoErro.append("O campo E-mail não foi preenchido!\n");
         }
-        else if(Verificar.verificarEmail(email))
+        else if(!Verificar.verificarEmail(email))
         {
             // E-mail inválido
+            temErro = true;
+            textoErro.append("O campo E-mail contém dados inválidos!\n");
         }
         
         Object diaAniversarioObj = jcbDiaAniversarioCadastro.getSelectedItem();
@@ -252,174 +266,105 @@ public class GUILogin extends javax.swing.JFrame implements ItemListener
         if(diaAniversarioObj == null || mesAniversarioObj == null || anoAniversarioObj == null)
         {
             // Data de Aniversário Incompleta ou Vazia
+            temErro = true;
+            textoErro.append("Uma ou mais das caixas de seleção da Data de Aniversário não foram selecionados!\n");
         }
         
         String diaAniversario = String.valueOf(diaAniversarioObj);
         String mesAniversario = String.valueOf(mesAniversarioObj);
         String anoAniversario = String.valueOf(anoAniversarioObj);
         
+        String descricao = jTextPaneDescricaoCadastro.getText();     
+        if(descricao == null)
+            descricao = "";
+        else if(!Verificar.verificarTextoComNumeros(descricao))
+        {
+            temErro = true;
+            textoErro.append("O campo Descrição contém dados inválidos!\n");
+        }
+            
+        
         if(temErro)
-            return textoErro.toString();
+        {
+            JOptionPane.showMessageDialog(null, textoErro.toString(), "Erro", JOptionPane.ERROR_MESSAGE);
+        }
         else
-            return null;
+        {
+            try
+            {
+                UsuarioVO uVO =  new UsuarioVO(
+                        0,
+                        new Date(System.currentTimeMillis()),
+                        1,
+                        3,
+                        nome,
+                        senha1,
+                        email,
+                        Integer.parseInt(diaAniversario),
+                        Integer.parseInt(mesAniversario),
+                        Integer.parseInt(anoAniversario),
+                        descricao
+                );
+
+                ServicosFactory.getUsuarioServicos().cadastrarUsuario(uVO);
+                JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso! Fazendo login...", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                abrirGUIPrincipal(uVO);
+            }
+            catch(NullPointerException | SQLException blE)
+            {
+                JOptionPane.showMessageDialog(null, "Erro: " + blE.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        
     }
     
-    private void tentarCadastro()
-    {
-        
-        try
-        {
-            String nome = jtfNomeCadastro.getText();
-            
-            if(!nome.isEmpty())
-            {
-                
-                if(Verificar.verificarTextoComNumeros(nome))
-                {
-                    char[] senha1c = jpfSenhaCadastro1.getPassword();
-                    char[] senha2c = jpfSenhaCadastro2.getPassword();
-
-                    if(senha1c.length != 0)
-                    {
-                        if(senha2c.length != 0)
-                        {
-                            String senha1 = new String(senha1c);
-                            String senha2 = new String(senha2c);
-
-                            if(senha1.equals(senha2))
-                            {
-                                String email = jtfEmailCadastro.getText();
-
-                                if(!email.isEmpty())
-                                {
-                                    if(Verificar.verificarEmail(email))
-                                    {
-                                        Object diaAniversarioObj = jcbDiaAniversarioCadastro.getSelectedItem();
-                                        Object mesAniversarioObj = jcbMesAniversarioCadastro.getSelectedItem();
-                                        Object anoAniversarioObj = jcbAnoAniversarioCadastro.getSelectedItem();
-
-                                        if(diaAniversarioObj != null && mesAniversarioObj != null && anoAniversarioObj != null)
-                                        {
-                                            String diaAniversario = String.valueOf(diaAniversarioObj);
-                                            String mesAniversario = String.valueOf(mesAniversarioObj);
-                                            String anoAniversario = String.valueOf(anoAniversarioObj);
-
-                                            String descricao = jTextPaneDescricaoCadastro.getDocument().getText(0, jTextPaneDescricaoCadastro.getDocument().getLength());
-                                            
-                                            
-                                            if(descricao == null)
-                                                descricao = "";
-                                            
-                                            UsuarioVO uVO =  new UsuarioVO(
-                                                    0,
-                                                    new Date(System.currentTimeMillis()),
-                                                    1,
-                                                    3,
-                                                    nome,
-                                                    senha1,
-                                                    email,
-                                                    Integer.parseInt(diaAniversario),
-                                                    Integer.parseInt(mesAniversario),
-                                                    Integer.parseInt(anoAniversario),
-                                                    descricao
-                                            );
-
-                                            ServicosFactory.getUsuarioServicos().cadastrarUsuario(uVO);
-                                            JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso! Fazendo login...", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-                                            abrirGUIPrincipal(uVO);
-                                        }
-                                        else
-                                        {
-                                            JOptionPane.showMessageDialog(null, "Escolha uma data completa de aniversário...", "Erro", JOptionPane.ERROR_MESSAGE);
-                                        }
-                                    }
-                                    else
-                                    {
-                                        JOptionPane.showMessageDialog(null, "Digite um e-mail válido...", "Erro", JOptionPane.ERROR_MESSAGE);
-                                    }
-                                }
-                                else
-                                {
-                                    JOptionPane.showMessageDialog(null, "Digite um e-mail...", "Erro", JOptionPane.ERROR_MESSAGE);
-                                }
-                            }
-                            else
-                            {
-                                jpfSenhaCadastro1.setText(null);
-                                jpfSenhaCadastro2.setText(null);
-                                JOptionPane.showMessageDialog(null, "As senhas não são iguais, digite-a novamente...", "Erro", JOptionPane.ERROR_MESSAGE);
-                            }
-                        }
-                        else
-                        {
-                            JOptionPane.showMessageDialog(null, "Confirme a senha...", "Erro", JOptionPane.ERROR_MESSAGE);
-                        }
-                    }
-                    else
-                    {
-                        JOptionPane.showMessageDialog(null, "Digite uma senha...", "Erro", JOptionPane.ERROR_MESSAGE);
-                    }
-                
-                }
-                else
-                {
-                    JOptionPane.showMessageDialog(null, "Erro: Digite o nome somente com letras e números!", "Erro", JOptionPane.ERROR_MESSAGE);
-                }
-            }
-            else
-            {
-                JOptionPane.showMessageDialog(null, "Digite um nome...", "Erro", JOptionPane.ERROR_MESSAGE);
-            }
-        }
-        catch(BadLocationException | NullPointerException | SQLException blE)
-        {
-            JOptionPane.showMessageDialog(null, blE.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
-        }
-    }
     private void tentarLogin()
     {
-        try
+        boolean temErro = false;
+        StringBuilder textoErro = new StringBuilder("Erro:\n");
+        
+        String usuario = jtfUsuarioLogin.getText();
+        if(usuario.isEmpty())
         {
-            String usuario = jtfUsuarioLogin.getText();
-            
-            if(!usuario.isEmpty())
+            temErro = true;
+            textoErro.append("O campo Usuário não foi preenchido!\n");
+        }
+        else if(!Verificar.verificarTextoComNumeros(usuario))
+        {
+            temErro = true;
+            textoErro.append("O campo Usuário contém dados inválidos!\n");
+        }
+        
+        char[] senha = jpfSenhaLogin.getPassword();
+        if(senha.length == 0)
+        {
+            temErro = true;
+            textoErro.append("O campo Senha não foi preenchido!\n");
+        }
+        
+        if(temErro)
+        {
+            JOptionPane.showMessageDialog(null, textoErro.toString(), "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+        else
+        {
+            try
             {
-                if(Verificar.verificarTextoComNumeros(usuario))
-                {
-                    char[] senha = jpfSenhaLogin.getPassword();
+                DadosLogin dadosLogin = new DadosLogin(usuario, new String(senha));
 
-                    if(senha.length != 0)
-                    {
-                        DadosLogin dadosLogin = new DadosLogin(usuario, new String(senha));
-
-                        UsuarioVO uVO = ServicosFactory.getUsuarioServicos().loginUsuario(dadosLogin);
-                        if(uVO == null)
-                            JOptionPane.showMessageDialog(null, "Erro: Usuário ou senha não correspondem a nenhum registrado!", "Erro", JOptionPane.ERROR_MESSAGE);
-                        else
-                        {
-                            JOptionPane.showMessageDialog(null, "Login realizado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-                            abrirGUIPrincipal(uVO);
-                        }
-                    }
-                    else
-                    {
-                        JOptionPane.showMessageDialog(null, "Erro: Digite uma senha...", "Erro", JOptionPane.ERROR_MESSAGE);
-                    }
-                }
+                UsuarioVO uVO = ServicosFactory.getUsuarioServicos().loginUsuario(dadosLogin);
+                if(uVO == null)
+                    JOptionPane.showMessageDialog(null, "Erro: Usuário ou senha não correspondem a nenhum registrado!", "Erro", JOptionPane.ERROR_MESSAGE);
                 else
                 {
-                    JOptionPane.showMessageDialog(null, "Erro: Digite o usuário somente com letras e números!", "Erro", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Login realizado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                    abrirGUIPrincipal(uVO);
                 }
             }
-            else
+            catch(NoDataFoundException | SQLException | NullPointerException e)
             {
-                JOptionPane.showMessageDialog(null, "Erro: Digite um usuário...", "Erro", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
             }
-            
-        }
-        catch(NoDataFoundException | SQLException | NullPointerException e)
-        {
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }
     

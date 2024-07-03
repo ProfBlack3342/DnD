@@ -81,6 +81,7 @@ INSERT INTO Arma
 VALUES
 	( null, 1, "Desarmado", "", 0, 0, 0, 0, 0, 1, 1, 2, 0.0, 0, CURDATE(), 1 ),
     
+    -- Simples
     ( null, 1, "Adaga", 0, 0, 0, 2, 0, 1, 4, 9, 0.5, 3, CURDATE(), 1 ),
     ( null, 1, "Azagaia", "", 0, 5, 0, 0, 0, 1, 6, 9, 1.0, 1, CURDATE(), 1 ),
     ( null, 1, "Cajado", "", 0, 2, 0, 0, 0, 1, 6, 2, 2.0, 1, CURDATE(), 1 ),
@@ -97,6 +98,7 @@ VALUES
     ( null,	1, "Dardo", "", 5, 0, 0, 0, 0, 1, 4, 9, 0.125, 3, CURDATE(),	1 ),
     ( null, 1, "Funda", "", 0, 1, 0, 0, 0, 1, 4, 2, 0.0, 2, CURDATE(), 1 ),
     
+    -- Marciais
     ( null, 2, "Machado", "", 0, 0, 0, 10, 0, 1, 8, 3, 2.0, 1, CURDATE(), 1 ),
     ( null, 2, "Mangual", "", 0, 0, 0, 10, 0, 1, 8, 2, 1.0, 0, CURDATE(), 1 ),
     ( null, 2, "Glaive", "", 0, 0, 0, 20, 0, 1, 10, 3, 3.0, 3, CURDATE(), 1 ),
@@ -128,10 +130,12 @@ VALUES
 INSERT INTO Arma_Propriedade
 	( idArma, idPropriedadeArma, distancaDesvantagemArma_Propriedade, distanciaFalhaArma_Propriedade )
 VALUES 
-	( 2, 1, null, null ),	-- Adaga
+	-- Adaga
+	( 2, 1, null, null ),
 	( 2, 3, 6, 18 ),
     ( 2, 7, null, null ),
     
+    -- 
     ( idArma, idPropriedadeArma, distancaDesvantagemArma_Propriedade, distanciaFalhaArma_Propriedade );
 
 -- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -154,21 +158,25 @@ VALUES
 INSERT INTO Armadura
 	( idArmadura, idTipoArmadura, nomeArmadura, descricaoArmadura, precoCobreArmadura, precoPrataArmadura, precoElectrumArmadura, precoOuroArmadura, precoPlatinaArmadura, ValorCaArmadura, RequisitoStrArmadura, armaduraTemDesvantagemFurtividade, pesoArmadura, dataCriacaoArmadura, ArmaduraAtiva )
 VALUES
+	-- Leves
 	( null, 1, "Acolchoada", "", 0, 0, 0, 5, 0, 1, 0, 0, 4.0, CURDATE(), 1 ),
     ( null, 1, "Couro", "", 0, 0, 0, 10, 0, 1, 0, 0, 5.0, CURDATE(), 1 ),
     ( null, 1, "Couro Batido", "", 0, 0, 0, 45, 0, 2, 0, 0, 6.5, CURDATE(), 1 ),
     
+    -- Medias
     ( null, 2, "Gibão de Peles", "", 0, 0, 0, 10, 0, 2, 0, 0, 6.0, CURDATE(), 1 ),
     ( null, 2, "Camisão de Malha", "", 0, 0, 0, 50, 0, 3, 0, 0, 10.0, CURDATE(), 1 ),
     ( null, 2, "Brunea", "", 0, 0, 0, 50, 0, 4, 0, 1, 22.5, CURDATE(), 1 ),
     ( null, 2, "Peitoral de Aço", "", 0, 0, 0, 400, 0, 4, 0, 0, 10.0, CURDATE(), 1 ),
     ( null, 2, "Meia-Armadura", "", 0, 0, 0, 750, 0, 5, 0, 1, 20.0, CURDATE(), 1 ),
     
+    -- Pesada
     ( null, 3, "Cota de Anéis", "", 0, 0, 0, 30, 0, 4, 0, 1, 20.0, CURDATE(), 1 ),
     ( null, 3, "Cota de Malha", "", 0, 0, 0, 75, 0, 6, 13, 1, 22.5, CURDATE(), 1 ),
     ( null, 3, "Cota de Talas", "", 0, 0, 0, 200, 0, 7, 15, 1, 30.0, CURDATE(), 1 ),
     ( null, 3, "Armadura de Placas", "", 0, 0, 0, 1500, 0, 8, 15, 1, 32.5, CURDATE(), 1 ),
     
+    -- Escudo
     ( null, 4, "Escudo", "", 0, 0, 0, 10, 0, 2, 0, 0, 3.0, CURDATE(), 1 );
 
 -- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -204,6 +212,7 @@ VALUES
 INSERT INTO Ferramenta
 	( idFerramenta, idTipoFerramenta, nomeFerramenta, descricaoFerramenta, precoCobreFerramenta, precoPrataFerramenta, precoElectrumFerramenta, precoOuroFerramenta, precoPlatinaFerramenta, pesoFerramenta, dataCriacaoFerramenta, ferramentaAtiva )
 VALUES
+	-- Ferramentas de Artesão
 	( null, 1, "Ferramentas de cartógrafo", "", 0, 0, 0, 15, 0, 3.0, CURDATE(), 1 ),
     ( null, 1, "Ferramentas de coureiro", "", 0, 0, 0, 5, 0, 2.5, CURDATE(), 1 ),
     ( null, 1, "Ferramentas/utensílios de cozinheiro", "", 0, 0, 0, 1, 0, 4, CURDATE(), 1 ),
@@ -224,9 +233,11 @@ VALUES
     ( null, 1, "Kit de herbalismo", "", 0, 0, 0, 5, 0, 1.5, CURDATE(), 1 ),
     ( null, 1, "Kit de veneno", "", 0, 0, 0, 50, 0, 1.0, CURDATE(), 1 ),
     
+    -- Kits de jogos
     ( null, 2, "Conjunto de dados", "", 0, 1, 0, 0, 0, 0.0, CURDATE(), 1 ),
     ( null, 2, "Baralho", "", 0, 5, 0, 0, 0, 0.0, CURDATE(), 1 ),
     
+    -- Instrumentos musicais
     ( null, 3, "Alaúde", "", 0, 0, 0, 35, 0, 1.0, CURDATE(), 1 ),
     ( null, 3, "Flauta", "", 0, 0, 0, 2, 0, 0.5, CURDATE(), 1 ),
     ( null, 3, "Flauta de Pan", "", 0, 0, 0, 12, 0, 1.0, CURDATE(), 1 ),
