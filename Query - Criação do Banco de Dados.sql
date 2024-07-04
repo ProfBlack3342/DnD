@@ -242,27 +242,69 @@ ALTER TABLE Ferramenta ADD CONSTRAINT FK_FERRAMENTA_TIPOFERRAMENTA FOREIGN KEY(i
 -- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 -- ----------------------------------------------------------------------------------------------------
--- Feature --------------------------------------------------------------------------------------------
+-- Opção de Equipamentos Iniciais ---------------------------------------------------------------------
 -- ----------------------------------------------------------------------------------------------------
-CREATE TABLE IF NOT EXISTS Feature (
-    idFeature INT NOT NULL,
+CREATE TABLE IF NOT EXISTS OpcaoEquipamentosIniciais (
+	idOpcaoEquipamentosIniciais INT NOT NULL,
     
-    nomeFeature VARCHAR(50) NOT NULL,
-    descricaoFeature VARCHAR(400) NOT NULL,
-    featureConcedeProficienciaArma TINYINT(1) NOT NULL,
-    featureConcedeProficienciaArmadura TINYINT(1) NOT NULL,
-    featureConcedeProficienciaFerramenta TINYINT(1) NOT NULL,
-    featureConcedeProficienciaLinguagem TINYINT(1) NOT NULL,
-    featureConcedeProficienciaPericia TINYINT(1) NOT NULL,
-    featureConcedeProficienciaSaveAtributo TINYINT(1) NOT NULL,
-    featureConcedeSpell TINYINT(1) NOT NULL,
-    
-    dataCriacaoFeature DATE NOT NULL,
-    featureAtiva TINYINT(1) NOT NULL DEFAULT 1
+    dataCriacaoOpcaoEquipamentoInicial DATE NOT NULL,
+    OpcaoEquipamentoInicialAtiva TINYINT(1) NOT NULL DEFAULT 1
 );
 -- PK
-ALTER TABLE Feature ADD CONSTRAINT PK_FEATURE PRIMARY KEY(idFeature);
-ALTER TABLE Feature CHANGE COLUMN idFeature idFeature INT NOT NULL AUTO_INCREMENT;
+ALTER TABLE OpcaoEquipamentosIniciais ADD CONSTRAINT PK_OPCAOEQUIPAMENTOSINICIAIS PRIMARY KEY(idOpcaoEquipamentosIniciais);
+ALTER TABLE OpcaoEquipamentosIniciais CHANGE COLUMN idOpcaoEquipamentosIniciais idOpcaoEquipamentosIniciais INT NOT NULL AUTO_INCREMENT;
+
+-- ----------------------------------------------------------------------------------------------------
+-- OpcaoEquipamentosIniciais_EquipamentoAventura ------------------------------------------------------
+-- ----------------------------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS OpcaoEquipamentosIniciais_Arma (
+	idOpcaoEquipamentosIniciais INT NOT NULL,
+    idArma INT NOT NULL
+);
+-- PK
+ALTER TABLE OpcaoEquipamentosIniciais_Arma ADD CONSTRAINT PK_OPCAOEQUIPINI_ARMA PRIMARY KEY(idOpcaoEquipamentosIniciais, idArma);
+-- FK
+ALTER TABLE OpcaoEquipamentosIniciais_Arma ADD CONSTRAINT FK_OPCAOEQUIPINI_ARMA_OPCAOEQUIPINI FOREIGN KEY(idOpcaoEquipamentosIniciais) REFERENCES OpcaoEquipamentosIniciais(idOpcaoEquipamentosIniciais);
+ALTER TABLE OpcaoEquipamentosIniciais_Arma ADD CONSTRAINT FK_OPCAOEQUIPINI_ARMA_ARMA FOREIGN KEY(idArma) REFERENCES Arma(idArma);
+
+-- ----------------------------------------------------------------------------------------------------
+-- OpcaoEquipamentosIniciais_EquipamentoAventura ------------------------------------------------------
+-- ----------------------------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS OpcaoEquipamentosIniciais_Armadura (
+	idOpcaoEquipamentosIniciais INT NOT NULL,
+    idArmadura INT NOT NULL
+);
+-- PK
+ALTER TABLE OpcaoEquipamentosIniciais_Armadura ADD CONSTRAINT PK_OPCAOEQUIPINI_ARMADURA PRIMARY KEY(idOpcaoEquipamentosIniciais, idArmadura);
+-- FK
+ALTER TABLE OpcaoEquipamentosIniciais_Armadura ADD CONSTRAINT FK_OPCAOEQUIPINI_ARMADURA_OPCAOEQUIPINI FOREIGN KEY(idOpcaoEquipamentosIniciais) REFERENCES OpcaoEquipamentosIniciais(idOpcaoEquipamentosIniciais);
+ALTER TABLE OpcaoEquipamentosIniciais_Armadura ADD CONSTRAINT FK_OPCAOEQUIPINI_ARMADURA_ARMADURA FOREIGN KEY(idArmadura) REFERENCES Armadura(idArmadura);
+
+-- ----------------------------------------------------------------------------------------------------
+-- OpcaoEquipamentosIniciais_EquipamentoAventura ------------------------------------------------------
+-- ----------------------------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS OpcaoEquipamentosIniciais_EquipamentoAventura (
+	idOpcaoEquipamentosIniciais INT NOT NULL,
+    idEquipamentoAventura INT NOT NULL
+);
+-- PK
+ALTER TABLE OpcaoEquipamentosIniciais_EquipamentoAventura ADD CONSTRAINT PK_OPCAOEQUIPINI_EQUIPAMENTOAVENTURA PRIMARY KEY(idOpcaoEquipamentosIniciais, idEquipamentoAventura);
+-- FK
+ALTER TABLE OpcaoEquipamentosIniciais_EquipamentoAventura ADD CONSTRAINT FK_OPCAOEQUIPINI_EQUIPAMENTOAVENTURA_OPCAOEQUIPINI FOREIGN KEY(idOpcaoEquipamentosIniciais) REFERENCES OpcaoEquipamentosIniciais(idOpcaoEquipamentosIniciais);
+ALTER TABLE OpcaoEquipamentosIniciais_EquipamentoAventura ADD CONSTRAINT FK_OPCAOEQUIPINI_EQUIPAMENTOAVENTURA_EQUIPAMENTOAVENTURA FOREIGN KEY(idEquipamentoAventura) REFERENCES EquipamentoAventura(idEquipamentoAventura);
+
+-- ----------------------------------------------------------------------------------------------------
+-- OpcaoEquipamentosIniciais_EquipamentoAventura ------------------------------------------------------
+-- ----------------------------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS OpcaoEquipamentosIniciais_Ferramenta (
+	idOpcaoEquipamentosIniciais INT NOT NULL,
+    idFerramenta INT NOT NULL
+);
+-- PK
+ALTER TABLE OpcaoEquipamentosIniciais_Ferramenta ADD CONSTRAINT PK_OPCAOEQUIPINI_FERRAMENTA PRIMARY KEY(idOpcaoEquipamentosIniciais, idFerramenta);
+-- FK
+ALTER TABLE OpcaoEquipamentosIniciais_Ferramenta ADD CONSTRAINT FK_OPCAOEQUIPINI_FERRAMENTA_OPCAOEQUIPINI FOREIGN KEY(idOpcaoEquipamentosIniciais) REFERENCES OpcaoEquipamentosIniciais(idOpcaoEquipamentosIniciais);
+ALTER TABLE OpcaoEquipamentosIniciais_Ferramenta ADD CONSTRAINT FK_OPCAOEQUIPINI_FERRAMENTA_FERRAMENTA FOREIGN KEY(idFerramenta) REFERENCES Ferramenta(idFerramenta);
 
 -- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -309,41 +351,6 @@ ALTER TABLE Pericia ADD CONSTRAINT FK_PERICIA_ATRIBUTO FOREIGN KEY(idAtributoPer
 -- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 -- ----------------------------------------------------------------------------------------------------
--- Proficiencia de Arma da Classe ---------------------------------------------------------------------
--- ----------------------------------------------------------------------------------------------------
-CREATE TABLE IF NOT EXISTS ProficienciaArmaDaClasse (
-    idClasse INT NOT NULL,
-    idTipoArma INT NOT NULL,
-    
-    dataCriacaoProficienciaArmaDaClasse DATE NOT NULL,
-    proficienciaArmaDaClasseAtiva TINYINT(1) NOT NULL DEFAULT 1
-);
--- PK
-ALTER TABLE ProficienciaArmaDaClasse ADD CONSTRAINT PK_PROFICIENCIAARMADACLASSE PRIMARY KEY(idClasse, idTipoArma);
--- FK
-ALTER TABLE ProficienciaArmaDaClasse ADD CONSTRAINT FK_PROFICIENCIAARMADACLASSE_CLASSE FOREIGN KEY(idClasse) REFERENCES Classe(idClasse);
-ALTER TABLE ProficienciaArmaDaClasse ADD CONSTRAINT FK_PROFICIENCIAARMADACLASSE_TIPOARMA FOREIGN KEY(idTipoArma) REFERENCES TipoArma(idTipoArma);
-
--- ----------------------------------------------------------------------------------------------------
--- Proficiencia de Armadura da Classe -----------------------------------------------------------------
--- ----------------------------------------------------------------------------------------------------
-CREATE TABLE IF NOT EXISTS ProficienciaArmaduraDaClasse (
-    idClasse INT NOT NULL,
-    idTipoArmadura INT NOT NULL,
-    
-    dataCriacaoProficienciaArmaduraDaClasse DATE NOT NULL,
-    proficienciaArmaduraDaClasseAtiva TINYINT(1) NOT NULL DEFAULT 1
-);
--- PK
-ALTER TABLE ProficienciaArmaduraDaClasse ADD CONSTRAINT PK_PROFICIENCIAARMADURADACLASSE PRIMARY KEY(idClasse, idTipoArma);
--- FK
-ALTER TABLE ProficienciaArmaduraDaClasse ADD CONSTRAINT FK_PROFICIENCIAARMADURADACLASSE_CLASSE FOREIGN KEY(idClasse) REFERENCES Classe(idClasse);
-ALTER TABLE ProficienciaArmaduraDaClasse ADD CONSTRAINT FK_PROFICIENCIAARMADURADACLASSE_TIPOARMADURA FOREIGN KEY(idTipoArmadura) REFERENCES TipoArmadura(idTipoArmadura);
-
--- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
--- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
--- ----------------------------------------------------------------------------------------------------
 -- Spell ----------------------------------------------------------------------------------------------
 -- ----------------------------------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS Spell (
@@ -363,6 +370,124 @@ CREATE TABLE IF NOT EXISTS Spell (
 -- PK
 ALTER TABLE Spell ADD CONSTRAINT PK_SPELL PRIMARY KEY(idSpell);
 ALTER TABLE Spell CHANGE COLUMN idSpell idSpell INT NOT NULL AUTO_INCREMENT;
+
+-- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+-- ----------------------------------------------------------------------------------------------------
+-- Feature --------------------------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS Feature (
+    idFeature INT NOT NULL,
+    
+    nomeFeature VARCHAR(50) NOT NULL,
+    descricaoFeature VARCHAR(400) NOT NULL,
+    featureConcedeProficienciaArma TINYINT(1) NOT NULL,
+    featureConcedeProficienciaArmadura TINYINT(1) NOT NULL,
+    featureConcedeProficienciaFerramenta TINYINT(1) NOT NULL,
+    featureConcedeProficienciaLinguagem TINYINT(1) NOT NULL,
+    featureConcedeProficienciaPericia TINYINT(1) NOT NULL,
+    featureConcedeProficienciaSaveAtributo TINYINT(1) NOT NULL,
+    featureConcedeSpell TINYINT(1) NOT NULL,
+    
+    dataCriacaoFeature DATE NOT NULL,
+    featureAtiva TINYINT(1) NOT NULL DEFAULT 1
+);
+-- PK
+ALTER TABLE Feature ADD CONSTRAINT PK_FEATURE PRIMARY KEY(idFeature);
+ALTER TABLE Feature CHANGE COLUMN idFeature idFeature INT NOT NULL AUTO_INCREMENT;
+
+-- ----------------------------------------------------------------------------------------------------
+-- Feature concede proficiencia em Arma ---------------------------------------------------------------
+-- ----------------------------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS Feature_Arma (
+    idFeature INT NOT NULL,
+    idArma INT NOT NULL
+);
+-- PK
+ALTER TABLE Feature_Arma ADD CONSTRAINT PK_FEATURE_ARMA PRIMARY KEY(idFeature, idArma);
+-- FK
+ALTER TABLE Feature_Arma ADD CONSTRAINT FK_FEATURE_ARMA_FEATURE FOREIGN KEY(idFeature) REFERENCES Feature(idFeature);
+ALTER TABLE Feature_Arma ADD CONSTRAINT FK_FEATURE_ARMA_ARMA FOREIGN KEY(idArma) REFERENCES Arma(idArma);
+
+-- ----------------------------------------------------------------------------------------------------
+-- Feature concede proficiencia em Armadura -----------------------------------------------------------
+-- ----------------------------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS Feature_Armadura (
+    idFeature INT NOT NULL,
+    idArmadura INT NOT NULL
+);
+-- PK
+ALTER TABLE Feature_Armadura ADD CONSTRAINT PK_FEATURE_ARMADURA PRIMARY KEY(idFeature, idArmadura);
+-- FK
+ALTER TABLE Feature_Armadura ADD CONSTRAINT FK_FEATURE_ARMADURA_FEATURE FOREIGN KEY(idFeature) REFERENCES Feature(idFeature);
+ALTER TABLE Feature_Armadura ADD CONSTRAINT FK_FEATURE_ARMADURA_ARMADURA FOREIGN KEY(idArmadura) REFERENCES Armadura(idArmadura);
+
+-- ----------------------------------------------------------------------------------------------------
+-- Feature concede proficiencia em Ferramenta ---------------------------------------------------------
+-- ----------------------------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS Feature_Ferramenta (
+    idFeature INT NOT NULL,
+    idFerramenta INT NOT NULL
+);
+-- PK
+ALTER TABLE Feature_Ferramenta ADD CONSTRAINT PK_FEATURE_FERRAMENTA PRIMARY KEY(idFeature, idFerramenta);
+-- FK
+ALTER TABLE Feature_Ferramenta ADD CONSTRAINT FK_FEATURE_FERRAMENTA_FEATURE FOREIGN KEY(idFeature) REFERENCES Feature(idFeature);
+ALTER TABLE Feature_Ferramenta ADD CONSTRAINT FK_FEATURE_FERRAMENTA_FERRAMENTA FOREIGN KEY(idFerramenta) REFERENCES Ferramenta(idFerramenta);
+
+-- ----------------------------------------------------------------------------------------------------
+-- Feature concede proficiencia em Linguagem ----------------------------------------------------------
+-- ----------------------------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS Feature_Linguagem (
+    idFeature INT NOT NULL,
+    idLinguagem INT NOT NULL
+);
+-- PK
+ALTER TABLE Feature_Linguagem ADD CONSTRAINT PK_FEATURE_LINGUAGEM PRIMARY KEY(idFeature, idLinguagem);
+-- FK
+ALTER TABLE Feature_Linguagem ADD CONSTRAINT FK_FEATURE_LINGUAGEM_FEATURE FOREIGN KEY(idFeature) REFERENCES Feature(idFeature);
+ALTER TABLE Feature_Linguagem ADD CONSTRAINT FK_FEATURE_LINGUAGEM_LINGUAGEM FOREIGN KEY(idLinguagem) REFERENCES Linguagem(idLinguagem);
+
+-- ----------------------------------------------------------------------------------------------------
+-- Feature concede proficiencia em Pericia ------------------------------------------------------------
+-- ----------------------------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS Feature_Pericia (
+    idFeature INT NOT NULL,
+    idPericia INT NOT NULL
+);
+-- PK
+ALTER TABLE Feature_Pericia ADD CONSTRAINT PK_FEATURE_PERICIA PRIMARY KEY(idFeature, idPericia);
+-- FK
+ALTER TABLE Feature_Pericia ADD CONSTRAINT FK_FEATURE_PERICIA_FEATURE FOREIGN KEY(idFeature) REFERENCES Feature(idFeature);
+ALTER TABLE Feature_Pericia ADD CONSTRAINT FK_FEATURE_PERICIA_PERICIA FOREIGN KEY(idPericia) REFERENCES Pericia(idPericia);
+
+-- ----------------------------------------------------------------------------------------------------
+-- Feature concede proficiencia em Save de Atributo ---------------------------------------------------
+-- ----------------------------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS Feature_Atributo (
+    idFeature INT NOT NULL,
+    idAtributo INT NOT NULL
+);
+-- PK
+ALTER TABLE Feature_Atributo ADD CONSTRAINT PK_FEATURE_ATRIBUTO PRIMARY KEY(idFeature, idAtributo);
+-- FK
+ALTER TABLE Feature_Atributo ADD CONSTRAINT FK_FEATURE_ATRIBUTO_FEATURE FOREIGN KEY(idFeature) REFERENCES Feature(idFeature);
+ALTER TABLE Feature_Atributo ADD CONSTRAINT FK_FEATURE_ATRIBUTO_ATRIBUTO FOREIGN KEY(idAtributo) REFERENCES Atributo(idAtributo);
+
+-- ----------------------------------------------------------------------------------------------------
+-- Feature concede Spell ------------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS Feature_Spell (
+    idFeature INT NOT NULL,
+    idSpell INT NOT NULL
+);
+-- PK
+ALTER TABLE Feature_Spell ADD CONSTRAINT PK_FEATURE_SPELL PRIMARY KEY(idFeature, idSpell);
+-- FK
+ALTER TABLE Feature_Spell ADD CONSTRAINT FK_FEATURE_SPELL_FEATURE FOREIGN KEY(idFeature) REFERENCES Feature(idFeature);
+ALTER TABLE Feature_Spell ADD CONSTRAINT FK_FEATURE_SPELL_SPELL FOREIGN KEY(idSpell) REFERENCES Spell(idSpell);
+
 
 -- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -403,6 +528,7 @@ CREATE TABLE IF NOT EXISTS Classe (
     quantEquipamentosIniciaisClasse INT NOT NULL,
     quantFeaturesClasse INT NOT NULL,
     classeTemSpells TINYINT(1) NOT NULL,
+    idAtributoSpells INT NULL,
     
     dataCriacaoClasse DATE NOT NULL,
     classeAtiva TINYINT(1) NOT NULL DEFAULT 1
@@ -412,6 +538,101 @@ ALTER TABLE Classe ADD CONSTRAINT PK_CLASSE PRIMARY KEY(idClasse);
 ALTER TABLE Classe CHANGE COLUMN idClasse idClasse INT NOT NULL AUTO_INCREMENT;
 -- FK
 ALTER TABLE Classe ADD CONSTRAINT FK_CLASSE_IMAGEMCLASSE FOREIGN KEY(idImagemClasse) REFERENCES ImagemClasse(idImagemClasse);
+ALTER TABLE Classe ADD CONSTRAINT FK_CLASSE_ATRIBUTO FOREIGN KEY(idAtributoSpells) REFERENCES Atributo(idAtributo);
+
+-- ----------------------------------------------------------------------------------------------------
+-- Classe concede proficiencia em Arma ---------------------------------------------------------------
+-- ----------------------------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS Classe_Arma (
+    idClasse INT NOT NULL,
+    idArma INT NOT NULL
+);
+-- PK
+ALTER TABLE Classe_Arma ADD CONSTRAINT PK_CLASSE_ARMA PRIMARY KEY(idClasse, idArma);
+-- FK
+ALTER TABLE Classe_Arma ADD CONSTRAINT FK_CLASSE_ARMA_CLASSE FOREIGN KEY(idClasse) REFERENCES Classe(idClasse);
+ALTER TABLE Classe_Arma ADD CONSTRAINT FK_CLASSE_ARMA_ARMA FOREIGN KEY(idArma) REFERENCES Arma(idArma);
+
+-- ----------------------------------------------------------------------------------------------------
+-- Classe concede proficiencia em Armadura -----------------------------------------------------------
+-- ----------------------------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS Classe_Armadura (
+    idClasse INT NOT NULL,
+    idArmadura INT NOT NULL
+);
+-- PK
+ALTER TABLE Classe_Armadura ADD CONSTRAINT PK_CLASSE_ARMADURA PRIMARY KEY(idClasse, idArmadura);
+-- FK
+ALTER TABLE Classe_Armadura ADD CONSTRAINT FK_CLASSE_ARMADURA_CLASSE FOREIGN KEY(idClasse) REFERENCES Classe(idClasse);
+ALTER TABLE Classe_Armadura ADD CONSTRAINT FK_CLASSE_ARMADURA_ARMADURA FOREIGN KEY(idArmadura) REFERENCES Armadura(idArmadura);
+
+-- ----------------------------------------------------------------------------------------------------
+-- Classe concede proficiencia em Ferramenta ---------------------------------------------------------
+-- ----------------------------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS Classe_Ferramenta (
+    idClasse INT NOT NULL,
+    idFerramenta INT NOT NULL
+);
+-- PK
+ALTER TABLE Classe_Ferramenta ADD CONSTRAINT PK_CLASSE_FERRAMENTA PRIMARY KEY(idClasse, idFerramenta);
+-- FK
+ALTER TABLE Classe_Ferramenta ADD CONSTRAINT FK_CLASSE_FERRAMENTA_CLASSE FOREIGN KEY(idClasse) REFERENCES Classe(idClasse);
+ALTER TABLE Classe_Ferramenta ADD CONSTRAINT FK_CLASSE_FERRAMENTA_FERRAMENTA FOREIGN KEY(idFerramenta) REFERENCES Ferramenta(idFerramenta);
+
+-- ----------------------------------------------------------------------------------------------------
+-- Classe concede proficiencia em Pericia ------------------------------------------------------------
+-- ----------------------------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS Classe_Pericia (
+    idClasse INT NOT NULL,
+    idPericia INT NOT NULL
+);
+-- PK
+ALTER TABLE Classe_Pericia ADD CONSTRAINT PK_CLASSE_PERICIA PRIMARY KEY(idClasse, idPericia);
+-- FK
+ALTER TABLE Classe_Pericia ADD CONSTRAINT FK_CLASSE_PERICIA_CLASSE FOREIGN KEY(idClasse) REFERENCES Classe(idClasse);
+ALTER TABLE Classe_Pericia ADD CONSTRAINT FK_CLASSE_PERICIA_PERICIA FOREIGN KEY(idPericia) REFERENCES Pericia(idPericia);
+
+-- ----------------------------------------------------------------------------------------------------
+-- Classe concede proficiencia em Save de Atributo ----------------------------------------------------
+-- ----------------------------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS Classe_Atributo (
+    idClasse INT NOT NULL,
+    idAtributo INT NOT NULL
+);
+-- PK
+ALTER TABLE Classe_Atributo ADD CONSTRAINT PK_CLASSE_ATRIBUTO PRIMARY KEY(idClasse, idAtributo);
+-- FK
+ALTER TABLE Classe_Atributo ADD CONSTRAINT FK_CLASSE_ATRIBUTO_CLASSE FOREIGN KEY(idClasse) REFERENCES Classe(idClasse);
+ALTER TABLE Classe_Atributo ADD CONSTRAINT FK_CLASSE_ATRIBUTO_ATRIBUTO FOREIGN KEY(idAtributo) REFERENCES Atributo(idAtributo);
+
+-- ----------------------------------------------------------------------------------------------------
+-- Classe_OpcaoEquipamentosIniciais -------------------------------------------------------------------
+-- ----------------------------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS Classe_OpcaoEquipamentosIniciais (
+	idClasse INT NOT NULL,
+	idOpcaoEquipamentosIniciais INT NOT NULL
+);
+-- PK
+ALTER TABLE Classe_OpcaoEquipamentosIniciais ADD CONSTRAINT PK_CLASSE_OPCAOEQUIPINI PRIMARY KEY(idClasse, idOpcaoEquipamentosIniciais);
+-- FK
+ALTER TABLE Classe_OpcaoEquipamentosIniciais ADD CONSTRAINT FK_CLASSE_OPCAOEQUIPINI_CLASSE FOREIGN KEY(idClasse) REFERENCES Classe(idClasse);
+ALTER TABLE Classe_OpcaoEquipamentosIniciais ADD CONSTRAINT FK_CLASSE_OPCAOEQUIPINI_OPCAOEQUIPINI FOREIGN KEY(idOpcaoEquipamentosIniciais) REFERENCES OpcaoEquipamentosIniciais(idOpcaoEquipamentosIniciais);
+
+-- ----------------------------------------------------------------------------------------------------
+-- Classe concede Feature -----------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS Classe_Feature (
+    idClasse INT NOT NULL,
+    idFeature INT NOT NULL
+);
+-- PK
+ALTER TABLE Classe_Feature ADD CONSTRAINT PK_CLASSE_FEATURE PRIMARY KEY(idClasse, idFeature);
+-- FK
+ALTER TABLE Classe_Feature ADD CONSTRAINT FK_CLASSE_FEATURE_CLASSE FOREIGN KEY(idClasse) REFERENCES Classe(idClasse);
+ALTER TABLE Classe_Feature ADD CONSTRAINT FK_CLASSE_FEATURE_FEATURE FOREIGN KEY(idFeature) REFERENCES Feature(idFeature);
+
+-- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 -- ----------------------------------------------------------------------------------------------------
 -- Imagem de SubClasse --------------------------------------------------------------------------------
@@ -452,6 +673,19 @@ ALTER TABLE SubClasse CHANGE COLUMN idSubClasse idSubClasse INT NOT NULL AUTO_IN
 ALTER TABLE SubClasse ADD CONSTRAINT FK_SUBCLASSE_CLASSE FOREIGN KEY(idClasse) REFERENCES Classe(idClasse);
 ALTER TABLE SubClasse ADD CONSTRAINT FK_SUBCLASSE_IMAGEMSUBCLASSE FOREIGN KEY(idImagemSubClasse) REFERENCES ImagemSubClasse(idImagemSubClasse);
 
+-- ----------------------------------------------------------------------------------------------------
+-- SubClasse concede Feature --------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS SubClasse_Feature (
+    idSubClasse INT NOT NULL,
+    idFeature INT NOT NULL
+);
+-- PK
+ALTER TABLE SubClasse_Feature ADD CONSTRAINT PK_SUBCLASSE_FEATURE PRIMARY KEY(idSubClasse, idFeature);
+-- FK
+ALTER TABLE SubClasse_Feature ADD CONSTRAINT FK_SUBCLASSE_FEATURE_CLASSE FOREIGN KEY(idSubClasse) REFERENCES SubClasse(idSubClasse);
+ALTER TABLE SubClasse_Feature ADD CONSTRAINT FK_SUBCLASSE_FEATURE_FEATURE FOREIGN KEY(idFeature) REFERENCES Feature(idFeature);
+
 -- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -482,11 +716,13 @@ CREATE TABLE IF NOT EXISTS Raca (
     nomeRaca VARCHAR(50) NOT NULL UNIQUE,
     descricaoRaca VARCHAR(400) NOT NULL,
     valorBuffAtributoRaca INT NOT NULL,
+    idAtributoBuffadoRaca INT NOT NULL,
     idadeMaxRaca INT NOT NULL,
     tamanhoRaca VARCHAR(20) NOT NULL,
     velocidadeRaca INT NOT NULL,
+    quantLinguagensRaca INT NOT NULL,
     quantFeaturesRaca INT NOT NULL,
-    quantIdiomasRaca INT NOT NULL,
+    
     
     dataCriacaoRaca DATE NOT NULL,
     racaAtiva TINYINT(1) NOT NULL DEFAULT 1
@@ -496,6 +732,35 @@ ALTER TABLE Raca ADD CONSTRAINT PK_RACA PRIMARY KEY(idRaca);
 ALTER TABLE Raca CHANGE COLUMN idRaca idRaca INT NOT NULL AUTO_INCREMENT;
 -- FK
 ALTER TABLE Raca ADD CONSTRAINT FK_RACA_IMAGEMRACA FOREIGN KEY(idImagemRaca) REFERENCES ImagemRaca(idImagemRaca);
+
+-- ----------------------------------------------------------------------------------------------------
+-- Raça concede proficiencia em Linguagem ----------------------------------------------------------
+-- ----------------------------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS Raca_Linguagem (
+    idRaca INT NOT NULL,
+    idLinguagem INT NOT NULL
+);
+-- PK
+ALTER TABLE Raca_Linguagem ADD CONSTRAINT PK_RACA_LINGUAGEM PRIMARY KEY(idRaca, idLinguagem);
+-- FK
+ALTER TABLE Raca_Linguagem ADD CONSTRAINT FK_RACA_LINGUAGEM_RACA FOREIGN KEY(idRaca) REFERENCES Raca(idRaca);
+ALTER TABLE Raca_Linguagem ADD CONSTRAINT FK_RACA_LINGUAGEM_LINGUAGEM FOREIGN KEY(idLinguagem) REFERENCES Linguagem(idLinguagem);
+
+-- ----------------------------------------------------------------------------------------------------
+-- Raça concede Feature -------------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS Raca_Feature (
+    idRaca INT NOT NULL,
+    idFeature INT NOT NULL
+);
+-- PK
+ALTER TABLE Raca_Feature ADD CONSTRAINT PK_RACA_FEATURE PRIMARY KEY(idRaca, idFeature);
+-- FK
+ALTER TABLE Raca_Feature ADD CONSTRAINT FK_RACA_FEATURE_RACA FOREIGN KEY(idRaca) REFERENCES Raca(idRaca);
+ALTER TABLE Raca_Feature ADD CONSTRAINT FK_RACA_FEATURE_FEATURE FOREIGN KEY(idFeature) REFERENCES Feature(idFeature);
+
+-- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 -- ----------------------------------------------------------------------------------------------------
 -- Imagem de SubRaça ----------------------------------------------------------------------------------
@@ -525,6 +790,7 @@ CREATE TABLE IF NOT EXISTS SubRaca (
     nomeSubRaca VARCHAR(50) NOT NULL UNIQUE,
     descricaoSubRaca VARCHAR(400) NOT NULL,
     valorBuffAtributoSubRaca INT NOT NULL,
+    idAtributoBuffadoSubRaca INT NOT NULL,
     quantFeaturesSubRaca INT NOT NULL,
     
     dataCriacaoSubRaca DATE NOT NULL,
@@ -536,6 +802,19 @@ ALTER TABLE SubRaca CHANGE COLUMN idSubRaca idSubRaca INT NOT NULL AUTO_INCREMEN
 -- FK
 ALTER TABLE SubRaca ADD CONSTRAINT FK_SUBRACA_RACA FOREIGN KEY(idRaca) REFERENCES Raca(idRaca);
 ALTER TABLE SubRaca ADD CONSTRAINT FK_SUBRACA_IMAGEMSUBRACA FOREIGN KEY(idImagemSubRaca) REFERENCES ImagemSubRaca(idImagemSubRaca);
+
+-- ----------------------------------------------------------------------------------------------------
+-- SubRaça concede Feature -------------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS SubRaca_Feature (
+    idSubRaca INT NOT NULL,
+    idFeature INT NOT NULL
+);
+-- PK
+ALTER TABLE SubRaca_Feature ADD CONSTRAINT PK_SUBRACA_FEATURE PRIMARY KEY(idSubRaca, idFeature);
+-- FK
+ALTER TABLE SubRaca_Feature ADD CONSTRAINT FK_SUBRACA_FEATURE_SUBRACA FOREIGN KEY(idSubRaca) REFERENCES SubRaca(idSubRaca);
+ALTER TABLE SubRaca_Feature ADD CONSTRAINT FK_SUBRACA_FEATURE_FEATURE FOREIGN KEY(idFeature) REFERENCES Feature(idFeature);
 
 -- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -567,7 +846,7 @@ CREATE TABLE IF NOT EXISTS Background (
     nomeBackground VARCHAR(50) NOT NULL UNIQUE,
     descricaoBackground VARCHAR(400) NOT NULL,
     dinheiroInicialBackground INT NULL,
-    quantEquipamentosIniciaisBackground INT NOT NULL,
+    quantOpcoesEquipamentosIniciaisBackground INT NOT NULL,
     quantLinguagensIniciaisBackground INT NOT NULL,
     quantProficienciasFerramentasBackground INT NOT NULL,
     quantProficienciasPericiasBackground INT NOT NULL,
@@ -581,6 +860,71 @@ ALTER TABLE Background ADD CONSTRAINT PK_BACKGROUND PRIMARY KEY(idBackground);
 ALTER TABLE Background CHANGE COLUMN idBackground idBackground INT NOT NULL AUTO_INCREMENT;
 -- FK
 ALTER TABLE Background ADD CONSTRAINT FK_BACKGROUND_IMAGEMBACKGROUND FOREIGN KEY(idImagemBackground) REFERENCES ImagemBackground(idImagemBackground);
+
+-- ----------------------------------------------------------------------------------------------------
+-- Background_OpcaoEquipamentosIniciais ------------------------------------------------------
+-- ----------------------------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS Background_OpcaoEquipamentosIniciais (
+	idBackground INT NOT NULL,
+	idOpcaoEquipamentosIniciais INT NOT NULL
+);
+-- PK
+ALTER TABLE Background_OpcaoEquipamentosIniciais ADD CONSTRAINT PK_BACKGROUND_OPCAOEQUIPINI PRIMARY KEY(idBackground, idOpcaoEquipamentosIniciais);
+-- FK
+ALTER TABLE Background_OpcaoEquipamentosIniciais ADD CONSTRAINT FK_BACKGROUND_OPCAOEQUIPINI_BACKGROUND FOREIGN KEY(idBackground) REFERENCES Background(idBackground);
+ALTER TABLE Background_OpcaoEquipamentosIniciais ADD CONSTRAINT FK_BACKGROUND_OPCAOEQUIPINI_OPCAOEQUIPINI FOREIGN KEY(idOpcaoEquipamentosIniciais) REFERENCES OpcaoEquipamentosIniciais(idOpcaoEquipamentosIniciais);
+
+-- ----------------------------------------------------------------------------------------------------
+-- Background concede proficiencia em Linguagem -------------------------------------------------------
+-- ----------------------------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS Background_Linguagem (
+    idBackground INT NOT NULL,
+    idLinguagem INT NOT NULL
+);
+-- PK
+ALTER TABLE Background_Linguagem ADD CONSTRAINT PK_BACKGROUND_LINGUAGEM PRIMARY KEY(idBackground, idLinguagem);
+-- FK
+ALTER TABLE Background_Linguagem ADD CONSTRAINT FK_BACKGROUND_LINGUAGEM_BACKGROUND FOREIGN KEY(idBackground) REFERENCES Background(idBackground);
+ALTER TABLE Background_Linguagem ADD CONSTRAINT FK_BACKGROUND_LINGUAGEM_LINGUAGEM FOREIGN KEY(idLinguagem) REFERENCES Linguagem(idLinguagem);
+
+-- ----------------------------------------------------------------------------------------------------
+-- Background concede proficiencia em Ferramenta ------------------------------------------------------
+-- ----------------------------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS Background_Ferramenta (
+    idBackground INT NOT NULL,
+    idFerramenta INT NOT NULL
+);
+-- PK
+ALTER TABLE Background_Ferramenta ADD CONSTRAINT PK_BACKGROUND_FERRAMENTA PRIMARY KEY(idBackground, idFerramenta);
+-- FK
+ALTER TABLE Background_Ferramenta ADD CONSTRAINT FK_BACKGROUND_FERRAMENTA_BACKGROUND FOREIGN KEY(idBackground) REFERENCES Background(idBackground);
+ALTER TABLE Background_Ferramenta ADD CONSTRAINT FK_BACKGROUND_FERRAMENTA_FERRAMENTA FOREIGN KEY(idFerramenta) REFERENCES Ferramenta(idFerramenta);
+
+-- ----------------------------------------------------------------------------------------------------
+-- Background concede proficiencia em Pericia ---------------------------------------------------------
+-- ----------------------------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS Background_Pericia (
+    idBackground INT NOT NULL,
+    idPericia INT NOT NULL
+);
+-- PK
+ALTER TABLE Background_Pericia ADD CONSTRAINT PK_BACKGROUND_PERICIA PRIMARY KEY(idBackground, idPericia);
+-- FK
+ALTER TABLE Background_Pericia ADD CONSTRAINT FK_BACKGROUND_PERICIA_BACKGROUND FOREIGN KEY(idBackground) REFERENCES Background(idBackground);
+ALTER TABLE Background_Pericia ADD CONSTRAINT FK_BACKGROUND_PERICIA_PERICIA FOREIGN KEY(idPericia) REFERENCES Pericia(idPericia);
+
+-- ----------------------------------------------------------------------------------------------------
+-- Background concede Feature -------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS Background_Feature (
+    idBackground INT NOT NULL,
+    idFeature INT NOT NULL
+);
+-- PK
+ALTER TABLE Background_Feature ADD CONSTRAINT PK_BACKGROUND_FEATURE PRIMARY KEY(idBackground, idFeature);
+-- FK
+ALTER TABLE Background_Feature ADD CONSTRAINT FK_BACKGROUND_FEATURE_BACKGROUND FOREIGN KEY(idBackground) REFERENCES Background(idBackground);
+ALTER TABLE Background_Feature ADD CONSTRAINT FK_BACKGROUND_FEATURE_FEATURE FOREIGN KEY(idFeature) REFERENCES Feature(idFeature);
 
 -- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -706,337 +1050,6 @@ ALTER TABLE Personagem ADD CONSTRAINT FK_PERSONAGEM_IMAGEMPERSONAGEM FOREIGN KEY
 ALTER TABLE Personagem ADD CONSTRAINT FK_PERSONAGEM_SUBCLASSE FOREIGN KEY(idSubclassePersonagem, idClassePersonagem) REFERENCES SubClasse(idSubClasse, idClasse);
 ALTER TABLE Personagem ADD CONSTRAINT FK_PERSONAGEM_SUBRACA_RACA FOREIGN KEY(idSubracaPersonagem, idRacaPersonagem) REFERENCES SubRaca(idSubRaca, idRaca);
 ALTER TABLE Personagem ADD CONSTRAINT FK_PERSONAGEM_BACKGROUND FOREIGN KEY(idBackgroundPersonagem) REFERENCES Background(idBackground);
-
--- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
--- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
--- ----------------------------------------------------------------------------------------------------
--- Background_Armadura --------------------------------------------------------------------------------
--- ----------------------------------------------------------------------------------------------------
-CREATE TABLE IF NOT EXISTS Background_Armadura (
-	idBackground INT NOT NULL,
-    idArmadura INT NOT NULL
-);
--- PK
-ALTER TABLE Background_Armadura ADD CONSTRAINT PK_BACKGROUND_ARMADURA PRIMARY KEY(idBackground, idArmadura);
--- FK
-ALTER TABLE Background_Armadura ADD CONSTRAINT FK_BACKGROUND_ARMADURA_BACKGROUND FOREIGN KEY(idBackground) REFERENCES Background(idBackground);
-ALTER TABLE Background_Armadura ADD CONSTRAINT FK_BACKGROUND_ARMADURA_ARMADURA FOREIGN KEY(idArmadura) REFERENCES Armadura(idArmadura);
-
--- ----------------------------------------------------------------------------------------------------
--- Background_Feature ---------------------------------------------------------------------------------
--- ----------------------------------------------------------------------------------------------------
-CREATE TABLE IF NOT EXISTS Background_Feature (
-	idBackground INT NOT NULL,
-    idFeature INT NOT NULL
-);
--- PK
-ALTER TABLE Background_Feature ADD CONSTRAINT PK_BACKGROUND_FEATURE PRIMARY KEY(idBackground, idFeature);
--- FK
-ALTER TABLE Background_Feature ADD CONSTRAINT FK_BACKGROUND_FEATURE_BACKGROUND FOREIGN KEY(idBackground) REFERENCES Background(idBackground);
-ALTER TABLE Background_Feature ADD CONSTRAINT FK_BACKGROUND_FEATURE_FEATURE FOREIGN KEY(idFeature) REFERENCES Feature(idFeature);
-
--- ----------------------------------------------------------------------------------------------------
--- Background_Ferramenta ------------------------------------------------------------------------------
--- ----------------------------------------------------------------------------------------------------
-CREATE TABLE IF NOT EXISTS Background_Ferramenta (
-	idBackground INT NOT NULL,
-    idFerramenta INT NOT NULL
-);
--- PK
-ALTER TABLE Background_Ferramenta ADD CONSTRAINT PK_BACKGROUND_FERRAMENTA PRIMARY KEY(idBackground, idFerramenta);
--- FK
-ALTER TABLE Background_Ferramenta ADD CONSTRAINT FK_BACKGROUND_FERRAMENTA_BACKGROUND FOREIGN KEY(idBackground) REFERENCES Background(idBackground);
-ALTER TABLE Background_Ferramenta ADD CONSTRAINT FK_BACKGROUND_FERRAMENTA_FERRAMENTA FOREIGN KEY(idFerramenta) REFERENCES Ferramenta(idFerramenta);
-
--- ----------------------------------------------------------------------------------------------------
--- Background_Linguagem -------------------------------------------------------------------------------
--- ----------------------------------------------------------------------------------------------------
-CREATE TABLE IF NOT EXISTS Background_Linguagem (
-	idBackground INT NOT NULL,
-    idLinguagem INT NOT NULL
-);
--- PK
-ALTER TABLE Background_Linguagem ADD CONSTRAINT PK_BACKGROUND_LINGUAGEM PRIMARY KEY(idBackground, idLinguagem);
--- FK
-ALTER TABLE Background_Linguagem ADD CONSTRAINT FK_BACKGROUND_LINGUAGEM_BACKGROUND FOREIGN KEY(idBackground) REFERENCES Background(idBackground);
-ALTER TABLE Background_Linguagem ADD CONSTRAINT FK_BACKGROUND_LINGUAGEM_LINGUAGEM FOREIGN KEY(idLinguagem) REFERENCES Linguagem(idLinguagem);
-
--- ----------------------------------------------------------------------------------------------------
--- Background_Pericia ---------------------------------------------------------------------------------
--- ----------------------------------------------------------------------------------------------------
-CREATE TABLE IF NOT EXISTS Background_Pericia (
-	idBackground INT NOT NULL,
-    idPericia INT NOT NULL
-);
--- PK
-ALTER TABLE Background_Pericia ADD CONSTRAINT PK_BACKGROUND_PERICIA PRIMARY KEY(idBackground, idPericia);
--- FK
-ALTER TABLE Background_Pericia ADD CONSTRAINT FK_BACKGROUND_PERICIA_BACKGROUND FOREIGN KEY(idBackground) REFERENCES Background(idBackground);
-ALTER TABLE Background_Pericia ADD CONSTRAINT FK_BACKGROUND_PERICIA_PERICIA FOREIGN KEY(idPericia) REFERENCES Pericia(idPericia);
-
--- ----------------------------------------------------------------------------------------------------
--- Classe_Arma ----------------------------------------------------------------------------------------
--- ----------------------------------------------------------------------------------------------------
-CREATE TABLE IF NOT EXISTS Classe_Arma (
-	idClasse INT NOT NULL,
-    idArma INT NOT NULL
-);
--- PK
-ALTER TABLE Classe_Arma ADD CONSTRAINT PK_CLASSE_ARMA PRIMARY KEY(idClasse, idArma);
--- FK
-ALTER TABLE Classe_Arma ADD CONSTRAINT FK_CLASSE_ARMA_CLASSE FOREIGN KEY(idClasse) REFERENCES Classe(idClasse);
-ALTER TABLE Classe_Arma ADD CONSTRAINT FK_CLASSE_ARMA_ARMA FOREIGN KEY(idArma) REFERENCES Arma(idArma);
-
--- ----------------------------------------------------------------------------------------------------
--- Classe_Armadura ------------------------------------------------------------------------------------
--- ----------------------------------------------------------------------------------------------------
-CREATE TABLE IF NOT EXISTS Classe_Armadura (
-	idClasse INT NOT NULL,
-    idArmadura INT NOT NULL
-);
--- PK
-ALTER TABLE Classe_Armadura ADD CONSTRAINT PK_CLASSE_ARMADURA PRIMARY KEY(idClasse, idArmadura);
--- FK
-ALTER TABLE Classe_Armadura ADD CONSTRAINT FK_CLASSE_ARMADURA_CLASSE FOREIGN KEY(idClasse) REFERENCES Classe(idClasse);
-ALTER TABLE Classe_Armadura ADD CONSTRAINT FK_CLASSE_ARMADURA_ARMADURA FOREIGN KEY(idArmadura) REFERENCES Armadura(idArmadura);
-
--- ----------------------------------------------------------------------------------------------------
--- Classe_Atributo ------------------------------------------------------------------------------------
--- ----------------------------------------------------------------------------------------------------
-CREATE TABLE IF NOT EXISTS Classe_Atributo (
-	idClasse INT NOT NULL,
-    idAtributo INT NOT NULL
-);
--- PK
-ALTER TABLE Classe_Atributo ADD CONSTRAINT PK_CLASSE_ATRIBUTO PRIMARY KEY(idClasse, idAtributo);
--- FK
-ALTER TABLE Classe_Atributo ADD CONSTRAINT FK_CLASSE_ATRIBUTO_CLASSE FOREIGN KEY(idClasse) REFERENCES Classe(idClasse);
-ALTER TABLE Classe_Atributo ADD CONSTRAINT FK_CLASSE_ATRIBUTO_ATRIBUTO FOREIGN KEY(idAtributo) REFERENCES Atributo(idAtributo);
-
--- ----------------------------------------------------------------------------------------------------
--- Classe_Equipamento -------------------------------------------------------------------------------------
--- ----------------------------------------------------------------------------------------------------
-CREATE TABLE IF NOT EXISTS Classe_Equipamento (
-	idClasse INT NOT NULL,
-    idFeature INT NOT NULL
-);
--- PK
-ALTER TABLE Classe_Feature ADD CONSTRAINT PK_CLASSE_FEATURE PRIMARY KEY(idClasse, idFeature);
--- FK
-ALTER TABLE Classe_Feature ADD CONSTRAINT FK_CLASSE_FEATURE_CLASSE FOREIGN KEY(idClasse) REFERENCES Classe(idClasse);
-ALTER TABLE Classe_Feature ADD CONSTRAINT FK_CLASSE_FEATURE_FEATURE FOREIGN KEY(idFeature) REFERENCES Feature(idFeature);
-
--- ----------------------------------------------------------------------------------------------------
--- Classe_Feature -------------------------------------------------------------------------------------
--- ----------------------------------------------------------------------------------------------------
-CREATE TABLE IF NOT EXISTS Classe_Feature (
-	idClasse INT NOT NULL,
-    idFeature INT NOT NULL
-);
--- PK
-ALTER TABLE Classe_Feature ADD CONSTRAINT PK_CLASSE_FEATURE PRIMARY KEY(idClasse, idFeature);
--- FK
-ALTER TABLE Classe_Feature ADD CONSTRAINT FK_CLASSE_FEATURE_CLASSE FOREIGN KEY(idClasse) REFERENCES Classe(idClasse);
-ALTER TABLE Classe_Feature ADD CONSTRAINT FK_CLASSE_FEATURE_FEATURE FOREIGN KEY(idFeature) REFERENCES Feature(idFeature);
-
--- ----------------------------------------------------------------------------------------------------
--- Classe_Ferramenta ----------------------------------------------------------------------------------
--- ----------------------------------------------------------------------------------------------------
-CREATE TABLE IF NOT EXISTS Classe_Ferramenta (
-	idClasse INT NOT NULL,
-    idFerramenta INT NOT NULL
-);
--- PK
-ALTER TABLE Classe_Ferramenta ADD CONSTRAINT PK_CLASSE_FERRAMENTA PRIMARY KEY(idClasse, idFerramenta);
--- FK
-ALTER TABLE Classe_Ferramenta ADD CONSTRAINT FK_CLASSE_FERRAMENTA_CLASSE FOREIGN KEY(idClasse) REFERENCES Classe(idClasse);
-ALTER TABLE Classe_Ferramenta ADD CONSTRAINT FK_CLASSE_FERRAMENTA_FERRAMENTA FOREIGN KEY(idFerramenta) REFERENCES Ferramenta(idFerramenta);
-
--- ----------------------------------------------------------------------------------------------------
--- Classe_Pericia -------------------------------------------------------------------------------------
--- ----------------------------------------------------------------------------------------------------
-CREATE TABLE IF NOT EXISTS Classe_Pericia (
-	idClasse INT NOT NULL,
-    idPericia INT NOT NULL
-);
--- PK
-ALTER TABLE Classe_Pericia ADD CONSTRAINT PK_CLASSE_PERICIA PRIMARY KEY(idClasse, idPericia);
--- FK
-ALTER TABLE Classe_Pericia ADD CONSTRAINT FK_CLASSE_PERICIA_CLASSE FOREIGN KEY(idClasse) REFERENCES Classe(idClasse);
-ALTER TABLE Classe_Pericia ADD CONSTRAINT FK_CLASSE_PERICIA_PERICIA FOREIGN KEY(idPericia) REFERENCES Pericia(idPericia);
-
--- ----------------------------------------------------------------------------------------------------
--- Classe_Spell ------------------------------------------------------------------------------------
--- ----------------------------------------------------------------------------------------------------
-CREATE TABLE IF NOT EXISTS Classe_Spell (
-	idClasse INT NOT NULL,
-    idSpell INT NOT NULL
-);
--- PK
-ALTER TABLE Classe_Spell ADD CONSTRAINT PK_CLASSE_SPELL PRIMARY KEY(idClasse, idSpell);
--- FK
-ALTER TABLE Classe_Spell ADD CONSTRAINT FK_CLASSE_SPELL_CLASSE FOREIGN KEY(idClasse) REFERENCES Classe(idClasse);
-ALTER TABLE Classe_Spell ADD CONSTRAINT FK_CLASSE_SPELL_SPELL FOREIGN KEY(idSpell) REFERENCES Spell(idSpell);
-
--- ----------------------------------------------------------------------------------------------------
--- Feature_Arma ---------------------------------------------------------------------------------------
--- ----------------------------------------------------------------------------------------------------
-CREATE TABLE IF NOT EXISTS Feature_Arma (
-	idFeature INT NOT NULL,
-    idArma INT NOT NULL
-);
--- PK
-ALTER TABLE Feature_Arma ADD CONSTRAINT PK_FEATURE_ARMA PRIMARY KEY(idFeature, idArma);
--- FK
-ALTER TABLE Feature_Arma ADD CONSTRAINT FK_FEATURE_ARMA_FEATURE FOREIGN KEY(idFeature) REFERENCES Feature(idFeature);
-ALTER TABLE Feature_Arma ADD CONSTRAINT FK_FEATURE_ARMA_ARMA FOREIGN KEY(idArma) REFERENCES Arma(idArma);
-
--- ----------------------------------------------------------------------------------------------------
--- Feature_Armadura -----------------------------------------------------------------------------------
--- ----------------------------------------------------------------------------------------------------
-CREATE TABLE IF NOT EXISTS Feature_Armadura (
-	idFeature INT NOT NULL,
-    idArmadura INT NOT NULL
-);
--- PK
-ALTER TABLE Feature_Armadura ADD CONSTRAINT PK_FEATURE_ARMADURA PRIMARY KEY(idFeature, idArmadura);
--- FK
-ALTER TABLE Feature_Armadura ADD CONSTRAINT FK_FEATURE_ARMADURA_FEATURE FOREIGN KEY(idFeature) REFERENCES Feature(idFeature);
-ALTER TABLE Feature_Armadura ADD CONSTRAINT FK_FEATURE_ARMADURA_ARMADURA FOREIGN KEY(idArmadura) REFERENCES Armadura(idArmadura);
-
--- ----------------------------------------------------------------------------------------------------
--- Feature_Atributo -----------------------------------------------------------------------------------
--- ----------------------------------------------------------------------------------------------------
-CREATE TABLE IF NOT EXISTS Feature_Atributo (
-	idFeature INT NOT NULL,
-    idAtributo INT NOT NULL
-);
--- PK
-ALTER TABLE Feature_Atributo ADD CONSTRAINT PK_FEATURE_ATRIBUTO PRIMARY KEY(idFeature, idAtributo);
--- FK
-ALTER TABLE Feature_Atributo ADD CONSTRAINT FK_FEATURE_ATRIBUTO_FEATURE FOREIGN KEY(idFeature) REFERENCES Feature(idFeature);
-ALTER TABLE Feature_Atributo ADD CONSTRAINT FK_FEATURE_ATRIBUTO_ATRIBUTO FOREIGN KEY(idAtributo) REFERENCES Atributo(idAtributo);
-
--- ----------------------------------------------------------------------------------------------------
--- Feature_Ferramenta ---------------------------------------------------------------------------------
--- ----------------------------------------------------------------------------------------------------
-CREATE TABLE IF NOT EXISTS Feature_Ferramenta (
-	idFeature INT NOT NULL,
-    idFerramenta INT NOT NULL
-);
--- PK
-ALTER TABLE Feature_Ferramenta ADD CONSTRAINT PK_FEATURE_FERRAMENTA PRIMARY KEY(idFeature, idFerramenta);
--- FK
-ALTER TABLE Feature_Ferramenta ADD CONSTRAINT FK_FEATURE_FERRAMENTA_FEATURE FOREIGN KEY(idFeature) REFERENCES Feature(idFeature);
-ALTER TABLE Feature_Ferramenta ADD CONSTRAINT FK_FEATURE_FERRAMENTA_FERRAMENTA FOREIGN KEY(idFerramenta) REFERENCES Ferramenta(idFerramenta);
-
--- ----------------------------------------------------------------------------------------------------
--- Feature_Linguagem ----------------------------------------------------------------------------------
--- ----------------------------------------------------------------------------------------------------
-CREATE TABLE IF NOT EXISTS Feature_Linguagem (
-	idFeature INT NOT NULL,
-    idLinguagem INT NOT NULL
-);
--- PK
-ALTER TABLE Feature_Linguagem ADD CONSTRAINT PK_FEATURE_LINGUAGEM PRIMARY KEY(idFeature, idLinguagem);
--- FK
-ALTER TABLE Feature_Linguagem ADD CONSTRAINT FK_FEATURE_LINGUAGEM_FEATURE FOREIGN KEY(idFeature) REFERENCES Feature(idFeature);
-ALTER TABLE Feature_Linguagem ADD CONSTRAINT FK_FEATURE_LINGUAGEM_LINGUAGEM FOREIGN KEY(idLinguagem) REFERENCES Linguagem(idLinguagem);
-
--- ----------------------------------------------------------------------------------------------------
--- Feature_Pericia ------------------------------------------------------------------------------------
--- ----------------------------------------------------------------------------------------------------
-CREATE TABLE IF NOT EXISTS Feature_Pericia (
-	idFeature INT NOT NULL,
-    idPericia INT NOT NULL
-);
--- PK
-ALTER TABLE Feature_Pericia ADD CONSTRAINT PK_FEATURE_PERICIA PRIMARY KEY(idFeature, idPericia);
--- FK
-ALTER TABLE Feature_Pericia ADD CONSTRAINT FK_FEATURE_PERICIA_FEATURE FOREIGN KEY(idFeature) REFERENCES Feature(idFeature);
-ALTER TABLE Feature_Pericia ADD CONSTRAINT FK_FEATURE_PERICIA_PERICIA FOREIGN KEY(idPericia) REFERENCES Pericia(idPericia);
-
--- ----------------------------------------------------------------------------------------------------
--- Feature_Spell --------------------------------------------------------------------------------------
--- ----------------------------------------------------------------------------------------------------
-CREATE TABLE IF NOT EXISTS Feature_Spell (
-	idFeature INT NOT NULL,
-    idSpell INT NOT NULL
-);
--- PK
-ALTER TABLE Feature_Spell ADD CONSTRAINT PK_FEATURE_SPELL PRIMARY KEY(idFeature, idSpell);
--- FK
-ALTER TABLE Feature_Spell ADD CONSTRAINT FK_FEATURE_SPELL_FEATURE FOREIGN KEY(idFeature) REFERENCES Feature(idFeature);
-ALTER TABLE Feature_Spell ADD CONSTRAINT FK_FEATURE_SPELL_SPELL FOREIGN KEY(idSpell) REFERENCES Spell(idSpell);
-
--- ----------------------------------------------------------------------------------------------------
--- Raça_Atributo --------------------------------------------------------------------------------------
--- ----------------------------------------------------------------------------------------------------
-CREATE TABLE IF NOT EXISTS Raca_Atributo (
-	idRaca INT NOT NULL,
-    idAtributo INT NOT NULL
-);
--- PK
-ALTER TABLE Raca_Atributo ADD CONSTRAINT PK_RACA_ATRIBUTO PRIMARY KEY(idRaca, idAtributo);
--- FK
-ALTER TABLE Raca_Atributo ADD CONSTRAINT FK_RACA_ATRIBUTO_RACA FOREIGN KEY(idRaca) REFERENCES Raca(idRaca);
-ALTER TABLE Raca_Atributo ADD CONSTRAINT FK_RACA_ATRIBUTO_ATRIBUTO FOREIGN KEY(idAtributo) REFERENCES Atributo(idAtributo);
-
--- ----------------------------------------------------------------------------------------------------
--- Raça_Feature ---------------------------------------------------------------------------------------
--- ----------------------------------------------------------------------------------------------------
-CREATE TABLE IF NOT EXISTS Raca_Feature (
-	idRaca INT NOT NULL,
-    idFeature INT NOT NULL
-);
--- PK
-ALTER TABLE Raca_Feature ADD CONSTRAINT PK_RACA_FEATURE PRIMARY KEY(idRaca, idFeature);
--- FK
-ALTER TABLE Raca_Feature ADD CONSTRAINT FK_RACA_FEATURE_RACA FOREIGN KEY(idRaca) REFERENCES Raca(idRaca);
-ALTER TABLE Raca_Feature ADD CONSTRAINT FK_RACA_FEATURE_FEATURE FOREIGN KEY(idFeature) REFERENCES Feature(idFeature);
-
--- ----------------------------------------------------------------------------------------------------
--- SubClasse_Feature ----------------------------------------------------------------------------------
--- ----------------------------------------------------------------------------------------------------
-CREATE TABLE IF NOT EXISTS SubClasse_Feature (
-	idSubClasse INT NOT NULL,
-	idClasse INT NOT NULL,
-    idFeature INT NOT NULL
-);
--- PK
-ALTER TABLE SubClasse_Feature ADD CONSTRAINT PK_SUBCLASSE_FEATURE PRIMARY KEY(idSubClasse, idClasse, idFeature);
--- FK
-ALTER TABLE SubClasse_Feature ADD CONSTRAINT FK_SUBCLASSE_FEATURE_SUBCLASSE FOREIGN KEY(idSubClasse, idClasse) REFERENCES SubClasse(idSubClasse, idClasse);
-ALTER TABLE SubClasse_Feature ADD CONSTRAINT FK_SUBCLASSE_FEATURE_FEATURE FOREIGN KEY(idFeature) REFERENCES Feature(idFeature);
-
--- ----------------------------------------------------------------------------------------------------
--- SubRaça_Atributo --------------------------------------------------------------------------------------
--- ----------------------------------------------------------------------------------------------------
-CREATE TABLE IF NOT EXISTS SubRaca_Atributo (
-	idSubRaca INT NOT NULL,
-	idRaca INT NOT NULL,
-    idAtributo INT NOT NULL
-);
--- PK
-ALTER TABLE SubRaca_Atributo ADD CONSTRAINT PK_SUBRACA_ATRIBUTO PRIMARY KEY(idSubRaca, idRaca, idAtributo);
--- FK
-ALTER TABLE SubRaca_Atributo ADD CONSTRAINT FK_SUBRACA_ATRIBUTO_RACA FOREIGN KEY(idSubRaca, idRaca) REFERENCES SubRaca(idSubRaca, idRaca);
-ALTER TABLE SubRaca_Atributo ADD CONSTRAINT FK_SUBRACA_ATRIBUTO_ATRIBUTO FOREIGN KEY(idAtributo) REFERENCES Atributo(idAtributo);
-
--- ----------------------------------------------------------------------------------------------------
--- SubRaça_Feature ---------------------------------------------------------------------------------------
--- ----------------------------------------------------------------------------------------------------
-CREATE TABLE IF NOT EXISTS SubRaca_Feature (
-	idSubRaca INT NOT NULL,
-	idRaca INT NOT NULL,
-    idFeature INT NOT NULL
-);
--- PK
-ALTER TABLE SubRaca_Feature ADD CONSTRAINT PK_SUBRACA_FEATURE PRIMARY KEY(idSubRaca, idRaca, idFeature);
--- FK
-ALTER TABLE SubRaca_Feature ADD CONSTRAINT FK_SUBRACA_FEATURE_RACA FOREIGN KEY(idSubRaca, idRaca) REFERENCES SubRaca(idSubRaca, idRaca);
-ALTER TABLE SubRaca_Feature ADD CONSTRAINT FK_SUBRACA_FEATURE_FEATURE FOREIGN KEY(idFeature) REFERENCES Feature(idFeature);
 
 -- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

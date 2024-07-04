@@ -45,7 +45,7 @@ public final class UsuarioVO extends ObjetoVO
         "usuarioAtivo"
     };
     private static final int LIMITE_NOME_USUARIO = 50;
-    private static final int TAMANHO_HASH_SENHA_USUARIO = 60; //Hash sempre vai ter tamanho 60, NÃO ALTERAR SEM ALTERAR O SISTEMA DE HASH DA SENHA ANTES
+    private static final int TAMANHO_HASH_SENHA_USUARIO = 60; // Hash sempre vai ter tamanho 60, NÃO ALTERAR SEM ALTERAR O SISTEMA DE HASH DA SENHA ANTES
     private static final int LIMITE_EMAIL_USUARIO = 70;
     private static final int LIMITE_DESCRICAO_USUARIO = 400;
     

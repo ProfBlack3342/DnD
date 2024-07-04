@@ -207,12 +207,14 @@ public class GUILogin extends javax.swing.JFrame implements ItemListener
         {
             // Nome vazio
             temErro = true;
+            jtfNomeCadastro.setText(null);
             textoErro.append("O campo Nome não foi preenchido!\n");
         }
         else if(!Verificar.verificarTextoComNumeros(nome))
         {
             // Nome inválido
             temErro = true;
+            jtfNomeCadastro.setText(null);
             textoErro.append("O campo Nome contém dados inválidos!\n");
         }
         
@@ -224,6 +226,7 @@ public class GUILogin extends javax.swing.JFrame implements ItemListener
             // Senha vazia
             temErro = true;
             senhaVazia = true;
+            jpfSenhaCadastro1.setText(null);
             textoErro.append("O campo Senha não foi preenchido!\n");
         }
         
@@ -232,6 +235,7 @@ public class GUILogin extends javax.swing.JFrame implements ItemListener
             // Confirmação de senha vazia
             temErro = true;
             senhaVazia = true;
+            jpfSenhaCadastro2.setText(null);
             textoErro.append("O campo Confirme a sua Senha não foi preenchido!\n");
         }
         
@@ -242,6 +246,8 @@ public class GUILogin extends javax.swing.JFrame implements ItemListener
         {
             // Senha e confirmação diferentes
             temErro = true;
+            jpfSenhaCadastro1.setText(null);
+            jpfSenhaCadastro2.setText(null);
             textoErro.append("Os campos Senha e Confirme a sua Senha contém valores diferentes entre si!\n");
         }
         
@@ -250,12 +256,14 @@ public class GUILogin extends javax.swing.JFrame implements ItemListener
         {
             // E-mail vazio
             temErro = true;
+            jtfEmailCadastro.setText(null);
             textoErro.append("O campo E-mail não foi preenchido!\n");
         }
         else if(!Verificar.verificarEmail(email))
         {
             // E-mail inválido
             temErro = true;
+            jtfEmailCadastro.setText(null);
             textoErro.append("O campo E-mail contém dados inválidos!\n");
         }
         
@@ -267,6 +275,11 @@ public class GUILogin extends javax.swing.JFrame implements ItemListener
         {
             // Data de Aniversário Incompleta ou Vazia
             temErro = true;
+            jcbDiaAniversarioCadastro.removeAllItems();
+            jcbDiaAniversarioCadastro.setSelectedIndex(-1);
+            jcbMesAniversarioCadastro.removeAllItems();
+            jcbMesAniversarioCadastro.setSelectedIndex(-1);
+            jcbAnoAniversarioCadastro.setSelectedIndex(-1);
             textoErro.append("Uma ou mais das caixas de seleção da Data de Aniversário não foram selecionados!\n");
         }
         
@@ -280,6 +293,7 @@ public class GUILogin extends javax.swing.JFrame implements ItemListener
         else if(!Verificar.verificarTextoComNumeros(descricao))
         {
             temErro = true;
+            jTextPaneDescricaoCadastro.setText(null);
             textoErro.append("O campo Descrição contém dados inválidos!\n");
         }
             
@@ -327,11 +341,13 @@ public class GUILogin extends javax.swing.JFrame implements ItemListener
         if(usuario.isEmpty())
         {
             temErro = true;
+            jtfUsuarioLogin.setText(null);
             textoErro.append("O campo Usuário não foi preenchido!\n");
         }
         else if(!Verificar.verificarTextoComNumeros(usuario))
         {
             temErro = true;
+            jtfUsuarioLogin.setText(null);
             textoErro.append("O campo Usuário contém dados inválidos!\n");
         }
         
@@ -339,6 +355,7 @@ public class GUILogin extends javax.swing.JFrame implements ItemListener
         if(senha.length == 0)
         {
             temErro = true;
+            jpfSenhaLogin.setText(null);
             textoErro.append("O campo Senha não foi preenchido!\n");
         }
         
@@ -354,7 +371,10 @@ public class GUILogin extends javax.swing.JFrame implements ItemListener
 
                 UsuarioVO uVO = ServicosFactory.getUsuarioServicos().loginUsuario(dadosLogin);
                 if(uVO == null)
-                    JOptionPane.showMessageDialog(null, "Erro: Usuário ou senha não correspondem a nenhum registrado!", "Erro", JOptionPane.ERROR_MESSAGE);
+                {
+                    limparLogin();
+                    JOptionPane.showMessageDialog(null, "Erro: Usuário e/ou senha não correspondem a nenhum registrado!", "Erro", JOptionPane.ERROR_MESSAGE);
+                }
                 else
                 {
                     JOptionPane.showMessageDialog(null, "Login realizado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);

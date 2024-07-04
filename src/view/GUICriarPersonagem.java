@@ -148,6 +148,10 @@ public class GUICriarPersonagem extends javax.swing.JInternalFrame implements It
             try
             {
                 subclasses = ServicosFactory.getSubClasseServicos().listarSubClassesDeClasse(classes[indiceComboboxClasse].getId());
+                
+                for(SubClasseVO subClasse : subclasses) {
+                    jcbSubclasses.addItem(subClasse.getNome());
+                }
             }
             catch(NoDataFoundException | SQLException e)
             {
@@ -170,6 +174,10 @@ public class GUICriarPersonagem extends javax.swing.JInternalFrame implements It
             try
             {
                 subRacas = ServicosFactory.getSubRacaServicos().listarSubRacasDeRaca(racas[indiceComboboxRaca].getId());
+                
+                for(SubRacaVO subRaca : subRacas) {
+                    jcbSubracas.addItem(subRaca.getNome());
+                }
             }
             catch(NoDataFoundException | SQLException e)
             {
