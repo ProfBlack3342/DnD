@@ -16,6 +16,35 @@ VALUES
     ( null, "INT", "Inteligência", CURDATE(), 1 ),
     ( null, "WIS", "Sabedoria", CURDATE(), 1 ),
     ( null, "CHA", "Carisma", CURDATE(), 1 );
+    
+-- ----------------------------------------------------------------------------------------------------
+-- Pericias -------------------------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------------------------------
+INSERT INTO Pericia
+	( idPericia, idAtributoPericia, nomePericia, descricaoPericia, dataCriacaoPericia, periciaAtiva )
+VALUES
+	( null, 1, "Atletismo", "", CURDATE(), 1 ),
+    
+    ( null, 2, "Acrobacia", "", CURDATE(), 1 ),
+    ( null, 2, "Furtividade", "", CURDATE(), 1 ),
+    ( null, 2, "Prestidigitação", "", CURDATE(), 1 ),
+    
+    ( null, 4, "Arcanismo", "", CURDATE(), 1 ),
+    ( null, 4, "História", "", CURDATE(), 1 ),
+    ( null, 4, "Investigação", "", CURDATE(), 1 ),
+    ( null, 4, "Natureza", "", CURDATE(), 1 ),
+    ( null, 4, "Religião", "", CURDATE(), 1 ),
+    
+    ( null, 5, "Adestrar Animais", "", CURDATE(), 1 ),
+    ( null, 5, "Intuição", "", CURDATE(), 1 ),
+    ( null, 5, "Medicina", "", CURDATE(), 1 ),
+    ( null, 5, "Percepção", "", CURDATE(), 1 ),
+    ( null, 5, "Sobrevivência", "", CURDATE(), 1 ),
+    
+    ( null, 6, "Atuação", "", CURDATE(), 1 ),
+    ( null, 6, "Enganação", "", CURDATE(), 1 ),
+    ( null, 6, "Intimidação", "", CURDATE(), 1 ),
+    ( null, 6, "Persuasão", "", CURDATE(), 1 );
 
 -- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -273,17 +302,7 @@ VALUES
 	( null, nomeLinguagem, descricaoLinguagem, CURDATE(), 1 ),
     ( null, nomeLinguagem, descricaoLinguagem, CURDATE(), 1 );
 
--- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
--- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
--- ----------------------------------------------------------------------------------------------------
--- Pericias -------------------------------------------------------------------------------------------
--- ----------------------------------------------------------------------------------------------------
-INSERT INTO Pericia
-	( idPericia, idAtributoPericia, nomePericia, descricaoPericia, dataCriacaoPericia, periciaAtiva )
-VALUES
-	( null, idAtributoPericia, nomePericia, descricaoPericia, CURDATE(), 1 ),
-    ( null, idAtributoPericia, nomePericia, descricaoPericia, CURDATE(), 1 );
 
 -- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -306,26 +325,55 @@ VALUES
 INSERT INTO ImagemClasse
 	( idImagemClasse, caminhoImagemClasse, descricaoImagemClasse, dataCriacaoImagemClasse, imagemClasseAtiva )
 VALUES
-	( null, "/img/imagemPadrao.png", "Imagem Padrão", CURDATE(), 1 );
+	( null, "/img/imagemPadrao.png", "Imagem Padrão", CURDATE(), 1 ),
+    
+    ( null, "/img/imagemPadrao.png", "Imagem Bárbaro", CURDATE(), 1 ),
+    ( null, "/img/imagemPadrao.png", "Imagem Bardo", CURDATE(), 1 ),
+    ( null, "/img/imagemPadrao.png", "Imagem Bruxo", CURDATE(), 1 ),
+    ( null, "/img/imagemPadrao.png", "Imagem Clérigo", CURDATE(), 1 ),
+    ( null, "/img/imagemPadrao.png", "Imagem Druida", CURDATE(), 1 ),
+    ( null, "/img/sorcererIcon.jpg", "Imagem Feiticeiro", CURDATE(), 1 ),
+    ( null, "/img/imagemPadrao.png", "Imagem Guardião", CURDATE(), 1 ),
+    ( null, "/img/imagemPadrao.png", "Imagem Guerreiro", CURDATE(), 1 ),
+    ( null, "/img/imagemPadrao.png", "Imagem Ladino", CURDATE(), 1 ),
+    ( null, "/img/imagemPadrao.png", "Imagem Mago", CURDATE(), 1 ),
+    ( null, "/img/imagemPadrao.png", "Imagem Monge", CURDATE(), 1 ),
+    ( null, "/img/imagemPadrao.png", "Imagem Paladino", CURDATE(), 1 );
     
 -- ----------------------------------------------------------------------------------------------------
 -- Classe ---------------------------------------------------------------------------------------------
 -- ----------------------------------------------------------------------------------------------------
 INSERT INTO Classe
-	(idClasse, idImagemClasse, nomeClasse, descricaoClasse, dadoClasse, classeTemSpells, quantProficienciasArmaduraClasse, quantProficienciasArmasClasse, quantProficienciasFerramentasClasse, quantProficienciasPericiasClasse, quantProficienciasSavesAtributosClasse, quantFeaturesClasse, dataCriacaoClasse, classeAtiva )
+	( idClasse INT NOT NULL,
+    idImagemClasse INT NOT NULL,
+    nomeClasse VARCHAR(50) NOT NULL UNIQUE,
+    descricaoClasse VARCHAR(400) NOT NULL,
+    bonusProficienciaInicialClasse INT NOT NULL,
+    dadoClasse INT NOT NULL,
+    quantProficienciasArmasClasse INT NOT NULL,
+    quantProficienciasArmaduraClasse INT NOT NULL,
+    quantProficienciasFerramentasClasse INT NOT NULL,
+    quantProficienciasPericiasClasse INT NOT NULL,
+    quantProficienciasSavesAtributosClasse INT NOT NULL,
+    quantEquipamentosIniciaisClasse INT NOT NULL,
+    quantFeaturesClasse INT NOT NULL,
+    classeTemSpells TINYINT(1) NOT NULL,
+    idAtributoSpells INT NULL,
+    dataCriacaoClasse DATE NOT NULL,
+    classeAtiva TINYINT(1) NOT NULL DEFAULT 1 )
 VALUES
-	(null, 1, "Bárbaro", "", dadoClasse, classeTemSpells, quantProficienciasArmaduraClasse, quantProficienciasArmasClasse, quantProficienciasFerramentasClasse, quantProficienciasPericiasClasse, quantProficienciasSavesAtributosClasse, quantFeaturesClasse, dataCriacaoClasse, classeAtiva ),
-	( null, 1, "Bardo", "", dadoClasse, classeTemSpells, quantProficienciasArmaduraClasse, quantProficienciasArmasClasse, quantProficienciasFerramentasClasse, quantProficienciasPericiasClasse, quantProficienciasSavesAtributosClasse, quantFeaturesClasse, dataCriacaoClasse, classeAtiva ),
-	( null, 1, "Bruxo", "", dadoClasse, classeTemSpells, quantProficienciasArmaduraClasse, quantProficienciasArmasClasse, quantProficienciasFerramentasClasse, quantProficienciasPericiasClasse, quantProficienciasSavesAtributosClasse, quantFeaturesClasse, dataCriacaoClasse, classeAtiva ),
-	( null, 1, "Clérigo", "", dadoClasse, classeTemSpells, quantProficienciasArmaduraClasse, quantProficienciasArmasClasse, quantProficienciasFerramentasClasse, quantProficienciasPericiasClasse, quantProficienciasSavesAtributosClasse, quantFeaturesClasse, dataCriacaoClasse, classeAtiva ),
-	( null, 1, "Druida", "", dadoClasse, classeTemSpells, quantProficienciasArmaduraClasse, quantProficienciasArmasClasse, quantProficienciasFerramentasClasse, quantProficienciasPericiasClasse, quantProficienciasSavesAtributosClasse, quantFeaturesClasse, dataCriacaoClasse, classeAtiva ),
-	( null, 1, "Feiticeiro", "", dadoClasse, classeTemSpells, quantProficienciasArmaduraClasse, quantProficienciasArmasClasse, quantProficienciasFerramentasClasse, quantProficienciasPericiasClasse, quantProficienciasSavesAtributosClasse, quantFeaturesClasse, dataCriacaoClasse, classeAtiva ),
-	( null, 1, "Guardião", "", dadoClasse, classeTemSpells, quantProficienciasArmaduraClasse, quantProficienciasArmasClasse, quantProficienciasFerramentasClasse, quantProficienciasPericiasClasse, quantProficienciasSavesAtributosClasse, quantFeaturesClasse, dataCriacaoClasse, classeAtiva ),
-	( null, 1, "Guerreiro", "", dadoClasse, classeTemSpells, quantProficienciasArmaduraClasse, quantProficienciasArmasClasse, quantProficienciasFerramentasClasse, quantProficienciasPericiasClasse, quantProficienciasSavesAtributosClasse, quantFeaturesClasse, dataCriacaoClasse, classeAtiva ),
-	( null, 1, "Ladino", "", dadoClasse, classeTemSpells, quantProficienciasArmaduraClasse, quantProficienciasArmasClasse, quantProficienciasFerramentasClasse, quantProficienciasPericiasClasse, quantProficienciasSavesAtributosClasse, quantFeaturesClasse, dataCriacaoClasse, classeAtiva ),
-	( null, 1, "Mago", "", dadoClasse, classeTemSpells, quantProficienciasArmaduraClasse, quantProficienciasArmasClasse, quantProficienciasFerramentasClasse, quantProficienciasPericiasClasse, quantProficienciasSavesAtributosClasse, quantFeaturesClasse, dataCriacaoClasse, classeAtiva ),
-	( null, 1, "Monge", "", dadoClasse, classeTemSpells, quantProficienciasArmaduraClasse, quantProficienciasArmasClasse, quantProficienciasFerramentasClasse, quantProficienciasPericiasClasse, quantProficienciasSavesAtributosClasse, quantFeaturesClasse, dataCriacaoClasse, classeAtiva ),
-	( null, 1, "Paladino", "", dadoClasse, classeTemSpells, quantProficienciasArmaduraClasse, quantProficienciasArmasClasse, quantProficienciasFerramentasClasse, quantProficienciasPericiasClasse, quantProficienciasSavesAtributosClasse, quantFeaturesClasse, dataCriacaoClasse, classeAtiva );
+	( null, 2, "Bárbaro", "", dadoClasse, classeTemSpells, quantProficienciasArmaduraClasse, quantProficienciasArmasClasse, quantProficienciasFerramentasClasse, quantProficienciasPericiasClasse, quantProficienciasSavesAtributosClasse, quantFeaturesClasse, dataCriacaoClasse, classeAtiva ),
+	( null, 3, "Bardo", "", dadoClasse, classeTemSpells, quantProficienciasArmaduraClasse, quantProficienciasArmasClasse, quantProficienciasFerramentasClasse, quantProficienciasPericiasClasse, quantProficienciasSavesAtributosClasse, quantFeaturesClasse, dataCriacaoClasse, classeAtiva ),
+	( null, 4, "Bruxo", "", dadoClasse, classeTemSpells, quantProficienciasArmaduraClasse, quantProficienciasArmasClasse, quantProficienciasFerramentasClasse, quantProficienciasPericiasClasse, quantProficienciasSavesAtributosClasse, quantFeaturesClasse, dataCriacaoClasse, classeAtiva ),
+	( null, 5, "Clérigo", "", dadoClasse, classeTemSpells, quantProficienciasArmaduraClasse, quantProficienciasArmasClasse, quantProficienciasFerramentasClasse, quantProficienciasPericiasClasse, quantProficienciasSavesAtributosClasse, quantFeaturesClasse, dataCriacaoClasse, classeAtiva ),
+	( null, 6, "Druida", "", dadoClasse, classeTemSpells, quantProficienciasArmaduraClasse, quantProficienciasArmasClasse, quantProficienciasFerramentasClasse, quantProficienciasPericiasClasse, quantProficienciasSavesAtributosClasse, quantFeaturesClasse, dataCriacaoClasse, classeAtiva ),
+	( null, 7, "Feiticeiro", "", dadoClasse, classeTemSpells, quantProficienciasArmaduraClasse, quantProficienciasArmasClasse, quantProficienciasFerramentasClasse, quantProficienciasPericiasClasse, quantProficienciasSavesAtributosClasse, quantFeaturesClasse, dataCriacaoClasse, classeAtiva ),
+	( null, 8, "Guardião", "", dadoClasse, classeTemSpells, quantProficienciasArmaduraClasse, quantProficienciasArmasClasse, quantProficienciasFerramentasClasse, quantProficienciasPericiasClasse, quantProficienciasSavesAtributosClasse, quantFeaturesClasse, dataCriacaoClasse, classeAtiva ),
+	( null, 9, "Guerreiro", "", dadoClasse, classeTemSpells, quantProficienciasArmaduraClasse, quantProficienciasArmasClasse, quantProficienciasFerramentasClasse, quantProficienciasPericiasClasse, quantProficienciasSavesAtributosClasse, quantFeaturesClasse, dataCriacaoClasse, classeAtiva ),
+	( null, 10, "Ladino", "", dadoClasse, classeTemSpells, quantProficienciasArmaduraClasse, quantProficienciasArmasClasse, quantProficienciasFerramentasClasse, quantProficienciasPericiasClasse, quantProficienciasSavesAtributosClasse, quantFeaturesClasse, dataCriacaoClasse, classeAtiva ),
+	( null, 11, "Mago", "", dadoClasse, classeTemSpells, quantProficienciasArmaduraClasse, quantProficienciasArmasClasse, quantProficienciasFerramentasClasse, quantProficienciasPericiasClasse, quantProficienciasSavesAtributosClasse, quantFeaturesClasse, dataCriacaoClasse, classeAtiva ),
+	( null, 12, "Monge", "", dadoClasse, classeTemSpells, quantProficienciasArmaduraClasse, quantProficienciasArmasClasse, quantProficienciasFerramentasClasse, quantProficienciasPericiasClasse, quantProficienciasSavesAtributosClasse, quantFeaturesClasse, dataCriacaoClasse, classeAtiva ),
+	( null, 13, "Paladino", "", dadoClasse, classeTemSpells, quantProficienciasArmaduraClasse, quantProficienciasArmasClasse, quantProficienciasFerramentasClasse, quantProficienciasPericiasClasse, quantProficienciasSavesAtributosClasse, quantFeaturesClasse, dataCriacaoClasse, classeAtiva );
 
 -- ----------------------------------------------------------------------------------------------------
 -- Imagem Padrão da SubClasse -------------------------------------------------------------------------
@@ -333,7 +381,31 @@ VALUES
 INSERT INTO ImagemSubClasse
 	( idImagemSubClasse,caminhoImagemSubClasse,descricaoImagemSubClasse,dataCriacaoImagemSubClasse,imagemSubClasseAtiva )
 VALUES
-	( null,"/img/imagemPadrao.png","Imagem Padrão",CURDATE(),1 );
+	( null,"/img/imagemPadrao.png","Imagem Padrão",CURDATE(), 1 ),
+    
+    ( null,"/img/imagemPadrao.png","Imagem ",CURDATE(), 1 ),
+    
+    ( null,"/img/imagemPadrao.png","Imagem ",CURDATE(), 1 ),
+    
+    ( null,"/img/imagemPadrao.png","Imagem ",CURDATE(), 1 ),
+    
+    ( null,"/img/imagemPadrao.png","Imagem ",CURDATE(), 1 ),
+    
+    ( null,"/img/imagemPadrao.png","Imagem ",CURDATE(), 1 ),
+    
+    ( null,"/img/sorcererDivineSoulIcon.jpg","Imagem Feiticeiro - Alma Divina",CURDATE(), 1 ),
+    
+    ( null,"/img/imagemPadrao.png","Imagem ",CURDATE(), 1 ),
+    
+    ( null,"/img/imagemPadrao.png","Imagem ",CURDATE(), 1 ),
+    
+    ( null,"/img/imagemPadrao.png","Imagem ",CURDATE(), 1 ),
+    
+    ( null,"/img/imagemPadrao.png","Imagem ",CURDATE(), 1 ),
+    
+    ( null,"/img/imagemPadrao.png","Imagem ",CURDATE(), 1 ),
+    
+    ( null,"/img/imagemPadrao.png","Imagem ",CURDATE(), 1 );
     
 -- ----------------------------------------------------------------------------------------------------
 -- SubClasse ----------------------------------------------------------------------------------------------
@@ -341,8 +413,19 @@ VALUES
 INSERT INTO SubClasse
 	( idSubClasse, idClasse, idImagemSubClasse, nomeSubClasse, descricaoSubClasse, quantFeaturesSubClasse, dataCriacaoSubClasse, subClasseAtiva )
 VALUES
-	( null, 1, 1, "Alma Divina", "Sua magia inata vem da conexão com uma divindade que lhe escolheu como seu agente.", 5, CURDATE(), 1 ),
-    ( null, idClasse, idImagemSubClasse, nomeSubClasse, descricaoSubClasse, quantFeaturesSubClasse, dataCriacaoSubClasse, subClasseAtiva );
+	( null, 1, 7, "Alma Divina", "Sua magia inata vem da conexão com uma divindade que lhe escolheu como seu agente.", 5, CURDATE(), 1 );
+    
+-- ----------------------------------------------------------------------------------------------------
+-- SubClasse_Feature ----------------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------------------------------
+INSERT INTO SubClasse_Feature
+	(idSubClasse, idClasse, idFeature )
+VALUES
+	(1, 1, 0),
+    (1, 1, 0),
+    (1, 1, 0),
+    (1, 1, 0),
+    (1, 1, 0);
     
 -- ----------------------------------------------------------------------------------------------------
 -- Imagem Padrão da Raça ------------------------------------------------------------------------------
@@ -350,51 +433,106 @@ VALUES
 INSERT INTO ImagemRaca
 	( idImagemRaca, caminhoImagemRaca, descricaoImagemRaca, dataCriacaoImagemRaca, imagemRacaAtiva )
 VALUES
-	( null, "/img/imagemPadrao.png", "Imagem Padrão", CURDATE(), 1 );
+	( null, "/img/imagemPadrao.png", "Imagem Padrão", CURDATE(), 1 ),
+    ( null, "/img/aasimarIcon.jpg", "Imagem Aasimar", CURDATE(), 1 );
     
 -- ----------------------------------------------------------------------------------------------------
 -- Raca ----------------------------------------------------------------------------------------------
 -- ----------------------------------------------------------------------------------------------------
 INSERT INTO Raca
-	( idRaca, idImagemRaca, nomeRaca, descricaoRaca, valorBuffAtributoRaca, idadeMaxRaca, tamanhoRaca, velocidadeRaca, quantFeaturesRaca, quantIdiomasRaca, dataCriacaoRaca,racaAtiva )
+	( idRaca, idImagemRaca, nomeRaca, descricaoRaca, valorBuffAtributoRaca, idAtributoBuffadoRaca, idadeMaxRaca, tamanhoRaca, velocidadeRaca, quantLinguagensRaca, quantFeaturesRaca, dataCriacaoRaca, racaAtiva )
 VALUES
-	( null, idImagemRaca, nomeRaca, descricaoRaca, valorBuffAtributoRaca, idadeMaxRaca, tamanhoRaca, velocidadeRaca, quantFeaturesRaca, quantIdiomasRaca, dataCriacaoRaca,racaAtiva ),
-	( null, 1, "Aasimar", "Descendentes de criaturas celestiais, Aasimares parecem humanos gloriosos e heroicos. Aasimares costumam tentar disfarçar sua linhagem para enfrentar o mal sem chamar atenção.", 2, 120, "Médio", 9, 4, 2, CURDATE(), 1 ),
-    ( null, idImagemRaca, nomeRaca, descricaoRaca, valorBuffAtributoRaca, idadeMaxRaca, tamanhoRaca, velocidadeRaca, quantFeaturesRaca, quantIdiomasRaca, dataCriacaoRaca,racaAtiva );
+	( null, 2, "Aasimar", "Descendentes de criaturas celestiais, Aasimares parecem humanos gloriosos e heroicos. Aasimares costumam tentar disfarçar sua linhagem para enfrentar o mal sem chamar atenção.", 2, 6, 120, "Médio", 9, 2, 4, CURDATE(), 1 );
+    
+-- ----------------------------------------------------------------------------------------------------
+-- Raça_Linguagem -------------------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------------------------------
+INSERT INTO Raca_Linguagem
+	( idRaca, idLinguagem )
+VALUES
+	(1, 0),
+    (1, 0);
 
 -- ----------------------------------------------------------------------------------------------------
--- Imagem Padrão da SubRaça ---------------------------------------------------------------------------
+-- Raça_Feature ---------------------------------------------------------------------------------------
 -- ----------------------------------------------------------------------------------------------------
-INSERT INTO ImagemSubRaca
-	( idImagemSubRaca, caminhoImagemSubRaca, descricaoImagemSubRaca, dataCriacaoImagemSubRaca, imagemSubRacaAtiva )
+INSERT INTO Raca_Feature
+	( idRaca, idFeature )
 VALUES
-	( null, "/img/imagemPadrao.png", "Imagem Padrão", CURDATE(), 1 );
+	(1, 0),
+    (1, 0),
+    (1, 0),
+    (1, 0);
     
 -- ----------------------------------------------------------------------------------------------------
 -- SubRaca ----------------------------------------------------------------------------------------------
 -- ----------------------------------------------------------------------------------------------------
 INSERT INTO SubRaca
-	( idSubRaca, idRaca, idImagemSubRaca, nomeSubRaca, descricaoSubRaca, valorBuffAtributoSubRaca, quantFeaturesSubRaca, dataCriacaoSubRaca, subRacaAtiva )
+	( idSubRaca, idRaca, nomeSubRaca, descricaoSubRaca, valorBuffAtributoSubRaca, idAtributoBuffadoSubRaca, quantFeaturesSubRaca, dataCriacaoSubRaca, subRacaAtiva )
 VALUES
-	( null, 1, 1, "Protetor", "", 1, 1, CURDATE(), 1 );
+	( null, 1, "Protetor", "", 1, 5, 1, CURDATE(), 1 );
     
 -- ----------------------------------------------------------------------------------------------------
--- Imagem Padrão do Background ------------------------------------------------------------------------
+-- SubRaça_Feature ------------------------------------------------------------------------------------
 -- ----------------------------------------------------------------------------------------------------
-INSERT INTO ImagemBackground
-	( idImagemBackground, caminhoImagemBackground, descricaoImagemBackground, dataCriacaoImagemBackground, imagemBackgroundAtiva )
+INSERT INTO SubRaca_Feature
+	( idSubRaca, idRaca, idFeature )
 VALUES
-	( null, "/img/imagemPadrao.png", "Imagem Padrão", CURDATE(), 1 );
+	(1, 1, 0);
     
 -- ----------------------------------------------------------------------------------------------------
 -- Background ----------------------------------------------------------------------------------------------
 -- ----------------------------------------------------------------------------------------------------
 INSERT INTO Background
-	( idBackground, idImagemBackground, nomeBackground, descricaoBackground, dinheiroInicialBackground, quantEquipamentosIniciaisBackground, quantLinguagensIniciaisBackground, quantProficienciasFerramentasBackground, quantProficienciasPericiasBackground, quantFeaturesBackground, dataCriacaoBackground, BackgroundAtivo )
+	( idBackground, nomeBackground, descricaoBackground, ouroInicialBackground, quantEquipamentosIniciaisBackground, quantLinguagensIniciaisBackground, quantProficienciasFerramentasBackground, quantProficienciasPericiasBackground, quantFeaturesBackground, dataCriacaoBackground, BackgroundAtivo )
 VALUES
-	( null, 1, "Acólito", "Você passou sua vida em serviço de um templo. Você age como um intermediário entre o reino do sagrado e do mundo mortal, fazendo ritos sagrados e oferecendo sacrifícios para guiar os fieis à presença do divino. Acólito e clérigo não são a mesma coisa: Um milagreiro andarilho pode ser respeitado como canalizador do divino, mas não ter nenhuma autoridade na religião.", 15, 5, 2, 0, 2, 1, CURDATE(), 1 ),
-    ( null, idImagemBackground, nomeBackground, descricaoBackground, dinheiroInicialBackground, quantEquipamentosIniciaisBackground, quantLinguagensIniciaisBackground, quantProficienciasFerramentasBackground, quantProficienciasPericiasBackground, quantFeaturesBackground, dataCriacaoBackground, BackgroundAtivo );
+	( null, "Acólito", "Você passou sua vida em serviço de um templo. Você age como um intermediário entre o reino do sagrado e do mundo mortal, fazendo ritos sagrados e oferecendo sacrifícios para guiar os fieis à presença do divino. Acólito e clérigo não são a mesma coisa: Um milagreiro andarilho pode ser respeitado como canalizador do divino, mas não ter nenhuma autoridade na religião.", 15, 5, 2, 0, 2, 1, CURDATE(), 1 ),
+    ( null, nomeBackground, descricaoBackground, ouroInicialBackground, quantEquipamentosIniciaisBackground, quantLinguagensIniciaisBackground, quantProficienciasFerramentasBackground, quantProficienciasPericiasBackground, quantFeaturesBackground, CURDATE(), 1 );
+
+-- ----------------------------------------------------------------------------------------------------
+-- Opções de Equipamentos Iniciais Dos Backgrounds ----------------------------------------------------
+-- ----------------------------------------------------------------------------------------------------
+INSERT INTO OpcaoEquipamentosIniciais
+	( idOpcaoEquipamentosIniciais, dataCriacaoOpcaoEquipamentoInicial, OpcaoEquipamentoInicialAtiva )
+VALUES
+	(null,  CURDATE(), 1 );
     
+-- ----------------------------------------------------------------------------------------------------
+-- OpcaoEquipamentosIniciais_EquipamentoAventura ------------------------------------------------------
+-- ----------------------------------------------------------------------------------------------------
+INSERT INTO OpcaoEquipamentosIniciais_EquipamentoAventura
+	( idOpcaoEquipamentosIniciais,idEquipamentoAventura )
+VALUES
+    (),
+    (),
+    (),
+    (),
+    ();
+
+-- ----------------------------------------------------------------------------------------------------
+-- Background_OpcaoEquipamentosIniciais ------------------------------------------------------
+-- ----------------------------------------------------------------------------------------------------
+INSERT INTO Background_OpcaoEquipamentosIniciais
+	( idBackground, idOpcaoEquipamentosIniciais )
+VALUE
+	(1, 0);
+
+-- ----------------------------------------------------------------------------------------------------
+-- Background_Pericia ---------------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------------------------------
+INSERT INTO Background_Pericia
+	( idBackground, idPericia )
+VALUES
+	( 1, 9 ),
+    ( 1, 11 );
+    
+INSERT INTO Background_Feature
+	( idBackground, idFeature )
+VALUES
+	(1, 0);
+    
+-- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 -- ----------------------------------------------------------------------------------------------------
 -- Imagem Padrão do Usuario ---------------------------------------------------------------------------
@@ -414,6 +552,9 @@ VALUES
 	( null, "Jogador", "Fichas, entrar em salas e campanhas.", CURDATE(), 1 ),
 	( null, "Game Master", "Salas e campanhas", CURDATE(), 1 );
     
+-- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    
 -- ----------------------------------------------------------------------------------------------------
 -- Imagem Padrão do Personagem ------------------------------------------------------------------------
 -- ----------------------------------------------------------------------------------------------------
@@ -421,6 +562,6 @@ INSERT INTO ImagemPersonagem
 	( idImagemPersonagem, caminhoImagemPersonagem, descricaoImagemPersonagem, dataCriacaoImagemPersonagem, imagemPersonagemAtiva )
 VALUES
 	( null, "/img/imagemPadrao.png", "Imagem Padrão", CURDATE(), 1 );
-
+    
 -- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

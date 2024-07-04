@@ -678,12 +678,13 @@ ALTER TABLE SubClasse ADD CONSTRAINT FK_SUBCLASSE_IMAGEMSUBCLASSE FOREIGN KEY(id
 -- ----------------------------------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS SubClasse_Feature (
     idSubClasse INT NOT NULL,
+    idClasse INT NOT NULL,
     idFeature INT NOT NULL
 );
 -- PK
-ALTER TABLE SubClasse_Feature ADD CONSTRAINT PK_SUBCLASSE_FEATURE PRIMARY KEY(idSubClasse, idFeature);
+ALTER TABLE SubClasse_Feature ADD CONSTRAINT PK_SUBCLASSE_FEATURE PRIMARY KEY(idSubClasse, idClasse, idFeature);
 -- FK
-ALTER TABLE SubClasse_Feature ADD CONSTRAINT FK_SUBCLASSE_FEATURE_CLASSE FOREIGN KEY(idSubClasse) REFERENCES SubClasse(idSubClasse);
+ALTER TABLE SubClasse_Feature ADD CONSTRAINT FK_SUBCLASSE_FEATURE_CLASSE FOREIGN KEY(idSubClasse, idClasse) REFERENCES SubClasse(idSubClasse, idClasse);
 ALTER TABLE SubClasse_Feature ADD CONSTRAINT FK_SUBCLASSE_FEATURE_FEATURE FOREIGN KEY(idFeature) REFERENCES Feature(idFeature);
 
 -- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -732,6 +733,7 @@ ALTER TABLE Raca ADD CONSTRAINT PK_RACA PRIMARY KEY(idRaca);
 ALTER TABLE Raca CHANGE COLUMN idRaca idRaca INT NOT NULL AUTO_INCREMENT;
 -- FK
 ALTER TABLE Raca ADD CONSTRAINT FK_RACA_IMAGEMRACA FOREIGN KEY(idImagemRaca) REFERENCES ImagemRaca(idImagemRaca);
+ALTER TABLE Raca ADD CONSTRAINT FK_RACA_ATRIBUTO FOREIGN KEY(idAtributoBuffadoRaca) REFERENCES Atributo(idAtributo);
 
 -- ----------------------------------------------------------------------------------------------------
 -- Raça concede proficiencia em Linguagem ----------------------------------------------------------
@@ -763,29 +765,11 @@ ALTER TABLE Raca_Feature ADD CONSTRAINT FK_RACA_FEATURE_FEATURE FOREIGN KEY(idFe
 -- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 -- ----------------------------------------------------------------------------------------------------
--- Imagem de SubRaça ----------------------------------------------------------------------------------
--- ----------------------------------------------------------------------------------------------------
-CREATE TABLE IF NOT EXISTS ImagemSubRaca (
-    idImagemSubRaca INT NOT NULL,
-    
-    caminhoImagemSubRaca VARCHAR(260) NOT NULL,
-    descricaoImagemSubRaca VARCHAR(400) NULL,
-    
-    dataCriacaoImagemSubRaca DATE NOT NULL,
-    imagemSubRacaAtiva TINYINT(1) NOT NULL DEFAULT 1
-);
--- PK
-ALTER TABLE ImagemSubRaca ADD CONSTRAINT PK_IMAGEMSUBRACA PRIMARY KEY(idImagemSubRaca);
-ALTER TABLE ImagemSubRaca CHANGE COLUMN idImagemSubRaca idImagemSubRaca INT NOT NULL AUTO_INCREMENT;
-
--- ----------------------------------------------------------------------------------------------------
 -- SubRaça --------------------------------------------------------------------------------------------
 -- ----------------------------------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS SubRaca (
     idSubRaca INT NOT NULL,
     idRaca INT NULL,
-    
-    idImagemSubRaca INT NOT NULL,
     
     nomeSubRaca VARCHAR(50) NOT NULL UNIQUE,
     descricaoSubRaca VARCHAR(400) NOT NULL,
@@ -801,39 +785,24 @@ ALTER TABLE SubRaca ADD CONSTRAINT PK_SUBRACA PRIMARY KEY(idSubRaca, idRaca);
 ALTER TABLE SubRaca CHANGE COLUMN idSubRaca idSubRaca INT NOT NULL AUTO_INCREMENT;
 -- FK
 ALTER TABLE SubRaca ADD CONSTRAINT FK_SUBRACA_RACA FOREIGN KEY(idRaca) REFERENCES Raca(idRaca);
-ALTER TABLE SubRaca ADD CONSTRAINT FK_SUBRACA_IMAGEMSUBRACA FOREIGN KEY(idImagemSubRaca) REFERENCES ImagemSubRaca(idImagemSubRaca);
+ALTER TABLE SubRaca ADD CONSTRAINT FK_SUBRACA_ATRIBUTO FOREIGN KEY(idAtributoBuffadoSubRaca) REFERENCES Atributo(idAtributo);
 
 -- ----------------------------------------------------------------------------------------------------
 -- SubRaça concede Feature -------------------------------------------------------------------------------
 -- ----------------------------------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS SubRaca_Feature (
     idSubRaca INT NOT NULL,
+    idRaca INT NULL,
     idFeature INT NOT NULL
 );
 -- PK
-ALTER TABLE SubRaca_Feature ADD CONSTRAINT PK_SUBRACA_FEATURE PRIMARY KEY(idSubRaca, idFeature);
+ALTER TABLE SubRaca_Feature ADD CONSTRAINT PK_SUBRACA_FEATURE PRIMARY KEY(idSubRaca, idRaca, idFeature);
 -- FK
-ALTER TABLE SubRaca_Feature ADD CONSTRAINT FK_SUBRACA_FEATURE_SUBRACA FOREIGN KEY(idSubRaca) REFERENCES SubRaca(idSubRaca);
+ALTER TABLE SubRaca_Feature ADD CONSTRAINT FK_SUBRACA_FEATURE_SUBRACA FOREIGN KEY(idSubRaca, idRaca) REFERENCES SubRaca(idSubRaca, idRaca);
 ALTER TABLE SubRaca_Feature ADD CONSTRAINT FK_SUBRACA_FEATURE_FEATURE FOREIGN KEY(idFeature) REFERENCES Feature(idFeature);
 
 -- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
--- ----------------------------------------------------------------------------------------------------
--- Imagem de Background -------------------------------------------------------------------------------
--- ----------------------------------------------------------------------------------------------------
-CREATE TABLE IF NOT EXISTS ImagemBackground (
-    idImagemBackground INT NOT NULL,
-    
-    caminhoImagemBackground VARCHAR(260) NOT NULL,
-    descricaoImagemBackground VARCHAR(400) NULL,
-    
-    dataCriacaoImagemBackground DATE NOT NULL,
-    imagemBackgroundAtiva TINYINT(1) NOT NULL DEFAULT 1
-);
--- PK
-ALTER TABLE ImagemBackground ADD CONSTRAINT PK_IMAGEMBACKGROUND PRIMARY KEY(idImagemBackground);
-ALTER TABLE ImagemBackground CHANGE COLUMN idImagemBackground idImagemBackground INT NOT NULL AUTO_INCREMENT;
 
 -- ----------------------------------------------------------------------------------------------------
 -- Background -----------------------------------------------------------------------------------------
@@ -841,11 +810,9 @@ ALTER TABLE ImagemBackground CHANGE COLUMN idImagemBackground idImagemBackground
 CREATE TABLE IF NOT EXISTS Background (
     idBackground INT NOT NULL,
     
-    idImagemBackground INT NOT NULL,
-    
     nomeBackground VARCHAR(50) NOT NULL UNIQUE,
     descricaoBackground VARCHAR(400) NOT NULL,
-    dinheiroInicialBackground INT NULL,
+    ouroInicialBackground INT NULL,
     quantOpcoesEquipamentosIniciaisBackground INT NOT NULL,
     quantLinguagensIniciaisBackground INT NOT NULL,
     quantProficienciasFerramentasBackground INT NOT NULL,
@@ -858,8 +825,6 @@ CREATE TABLE IF NOT EXISTS Background (
 -- PK
 ALTER TABLE Background ADD CONSTRAINT PK_BACKGROUND PRIMARY KEY(idBackground);
 ALTER TABLE Background CHANGE COLUMN idBackground idBackground INT NOT NULL AUTO_INCREMENT;
--- FK
-ALTER TABLE Background ADD CONSTRAINT FK_BACKGROUND_IMAGEMBACKGROUND FOREIGN KEY(idImagemBackground) REFERENCES ImagemBackground(idImagemBackground);
 
 -- ----------------------------------------------------------------------------------------------------
 -- Background_OpcaoEquipamentosIniciais ------------------------------------------------------
@@ -1037,6 +1002,11 @@ CREATE TABLE IF NOT EXISTS Personagem (
     defeitosPersonagem VARCHAR(50) NULL,
     aliadosPersonagem VARCHAR(50) NULL,
     outrasInformacoesPersonagem VARCHAR(2000) NULL,
+    quantCobrePersonagem INT NOT NULL,
+    quantPrataPersonagem INT NOT NULL,
+    quantElectrumPersonagem INT NOT NULL,
+    quantOuroPersonagem INT NOT NULL,
+    quantPlatinaPersonagem INT NOT NULL,
     
     dataCriacaoPersonagem DATE NOT NULL,
     personagemAtivo TINYINT(1) NOT NULL DEFAULT 1
