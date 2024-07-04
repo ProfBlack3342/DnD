@@ -344,36 +344,20 @@ VALUES
 -- Classe ---------------------------------------------------------------------------------------------
 -- ----------------------------------------------------------------------------------------------------
 INSERT INTO Classe
-	( idClasse INT NOT NULL,
-    idImagemClasse INT NOT NULL,
-    nomeClasse VARCHAR(50) NOT NULL UNIQUE,
-    descricaoClasse VARCHAR(400) NOT NULL,
-    bonusProficienciaInicialClasse INT NOT NULL,
-    dadoClasse INT NOT NULL,
-    quantProficienciasArmasClasse INT NOT NULL,
-    quantProficienciasArmaduraClasse INT NOT NULL,
-    quantProficienciasFerramentasClasse INT NOT NULL,
-    quantProficienciasPericiasClasse INT NOT NULL,
-    quantProficienciasSavesAtributosClasse INT NOT NULL,
-    quantEquipamentosIniciaisClasse INT NOT NULL,
-    quantFeaturesClasse INT NOT NULL,
-    classeTemSpells TINYINT(1) NOT NULL,
-    idAtributoSpells INT NULL,
-    dataCriacaoClasse DATE NOT NULL,
-    classeAtiva TINYINT(1) NOT NULL DEFAULT 1 )
+	( idClasse, idImagemClasse, nomeClasse, descricaoClasse, bonusProficienciaInicialClasse, dadoClasse, quantProficienciasArmasClasse, quantProficienciasArmaduraClasse, quantProficienciasFerramentasClasse, quantProficienciasPericiasClasse, quantProficienciasSavesAtributosClasse, quantEquipamentosIniciaisClasse, quantFeaturesClasse, classeTemSpells, idAtributoSpells, dataCriacaoClasse, classeAtiva )
 VALUES
-	( null, 2, "Bárbaro", "", dadoClasse, classeTemSpells, quantProficienciasArmaduraClasse, quantProficienciasArmasClasse, quantProficienciasFerramentasClasse, quantProficienciasPericiasClasse, quantProficienciasSavesAtributosClasse, quantFeaturesClasse, dataCriacaoClasse, classeAtiva ),
-	( null, 3, "Bardo", "", dadoClasse, classeTemSpells, quantProficienciasArmaduraClasse, quantProficienciasArmasClasse, quantProficienciasFerramentasClasse, quantProficienciasPericiasClasse, quantProficienciasSavesAtributosClasse, quantFeaturesClasse, dataCriacaoClasse, classeAtiva ),
-	( null, 4, "Bruxo", "", dadoClasse, classeTemSpells, quantProficienciasArmaduraClasse, quantProficienciasArmasClasse, quantProficienciasFerramentasClasse, quantProficienciasPericiasClasse, quantProficienciasSavesAtributosClasse, quantFeaturesClasse, dataCriacaoClasse, classeAtiva ),
-	( null, 5, "Clérigo", "", dadoClasse, classeTemSpells, quantProficienciasArmaduraClasse, quantProficienciasArmasClasse, quantProficienciasFerramentasClasse, quantProficienciasPericiasClasse, quantProficienciasSavesAtributosClasse, quantFeaturesClasse, dataCriacaoClasse, classeAtiva ),
-	( null, 6, "Druida", "", dadoClasse, classeTemSpells, quantProficienciasArmaduraClasse, quantProficienciasArmasClasse, quantProficienciasFerramentasClasse, quantProficienciasPericiasClasse, quantProficienciasSavesAtributosClasse, quantFeaturesClasse, dataCriacaoClasse, classeAtiva ),
-	( null, 7, "Feiticeiro", "", dadoClasse, classeTemSpells, quantProficienciasArmaduraClasse, quantProficienciasArmasClasse, quantProficienciasFerramentasClasse, quantProficienciasPericiasClasse, quantProficienciasSavesAtributosClasse, quantFeaturesClasse, dataCriacaoClasse, classeAtiva ),
-	( null, 8, "Guardião", "", dadoClasse, classeTemSpells, quantProficienciasArmaduraClasse, quantProficienciasArmasClasse, quantProficienciasFerramentasClasse, quantProficienciasPericiasClasse, quantProficienciasSavesAtributosClasse, quantFeaturesClasse, dataCriacaoClasse, classeAtiva ),
-	( null, 9, "Guerreiro", "", dadoClasse, classeTemSpells, quantProficienciasArmaduraClasse, quantProficienciasArmasClasse, quantProficienciasFerramentasClasse, quantProficienciasPericiasClasse, quantProficienciasSavesAtributosClasse, quantFeaturesClasse, dataCriacaoClasse, classeAtiva ),
-	( null, 10, "Ladino", "", dadoClasse, classeTemSpells, quantProficienciasArmaduraClasse, quantProficienciasArmasClasse, quantProficienciasFerramentasClasse, quantProficienciasPericiasClasse, quantProficienciasSavesAtributosClasse, quantFeaturesClasse, dataCriacaoClasse, classeAtiva ),
-	( null, 11, "Mago", "", dadoClasse, classeTemSpells, quantProficienciasArmaduraClasse, quantProficienciasArmasClasse, quantProficienciasFerramentasClasse, quantProficienciasPericiasClasse, quantProficienciasSavesAtributosClasse, quantFeaturesClasse, dataCriacaoClasse, classeAtiva ),
-	( null, 12, "Monge", "", dadoClasse, classeTemSpells, quantProficienciasArmaduraClasse, quantProficienciasArmasClasse, quantProficienciasFerramentasClasse, quantProficienciasPericiasClasse, quantProficienciasSavesAtributosClasse, quantFeaturesClasse, dataCriacaoClasse, classeAtiva ),
-	( null, 13, "Paladino", "", dadoClasse, classeTemSpells, quantProficienciasArmaduraClasse, quantProficienciasArmasClasse, quantProficienciasFerramentasClasse, quantProficienciasPericiasClasse, quantProficienciasSavesAtributosClasse, quantFeaturesClasse, dataCriacaoClasse, classeAtiva );
+	( null, 2, "Bárbaro", "", 2, 6, 5, 0, 0, 2, 2, 3, 4, 1, 6, CURDATE(), 1 ),
+	( null, 3, "Bardo", "", 2, 6, 5, 0, 0, 2, 2, 3, 4, 1, 6, CURDATE(), 1 ),
+	( null, 4, "Bruxo", "", 2, 6, 5, 0, 0, 2, 2, 3, 4, 1, 6, CURDATE(), 1 ),
+	( null, 5, "Clérigo", "", 2, 6, 5, 0, 0, 2, 2, 3, 4, 1, 6, CURDATE(), 1 ),
+	( null, 6, "Druida", "", 2, 6, 5, 0, 0, 2, 2, 3, 4, 1, 6, CURDATE(), 1 ),
+	( null, 7, "Feiticeiro", "", 2, 6, 5, 0, 0, 2, 2, 3, 4, 1, 6, CURDATE(), 1 ),
+	( null, 8, "Guardião", "", 2, 6, 5, 0, 0, 2, 2, 3, 4, 1, 6, CURDATE(), 1 ),
+	( null, 9, "Guerreiro", "", 2, 6, 5, 0, 0, 2, 2, 3, 4, 1, 6, CURDATE(), 1 ),
+	( null, 10, "Ladino", "", 2, 6, 5, 0, 0, 2, 2, 3, 4, 1, 6, CURDATE(), 1 ),
+	( null, 11, "Mago", "", 2, 6, 5, 0, 0, 2, 2, 3, 4, 1, 6, CURDATE(), 1 ),
+	( null, 12, "Monge", "", 2, 6, 5, 0, 0, 2, 2, 3, 4, 1, 6, CURDATE(), 1 ),
+	( null, 13, "Paladino", "", 2, 6, 5, 0, 0, 2, 2, 3, 4, 1, 6, CURDATE(), 1 );
 
 -- ----------------------------------------------------------------------------------------------------
 -- Imagem Padrão da SubClasse -------------------------------------------------------------------------
@@ -383,7 +367,7 @@ INSERT INTO ImagemSubClasse
 VALUES
 	( null,"/img/imagemPadrao.png","Imagem Padrão",CURDATE(), 1 ),
     
-    ( null,"/img/imagemPadrao.png","Imagem ",CURDATE(), 1 ),
+    ( null,"/img/imagemPadrao.png","Imagem ", CURDATE(), 1 ),
     
     ( null,"/img/imagemPadrao.png","Imagem ",CURDATE(), 1 ),
     
