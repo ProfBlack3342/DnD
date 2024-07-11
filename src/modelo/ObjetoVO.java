@@ -15,7 +15,7 @@ import utilidades.Converter;
 public abstract class ObjetoVO
 {
     /*
-        Tabela (
+        NomeTabela (
             id INT NOT NULL,
             ... ,
             dataCriacaoImagemUsuario DATE NOT NULL,

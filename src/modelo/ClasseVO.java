@@ -10,6 +10,12 @@ package modelo;
  */
 public class ClasseVO extends ObjetoVO
 {
+    private static final String NOME_TABELA = "";
+    
+    private static final String[] NOMES_COLUNAS = new String[]{
+        ""
+    };
+    
     private String nome;
     private String descricao;
 

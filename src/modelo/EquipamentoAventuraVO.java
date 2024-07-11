@@ -8,32 +8,13 @@ package modelo;
  *
  * @author dudup
  */
-public class SubClasseVO extends ClasseVO
+public class EquipamentoAventuraVO extends ObjetoVO
 {
     private static final String NOME_TABELA = "";
     
     private static final String[] NOMES_COLUNAS = new String[]{
         ""
     };
-    
-    private String nome;
-    private String descricao;
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
     
     
 }

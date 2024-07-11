@@ -8,7 +8,7 @@ package modelo;
  *
  * @author dudup
  */
-public class ImagemRacaVO extends ImagemVO
+public class PericiaVO extends ObjetoVO
 {
     private static final String NOME_TABELA = "";
     

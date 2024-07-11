@@ -8,7 +8,11 @@ package modelo;
  *
  * @author dudup
  */
-public class ImagemSubRacaVO extends ImagemVO
+public class FerramentaVO extends ObjetoVO
 {
+    private static final String NOME_TABELA = "";
     
+    private static final String[] NOMES_COLUNAS = new String[]{
+        ""
+    };
 }

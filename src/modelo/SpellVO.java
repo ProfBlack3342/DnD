@@ -8,7 +8,11 @@ package modelo;
  *
  * @author dudup
  */
-public class ProficienciasSkillPersonagemVO extends ObjetoVO
+public class SpellVO extends ObjetoVO
 {
+    private static final String NOME_TABELA = "";
     
+    private static final String[] NOMES_COLUNAS = new String[]{
+        ""
+    };
 }
