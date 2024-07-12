@@ -9,13 +9,20 @@ import exception.NoDataFoundException;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import modelo.BackgroundVO;
 import modelo.ClasseVO;
-import modelo.DescricaoPersonagemVO;
+import modelo.ImagemClasseVO;
+import modelo.ImagemRacaVO;
+import modelo.ImagemSubClasseVO;
+import modelo.ImagemUsuarioVO;
 import modelo.PersonagemVO;
 import modelo.RacaVO;
 import modelo.SubClasseVO;
@@ -158,11 +165,6 @@ public class GUICriarPersonagem extends javax.swing.JInternalFrame implements It
                 JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
             }
         }
-        else
-        {
-            //Nenhuma selecionada
-        }
-        
     }
     
     private void carregarSubracas()
@@ -184,11 +186,6 @@ public class GUICriarPersonagem extends javax.swing.JInternalFrame implements It
                 JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
             }
         }
-        else
-        {
-            //Nenhuma selecionada
-        }
-        
     }
     
     private void tentarCriarPersonagem()
@@ -202,44 +199,50 @@ public class GUICriarPersonagem extends javax.swing.JInternalFrame implements It
         int idSubraca = subRacas[jcbRacas.getSelectedIndex()].getId();
         
         
-        PersonagemVO pVO = new PersonagemVO(
-                0,
-                data,
-                usuarioLogado.getId(),
-                1,
-                idClasse,
-                idSubclasse,
-                idRaca,
-                idSubraca,
-                idBackground,
-                "Nome"
-        );
+        PersonagemVO pVO = new PersonagemVO();
         
-        DescricaoPersonagemVO dpVO = new DescricaoPersonagemVO(
-                WIDTH,
-                data,
-                idRaca,
-                idSubraca,
-                title,
-                idRaca,
-                ABORT,
-                ERROR,
-                title,
-                title,
-                title,
-                title,
-                title,
-                title,
-                title,
-                title,
-                title,
-                title,
-                title
-        );
+        pVO.setIdUsuario(usuarioLogado.getId());
+        pVO.setIdImagem(1);
+        pVO.setIdClasse(idClasse);
+        pVO.setIdSubclasse(idSubclasse);
+        pVO.setIdRaca(idRaca);
+        pVO.setIdSubraca(idSubraca);
+        pVO.setIdBackground(idBackground);
+        
+        pVO.setValorSTRBase(ALLBITS);
+        pVO.setValorDEXBase(idClasse);
+        pVO.setValorCONBase(idSubclasse);
+        pVO.setValorINTBase(ALLBITS);
+        pVO.setValorWISBase(ALLBITS);
+        pVO.setValorCHABase(idSubclasse);
+        pVO.setNome(TITLE_PROPERTY);
+        pVO.setAlinhamento(title);
+        pVO.setIdade(idRaca);
+        pVO.setAltura(ABORT);
+        pVO.setPeso(ERROR);
+        pVO.setOlhos(title);
+        pVO.setPele(title);
+        pVO.setCabelo(title);
+        pVO.setAparencia(title);
+        pVO.setHistoria(title);
+        pVO.setPersonalidade(title);
+        pVO.setIdeais(title);
+        pVO.setLigacoes(title);
+        pVO.setDefeitos(title);
+        pVO.setAliados(title);
+        pVO.setOutrasInformacoes(title);
+        pVO.setQuantCobre(ABORT);
+        pVO.setQuantPrata(idSubraca);
+        pVO.setQuantElectrum(FRAMEBITS);
+        pVO.setQuantOuro(ABORT);
+        pVO.setQuantPlatina(PROPERTIES);
+        
+        pVO.setDataCriacao(data);
+        pVO.setAtivo(true);
+        
         try
         {
             ServicosFactory.getPersonagemServicos().cadastrarPersonagem(pVO);
-            ServicosFactory.getDescricaoPersonagemServicos().cadastrarDescricaoPersonagem(dpVO);
         }
         catch(SQLException e)
         {
@@ -262,15 +265,21 @@ public class GUICriarPersonagem extends javax.swing.JInternalFrame implements It
         jcbClasses = new javax.swing.JComboBox<>();
         jScrollPaneClasse = new javax.swing.JScrollPane();
         jTextAreaClasse = new javax.swing.JTextArea();
+        jPanel2 = new javax.swing.JPanel();
+        jlblImagemClasse = new javax.swing.JLabel();
         jPanelSelecaoSubclasse = new javax.swing.JPanel();
         jcbSubclasses = new javax.swing.JComboBox<>();
         jScrollPaneSubclasse = new javax.swing.JScrollPane();
         jTextAreaSubclasse = new javax.swing.JTextArea();
+        jPanel3 = new javax.swing.JPanel();
+        jlblImagemSubClasse = new javax.swing.JLabel();
         jPanelRaca = new javax.swing.JPanel();
         jPanelSelecaoRaca = new javax.swing.JPanel();
         jcbRacas = new javax.swing.JComboBox<>();
         jScrollPaneRaca = new javax.swing.JScrollPane();
         jTextAreaRacas = new javax.swing.JTextArea();
+        jPanel4 = new javax.swing.JPanel();
+        jlblImagemRaça = new javax.swing.JLabel();
         jPanelSelecaoSubraca = new javax.swing.JPanel();
         jcbSubracas = new javax.swing.JComboBox<>();
         jScrollPaneSubraca = new javax.swing.JScrollPane();
@@ -298,21 +307,50 @@ public class GUICriarPersonagem extends javax.swing.JInternalFrame implements It
         jTextAreaClasse.setRows(5);
         jScrollPaneClasse.setViewportView(jTextAreaClasse);
 
+        jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        jlblImagemClasse.setText("imagem classe");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jlblImagemClasse, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jlblImagemClasse, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
         javax.swing.GroupLayout jPanelSelecaoClasseLayout = new javax.swing.GroupLayout(jPanelSelecaoClasse);
         jPanelSelecaoClasse.setLayout(jPanelSelecaoClasseLayout);
         jPanelSelecaoClasseLayout.setHorizontalGroup(
             jPanelSelecaoClasseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelSelecaoClasseLayout.createSequentialGroup()
                 .addComponent(jcbClasses, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(jScrollPaneClasse, javax.swing.GroupLayout.DEFAULT_SIZE, 703, Short.MAX_VALUE)
+                .addContainerGap(634, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelSelecaoClasseLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPaneClasse, javax.swing.GroupLayout.PREFERRED_SIZE, 520, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanelSelecaoClasseLayout.setVerticalGroup(
             jPanelSelecaoClasseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelSelecaoClasseLayout.createSequentialGroup()
                 .addComponent(jcbClasses, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPaneClasse, javax.swing.GroupLayout.DEFAULT_SIZE, 252, Short.MAX_VALUE))
+                .addGroup(jPanelSelecaoClasseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPaneClasse, javax.swing.GroupLayout.DEFAULT_SIZE, 252, Short.MAX_VALUE)
+                    .addGroup(jPanelSelecaoClasseLayout.createSequentialGroup()
+                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())))
         );
 
         jPanelSelecaoSubclasse.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Escolha uma SubClasse"));
@@ -324,21 +362,50 @@ public class GUICriarPersonagem extends javax.swing.JInternalFrame implements It
         jTextAreaSubclasse.setRows(5);
         jScrollPaneSubclasse.setViewportView(jTextAreaSubclasse);
 
+        jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        jlblImagemSubClasse.setText("imagem subclasse");
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jlblImagemSubClasse, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jlblImagemSubClasse, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
         javax.swing.GroupLayout jPanelSelecaoSubclasseLayout = new javax.swing.GroupLayout(jPanelSelecaoSubclasse);
         jPanelSelecaoSubclasse.setLayout(jPanelSelecaoSubclasseLayout);
         jPanelSelecaoSubclasseLayout.setHorizontalGroup(
             jPanelSelecaoSubclasseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelSelecaoSubclasseLayout.createSequentialGroup()
                 .addComponent(jcbSubclasses, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addComponent(jScrollPaneSubclasse)
+                .addGap(0, 634, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelSelecaoSubclasseLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPaneSubclasse, javax.swing.GroupLayout.PREFERRED_SIZE, 520, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanelSelecaoSubclasseLayout.setVerticalGroup(
             jPanelSelecaoSubclasseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelSelecaoSubclasseLayout.createSequentialGroup()
                 .addComponent(jcbSubclasses, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPaneSubclasse, javax.swing.GroupLayout.DEFAULT_SIZE, 252, Short.MAX_VALUE))
+                .addGroup(jPanelSelecaoSubclasseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPaneSubclasse, javax.swing.GroupLayout.DEFAULT_SIZE, 252, Short.MAX_VALUE)
+                    .addGroup(jPanelSelecaoSubclasseLayout.createSequentialGroup()
+                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())))
         );
 
         javax.swing.GroupLayout jPanelClasseLayout = new javax.swing.GroupLayout(jPanelClasse);
@@ -373,21 +440,50 @@ public class GUICriarPersonagem extends javax.swing.JInternalFrame implements It
         jTextAreaRacas.setRows(5);
         jScrollPaneRaca.setViewportView(jTextAreaRacas);
 
+        jPanel4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        jlblImagemRaça.setText("imagem raça");
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jlblImagemRaça, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jlblImagemRaça, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
         javax.swing.GroupLayout jPanelSelecaoRacaLayout = new javax.swing.GroupLayout(jPanelSelecaoRaca);
         jPanelSelecaoRaca.setLayout(jPanelSelecaoRacaLayout);
         jPanelSelecaoRacaLayout.setHorizontalGroup(
             jPanelSelecaoRacaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelSelecaoRacaLayout.createSequentialGroup()
                 .addComponent(jcbRacas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addComponent(jScrollPaneRaca, javax.swing.GroupLayout.DEFAULT_SIZE, 703, Short.MAX_VALUE)
+                .addGap(0, 634, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelSelecaoRacaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPaneRaca, javax.swing.GroupLayout.PREFERRED_SIZE, 520, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanelSelecaoRacaLayout.setVerticalGroup(
             jPanelSelecaoRacaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelSelecaoRacaLayout.createSequentialGroup()
                 .addComponent(jcbRacas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPaneRaca, javax.swing.GroupLayout.DEFAULT_SIZE, 252, Short.MAX_VALUE))
+                .addGroup(jPanelSelecaoRacaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPaneRaca, javax.swing.GroupLayout.DEFAULT_SIZE, 252, Short.MAX_VALUE)
+                    .addGroup(jPanelSelecaoRacaLayout.createSequentialGroup()
+                        .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())))
         );
 
         jPanelSelecaoSubraca.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Escolha uma SubRaça"));
@@ -686,6 +782,9 @@ public class GUICriarPersonagem extends javax.swing.JInternalFrame implements It
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanelBackground;
     private javax.swing.JPanel jPanelBackstory;
     private javax.swing.JPanel jPanelClasse;
@@ -717,6 +816,9 @@ public class GUICriarPersonagem extends javax.swing.JInternalFrame implements It
     private javax.swing.JComboBox<String> jcbRacas;
     private javax.swing.JComboBox<String> jcbSubclasses;
     private javax.swing.JComboBox<String> jcbSubracas;
+    private javax.swing.JLabel jlblImagemClasse;
+    private javax.swing.JLabel jlblImagemRaça;
+    private javax.swing.JLabel jlblImagemSubClasse;
     // End of variables declaration//GEN-END:variables
 
     @Override
@@ -728,10 +830,12 @@ public class GUICriarPersonagem extends javax.swing.JInternalFrame implements It
             if(jc == jcbClasses)
             {
                 jTextAreaClasse.setText(null);
+                jlblImagemClasse.setIcon(null);
             }
             else if(jc == jcbRacas)
             {
                 jTextAreaRacas.setText(null);
+                jlblImagemRaça.setIcon(null);
             }
             else if(jc == jcbBackgrounds)
             {
@@ -740,6 +844,7 @@ public class GUICriarPersonagem extends javax.swing.JInternalFrame implements It
             else if(jc == jcbSubclasses)
             {
                 jTextAreaSubclasse.setText(null);
+                jlblImagemRaça.setIcon(null);
             }
             else if(jc == jcbSubracas)
             {
@@ -754,8 +859,32 @@ public class GUICriarPersonagem extends javax.swing.JInternalFrame implements It
                 
                 if(indice != -1)
                 {
-                    jTextAreaClasse.setText(classes[indice].getDescricao());
-                    carregarSubclasses();
+                    try
+                    {
+                        ImagemClasseVO imagemClasse = ServicosFactory.getImagemServicos().pesquisarImagemClasse(classes[indice].getIdImagem());
+                        String caminhoImagem = imagemClasse.getCaminhoImagem();
+                        BufferedImage imagemClasseBuff = ImageIO.read(getClass().getResourceAsStream(caminhoImagem));
+                        
+                        if(imagemClasseBuff != null)
+                        {
+                            jlblImagemClasse.setIcon(new ImageIcon(imagemClasseBuff));
+                        }
+                        else
+                        {
+                            JOptionPane.showMessageDialog(null, "Erro ao carregar imagem da classe, usando default.", "Erro", JOptionPane.ERROR_MESSAGE);
+                        }
+                        
+                    }
+                    catch(SQLException | NoDataFoundException | IOException | IllegalArgumentException ex)
+                    {
+                        JOptionPane.showMessageDialog(null, "Erro em carregar imagem da classe, usando default.\nDetalhes do erro: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+                    }
+                    finally
+                    {
+                        jlblImagemClasse.setText(null);
+                        jTextAreaClasse.setText(classes[indice].getDescricao());
+                        carregarSubclasses();
+                    }
                 }
             }
             else if(jc == jcbRacas)
@@ -764,8 +893,32 @@ public class GUICriarPersonagem extends javax.swing.JInternalFrame implements It
                 
                 if(indice != -1)
                 {
-                    jTextAreaRacas.setText(racas[indice].getDescricao());
-                    carregarSubracas();
+                    try
+                    {
+                        ImagemRacaVO imagemRaca = ServicosFactory.getImagemServicos().pesquisarImagemRaca(racas[indice].getIdImagem());
+                        String caminhoImagem = imagemRaca.getCaminhoImagem();
+                        BufferedImage imagemRacaBuff = ImageIO.read(getClass().getResourceAsStream(caminhoImagem));
+                        
+                        if(imagemRacaBuff != null)
+                        {
+                            jlblImagemRaça.setIcon(new ImageIcon(imagemRacaBuff));
+                        }
+                        else
+                        {
+                            JOptionPane.showMessageDialog(null, "Erro ao carregar imagem da classe, usando default.", "Erro", JOptionPane.ERROR_MESSAGE);
+                        }
+                        
+                    }
+                    catch(SQLException | NoDataFoundException | IOException | IllegalArgumentException ex)
+                    {
+                        JOptionPane.showMessageDialog(null, "Erro em carregar imagem da classe, usando default.\nDetalhes do erro: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+                    }
+                    finally
+                    {
+                        jlblImagemRaça.setText(null);
+                        jTextAreaRacas.setText(racas[indice].getDescricao());
+                        carregarSubracas();
+                    }
                 }
             }
             else if(jc == jcbBackgrounds)
@@ -780,7 +933,33 @@ public class GUICriarPersonagem extends javax.swing.JInternalFrame implements It
                 int indice = jcbSubclasses.getSelectedIndex();
                 
                 if(indice != -1)
-                    jTextAreaSubclasse.setText(subclasses[indice].getDescricao());
+                {
+                    try
+                    {
+                        ImagemSubClasseVO imagemSubClasse = ServicosFactory.getImagemServicos().pesquisarImagemSubClasse(subclasses[indice].getIdImagem());
+                        String caminhoImagem = imagemSubClasse.getCaminhoImagem();
+                        BufferedImage imagemSubClasseBuff = ImageIO.read(getClass().getResourceAsStream(caminhoImagem));
+                        
+                        if(imagemSubClasseBuff != null)
+                        {
+                            jlblImagemSubClasse.setIcon(new ImageIcon(imagemSubClasseBuff));
+                        }
+                        else
+                        {
+                            JOptionPane.showMessageDialog(null, "Erro ao carregar imagem da subclasse, usando default.", "Erro", JOptionPane.ERROR_MESSAGE);
+                        }
+                        
+                    }
+                    catch(SQLException | NoDataFoundException | IOException | IllegalArgumentException ex)
+                    {
+                        JOptionPane.showMessageDialog(null, "Erro em carregar imagem da subclasse, usando default.\nDetalhes do erro: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+                    }
+                    finally
+                    {
+                        jlblImagemSubClasse.setText(null);
+                        jTextAreaSubclasse.setText(subclasses[indice].getDescricao());
+                    }
+                }
             }
             else if(jc == jcbSubracas)
             {

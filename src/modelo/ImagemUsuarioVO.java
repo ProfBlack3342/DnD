@@ -17,7 +17,7 @@ public class ImagemUsuarioVO extends ImagemVO
         ImagemUsuario (
             idImagemUsuario INT NOT NULL,
             caminhoImagemUsuario VARCHAR(260) NOT NULL,
-            descricaoImagemUsuario VARCHAR(400) NULL,
+            descricaoImagemUsuario VARCHAR(500) NULL,
             dataCriacaoImagemUsuario DATE NOT NULL,
             imagemUsuarioAtiva TINYINT(1) NOT NULL DEFAULT 1
         )

@@ -12,8 +12,19 @@ import java.sql.Date;
  */
 public class ImagemVO extends ObjetoVO
 {
+    /*
+        ImagemSubClasse (
+            idImagem INT NOT NULL,
+
+            caminhoImagem VARCHAR(260) NOT NULL,
+            descricaoImagem VARCHAR(500) NULL,
+
+            dataCriacaoImagem DATE NOT NULL,
+            imagemAtiva TINYINT(1) NOT NULL DEFAULT 1
+        );
+    */
     private static final int LIMITE_CAMINHO_IMAGEM = 260;
-    private static final int LIMITE_DESCRICAO_IMAGEM = 400;
+    private static final int LIMITE_DESCRICAO_IMAGEM = 500;
     
     private String caminhoImagem;
     private String descricaoImagem;

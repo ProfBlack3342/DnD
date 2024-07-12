@@ -55,13 +55,13 @@ public final class PersonagemDAO extends ObjetoDAO
                 PreparedStatement pstm = con.prepareStatement(sql);)
         {
             pstm.setInt(1, pVO.getIdUsuario());
-            pstm.setInt(2, pVO.getIdImagemPersonagem());
+            pstm.setInt(2, pVO.getIdImagem());
             pstm.setInt(3, pVO.getIdClasse());
             pstm.setInt(4, pVO.getIdSubclasse());
             pstm.setInt(5, pVO.getIdRaca());
             pstm.setInt(6, pVO.getIdSubraca());
             pstm.setInt(7, pVO.getIdBackground());
-            pstm.setString(8, pVO.getNomePersonagem());
+            pstm.setString(8, pVO.getNome());
             pstm.setDate(9, pVO.getDataCriacao());
             pstm.setBoolean(10, pVO.isAtivo());
             
@@ -98,13 +98,13 @@ public final class PersonagemDAO extends ObjetoDAO
                 pVO.setId(rs.getInt(nomesColunas[0]));
                 
                 pVO.setIdUsuario(rs.getInt(nomesColunas[1]));
-                pVO.setIdImagemPersonagem(rs.getInt(nomesColunas[2]));
+                pVO.setIdImagem(rs.getInt(nomesColunas[2]));
                 pVO.setIdClasse(rs.getInt(nomesColunas[3]));
                 pVO.setIdSubclasse(rs.getInt(nomesColunas[4]));
                 pVO.setIdRaca(rs.getInt(nomesColunas[5]));
                 pVO.setIdSubraca(rs.getInt(nomesColunas[6]));
                 pVO.setIdBackground(rs.getInt(nomesColunas[7]));
-                pVO.setNomePersonagem(rs.getString(nomesColunas[8]));
+                pVO.setNome(rs.getString(nomesColunas[8]));
                 
                 pVO.setDataCriacao(rs.getDate(nomesColunas[9]));
                 pVO.setAtivo(rs.getBoolean(nomesColunas[10]));
@@ -151,7 +151,7 @@ public final class PersonagemDAO extends ObjetoDAO
                          pstm.setInt(i, pVO.getIdUsuario());
                          break;
                      case 2:
-                         pstm.setInt(i, pVO.getIdImagemPersonagem());
+                         pstm.setInt(i, pVO.getIdImagem());
                          break;
                      case 3:
                          pstm.setInt(i, pVO.getIdClasse());
@@ -169,7 +169,7 @@ public final class PersonagemDAO extends ObjetoDAO
                          pstm.setInt(i, pVO.getIdBackground());
                          break;
                      case 8:
-                         pstm.setString(i, pVO.getNomePersonagem());
+                         pstm.setString(i, pVO.getNome());
                          break;
                      case 9:
                          pstm.setDate(i, pVO.getDataCriacao());
@@ -193,13 +193,13 @@ public final class PersonagemDAO extends ObjetoDAO
                     
                     pVOsaida.setId(rs.getInt(nomesColunas[0]));
                     pVOsaida.setIdUsuario(rs.getInt(nomesColunas[1]));
-                    pVOsaida.setIdImagemPersonagem(rs.getInt(nomesColunas[2]));
+                    pVOsaida.setIdImagem(rs.getInt(nomesColunas[2]));
                     pVOsaida.setIdClasse(rs.getInt(nomesColunas[3]));
                     pVOsaida.setIdSubclasse(rs.getInt(nomesColunas[4]));
                     pVOsaida.setIdRaca(rs.getInt(nomesColunas[5]));
                     pVOsaida.setIdSubraca(rs.getInt(nomesColunas[6]));
                     pVOsaida.setIdBackground(rs.getInt(nomesColunas[7]));
-                    pVOsaida.setNomePersonagem(rs.getString(nomesColunas[8]));
+                    pVOsaida.setNome(rs.getString(nomesColunas[8]));
                     
                     pVOsaida.setDataCriacao(rs.getDate(nomesColunas[9]));
                     pVOsaida.setAtivo(rs.getBoolean(nomesColunas[10]));
@@ -250,13 +250,13 @@ public final class PersonagemDAO extends ObjetoDAO
             PreparedStatement pstm = con.prepareStatement(sql);)
         {
             pstm.setInt(1, pVO.getIdUsuario());
-            pstm.setInt(2, pVO.getIdImagemPersonagem());
+            pstm.setInt(2, pVO.getIdImagem());
             pstm.setInt(3, pVO.getIdClasse());
             pstm.setInt(4, pVO.getIdSubclasse());
             pstm.setInt(5, pVO.getIdRaca());
             pstm.setInt(6, pVO.getIdSubraca());
             pstm.setInt(7, pVO.getIdBackground());
-            pstm.setString(8, pVO.getNomePersonagem());
+            pstm.setString(8, pVO.getNome());
             
             pstm.setDate(9, pVO.getDataCriacao());
             pstm.setBoolean(10, pVO.isAtivo());

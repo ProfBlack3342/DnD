@@ -15,7 +15,7 @@ import modelo.SubRacaVO;
  *
  * @author 181700271
  */
-public class SubRacaDAO extends RacaDAO
+public class SubRacaDAO extends ObjetoDAO
 {
     @Override
     public void cadastrar(ObjetoVO obVO) throws SQLException {

@@ -12,7 +12,11 @@ public final class DAOFactory
 {
     private static final BackgroundDAO BACKGROUND_DAO = new BackgroundDAO();
     private static final ClasseDAO CLASSE_DAO = new ClasseDAO();
-    private static final ImagemUsuarioDAO IMAGEM_DAO = new ImagemUsuarioDAO();
+    private static final ImagemClasseDAO IMAGEM_CLASSE_DAO = new ImagemClasseDAO();
+    private static final ImagemPersonagemDAO IMAGEM_PERSONAGEM_DAO = new ImagemPersonagemDAO();
+    private static final ImagemRacaDAO IMAGEM_RACA_DAO = new ImagemRacaDAO();
+    private static final ImagemSubClasseDAO IMAGEM_SUBCLASSE_DAO = new ImagemSubClasseDAO();
+    private static final ImagemUsuarioDAO IMAGEM_USUARIO_DAO = new ImagemUsuarioDAO();
     private static final PersonagemDAO PERSONAGEM_DAO = new PersonagemDAO();
     private static final RacaDAO RACA_DAO = new RacaDAO();
     private static final SubClasseDAO SUBCLASSE_DAO = new SubClasseDAO();
@@ -35,7 +39,31 @@ public final class DAOFactory
      * 
      * @return 
      */
-    public static ImagemUsuarioDAO getImagemDAO() {return IMAGEM_DAO;}
+    public static ImagemClasseDAO getImagemClasseDAO() {return IMAGEM_CLASSE_DAO;}
+    
+    /**
+     *
+     * @return
+     */
+    public static ImagemPersonagemDAO getImagemPersonagemDAO() {return IMAGEM_PERSONAGEM_DAO;}
+    
+    /**
+     * 
+     * @return 
+     */
+    public static ImagemRacaDAO getImagemRacaDAO() {return IMAGEM_RACA_DAO;}
+    
+    /**
+     * 
+     * @return 
+     */
+    public static ImagemSubClasseDAO getImagemSubClasseDAO() {return IMAGEM_SUBCLASSE_DAO;}
+    
+    /**
+     * 
+     * @return 
+     */
+    public static ImagemUsuarioDAO getImagemUsuarioDAO() {return IMAGEM_USUARIO_DAO;}
     
     /**
      *

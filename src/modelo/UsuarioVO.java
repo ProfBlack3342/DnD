@@ -17,15 +17,18 @@ public final class UsuarioVO extends ObjetoVO
     /*
         Usuario (
             idUsuario INT NOT NULL,
+    
             idImagemUsuario INT NULL,
             idTipoUsuario INT NOT NULL,
+
             nomeUsuario VARCHAR(50) NOT NULL UNIQUE,
             senhaUsuario CHAR(60) NOT NULL,
             emailUsuario VARCHAR(70) NOT NULL,
             dataAniversarioUsuario DATE NOT NULL,
-            descricaoUsuario VARCHAR(400) NULL,
-            quantPersonagensTotal INT NOT NULL DEFAULT 6,
-            quantPersonagensCriados INT NOT NULL DEFAULT 0,
+            descricaoUsuario VARCHAR(500) NULL,
+            quantPersonagensTotalUsuario INT NOT NULL DEFAULT 6,
+            quantPersonagensCriadosUsuario INT NOT NULL DEFAULT 0,
+
             dataCriacaoUsuario DATE NOT NULL,
             usuarioAtivo TINYINT(1) NOT NULL DEFAULT 1
         )
@@ -39,15 +42,15 @@ public final class UsuarioVO extends ObjetoVO
         "emailUsuario",
         "dataAniversarioUsuario",
         "descricaoUsuario",
-        "quantPersonagensTotal",
-        "quantPersonagensCriados",
+        "quantPersonagensTotalUsuario",
+        "quantPersonagensCriadosUsuario",
         "dataCriacaoUsuario",
         "usuarioAtivo"
     };
     private static final int LIMITE_NOME_USUARIO = 50;
     private static final int TAMANHO_HASH_SENHA_USUARIO = 60; // Hash sempre vai ter tamanho 60, NÃO ALTERAR SEM ALTERAR O SISTEMA DE HASH DA SENHA ANTES
     private static final int LIMITE_EMAIL_USUARIO = 70;
-    private static final int LIMITE_DESCRICAO_USUARIO = 400;
+    private static final int LIMITE_DESCRICAO_USUARIO = 500;
     
     private int idImagem;
     private int idTipo;
@@ -59,7 +62,7 @@ public final class UsuarioVO extends ObjetoVO
     private int anoAniversarioUsuario;
     private Date dataAniversarioUsuario;
     private String descricaoUsuario;
-    private int quantPersonagensTotal = 6;
+    private int quantPersonagensTotal = 9;
     private int quantPersonagensCriados = 0;
     private PersonagemVO[] listaPersonagens = new PersonagemVO[quantPersonagensTotal];
 

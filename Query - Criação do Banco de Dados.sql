@@ -724,7 +724,6 @@ CREATE TABLE IF NOT EXISTS Raca (
     quantLinguagensRaca INT NOT NULL,
     quantFeaturesRaca INT NOT NULL,
     
-    
     dataCriacaoRaca DATE NOT NULL,
     racaAtiva TINYINT(1) NOT NULL DEFAULT 1
 );

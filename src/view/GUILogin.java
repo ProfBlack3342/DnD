@@ -70,9 +70,7 @@ public class GUILogin extends javax.swing.JFrame implements ItemListener
         {
             String caminhoImagemLogin = "/img/logon.png";
             String caminhoImagemCadastro = "/img/cadastro.png";
-            BufferedImage imagem;
-            
-            imagem = ImageIO.read(getClass().getResourceAsStream(caminhoImagemLogin));
+            BufferedImage imagem = ImageIO.read(getClass().getResourceAsStream(caminhoImagemLogin));
             if(imagem != null)
             {
                 jlblImagemLogin.setIcon(new ImageIcon(imagem));
