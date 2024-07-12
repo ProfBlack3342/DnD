@@ -12,7 +12,6 @@ public final class DAOFactory
 {
     private static final BackgroundDAO BACKGROUND_DAO = new BackgroundDAO();
     private static final ClasseDAO CLASSE_DAO = new ClasseDAO();
-    private static final DescricaoPersonagemDAO DESCRICAO_PERSONAGEM_DAO = new DescricaoPersonagemDAO();
     private static final ImagemUsuarioDAO IMAGEM_DAO = new ImagemUsuarioDAO();
     private static final PersonagemDAO PERSONAGEM_DAO = new PersonagemDAO();
     private static final RacaDAO RACA_DAO = new RacaDAO();
@@ -31,12 +30,6 @@ public final class DAOFactory
      * @return
      */
     public static ClasseDAO getClasseDAO() {return CLASSE_DAO;}
-    
-    /**
-     *
-     * @return
-     */
-    public static DescricaoPersonagemDAO getDescricaoPersonagemDAO() {return DESCRICAO_PERSONAGEM_DAO;}
     
     /**
      * 

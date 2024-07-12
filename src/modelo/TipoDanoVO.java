@@ -21,7 +21,6 @@ public class TipoDanoVO extends ObjetoVO
 //    tipoDanoAtivo TINYINT(1) NOT NULL DEFAULT 1
 //    )
     private static final String NOME_TABELA = "tipodano";
-    
     private static final String[] NOMES_COLUNAS = new String[]{
         "idTipoDano",
         "nomeTipoDano",

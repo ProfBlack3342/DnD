@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS Atributo (
     idAtributo INT NOT NULL,
     
     nomeAtributo VARCHAR(50) NOT NULL UNIQUE,
-    descricaoAtributo VARCHAR(400) NOT NULL,
+    descricaoAtributo VARCHAR(500) NOT NULL,
     
     dataCriacaoAtributo DATE NOT NULL,
     atributoAtivo TINYINT(1) NOT NULL DEFAULT 1
@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS TipoArma (
     idTipoArma INT NOT NULL,
     
     nomeTipoArma VARCHAR(50) NOT NULL UNIQUE,
-    descricaoTipoArma VARCHAR(400) NULL,
+    descricaoTipoArma VARCHAR(500) NULL,
     
     dataCriacaoTipoArma DATE NOT NULL,
     tipoArmaAtivo TINYINT(1) NOT NULL DEFAULT 1
@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS TipoDano (
     
     nomeTipoDano VARCHAR(50) NOT NULL UNIQUE,
     abreviacaoNomeTipoDano VARCHAR(2) NOT NULL UNIQUE,
-    descricaoTipoDano VARCHAR(400) NOT NULL,
+    descricaoTipoDano VARCHAR(500) NOT NULL,
     
     dataCriacaoTipoDano DATE NOT NULL,
     tipoDanoAtivo TINYINT(1) NOT NULL DEFAULT 1
@@ -65,7 +65,7 @@ CREATE TABLE IF NOT EXISTS PropriedadeArma (
     idPropriedadeArma INT NOT NULL,
     
     nomePropriedadeArma VARCHAR(50) NOT NULL,
-    descricaoPropriedadeArma VARCHAR(400) NOT NULL,
+    descricaoPropriedadeArma VARCHAR(500) NOT NULL,
     
     dataCriacaoPropriedadeArma DATE NOT NULL,
     propriedadeArmaAtiva TINYINT(1) NOT NULL DEFAULT 1
@@ -82,7 +82,7 @@ CREATE TABLE IF NOT EXISTS Arma (
     
     idTipoArma INT NOT NULL,
     nomeArma VARCHAR(50) NOT NULL,
-    descricaoArma VARCHAR(400) NOT NULL,
+    descricaoArma VARCHAR(500) NOT NULL,
     precoCobreArma INT NOT NULL,
     precoPrataArma INT NOT NULL,
     precoElectrumArma INT NOT NULL,
@@ -130,7 +130,7 @@ CREATE TABLE IF NOT EXISTS TipoArmadura (
     idTipoArmadura INT NOT NULL,
     
     nomeTipoArmadura VARCHAR(50) NOT NULL,
-    descricaoTipoArmadura VARCHAR(400) NOT NULL,
+    descricaoTipoArmadura VARCHAR(500) NOT NULL,
     
     dataCriacaoTipoArmadura DATE NOT NULL,
     tipoArmaduraAtiva TINYINT(1) NOT NULL DEFAULT 1
@@ -148,7 +148,7 @@ CREATE TABLE IF NOT EXISTS Armadura (
     idTipoArmadura INT NOT NULL,
     
     nomeArmadura VARCHAR(50) NOT NULL,
-    descricaoArmadura VARCHAR(400) NOT NULL,
+    descricaoArmadura VARCHAR(500) NOT NULL,
     precoCobreArmadura INT NOT NULL,
     precoPrataArmadura INT NOT NULL,
     precoElectrumArmadura INT NOT NULL,
@@ -178,7 +178,7 @@ CREATE TABLE IF NOT EXISTS EquipamentoAventura (
     idEquipamentoAventura INT NOT NULL,
     
     nomeEquipamentoAventura VARCHAR(50) NOT NULL,
-    descricaoEquipamentoAventura VARCHAR(400) NOT NULL,
+    descricaoEquipamentoAventura VARCHAR(500) NOT NULL,
     precoCobreEquipamentoAventura INT NOT NULL,
     precoPrataEquipamentoAventura INT NOT NULL,
     precoElectrumEquipamentoAventura INT NOT NULL,
@@ -203,7 +203,7 @@ CREATE TABLE IF NOT EXISTS TipoFerramenta (
     idTipoFerramenta INT NOT NULL,
     
     nomeTipoFerramenta VARCHAR(50) NOT NULL,
-    descricaoTipoFerramenta VARCHAR(400) NOT NULL,
+    descricaoTipoFerramenta VARCHAR(500) NOT NULL,
     
     dataCriacaoTipoFerramenta DATE NOT NULL,
     tipoFerramentaAtivo TINYINT(1) NOT NULL DEFAULT 1
@@ -221,7 +221,7 @@ CREATE TABLE IF NOT EXISTS Ferramenta (
     idTipoFerramenta INT NOT NULL,
     
     nomeFerramenta VARCHAR(50) NOT NULL,
-    descricaoFerramenta VARCHAR(400) NOT NULL,
+    descricaoFerramenta VARCHAR(500) NOT NULL,
     precoCobreFerramenta INT NOT NULL,
     precoPrataFerramenta INT NOT NULL,
     precoElectrumFerramenta INT NOT NULL,
@@ -255,7 +255,7 @@ ALTER TABLE OpcaoEquipamentosIniciais ADD CONSTRAINT PK_OPCAOEQUIPAMENTOSINICIAI
 ALTER TABLE OpcaoEquipamentosIniciais CHANGE COLUMN idOpcaoEquipamentosIniciais idOpcaoEquipamentosIniciais INT NOT NULL AUTO_INCREMENT;
 
 -- ----------------------------------------------------------------------------------------------------
--- OpcaoEquipamentosIniciais_EquipamentoAventura ------------------------------------------------------
+-- OpcaoEquipamentosIniciais_Arma ---------------------------------------------------------------------
 -- ----------------------------------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS OpcaoEquipamentosIniciais_Arma (
 	idOpcaoEquipamentosIniciais INT NOT NULL,
@@ -268,7 +268,7 @@ ALTER TABLE OpcaoEquipamentosIniciais_Arma ADD CONSTRAINT FK_OPCAOEQUIPINI_ARMA_
 ALTER TABLE OpcaoEquipamentosIniciais_Arma ADD CONSTRAINT FK_OPCAOEQUIPINI_ARMA_ARMA FOREIGN KEY(idArma) REFERENCES Arma(idArma);
 
 -- ----------------------------------------------------------------------------------------------------
--- OpcaoEquipamentosIniciais_EquipamentoAventura ------------------------------------------------------
+-- OpcaoEquipamentosIniciais_Armadura -----------------------------------------------------------------
 -- ----------------------------------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS OpcaoEquipamentosIniciais_Armadura (
 	idOpcaoEquipamentosIniciais INT NOT NULL,
@@ -316,7 +316,7 @@ CREATE TABLE IF NOT EXISTS Linguagem (
     idLinguagem INT NOT NULL,
     
     nomeLinguagem VARCHAR(40) NOT NULL,
-    descricaoLinguagem VARCHAR(400) NOT NULL,
+    descricaoLinguagem VARCHAR(500) NOT NULL,
     
     dataCriacaoLinguagem DATE NOT NULL,
     linguagemAtiva TINYINT(1) NOT NULL DEFAULT 1
@@ -336,7 +336,7 @@ CREATE TABLE IF NOT EXISTS Pericia (
     idAtributoPericia INT NOT NULL,
     
     nomePericia VARCHAR(30) NOT NULL,
-    descricaoPericia VARCHAR(400) NOT NULL,
+    descricaoPericia VARCHAR(650) NOT NULL,
     
     dataCriacaoPericia DATE NOT NULL,
     periciaAtiva TINYINT(1) NOT NULL DEFAULT 1
@@ -357,7 +357,7 @@ CREATE TABLE IF NOT EXISTS Spell (
     idSpell INT NOT NULL,
     
     nomeSpell VARCHAR(30) NOT NULL,
-    descricaoSpell VARCHAR(400) NOT NULL,
+    descricaoSpell VARCHAR(500) NOT NULL,
     dadoSpell INT NULL,
     multiplicadorDadoSpell INT NOT NULL DEFAULT 1,
     spellTemComponenteVerbal TINYINT(1) NOT NULL,
@@ -381,7 +381,7 @@ CREATE TABLE IF NOT EXISTS Feature (
     idFeature INT NOT NULL,
     
     nomeFeature VARCHAR(50) NOT NULL,
-    descricaoFeature VARCHAR(400) NOT NULL,
+    descricaoFeature VARCHAR(650) NOT NULL,
     featureConcedeProficienciaArma TINYINT(1) NOT NULL,
     featureConcedeProficienciaArmadura TINYINT(1) NOT NULL,
     featureConcedeProficienciaFerramenta TINYINT(1) NOT NULL,
@@ -499,7 +499,7 @@ CREATE TABLE IF NOT EXISTS ImagemClasse (
     idImagemClasse INT NOT NULL,
     
     caminhoImagemClasse VARCHAR(260) NOT NULL,
-    descricaoImagemClasse VARCHAR(400) NULL,
+    descricaoImagemClasse VARCHAR(500) NULL,
     
     dataCriacaoImagemClasse DATE NOT NULL,
     imagemClasseAtiva TINYINT(1) NOT NULL DEFAULT 1
@@ -517,7 +517,7 @@ CREATE TABLE IF NOT EXISTS Classe (
     idImagemClasse INT NOT NULL,
     
     nomeClasse VARCHAR(50) NOT NULL UNIQUE,
-    descricaoClasse VARCHAR(400) NOT NULL,
+    descricaoClasse VARCHAR(500) NOT NULL,
     bonusProficienciaInicialClasse INT NOT NULL,
     dadoClasse INT NOT NULL,
     quantProficienciasArmasClasse INT NOT NULL,
@@ -641,7 +641,7 @@ CREATE TABLE IF NOT EXISTS ImagemSubClasse (
     idImagemSubClasse INT NOT NULL,
     
     caminhoImagemSubClasse VARCHAR(260) NOT NULL,
-    descricaoImagemSubClasse VARCHAR(400) NULL,
+    descricaoImagemSubClasse VARCHAR(500) NULL,
     
     dataCriacaoImagemSubClasse DATE NOT NULL,
     imagemSubClasseAtiva TINYINT(1) NOT NULL DEFAULT 1
@@ -660,7 +660,7 @@ CREATE TABLE IF NOT EXISTS SubClasse (
     idImagemSubClasse INT NOT NULL,
     
     nomeSubClasse VARCHAR(50) NOT NULL UNIQUE,
-    descricaoSubClasse VARCHAR(400) NOT NULL,
+    descricaoSubClasse VARCHAR(500) NOT NULL,
     quantFeaturesSubClasse INT NOT NULL,
     
     dataCriacaoSubClasse DATE NOT NULL,
@@ -697,7 +697,7 @@ CREATE TABLE IF NOT EXISTS ImagemRaca (
     idImagemRaca INT NOT NULL,
     
     caminhoImagemRaca VARCHAR(260) NOT NULL,
-    descricaoImagemRaca VARCHAR(400) NULL,
+    descricaoImagemRaca VARCHAR(500) NULL,
     
     dataCriacaoImagemRaca DATE NOT NULL,
     imagemRacaAtiva TINYINT(1) NOT NULL DEFAULT 1
@@ -715,7 +715,7 @@ CREATE TABLE IF NOT EXISTS Raca (
     idImagemRaca INT NOT NULL,
     
     nomeRaca VARCHAR(50) NOT NULL UNIQUE,
-    descricaoRaca VARCHAR(400) NOT NULL,
+    descricaoRaca VARCHAR(500) NOT NULL,
     valorBuffAtributoRaca INT NOT NULL,
     idAtributoBuffadoRaca INT NOT NULL,
     idadeMaxRaca INT NOT NULL,
@@ -772,7 +772,7 @@ CREATE TABLE IF NOT EXISTS SubRaca (
     idRaca INT NULL,
     
     nomeSubRaca VARCHAR(50) NOT NULL UNIQUE,
-    descricaoSubRaca VARCHAR(400) NOT NULL,
+    descricaoSubRaca VARCHAR(500) NOT NULL,
     valorBuffAtributoSubRaca INT NOT NULL,
     idAtributoBuffadoSubRaca INT NOT NULL,
     quantFeaturesSubRaca INT NOT NULL,
@@ -811,7 +811,7 @@ CREATE TABLE IF NOT EXISTS Background (
     idBackground INT NOT NULL,
     
     nomeBackground VARCHAR(50) NOT NULL UNIQUE,
-    descricaoBackground VARCHAR(400) NOT NULL,
+    descricaoBackground VARCHAR(500) NOT NULL,
     ouroInicialBackground INT NULL,
     quantOpcoesEquipamentosIniciaisBackground INT NOT NULL,
     quantLinguagensIniciaisBackground INT NOT NULL,
@@ -901,7 +901,7 @@ CREATE TABLE IF NOT EXISTS ImagemUsuario (
     idImagemUsuario INT NOT NULL,
     
     caminhoImagemUsuario VARCHAR(260) NOT NULL,
-    descricaoImagemUsuario VARCHAR(400) NULL,
+    descricaoImagemUsuario VARCHAR(500) NULL,
     
     dataCriacaoImagemUsuario DATE NOT NULL,
     imagemUsuarioAtiva TINYINT(1) NOT NULL DEFAULT 1
@@ -917,7 +917,7 @@ CREATE TABLE IF NOT EXISTS TipoUsuario (
     idTipoUsuario INT NOT NULL,
     
     nomeTipoUsuario VARCHAR(50) NOT NULL UNIQUE,
-    descricaoTipoUsuario VARCHAR(400) NULL,
+    descricaoTipoUsuario VARCHAR(500) NULL,
     
     dataCriacaoTipoUsuario DATE NOT NULL,
     tipoUsuarioAtivo TINYINT(1) NOT NULL DEFAULT 1
@@ -939,7 +939,7 @@ CREATE TABLE IF NOT EXISTS Usuario (
     senhaUsuario CHAR(60) NOT NULL,
     emailUsuario VARCHAR(70) NOT NULL,
     dataAniversarioUsuario DATE NOT NULL,
-    descricaoUsuario VARCHAR(400) NULL,
+    descricaoUsuario VARCHAR(500) NULL,
     quantPersonagensTotalUsuario INT NOT NULL DEFAULT 6,
     quantPersonagensCriadosUsuario INT NOT NULL DEFAULT 0,
     
@@ -963,7 +963,7 @@ CREATE TABLE IF NOT EXISTS ImagemPersonagem (
     idImagemPersonagem INT NOT NULL,
     
     caminhoImagemPersonagem VARCHAR(260) NOT NULL,
-    descricaoImagemPersonagem VARCHAR(400) NULL,
+    descricaoImagemPersonagem VARCHAR(500) NULL,
     
     dataCriacaoImagemPersonagem DATE NOT NULL,
     imagemPersonagemAtiva TINYINT(1) NOT NULL DEFAULT 1
@@ -986,6 +986,12 @@ CREATE TABLE IF NOT EXISTS Personagem (
     idRacaPersonagem INT NOT NULL,
     idBackgroundPersonagem INT NOT NULL,
     
+    valorSTRBasePersonagem INT NOT NULL,
+    valorDEXBasePersonagem INT NOT NULL,
+    valorCONBasePersonagem INT NOT NULL,
+    valorINTBasePersonagem INT NOT NULL,
+    valorWISBasePersonagem INT NOT NULL,
+    valorCHABasePersonagem INT NOT NULL,
     nomePersonagem VARCHAR(50) NULL,
     alinhamentoPersonagem VARCHAR(30) NULL,
     idadePersonagem INT NULL,
@@ -994,7 +1000,7 @@ CREATE TABLE IF NOT EXISTS Personagem (
     olhosPersonagem VARCHAR(20) NULL,
     pelePersonagem VARCHAR(30) NULL,
     cabeloPersonagem VARCHAR(30) NULL,
-    aparenciaPersonagem VARCHAR(400) NULL,
+    aparenciaPersonagem VARCHAR(1000) NULL,
     historiaPersonagem VARCHAR(2000) NULL,
     personalidadePersonagem VARCHAR(1200) NULL,
     ideaisPersonagem VARCHAR(50) NULL,
