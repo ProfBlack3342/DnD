@@ -237,7 +237,7 @@ public class GUILogin extends javax.swing.JFrame implements ItemListener
         String senha1 = new String(senha1c);
         String senha2 = new String(senha2c);
         
-        if(!senhaVazia && senha1.equals(senha2))
+        if(!senhaVazia && !senha1.equals(senha2))
         {
             // Senha e confirmação diferentes
             temErro = true;
