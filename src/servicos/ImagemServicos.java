@@ -73,7 +73,7 @@ public class ImagemServicos
      * @throws java.sql.SQLException
      */
     public ImagemClasseVO[] pesquisarImagemClasse(ImagemClasseVO icVO, String query, int[] indicesDados) throws IllegalArgumentException, NoDataFoundException, SQLException {
-        return DAOFactory.getImagemClasseDAO().pesquisar(iuVO, query, indicesDados);
+        return DAOFactory.getImagemClasseDAO().pesquisar(icVO, query, indicesDados);
     }
     
     /**
@@ -104,7 +104,7 @@ public class ImagemServicos
      * @throws java.sql.SQLException
      */
     public ImagemPersonagemVO[] pesquisarImagemPersonagem(ImagemPersonagemVO ipVO, String query, int[] indicesDados) throws IllegalArgumentException, NoDataFoundException, SQLException {
-        return DAOFactory.getImagemPersonagemDAO().pesquisar(iuVO, query, indicesDados);
+        return DAOFactory.getImagemPersonagemDAO().pesquisar(ipVO, query, indicesDados);
     }
     
     /**
@@ -135,7 +135,7 @@ public class ImagemServicos
      * @throws java.sql.SQLException
      */
     public ImagemRacaVO[] pesquisarImagemRaca(ImagemRacaVO irVO, String query, int[] indicesDados) throws IllegalArgumentException, NoDataFoundException, SQLException {
-        return DAOFactory.getImagemRacaDAO().pesquisar(iuVO, query, indicesDados);
+        return DAOFactory.getImagemRacaDAO().pesquisar(irVO, query, indicesDados);
     }
     
     /**
@@ -166,7 +166,7 @@ public class ImagemServicos
      * @throws java.sql.SQLException
      */
     public ImagemSubClasseVO[] pesquisarImagemSubClasse(ImagemSubClasseVO iscVO, String query, int[] indicesDados) throws IllegalArgumentException, NoDataFoundException, SQLException {
-        return DAOFactory.getImagemSubClasseDAO().pesquisar(iuVO, query, indicesDados);
+        return DAOFactory.getImagemSubClasseDAO().pesquisar(iscVO, query, indicesDados);
     }
     
     /**
