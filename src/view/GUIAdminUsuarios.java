@@ -186,6 +186,7 @@ public class GUIAdminUsuarios extends javax.swing.JInternalFrame implements Item
         if(linha != -1)
         {
             montarComboBoxAno();
+            // Montar text fields
         }
     }
     
