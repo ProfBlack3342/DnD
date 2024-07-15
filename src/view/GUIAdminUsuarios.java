@@ -490,6 +490,7 @@ public class GUIAdminUsuarios extends javax.swing.JInternalFrame implements Item
         setClosable(true);
         setIconifiable(true);
         setMaximizable(true);
+        setResizable(true);
         setTitle("Administração de Usuários");
 
         jpnlFiltro.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
