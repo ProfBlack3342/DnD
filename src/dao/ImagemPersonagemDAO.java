@@ -6,6 +6,7 @@ package dao;
 
 import exception.NoDataFoundException;
 import java.sql.SQLException;
+import modelo.ImagemPersonagemVO;
 import modelo.ObjetoVO;
 
 /**
@@ -21,12 +22,12 @@ public class ImagemPersonagemDAO extends ObjetoDAO
     }
 
     @Override
-    public ObjetoVO[] listar() throws NoDataFoundException, SQLException {
+    public ImagemPersonagemVO[] listar() throws NoDataFoundException, SQLException {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public ObjetoVO[] pesquisar(ObjetoVO obVO, String query, int[] indicesDados) throws IllegalArgumentException, NoDataFoundException, SQLException {
+    public ImagemPersonagemVO[] pesquisar(ObjetoVO obVO, String query, int[] indicesDados) throws IllegalArgumentException, NoDataFoundException, SQLException {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 

@@ -56,6 +56,8 @@ public class GUIPrincipal extends javax.swing.JFrame implements InternalFrameLis
         initComponents();
         this.usuarioVOLogado = usuarioVOLogado;
         preencherPerfil();
+        setLocationRelativeTo(null);
+        setExtendedState(MAXIMIZED_BOTH);
     }
     
     private void encerrar()
@@ -227,6 +229,7 @@ public class GUIPrincipal extends javax.swing.JFrame implements InternalFrameLis
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(800, 600));
+        setResizable(false);
 
         jPanelPerfil.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -370,7 +373,7 @@ public class GUIPrincipal extends javax.swing.JFrame implements InternalFrameLis
         );
         jdpPrincipalLayout.setVerticalGroup(
             jdpPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 443, Short.MAX_VALUE)
+            .addGap(0, 501, Short.MAX_VALUE)
         );
 
         jMenuPersonagens.setText("Personagens");
@@ -476,7 +479,7 @@ public class GUIPrincipal extends javax.swing.JFrame implements InternalFrameLis
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jdpPrincipal)
-                    .addComponent(jPanelPerfil, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanelPerfil, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -484,8 +487,8 @@ public class GUIPrincipal extends javax.swing.JFrame implements InternalFrameLis
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanelPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jdpPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jdpPrincipal)
                 .addContainerGap())
         );
 
@@ -533,22 +536,22 @@ public class GUIPrincipal extends javax.swing.JFrame implements InternalFrameLis
     }//GEN-LAST:event_jMenuItemFichasKeyPressed
 
     private void jMenuItemAdminUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemAdminUsuariosActionPerformed
-        abrirGUIAdminPersonagens();
+        abrirGUIAdminUsuarios();
     }//GEN-LAST:event_jMenuItemAdminUsuariosActionPerformed
 
     private void jMenuItemAdminUsuariosKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jMenuItemAdminUsuariosKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            abrirGUIAdminPersonagens();
+            abrirGUIAdminUsuarios();
         }
     }//GEN-LAST:event_jMenuItemAdminUsuariosKeyPressed
 
     private void jMenuItemAdminPersonagensActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemAdminPersonagensActionPerformed
-        abrirGUIAdminUsuarios();
+        abrirGUIAdminPersonagens();
     }//GEN-LAST:event_jMenuItemAdminPersonagensActionPerformed
 
     private void jMenuItemAdminPersonagensKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jMenuItemAdminPersonagensKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            abrirGUIAdminUsuarios();
+            abrirGUIAdminPersonagens();
         }
     }//GEN-LAST:event_jMenuItemAdminPersonagensKeyPressed
 
@@ -667,19 +670,20 @@ public class GUIPrincipal extends javax.swing.JFrame implements InternalFrameLis
         JInternalFrame iFrame = ife.getInternalFrame();
         
         if(iFrame instanceof GUIAdminPersonagens) {
-            flagGUICriarPersonagem = false;
+            flagGUIAdminPersonagens = false;
         }else if(iFrame instanceof GUIAdminUsuarios) {
-            flagGUIPersonagens = false;
+            flagGUIAdminUsuarios = false;
         }else if(iFrame instanceof GUICriarFicha) {
             flagGUICriarFicha = false;
         }else if(iFrame instanceof GUICriarPersonagem) {
-            flagGUIFichas = false;
+            flagGUICriarPersonagem = false;
         }else if(iFrame instanceof GUIEditarDadosPessoais) {
             flagGUIEditarDadosPessoais = false;
         }else if(iFrame instanceof GUIFichas) {
-            flagGUIAdminUsuarios = false;
+            flagGUIFichas = false;
         }else if(iFrame instanceof GUIPersonagens) {
-            flagGUIAdminPersonagens = false;
+            flagGUIPersonagens = false;
+            
         }
     }
 

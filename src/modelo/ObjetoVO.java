@@ -57,11 +57,21 @@ public abstract class ObjetoVO
     }
     
     private void setDataCriacao(int dia, int mes, int ano) {
-        dataCriacao = Converter.converterDiaMesAnoParaSQLDate(
-                Integer.toString(dia),
-                Integer.toString(mes),
-                Integer.toString(ano)
-        );
+        String diaData, mesData, anoData;
+        
+        if(dia < 10)
+            diaData = "0" + dia;
+        else
+            diaData = Integer.toString(dia);
+        
+        if(mes < 10)
+            mesData = "0" + mes;
+        else
+            mesData = Integer.toString(mes);
+        
+        anoData = Integer.toString(ano);
+        
+        dataCriacao = Converter.converterDiaMesAnoParaSQLDate(diaData, mesData, anoData);
     }
     private void setDiaMesAno(Date dataCriacao) {
         String[] diaMesAno = Converter.converterSQLDateParaDiaMesAno(dataCriacao);

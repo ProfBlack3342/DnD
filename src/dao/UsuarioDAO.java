@@ -67,7 +67,7 @@ public final class UsuarioDAO extends ObjetoDAO
                 if( (rs.next()) && (rs.getBoolean(nomesColunas[11])) )
                 {
                     String hash = rs.getString(nomesColunas[4]);
-                    if(Verificar.compararTextoComHash(dadosLogin.getHashSenha(), hash))
+                    if(Verificar.compararTextoComHash(dadosLogin.getSenha(), hash))
                     {
                         UsuarioVO uVO = new UsuarioVO();
                         
@@ -76,7 +76,7 @@ public final class UsuarioDAO extends ObjetoDAO
                         uVO.setIdImagem(rs.getInt(nomesColunas[1]));
                         uVO.setIdTipo(rs.getInt(nomesColunas[2]));
                         uVO.setNomeUsuario(rs.getString(nomesColunas[3]));
-                        uVO.setSenhaUsuario(hash);
+                        uVO.setHashSenhaUsuario(hash);
                         uVO.setEmailUsuario(rs.getString(nomesColunas[5]));
                         uVO.setDataAniversarioUsuario(rs.getDate(nomesColunas[6]));
                         
@@ -120,7 +120,7 @@ public final class UsuarioDAO extends ObjetoDAO
             pstm.setInt(1, uVO.getIdImagem());
             pstm.setInt(2, uVO.getIdTipo());
             pstm.setString(3, uVO.getNomeUsuario());
-            pstm.setString(4, Converter.converterTextoParaHash(uVO.getSenhaUsuario()));
+            pstm.setString(4, uVO.getHashSenhaUsuario());
             pstm.setString(5, uVO.getEmailUsuario());
             pstm.setDate(6, uVO.getDataAniversarioUsuario());
             pstm.setString(7, uVO.getDescricaoUsuario());
@@ -165,7 +165,7 @@ public final class UsuarioDAO extends ObjetoDAO
                 uVO.setIdImagem(rs.getInt(nomesColunas[1]));
                 uVO.setIdTipo(rs.getInt(nomesColunas[2]));
                 uVO.setNomeUsuario(rs.getString(nomesColunas[3]));
-                uVO.setSenhaUsuario(rs.getString(nomesColunas[4]));
+                uVO.setHashSenhaUsuario(rs.getString(nomesColunas[4]));
                 uVO.setEmailUsuario(rs.getString(nomesColunas[5]));
                 uVO.setDataAniversarioUsuario(rs.getDate(nomesColunas[6]));
 
@@ -225,7 +225,7 @@ public final class UsuarioDAO extends ObjetoDAO
                         pstm.setString(i, uVO.getNomeUsuario());
                         break;
                     case 4:
-                        pstm.setString(i, uVO.getSenhaUsuario());
+                        pstm.setString(i, uVO.getHashSenhaUsuario());
                         break;
                     case 5:
                         pstm.setString(i, uVO.getEmailUsuario());
@@ -266,7 +266,7 @@ public final class UsuarioDAO extends ObjetoDAO
                     uVOsaida.setIdImagem(rs.getInt(nomesColunas[1]));
                     uVOsaida.setIdTipo(rs.getInt(nomesColunas[2]));
                     uVOsaida.setNomeUsuario(rs.getString(nomesColunas[3]));
-                    uVOsaida.setSenhaUsuario(nomesColunas[4]);
+                    uVOsaida.setHashSenhaUsuario(nomesColunas[4]);
                     uVOsaida.setEmailUsuario(nomesColunas[5]);
                     uVOsaida.setDataAniversarioUsuario(rs.getDate(nomesColunas[6]));
                     uVOsaida.setDescricaoUsuario(nomesColunas[7]);
@@ -315,7 +315,6 @@ public final class UsuarioDAO extends ObjetoDAO
                 + nomesColunas[7] + " = ?, "
                 + nomesColunas[8] + " = ?, "
                 + nomesColunas[9] + " = ?, "
-                + nomesColunas[10] + " = ?, "
                 + nomesColunas[11] + " = ? "
                 + "WHERE " + nomesColunas[0] + " = ?";
         
@@ -326,17 +325,16 @@ public final class UsuarioDAO extends ObjetoDAO
             pstm.setInt(1, uVO.getIdImagem());
             pstm.setInt(2, uVO.getIdTipo());
             pstm.setString(3, uVO.getNomeUsuario());
-            pstm.setString(4, Converter.converterTextoParaHash(uVO.getSenhaUsuario()));
+            pstm.setString(4, uVO.getHashSenhaUsuario());
             pstm.setString(5, uVO.getEmailUsuario());
             pstm.setDate(6, uVO.getDataAniversarioUsuario());
             pstm.setString(7, uVO.getDescricaoUsuario());
             pstm.setInt(8, uVO.getQuantPersonagensTotal());
             pstm.setInt(9, uVO.getQuantPersonagensCriados());
             
-            pstm.setDate(10, uVO.getDataCriacao());
-            pstm.setBoolean(11, uVO.isAtivo());
+            pstm.setBoolean(10, uVO.isAtivo());
             
-            pstm.setInt(12, uVO.getId());
+            pstm.setInt(11, uVO.getId());
 
             pstm.executeUpdate();
         }

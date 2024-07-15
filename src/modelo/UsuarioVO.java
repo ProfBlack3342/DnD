@@ -22,7 +22,7 @@ public final class UsuarioVO extends ObjetoVO
             idTipoUsuario INT NOT NULL,
 
             nomeUsuario VARCHAR(50) NOT NULL UNIQUE,
-            senhaUsuario CHAR(60) NOT NULL,
+            hashSenhaUsuario CHAR(60) NOT NULL,
             emailUsuario VARCHAR(70) NOT NULL,
             dataAniversarioUsuario DATE NOT NULL,
             descricaoUsuario VARCHAR(500) NULL,
@@ -55,7 +55,7 @@ public final class UsuarioVO extends ObjetoVO
     private int idImagem;
     private int idTipo;
     private String nomeUsuario;
-    private String senhaUsuario;
+    private String hashSenhaUsuario;
     private String emailUsuario;
     private int diaAniversarioUsuario;
     private int mesAniversarioUsuario;
@@ -71,7 +71,7 @@ public final class UsuarioVO extends ObjetoVO
         this.idImagem = 0;
         this.idTipo = 0;
         this.nomeUsuario = null;
-        this.senhaUsuario = null;
+        this.hashSenhaUsuario = null;
         this.emailUsuario = null;
         this.diaAniversarioUsuario = 0;
         this.mesAniversarioUsuario = 0;
@@ -85,7 +85,7 @@ public final class UsuarioVO extends ObjetoVO
         this.idImagem = idImagem;
         this.idTipo = idTipo;
         formatarNomeUsuario(nomeUsuario);
-        this.senhaUsuario = senhaUsuario;
+        this.hashSenhaUsuario = senhaUsuario;
         formatarEmailUsuario(emailUsuario);
         formatarDescricaoUsuario(descricaoUsuario);
         setDiaMesAnoAniversario(this.dataAniversarioUsuario);
@@ -97,7 +97,7 @@ public final class UsuarioVO extends ObjetoVO
         this.idImagem = idImagem;
         this.idTipo = idTipo;
         formatarNomeUsuario(nomeUsuario);
-        this.senhaUsuario = senhaUsuario;
+        this.hashSenhaUsuario = senhaUsuario;
         formatarEmailUsuario(emailUsuario);
         this.diaAniversarioUsuario = diaAniversarioUsuario;
         this.mesAniversarioUsuario = mesAniversarioUsuario;
@@ -111,7 +111,7 @@ public final class UsuarioVO extends ObjetoVO
         this.idImagem = idImagem;
         this.idTipo = idTipo;
         formatarNomeUsuario(nomeUsuario);
-        this.senhaUsuario = senhaUsuario;
+        this.hashSenhaUsuario = senhaUsuario;
         formatarEmailUsuario(emailUsuario);
         this.dataAniversarioUsuario = dataAniversarioUsuario;
         setDiaMesAnoAniversario(this.dataAniversarioUsuario);
@@ -123,7 +123,7 @@ public final class UsuarioVO extends ObjetoVO
         this.idImagem = idImagem;
         this.idTipo = idTipo;
         formatarNomeUsuario(nomeUsuario);
-        this.senhaUsuario = senhaUsuario;
+        this.hashSenhaUsuario = senhaUsuario;
         formatarEmailUsuario(emailUsuario);
         this.diaAniversarioUsuario = diaAniversarioUsuario;
         this.mesAniversarioUsuario = mesAniversarioUsuario;
@@ -159,11 +159,21 @@ public final class UsuarioVO extends ObjetoVO
     }
     
     private void setDataAniversario(int dia, int mes, int ano) {
-        dataAniversarioUsuario = Converter.converterDiaMesAnoParaSQLDate(
-                Integer.toString(dia),
-                Integer.toString(mes),
-                Integer.toString(ano)
-        );
+        String diaData, mesData, anoData;
+        
+        if(dia < 10)
+            diaData = "0" + dia;
+        else
+            diaData = Integer.toString(dia);
+        
+        if(mes < 10)
+            mesData = "0" + mes;
+        else
+            mesData = Integer.toString(mes);
+        
+        anoData = Integer.toString(ano);
+        
+        dataAniversarioUsuario = Converter.converterDiaMesAnoParaSQLDate(diaData, mesData, anoData);
     }
     private void setDiaMesAnoAniversario(Date dataAniversario) {
         String[] diaMesAno = Converter.converterSQLDateParaDiaMesAno(dataAniversario);
@@ -181,8 +191,8 @@ public final class UsuarioVO extends ObjetoVO
     public String getNomeUsuario() {return nomeUsuario;}
     public void setNomeUsuario(String nomeUsuario) {formatarNomeUsuario(nomeUsuario);}
 
-    public String getSenhaUsuario() {return senhaUsuario;}
-    public void setSenhaUsuario(String senhaUsuario) {this.senhaUsuario = senhaUsuario;}
+    public String getHashSenhaUsuario() {return hashSenhaUsuario;}
+    public void setHashSenhaUsuario(String hashSenhaUsuario) {this.hashSenhaUsuario = hashSenhaUsuario;}
 
     public String getEmailUsuario() {return emailUsuario;}
     public void setEmailUsuario(String emailUsuario) {formatarEmailUsuario(emailUsuario);}

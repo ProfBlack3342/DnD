@@ -5,14 +5,12 @@
  */
 package view;
 
-import com.sun.glass.events.KeyEvent;
 import exception.NoDataFoundException;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.KeyEvent;
 import java.sql.SQLException;
 import java.util.Calendar;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -47,7 +45,7 @@ public class GUIAdminUsuarios extends javax.swing.JInternalFrame implements Item
         jcbMesAniversario.addItemListener(this);
         jcbDiaAniversario.addItemListener(this);
         limparTabela();
-        preencherTabela();
+        atualizarTabela();
     }
     
     private void montarComboBoxAno() {
@@ -145,7 +143,7 @@ public class GUIAdminUsuarios extends javax.swing.JInternalFrame implements Item
         dtm.setNumRows(0);
     }
     
-    private void preencherTabela() {
+    private void atualizarTabela() {
         try
         {
             usuarios = ServicosFactory.getUsuarioServicos().listarUsuarios();
@@ -159,16 +157,19 @@ public class GUIAdminUsuarios extends javax.swing.JInternalFrame implements Item
                 else
                     ativo = "Não";
                 
+                String[] diaMesAnoNiver = Converter.converterSQLDateParaDiaMesAno(usuarios[i].getDataAniversarioUsuario());
+                String[] diaMesAnoCriacao = Converter.converterSQLDateParaDiaMesAno(usuarios[i].getDataCriacao());
+                
                 dtm.addRow(new String[]{
                     String.valueOf(usuarios[i].getId()),
                     String.valueOf(usuarios[i].getIdImagem()),
                     String.valueOf(usuarios[i].getIdTipo()),
                     usuarios[i].getNomeUsuario(),
-                    usuarios[i].getSenhaUsuario(),
+                    usuarios[i].getHashSenhaUsuario(),
                     usuarios[i].getEmailUsuario(),
-                    new String(usuarios[i].getDiaAniversarioUsuario() + "/" + usuarios[i].getMesAniversarioUsuario() + "/" + usuarios[i].getAnoAniversarioUsuario()),
+                    diaMesAnoNiver[0] + "/" + diaMesAnoNiver[1] + "/" + diaMesAnoNiver[2],
                     usuarios[i].getDescricaoUsuario(),
-                    new String(usuarios[i].getDiaCriacao()+ "/" + usuarios[i].getMesCriacao()+ "/" + usuarios[i].getAnoCriacao()),
+                    diaMesAnoCriacao[0] + "/" + diaMesAnoCriacao[1] + "/" + diaMesAnoCriacao[2],
                     ativo
                 });
             }
@@ -185,8 +186,30 @@ public class GUIAdminUsuarios extends javax.swing.JInternalFrame implements Item
         int linha = jTableUsuarios.getSelectedRow();
         if(linha != -1)
         {
+            jtfIdUsuario.setText(String.valueOf(jTableUsuarios.getModel().getValueAt(linha, 0)));
+            jtfIdImagem.setText(String.valueOf(jTableUsuarios.getModel().getValueAt(linha, 1)));
+            jtfIdTipo.setText(String.valueOf(jTableUsuarios.getModel().getValueAt(linha, 2)));
+            if(String.valueOf(jTableUsuarios.getModel().getValueAt(linha, 9)).toLowerCase().equals("sim"))
+                jrbAtivo.setSelected(true);
+            else
+                jrbAtivo.setSelected(false);
+            jtfNome.setText(String.valueOf(jTableUsuarios.getModel().getValueAt(linha, 3)));
+            jtfSenha.setText(null);
+            jtfEmail.setText(String.valueOf(jTableUsuarios.getModel().getValueAt(linha, 5)));
+            
+            String diaMesAnoNiver = String.valueOf(jTableUsuarios.getModel().getValueAt(linha, 6));
+            int anoNiver = Integer.parseInt(diaMesAnoNiver.substring(6));
+            int mesNiver = Integer.parseInt(diaMesAnoNiver.substring(3, 5));
+            int diaNiver = Integer.parseInt(diaMesAnoNiver.substring(0, 2));
+            
             montarComboBoxAno();
-            // Montar text fields
+            jcbAnoAniversario.setSelectedItem(Integer.toString(anoNiver));
+            montarComboBoxMes(anoNiver);
+            jcbMesAniversario.setSelectedItem(Integer.toString(mesNiver));
+            montarComboBoxDia(mesNiver, anoNiver);
+            jcbDiaAniversario.setSelectedItem(Integer.toString(diaNiver));
+            
+            jtaDescricao.setText(String.valueOf(jTableUsuarios.getModel().getValueAt(linha, 7)));
         }
     }
     
@@ -194,110 +217,89 @@ public class GUIAdminUsuarios extends javax.swing.JInternalFrame implements Item
         String valorFiltro = jtfValorFiltro.getText();
         if(valorFiltro != null)
         {
-            boolean atualizarTabela = false;
-            
             for (UsuarioVO usuario : usuarios)
             {
+                String ativo;
+                if(usuario.isAtivo())
+                    ativo = "Sim";
+                else
+                    ativo = "Não";
+                
+                String[] diaMesAnoNiver = Converter.converterSQLDateParaDiaMesAno(usuario.getDataAniversarioUsuario());
+                String[] diaMesAnoCriacao = Converter.converterSQLDateParaDiaMesAno(usuario.getDataCriacao());
+                
                 switch (jcbCampoFiltro.getSelectedIndex())
                 {
                     case 0:
-                        if (usuario.getId() == Integer.parseInt(valorFiltro))
+                        if (Integer.toString(usuario.getId()).equals(valorFiltro))
                         {
-                            String ativo;
-                            if (usuario.isAtivo())
-                                ativo = "Sim";
-                            else
-                                ativo = "Não";
                             
                             dtm.addRow(new String[]{
                                 String.valueOf(usuario.getId()),
                                 String.valueOf(usuario.getIdImagem()),
                                 String.valueOf(usuario.getIdTipo()),
                                 usuario.getNomeUsuario(),
-                                usuario.getSenhaUsuario(),
+                                usuario.getHashSenhaUsuario(),
                                 usuario.getEmailUsuario(),
-                                new String(usuario.getDiaAniversarioUsuario() + "/" + usuario.getMesAniversarioUsuario() + "/" + usuario.getAnoAniversarioUsuario()),
+                                diaMesAnoNiver[0] + "/" + diaMesAnoNiver[1] + "/" + diaMesAnoNiver[2],
                                 usuario.getDescricaoUsuario(),
-                                new String(usuario.getDiaCriacao() + "/" + usuario.getMesCriacao() + "/" + usuario.getAnoCriacao()),
+                                diaMesAnoCriacao[0] + "/" + diaMesAnoCriacao[1] + "/" + diaMesAnoCriacao[2],
                                 ativo}
                             );
-                            
-                            atualizarTabela = true;
                         }
                         break;
                     case 1:
-                        if (usuario.getIdTipo()== Integer.parseInt(valorFiltro))
+                        if (Integer.toString(usuario.getIdTipo()).equals(valorFiltro))
                         {
-                            String ativo;
-                            if (usuario.isAtivo())
-                                ativo = "Sim";
-                            else
-                                ativo = "Não";
                             
                             dtm.addRow(new String[]{
                                 String.valueOf(usuario.getId()),
                                 String.valueOf(usuario.getIdImagem()),
                                 String.valueOf(usuario.getIdTipo()),
                                 usuario.getNomeUsuario(),
-                                usuario.getSenhaUsuario(),
+                                usuario.getHashSenhaUsuario(),
                                 usuario.getEmailUsuario(),
-                                new String(usuario.getDiaAniversarioUsuario() + "/" + usuario.getMesAniversarioUsuario() + "/" + usuario.getAnoAniversarioUsuario()),
+                                diaMesAnoNiver[0] + "/" + diaMesAnoNiver[1] + "/" + diaMesAnoNiver[2],
                                 usuario.getDescricaoUsuario(),
-                                new String(usuario.getDiaCriacao() + "/" + usuario.getMesCriacao() + "/" + usuario.getAnoCriacao()),
+                                diaMesAnoCriacao[0] + "/" + diaMesAnoCriacao[1] + "/" + diaMesAnoCriacao[2],
                                 ativo}
                             );
-                            
-                            atualizarTabela = true;
                         }
                         break;
                     case 2:
                         if (usuario.getNomeUsuario().equals(valorFiltro))
                         {
-                            String ativo;
-                            if (usuario.isAtivo())
-                                ativo = "Sim";
-                            else
-                                ativo = "Não";
                             
                             dtm.addRow(new String[]{
                                 String.valueOf(usuario.getId()),
                                 String.valueOf(usuario.getIdImagem()),
                                 String.valueOf(usuario.getIdTipo()),
                                 usuario.getNomeUsuario(),
-                                usuario.getSenhaUsuario(),
+                                usuario.getHashSenhaUsuario(),
                                 usuario.getEmailUsuario(),
-                                new String(usuario.getDiaAniversarioUsuario() + "/" + usuario.getMesAniversarioUsuario() + "/" + usuario.getAnoAniversarioUsuario()),
+                                diaMesAnoNiver[0] + "/" + diaMesAnoNiver[1] + "/" + diaMesAnoNiver[2],
                                 usuario.getDescricaoUsuario(),
-                                new String(usuario.getDiaCriacao() + "/" + usuario.getMesCriacao() + "/" + usuario.getAnoCriacao()),
+                                diaMesAnoCriacao[0] + "/" + diaMesAnoCriacao[1] + "/" + diaMesAnoCriacao[2],
                                 ativo}
                             );
-                            
-                            atualizarTabela = true;
                         }
                         break;
                     case 3:
                         if (usuario.getEmailUsuario().equals(valorFiltro))
                         {
-                            String ativo;
-                            if (usuario.isAtivo())
-                                ativo = "Sim";
-                            else
-                                ativo = "Não";
                             
                             dtm.addRow(new String[]{
                                 String.valueOf(usuario.getId()),
                                 String.valueOf(usuario.getIdImagem()),
                                 String.valueOf(usuario.getIdTipo()),
                                 usuario.getNomeUsuario(),
-                                usuario.getSenhaUsuario(),
+                                usuario.getHashSenhaUsuario(),
                                 usuario.getEmailUsuario(),
-                                new String(usuario.getDiaAniversarioUsuario() + "/" + usuario.getMesAniversarioUsuario() + "/" + usuario.getAnoAniversarioUsuario()),
+                                diaMesAnoNiver[0] + "/" + diaMesAnoNiver[1] + "/" + diaMesAnoNiver[2],
                                 usuario.getDescricaoUsuario(),
-                                new String(usuario.getDiaCriacao() + "/" + usuario.getMesCriacao() + "/" + usuario.getAnoCriacao()),
+                                diaMesAnoCriacao[0] + "/" + diaMesAnoCriacao[1] + "/" + diaMesAnoCriacao[2],
                                 ativo}
                             );
-                            
-                            atualizarTabela = true;
                         }
                         break;
                     default:
@@ -305,17 +307,141 @@ public class GUIAdminUsuarios extends javax.swing.JInternalFrame implements Item
                 }
             }
             
-            if(atualizarTabela)
-                    jTableUsuarios.setModel(dtm);
+            jTableUsuarios.setModel(dtm);
+        }
+        else
+        {
+            for (UsuarioVO usuario : usuarios)
+            {
+                String ativo;
+                if(usuario.isAtivo())
+                    ativo = "Sim";
+                else
+                    ativo = "Não";
+                
+                String[] diaMesAnoNiver = Converter.converterSQLDateParaDiaMesAno(usuario.getDataAniversarioUsuario());
+                String[] diaMesAnoCriacao = Converter.converterSQLDateParaDiaMesAno(usuario.getDataCriacao());
+
+                dtm.addRow(new String[]{
+                    String.valueOf(usuario.getId()),
+                    String.valueOf(usuario.getIdImagem()),
+                    String.valueOf(usuario.getIdTipo()),
+                    usuario.getNomeUsuario(),
+                    usuario.getHashSenhaUsuario(),
+                    usuario.getEmailUsuario(),
+                    diaMesAnoNiver[0] + "/" + diaMesAnoNiver[1] + "/" + diaMesAnoNiver[2],
+                    usuario.getDescricaoUsuario(),
+                    diaMesAnoCriacao[0] + "/" + diaMesAnoCriacao[1] + "/" + diaMesAnoCriacao[2],
+                    ativo}
+                );
+            }
         }
     }
     
     private boolean alterarUsuario() {
-        
+        boolean alterar = false;
+        switch(JOptionPane.showConfirmDialog(null, "Você tem certeza que deseja alterar esse usuário?", "Confirmação", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE))
+        {
+            case JOptionPane.YES_OPTION:
+                alterar = true;
+                break;
+            case JOptionPane.NO_OPTION:
+                alterar = false;
+                break;
+        }
+        if(alterar)
+        {
+            boolean senha = false;
+            if(!jtfSenha.getText().isEmpty())
+            {
+                UsuarioVO uVO = new UsuarioVO();
+                uVO.setId(Integer.parseInt(jtfIdUsuario.getText()));
+                uVO.setIdImagem(Integer.parseInt(jtfIdImagem.getText()));
+                uVO.setIdTipo(Integer.parseInt(jtfIdTipo.getText()));
+                uVO.setAtivo(jrbAtivo.isSelected());
+                uVO.setNomeUsuario(jtfNome.getText());
+                uVO.setHashSenhaUsuario(Converter.converterTextoParaHash(jtfSenha.getText()));
+                uVO.setEmailUsuario(jtfEmail.getText());
+                uVO.setDiaAniversarioUsuario(uVO.getDiaAniversarioUsuario());
+                uVO.setDataAniversarioUsuario(Converter.converterDiaMesAnoParaSQLDate(
+                        String.valueOf(jcbDiaAniversario.getSelectedItem()),
+                        String.valueOf(jcbMesAniversario.getSelectedItem()),
+                        String.valueOf(jcbAnoAniversario.getSelectedItem())
+                ));
+
+                uVO.setDescricaoUsuario(jtaDescricao.getText());
+
+                try
+                {
+                    ServicosFactory.getUsuarioServicos().alterarUsuario(uVO);
+                    return true;
+                }
+                catch (SQLException e)
+                {
+                    JOptionPane.showMessageDialog(null, "Erro em GUIAdminUsuarios.alterarUsuario: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+                    return false;
+                }
+                finally
+                {
+                    jbtnAlterar.setEnabled(false);
+                    jbtnDeletar.setEnabled(false);
+                    limparCampos();
+                }
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(null, "Erro em GUIAdminUsuarios.alterarUsuario: Digite uma senha nova!", "Erro", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+        }
+        else
+        {
+            jbtnAlterar.setEnabled(false);
+            jbtnDeletar.setEnabled(false);
+            limparCampos();
+            
+            return false;
+        }
     }
     
     private boolean deletarUsuario() {
-        
+        boolean deletar = false;
+        switch(JOptionPane.showConfirmDialog(null, "Você tem certeza que deseja deletar esse usuário?", "Confirmação", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE))
+        {
+            case JOptionPane.YES_OPTION:
+                deletar = true;
+                break;
+            case JOptionPane.NO_OPTION:
+                deletar = false;
+                break;
+        }
+        if(deletar)
+        {
+            try
+            {
+                UsuarioVO uVO = new UsuarioVO();
+                uVO.setId(Integer.parseInt(jtfIdUsuario.getText()));
+                ServicosFactory.getUsuarioServicos().excluirUsuario(uVO);
+                return true;
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "Erro em GUIAdminUsuarios.alterarUsuario: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+            finally
+            {
+                jbtnAlterar.setEnabled(false);
+                jbtnDeletar.setEnabled(false);
+                limparCampos();
+            }
+        }
+        else
+        {
+            jbtnAlterar.setEnabled(false);
+            jbtnDeletar.setEnabled(false);
+            limparCampos();
+            
+            return false;
+        }
     }
 
     /**
@@ -335,7 +461,7 @@ public class GUIAdminUsuarios extends javax.swing.JInternalFrame implements Item
         jScrollPaneTabela = new javax.swing.JScrollPane();
         jTableUsuarios = new javax.swing.JTable();
         jPanelAcoes = new javax.swing.JPanel();
-        jbtnPreencher = new javax.swing.JButton();
+        jbtnAtualizar = new javax.swing.JButton();
         jbtnLimpar = new javax.swing.JButton();
         jbtnAlterar = new javax.swing.JButton();
         jbtnDeletar = new javax.swing.JButton();
@@ -363,6 +489,7 @@ public class GUIAdminUsuarios extends javax.swing.JInternalFrame implements Item
 
         setClosable(true);
         setIconifiable(true);
+        setMaximizable(true);
         setTitle("Administração de Usuários");
 
         jpnlFiltro.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -388,7 +515,7 @@ public class GUIAdminUsuarios extends javax.swing.JInternalFrame implements Item
                 .addComponent(jlblFiltro)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jtfValorFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 135, Short.MAX_VALUE)
                 .addComponent(jlblFiltrar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jcbCampoFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -421,19 +548,24 @@ public class GUIAdminUsuarios extends javax.swing.JInternalFrame implements Item
         ));
         jTableUsuarios.setToolTipText("");
         jTableUsuarios.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
+        jTableUsuarios.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTableUsuariosMouseClicked(evt);
+            }
+        });
         jScrollPaneTabela.setViewportView(jTableUsuarios);
 
         jPanelAcoes.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        jbtnPreencher.setText("Preencher");
-        jbtnPreencher.addActionListener(new java.awt.event.ActionListener() {
+        jbtnAtualizar.setText("Atualizar");
+        jbtnAtualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbtnPreencherActionPerformed(evt);
+                jbtnAtualizarActionPerformed(evt);
             }
         });
-        jbtnPreencher.addKeyListener(new java.awt.event.KeyAdapter() {
+        jbtnAtualizar.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                jbtnPreencherKeyPressed(evt);
+                jbtnAtualizarKeyPressed(evt);
             }
         });
 
@@ -450,6 +582,7 @@ public class GUIAdminUsuarios extends javax.swing.JInternalFrame implements Item
         });
 
         jbtnAlterar.setText("Alterar");
+        jbtnAlterar.setEnabled(false);
         jbtnAlterar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbtnAlterarActionPerformed(evt);
@@ -462,6 +595,7 @@ public class GUIAdminUsuarios extends javax.swing.JInternalFrame implements Item
         });
 
         jbtnDeletar.setText("Deletar");
+        jbtnDeletar.setEnabled(false);
         jbtnDeletar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbtnDeletarActionPerformed(evt);
@@ -480,7 +614,7 @@ public class GUIAdminUsuarios extends javax.swing.JInternalFrame implements Item
             .addGroup(jPanelAcoesLayout.createSequentialGroup()
                 .addGap(34, 34, 34)
                 .addGroup(jPanelAcoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jbtnPreencher, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbtnAtualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jbtnLimpar, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
                 .addGroup(jPanelAcoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -493,7 +627,7 @@ public class GUIAdminUsuarios extends javax.swing.JInternalFrame implements Item
             .addGroup(jPanelAcoesLayout.createSequentialGroup()
                 .addGap(26, 26, 26)
                 .addGroup(jPanelAcoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jbtnPreencher, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbtnAtualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jbtnAlterar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanelAcoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -539,84 +673,88 @@ public class GUIAdminUsuarios extends javax.swing.JInternalFrame implements Item
         jPanelDadosLayout.setHorizontalGroup(
             jPanelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelDadosLayout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(jPanelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelDadosLayout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jtfIdUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(120, 120, 120)
+                        .addGap(74, 74, 74)
+                        .addGroup(jPanelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jtfIdTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jtfIdImagem, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanelDadosLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addGroup(jPanelDadosLayout.createSequentialGroup()
+                                .addGap(68, 68, 68)
+                                .addComponent(jtfIdUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(jPanelDadosLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jrbAtivo)
+                                .addComponent(jLabel3))
+                            .addComponent(jLabel4))))
+                .addGap(18, 18, 18)
+                .addGroup(jPanelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelDadosLayout.createSequentialGroup()
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jcbDiaAniversario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel9)
-                            .addGroup(jPanelDadosLayout.createSequentialGroup()
-                                .addComponent(jcbMesAniversario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jcbAnoAniversario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jcbMesAniversario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jcbAnoAniversario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanelDadosLayout.createSequentialGroup()
                         .addGroup(jPanelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanelDadosLayout.createSequentialGroup()
-                                .addGroup(jPanelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(jPanelDadosLayout.createSequentialGroup()
-                                        .addComponent(jLabel4)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jtfIdTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(jPanelDadosLayout.createSequentialGroup()
-                                        .addGroup(jPanelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(jrbAtivo)
-                                            .addComponent(jLabel3))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jtfIdImagem, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(18, 18, 18)
-                                .addGroup(jPanelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanelDadosLayout.createSequentialGroup()
-                                        .addComponent(jLabel7)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jtfEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(jPanelDadosLayout.createSequentialGroup()
-                                        .addComponent(jLabel8)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jtfSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(jLabel7)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jtfEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanelDadosLayout.createSequentialGroup()
-                                .addGap(114, 114, 114)
                                 .addComponent(jLabel5)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jtfNome, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(18, 18, 18)
+                                .addComponent(jtfNome, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel9))
+                            .addGroup(jPanelDadosLayout.createSequentialGroup()
+                                .addComponent(jLabel8)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jtfSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
                 .addGap(6, 6, 6))
         );
         jPanelDadosLayout.setVerticalGroup(
             jPanelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelDadosLayout.createSequentialGroup()
-                .addContainerGap(7, Short.MAX_VALUE)
+                .addContainerGap(28, Short.MAX_VALUE)
                 .addGroup(jPanelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel2)
-                        .addComponent(jtfIdUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jtfNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel5)
-                        .addComponent(jLabel9)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanelDadosLayout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelDadosLayout.createSequentialGroup()
+                        .addGroup(jPanelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jtfIdUsuario, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
                         .addGroup(jPanelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
-                            .addComponent(jtfIdImagem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jtfIdImagem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel4)
+                            .addComponent(jtfIdTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelDadosLayout.createSequentialGroup()
+                        .addGroup(jPanelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jtfNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel9))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel8)
                             .addComponent(jtfSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel4)
                             .addComponent(jLabel7)
-                            .addComponent(jtfEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jtfIdTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jtfEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanelDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
@@ -664,15 +802,17 @@ public class GUIAdminUsuarios extends javax.swing.JInternalFrame implements Item
         filtrarTabela();
     }//GEN-LAST:event_jtfValorFiltroKeyReleased
 
-    private void jbtnPreencherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnPreencherActionPerformed
-        preencherTabela();
-    }//GEN-LAST:event_jbtnPreencherActionPerformed
+    private void jbtnAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnAtualizarActionPerformed
+        limparTabela();
+        atualizarTabela();
+    }//GEN-LAST:event_jbtnAtualizarActionPerformed
 
-    private void jbtnPreencherKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jbtnPreencherKeyPressed
+    private void jbtnAtualizarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jbtnAtualizarKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            preencherTabela();
+            limparTabela();
+            atualizarTabela();
         }
-    }//GEN-LAST:event_jbtnPreencherKeyPressed
+    }//GEN-LAST:event_jbtnAtualizarKeyPressed
 
     private void jbtnLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnLimparActionPerformed
         limparTabela();
@@ -688,7 +828,7 @@ public class GUIAdminUsuarios extends javax.swing.JInternalFrame implements Item
         if(alterarUsuario())
         {
             limparTabela();
-            preencherTabela();
+            atualizarTabela();
         }
     }//GEN-LAST:event_jbtnAlterarActionPerformed
 
@@ -697,7 +837,7 @@ public class GUIAdminUsuarios extends javax.swing.JInternalFrame implements Item
             if(alterarUsuario())
             {
                 limparTabela();
-                preencherTabela();
+                atualizarTabela();
             }
         }
     }//GEN-LAST:event_jbtnAlterarKeyPressed
@@ -706,7 +846,7 @@ public class GUIAdminUsuarios extends javax.swing.JInternalFrame implements Item
         if(deletarUsuario())
         {
             limparTabela();
-            preencherTabela();
+            atualizarTabela();
         }
     }//GEN-LAST:event_jbtnDeletarActionPerformed
 
@@ -715,10 +855,16 @@ public class GUIAdminUsuarios extends javax.swing.JInternalFrame implements Item
             if(deletarUsuario())
             {
                 limparTabela();
-                preencherTabela();
+                atualizarTabela();
             }
         }
     }//GEN-LAST:event_jbtnDeletarKeyPressed
+
+    private void jTableUsuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableUsuariosMouseClicked
+        preencherCamposDados();
+        jbtnAlterar.setEnabled(true);
+        jbtnDeletar.setEnabled(true);
+    }//GEN-LAST:event_jTableUsuariosMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -736,9 +882,9 @@ public class GUIAdminUsuarios extends javax.swing.JInternalFrame implements Item
     private javax.swing.JScrollPane jScrollPaneTabela;
     private javax.swing.JTable jTableUsuarios;
     private javax.swing.JButton jbtnAlterar;
+    private javax.swing.JButton jbtnAtualizar;
     private javax.swing.JButton jbtnDeletar;
     private javax.swing.JButton jbtnLimpar;
-    private javax.swing.JButton jbtnPreencher;
     private javax.swing.JComboBox<String> jcbAnoAniversario;
     private javax.swing.JComboBox<String> jcbCampoFiltro;
     private javax.swing.JComboBox<String> jcbDiaAniversario;

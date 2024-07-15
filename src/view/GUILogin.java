@@ -22,6 +22,7 @@ import javax.swing.JComboBox;
 import modelo.UsuarioVO;
 import objetosFront.DadosLogin;
 import servicos.ServicosFactory;
+import utilidades.Converter;
 import utilidades.Verificar;
 
 /**
@@ -36,6 +37,7 @@ public class GUILogin extends javax.swing.JFrame implements ItemListener
     public GUILogin() {
         initComponents();
         inicializarTelas();
+        setLocationRelativeTo(null);
     }
     
     private void sair()
@@ -307,7 +309,7 @@ public class GUILogin extends javax.swing.JFrame implements ItemListener
                         1,
                         3,
                         nome,
-                        senha1,
+                        Converter.converterTextoParaHash(senha1),
                         email,
                         Integer.parseInt(diaAniversario),
                         Integer.parseInt(mesAniversario),
@@ -446,6 +448,11 @@ public class GUILogin extends javax.swing.JFrame implements ItemListener
         jbtnSairCadastrar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Login/Cadastro");
+        setLocation(new java.awt.Point(50, 50));
+        setResizable(false);
+
+        jTabbedPane.setMaximumSize(new java.awt.Dimension(71, 65));
 
         jpnlImagemLogin.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
@@ -547,7 +554,7 @@ public class GUILogin extends javax.swing.JFrame implements ItemListener
         jpLoginLayout.setHorizontalGroup(
             jpLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpLoginLayout.createSequentialGroup()
-                .addContainerGap(115, Short.MAX_VALUE)
+                .addContainerGap(96, Short.MAX_VALUE)
                 .addGroup(jpLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jpLoginLayout.createSequentialGroup()
                         .addGap(12, 12, 12)
@@ -804,7 +811,7 @@ public class GUILogin extends javax.swing.JFrame implements ItemListener
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane)
+            .addComponent(jTabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
