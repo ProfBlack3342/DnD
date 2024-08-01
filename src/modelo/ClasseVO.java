@@ -13,28 +13,28 @@ import java.sql.Date;
 public class ClasseVO extends ObjetoVO
 {
     /*
-    Classe (
-        idClasse INT NOT NULL,
+        Classe (
+            idClasse INT NOT NULL,
 
-        idImagemClasse INT NOT NULL,
+            idImagemClasse INT NOT NULL,
 
-        nomeClasse VARCHAR(50) NOT NULL UNIQUE,
-        descricaoClasse VARCHAR(500) NOT NULL,
-        bonusProficienciaInicialClasse INT NOT NULL,
-        dadoClasse INT NOT NULL,
-        quantProficienciasArmasClasse INT NOT NULL,
-        quantProficienciasArmaduraClasse INT NOT NULL,
-        quantProficienciasFerramentasClasse INT NOT NULL,
-        quantProficienciasPericiasClasse INT NOT NULL,
-        quantProficienciasSavesAtributosClasse INT NOT NULL,
-        quantEquipamentosIniciaisClasse INT NOT NULL,
-        quantFeaturesClasse INT NOT NULL,
-        classeTemSpells TINYINT(1) NOT NULL,
-        idAtributoSpells INT NULL,
+            nomeClasse VARCHAR(50) NOT NULL UNIQUE,
+            descricaoClasse VARCHAR(500) NOT NULL,
+            bonusProficienciaInicialClasse INT NOT NULL,
+            dadoClasse INT NOT NULL,
+            quantProficienciasArmasClasse INT NOT NULL,
+            quantProficienciasArmaduraClasse INT NOT NULL,
+            quantProficienciasFerramentasClasse INT NOT NULL,
+            quantProficienciasPericiasClasse INT NOT NULL,
+            quantProficienciasSavesAtributosClasse INT NOT NULL,
+            quantEquipamentosIniciaisClasse INT NOT NULL,
+            quantFeaturesClasse INT NOT NULL,
+            classeTemSpells TINYINT(1) NOT NULL,
+            idAtributoSpells INT NULL,
 
-        dataCriacaoClasse DATE NOT NULL,
-        classeAtiva TINYINT(1) NOT NULL DEFAULT 1
-    );
+            dataCriacaoClasse DATE NOT NULL,
+            classeAtiva TINYINT(1) NOT NULL DEFAULT 1
+        )
     */
     private static final String NOME_TABELA = "Classe";
     private static final String[] NOMES_COLUNAS = new String[]{

@@ -109,7 +109,8 @@ public class GUICriarPersonagem extends javax.swing.JInternalFrame implements It
         }
         catch(NoDataFoundException | SQLException e)
         {
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Erro em GUICriarPersonagem.carregarBackgrounds(): " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+            backgrounds = new BackgroundVO[0];
         }
         
     }
@@ -126,7 +127,8 @@ public class GUICriarPersonagem extends javax.swing.JInternalFrame implements It
         }
         catch(NoDataFoundException | SQLException e)
         {
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Erro em GUICriarPersonagem.carregarClasses(): " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+            classes = new ClasseVO[0];
         }
     }
     
@@ -142,7 +144,8 @@ public class GUICriarPersonagem extends javax.swing.JInternalFrame implements It
         }
         catch(NoDataFoundException | SQLException e)
         {
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Erro em GUICriarPersonagem.carregarRacas(): " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+            racas = new RacaVO[0];
         }
     }
     
@@ -162,7 +165,8 @@ public class GUICriarPersonagem extends javax.swing.JInternalFrame implements It
             }
             catch(NoDataFoundException | SQLException e)
             {
-                JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Erro em GUICriarPersonagem.carregarSubclasses(): " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+                subclasses = new SubClasseVO[0];
             }
         }
     }
@@ -183,7 +187,8 @@ public class GUICriarPersonagem extends javax.swing.JInternalFrame implements It
             }
             catch(NoDataFoundException | SQLException e)
             {
-                JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Erro em GUICriarPersonagem.carregarSubracas(): " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+                subRacas = new SubRacaVO[0];
             }
         }
     }
