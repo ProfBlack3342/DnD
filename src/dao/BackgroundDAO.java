@@ -43,6 +43,18 @@ public class BackgroundDAO extends ObjetoDAO
                 
                 bVO.setId(rs.getInt(nomesColunas[0]));
                 
+                bVO.setNome(rs.getString(nomesColunas[1]));
+                bVO.setDescricao(rs.getString(nomesColunas[2]));
+                bVO.setOuroInicial(rs.getInt(nomesColunas[3]));
+                bVO.setQuantOpcoesEquipamentosIniciais(rs.getInt(nomesColunas[4]));
+                bVO.setQuantLinguagensIniciais(rs.getInt(nomesColunas[5]));
+                bVO.setQuantProficienciasFerramentas(rs.getInt(nomesColunas[6]));
+                bVO.setQuantProficienciasPericias(rs.getInt(nomesColunas[7]));
+                bVO.setQuantFeatures(rs.getInt(nomesColunas[8]));
+                
+                bVO.setDataCriacao(rs.getDate(nomesColunas[9]));
+                bVO.setAtivo(rs.getBoolean(nomesColunas[10]));
+                
                 listaBackgrounds.add(bVO);
             }
             
@@ -58,7 +70,7 @@ public class BackgroundDAO extends ObjetoDAO
     }
 
     @Override
-    public BackgroundVO[] pesquisar(ObjetoVO obVO, String query, int[] indicesDados) throws IllegalArgumentException, NoDataFoundException, SQLException {
+    public BackgroundVO[] pesquisar(ObjetoVO obVO, int[] indicesCamposFiltragem) throws IllegalArgumentException, NoDataFoundException, SQLException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

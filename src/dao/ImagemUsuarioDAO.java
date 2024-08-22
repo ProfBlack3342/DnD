@@ -55,18 +55,26 @@ public class ImagemUsuarioDAO extends ObjetoDAO
 
     /**
      *
-     * @param oVO
-     * @param query
-     * @param indicesDados
+     * @param obVO
+     * @param indicesCamposFiltragem
      * @return
      * @throws IllegalArgumentException
      * @throws NoDataFoundException
      * @throws SQLException
      */
     @Override
-    public ImagemUsuarioVO[] pesquisar(ObjetoVO oVO, String query, int[] indicesDados) throws IllegalArgumentException, NoDataFoundException, SQLException
+    public ImagemUsuarioVO[] pesquisar(ObjetoVO obVO, int[] indicesCamposFiltragem) throws IllegalArgumentException, NoDataFoundException, SQLException
     {
-        ImagemUsuarioVO iuVO = (ImagemUsuarioVO) oVO;
+        ImagemUsuarioVO iuVO = (ImagemUsuarioVO) obVO;
+        
+        String[] nomesColunas = ImagemUsuarioVO.getNomesColunas();
+        
+        StringBuilder query = new StringBuilder("SELECT * FROM ").append(ImagemUsuarioVO.getNomeTabela()).append(" WHERE ");
+        query.append(nomesColunas[indicesCamposFiltragem[0]]).append(" = ");
+        
+        for(int indice : indicesCamposFiltragem) {
+            
+        }
         
         try(Connection con = new ConexaoBanco().getConexao();
                 PreparedStatement pstm = con.prepareStatement(query);)

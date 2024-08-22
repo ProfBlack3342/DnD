@@ -56,29 +56,24 @@ public final class UsuarioServicos
      * @throws SQLException
      */
     public UsuarioVO pesquisarUsuario(int idUsuario) throws IllegalArgumentException, NoDataFoundException, SQLException {
-        String query = "SELECT * "
-                + "FROM " + UsuarioVO.getNomeTabela() + " "
-                + "WHERE " + UsuarioVO.getNomesColunas()[0] + " = ? "
-                + "LIMIT 1";
         
         UsuarioVO uVO = new UsuarioVO();
         uVO.setId(idUsuario);
         
-        return DAOFactory.getUsuarioDAO().pesquisar(uVO, query, new int[]{0})[0];
+        return DAOFactory.getUsuarioDAO().pesquisar(uVO, new int[]{0})[0];
     }
     
     /**
      *
      * @param uVO
-     * @param query
-     * @param indicesDados
+     * @param indicesCamposFiltragem
      * @return
      * @throws IllegalArgumentException
      * @throws NoDataFoundException
      * @throws SQLException
      */
-    public UsuarioVO[] pesquisarUsuarios(UsuarioVO uVO, String query, int[] indicesDados) throws IllegalArgumentException, NoDataFoundException, SQLException {
-        return DAOFactory.getUsuarioDAO().pesquisar(uVO, query, indicesDados);
+    public UsuarioVO[] pesquisarUsuarios(UsuarioVO uVO, String query, int[] indicesCamposFiltragem) throws IllegalArgumentException, NoDataFoundException, SQLException {
+        return DAOFactory.getUsuarioDAO().pesquisar(uVO, indicesCamposFiltragem);
     }
     
     /**

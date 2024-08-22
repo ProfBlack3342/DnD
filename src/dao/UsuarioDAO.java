@@ -193,70 +193,98 @@ public final class UsuarioDAO extends ObjetoDAO
     /**
      * 
      * @param oVO
-     * @param query
-     * @param indicesDados
+     * @param indicesCamposFiltragem
      * @return
      * @throws IllegalArgumentException
      * @throws NoDataFoundException
      * @throws SQLException
      */
     @Override
-    public UsuarioVO[] pesquisar(ObjetoVO oVO, String query, int[] indicesDados) throws IllegalArgumentException, NoDataFoundException, SQLException
+    public UsuarioVO[] pesquisar(ObjetoVO oVO, int[] indicesCamposFiltragem) throws IllegalArgumentException, NoDataFoundException, SQLException
     {
         UsuarioVO uVO = (UsuarioVO) oVO;
         
+        int quantCamposFiltragem = indicesCamposFiltragem.length;
+        String[] nomesColunas = UsuarioVO.getNomesColunas();
+        
+        StringBuilder query = new StringBuilder("SELECT * FROM ").append(UsuarioVO.getNomeTabela());
+        query.append(" WHERE ").append(nomesColunas[indicesCamposFiltragem[0]]).append(" = ?");
+        
+        for(int i = 1; i < quantCamposFiltragem; i++) {
+            query.append(" AND ").append(nomesColunas[indicesCamposFiltragem[i]]).append(" = ?");
+        }
+        
         try(Connection con = new ConexaoBanco().getConexao();
-                PreparedStatement pstm = con.prepareStatement(query);)
+                PreparedStatement pstm = con.prepareStatement(query.toString());)
         {
-            
-            for(int i = 1; i <= indicesDados.length; i++) {
-                switch(indicesDados[i - 1])
+            for(int i = 0; i < quantCamposFiltragem; i++) {
+                switch (indicesCamposFiltragem[i])
                 {
                     case 0:
+                    {
                         pstm.setInt(i, uVO.getId());
                         break;
+                    }
                     case 1:
+                    {
                         pstm.setInt(i, uVO.getIdImagem());
                         break;
+                    }
                     case 2:
+                    {
                         pstm.setInt(i, uVO.getIdTipo());
                         break;
+                    }
                     case 3:
+                    {
                         pstm.setString(i, uVO.getNomeUsuario());
                         break;
-                    case 4:
-                        pstm.setString(i, uVO.getHashSenhaUsuario());
-                        break;
+                    }
                     case 5:
+                    {
                         pstm.setString(i, uVO.getEmailUsuario());
                         break;
+                    }
                     case 6:
+                    {
                         pstm.setDate(i, uVO.getDataAniversarioUsuario());
                         break;
+                    }
                     case 7:
+                    {
                         pstm.setString(i, uVO.getDescricaoUsuario());
                         break;
+                    }
                     case 8:
+                    {
                         pstm.setInt(i, uVO.getQuantPersonagensTotal());
                         break;
+                    }
                     case 9:
+                    {
                         pstm.setInt(i, uVO.getQuantPersonagensCriados());
                         break;
+                    }
                     case 10:
+                    {
                         pstm.setDate(i, uVO.getDataCriacao());
                         break;
+                    }
                     case 11:
+                    {
                         pstm.setBoolean(i, uVO.isAtivo());
                         break;
+                    }
                     default:
-                        throw new IllegalArgumentException("Erro em UsuarioDAO.pesquisar: Indice de dados não corresponde a nenhum em UsuarioVO!");
+                    {
+                        throw new IllegalArgumentException("Erro em UsuarioDAO.Pesquisar: Indice de valor para filtragem inválido!");
+                    }
+                    
                 }
             }
-            
             try(ResultSet rs = pstm.executeQuery();)
             {
                 ArrayList<UsuarioVO> listaResultados = new ArrayList<>();
-                String[] nomesColunas = UsuarioVO.getNomesColunas();
             
                 while(rs.next())
                 {

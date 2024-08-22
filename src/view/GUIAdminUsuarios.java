@@ -214,8 +214,8 @@ public class GUIAdminUsuarios extends javax.swing.JInternalFrame implements Item
     }
     
     private void filtrarTabela() {
-        String valorFiltro = jtfValorFiltro.getText();
-        if(valorFiltro != null)
+        String textoFiltro = jtfValorFiltro.getText();
+        if(textoFiltro != null)
         {
             for (UsuarioVO usuario : usuarios)
             {
@@ -231,7 +231,7 @@ public class GUIAdminUsuarios extends javax.swing.JInternalFrame implements Item
                 switch (jcbCampoFiltro.getSelectedIndex())
                 {
                     case 0:
-                        if (Integer.toString(usuario.getId()).equals(valorFiltro))
+                        if (Integer.toString(usuario.getId()).equals(textoFiltro))
                         {
                             
                             dtm.addRow(new String[]{
@@ -249,7 +249,7 @@ public class GUIAdminUsuarios extends javax.swing.JInternalFrame implements Item
                         }
                         break;
                     case 1:
-                        if (Integer.toString(usuario.getIdTipo()).equals(valorFiltro))
+                        if (Integer.toString(usuario.getIdTipo()).equals(textoFiltro))
                         {
                             
                             dtm.addRow(new String[]{
@@ -267,7 +267,7 @@ public class GUIAdminUsuarios extends javax.swing.JInternalFrame implements Item
                         }
                         break;
                     case 2:
-                        if (usuario.getNomeUsuario().equals(valorFiltro))
+                        if (usuario.getNomeUsuario().equals(textoFiltro))
                         {
                             
                             dtm.addRow(new String[]{
@@ -285,7 +285,7 @@ public class GUIAdminUsuarios extends javax.swing.JInternalFrame implements Item
                         }
                         break;
                     case 3:
-                        if (usuario.getEmailUsuario().equals(valorFiltro))
+                        if (usuario.getEmailUsuario().equals(textoFiltro))
                         {
                             
                             dtm.addRow(new String[]{

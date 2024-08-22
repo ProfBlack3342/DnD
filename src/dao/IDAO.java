@@ -34,14 +34,13 @@ public interface IDAO
     /**
      * 
      * @param obVO
-     * @param query
-     * @param indicesDados
+     * @param indicesCamposFiltragem
      * @return
      * @throws IllegalArgumentException
      * @throws exception.NoDataFoundException
      * @throws java.sql.SQLException
      */
-    ObjetoVO[] pesquisar(ObjetoVO obVO, String query, int[] indicesDados) throws IllegalArgumentException, NoDataFoundException, SQLException;
+    ObjetoVO[] pesquisar(ObjetoVO obVO, int[] indicesCamposFiltragem) throws IllegalArgumentException, NoDataFoundException, SQLException;
     
     /**
      * 

@@ -126,15 +126,14 @@ public final class PersonagemDAO extends ObjetoDAO
     /**
      *
      * @param obVO
-     * @param query
-     * @param indicesDados
+     * @param indicesCamposFiltragem
      * @return
      * @throws IllegalArgumentException
      * @throws NoDataFoundException
      * @throws SQLException
      */
     @Override
-    public PersonagemVO[] pesquisar(ObjetoVO obVO, String query, int[] indicesDados) throws IllegalArgumentException, NoDataFoundException, SQLException
+    public PersonagemVO[] pesquisar(ObjetoVO obVO, int[] indicesCamposFiltragem) throws IllegalArgumentException, NoDataFoundException, SQLException
     {
         PersonagemVO pVO = (PersonagemVO) obVO;
         

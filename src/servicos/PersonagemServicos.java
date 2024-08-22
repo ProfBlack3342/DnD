@@ -37,31 +37,25 @@ public class PersonagemServicos
     }
     
     public PersonagemVO pesquisarPersonagem(int idPersonagem, int idUsuario) throws IllegalArgumentException, NoDataFoundException, SQLException {
-        String query = "SELECT * "
-                + "FROM " + PersonagemVO.getNomeTabela() + " "
-                + "WHERE " + PersonagemVO.getNomesColunas()[0] + " = ? "
-                + "AND " + PersonagemVO.getNomesColunas()[1] + " = ? "
-                + "LIMIT 1";
         
         PersonagemVO pVO = new PersonagemVO();
         pVO.setId(idPersonagem);
         pVO.setIdUsuario(idUsuario);
         
-        return DAOFactory.getPersonagemDAO().pesquisar(pVO, query, new int[]{0, 1})[0];
+        return DAOFactory.getPersonagemDAO().pesquisar(pVO, new int[]{0, 1})[0];
     }
     
     /**
      *
      * @param pVO
-     * @param query
-     * @param indicesDados
+     * @param indicesCamposFiltragem
      * @return
      * @throws IllegalArgumentException
      * @throws NoDataFoundException
      * @throws SQLException
      */
-    public PersonagemVO[] pesquisarPersonagens(PersonagemVO pVO, String query, int[] indicesDados) throws IllegalArgumentException, NoDataFoundException, SQLException {
-        return DAOFactory.getPersonagemDAO().pesquisar(pVO, query, indicesDados);
+    public PersonagemVO[] pesquisarPersonagens(PersonagemVO pVO, int[] indicesCamposFiltragem) throws IllegalArgumentException, NoDataFoundException, SQLException {
+        return DAOFactory.getPersonagemDAO().pesquisar(pVO, indicesCamposFiltragem);
     }
     
     /**

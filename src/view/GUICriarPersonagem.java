@@ -112,7 +112,10 @@ public class GUICriarPersonagem extends javax.swing.JInternalFrame implements It
             JOptionPane.showMessageDialog(null, "Erro em GUICriarPersonagem.carregarBackgrounds(): " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
             backgrounds = new BackgroundVO[0];
         }
-        
+        finally
+        {
+            jcbBackgrounds.setSelectedIndex(-1);
+        }
     }
     
     private void carregarClasses()
@@ -129,6 +132,10 @@ public class GUICriarPersonagem extends javax.swing.JInternalFrame implements It
         {
             JOptionPane.showMessageDialog(null, "Erro em GUICriarPersonagem.carregarClasses(): " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
             classes = new ClasseVO[0];
+        }
+        finally
+        {
+            jcbClasses.setSelectedIndex(-1);
         }
     }
     
@@ -147,49 +154,51 @@ public class GUICriarPersonagem extends javax.swing.JInternalFrame implements It
             JOptionPane.showMessageDialog(null, "Erro em GUICriarPersonagem.carregarRacas(): " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
             racas = new RacaVO[0];
         }
-    }
-    
-    private void carregarSubclasses()
-    {
-        int indiceComboboxClasse = jcbClasses.getSelectedIndex();
-        
-        if(indiceComboboxClasse != -1)
+        finally
         {
-            try
-            {
-                subclasses = ServicosFactory.getSubClasseServicos().listarSubClassesDeClasse(classes[indiceComboboxClasse].getId());
-                
-                for(SubClasseVO subClasse : subclasses) {
-                    jcbSubclasses.addItem(subClasse.getNome());
-                }
-            }
-            catch(NoDataFoundException | SQLException e)
-            {
-                JOptionPane.showMessageDialog(null, "Erro em GUICriarPersonagem.carregarSubclasses(): " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
-                subclasses = new SubClasseVO[0];
-            }
+            jcbRacas.setSelectedIndex(-1);
         }
     }
     
-    private void carregarSubracas()
+    private void carregarSubclasses(int idClasse)
     {
-        int indiceComboboxRaca = jcbRacas.getSelectedIndex();
-        
-        if(indiceComboboxRaca != -1)
+        try
         {
-            try
-            {
-                subRacas = ServicosFactory.getSubRacaServicos().listarSubRacasDeRaca(racas[indiceComboboxRaca].getId());
-                
-                for(SubRacaVO subRaca : subRacas) {
-                    jcbSubracas.addItem(subRaca.getNome());
-                }
+            subclasses = ServicosFactory.getSubClasseServicos().listarSubClassesDeClasse(idClasse);
+
+            for(SubClasseVO subClasse : subclasses) {
+                jcbSubclasses.addItem(subClasse.getNome());
             }
-            catch(NoDataFoundException | SQLException e)
-            {
-                JOptionPane.showMessageDialog(null, "Erro em GUICriarPersonagem.carregarSubracas(): " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
-                subRacas = new SubRacaVO[0];
+        }
+        catch(NoDataFoundException | SQLException e)
+        {
+            JOptionPane.showMessageDialog(null, "Erro em GUICriarPersonagem.carregarSubclasses(): " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+            subclasses = new SubClasseVO[0];
+        }
+        finally
+        {
+            jcbSubclasses.setSelectedIndex(-1);
+        }
+    }
+    
+    private void carregarSubracas(int idRaca)
+    {
+        try
+        {
+            subRacas = ServicosFactory.getSubRacaServicos().listarSubRacasDeRaca(idRaca);
+
+            for(SubRacaVO subRaca : subRacas) {
+                jcbSubracas.addItem(subRaca.getNome());
             }
+        }
+        catch(NoDataFoundException | SQLException e)
+        {
+            JOptionPane.showMessageDialog(null, "Erro em GUICriarPersonagem.carregarSubracas(): " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+            subRacas = new SubRacaVO[0];
+        }
+        finally
+        {
+            jcbSubracas.setSelectedIndex(-1);
         }
     }
     
@@ -360,7 +369,7 @@ public class GUICriarPersonagem extends javax.swing.JInternalFrame implements It
 
         jPanelSelecaoSubclasse.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Escolha uma SubClasse"));
 
-        jcbSubclasses.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jcbSubclasses.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Subclasse" }));
 
         jTextAreaSubclasse.setEditable(false);
         jTextAreaSubclasse.setColumns(20);
@@ -394,7 +403,7 @@ public class GUICriarPersonagem extends javax.swing.JInternalFrame implements It
             jPanelSelecaoSubclasseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelSelecaoSubclasseLayout.createSequentialGroup()
                 .addComponent(jcbSubclasses, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 634, Short.MAX_VALUE))
+                .addGap(0, 623, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelSelecaoSubclasseLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -713,7 +722,7 @@ public class GUICriarPersonagem extends javax.swing.JInternalFrame implements It
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -775,12 +784,12 @@ public class GUICriarPersonagem extends javax.swing.JInternalFrame implements It
     }//GEN-LAST:event_jbtnCriarBackgroundKeyPressed
 
     private void jbtnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnSairActionPerformed
-        // TODO add your handling code here:
+        dispose();
     }//GEN-LAST:event_jbtnSairActionPerformed
 
     private void jbtnSairKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jbtnSairKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            
+            dispose();
         }
     }//GEN-LAST:event_jbtnSairKeyPressed
 
@@ -828,42 +837,18 @@ public class GUICriarPersonagem extends javax.swing.JInternalFrame implements It
 
     @Override
     public void itemStateChanged(ItemEvent ie) {
-        JComboBox jc = (JComboBox) ie.getSource();
-        
         if(ie.getStateChange() == ItemEvent.SELECTED)
         {
-            if(jc == jcbClasses)
+            JComboBox jcb = (JComboBox) ie.getSource();
+            int indice = jcb.getSelectedIndex();
+            
+            if(indice != -1)
             {
-                jTextAreaClasse.setText(null);
-                jlblImagemClasse.setIcon(null);
-            }
-            else if(jc == jcbRacas)
-            {
-                jTextAreaRacas.setText(null);
-                jlblImagemRaça.setIcon(null);
-            }
-            else if(jc == jcbBackgrounds)
-            {
-                jTextAreaBackground.setText(null);
-            }
-            else if(jc == jcbSubclasses)
-            {
-                jTextAreaSubclasse.setText(null);
-                jlblImagemRaça.setIcon(null);
-            }
-            else if(jc == jcbSubracas)
-            {
-                jTextAreaSubRacas.setText(null);
-            }
-        }
-        else if(ie.getStateChange() == ItemEvent.DESELECTED)
-        {
-            if(jc == jcbClasses)
-            {
-                int indice = jcbClasses.getSelectedIndex();
-                
-                if(indice != -1)
+                if(jcb == jcbClasses)
                 {
+                    jlblImagemClasse.setIcon(null);
+                    jTextAreaClasse.setText(null);
+                    
                     try
                     {
                         ImagemClasseVO imagemClasse = ServicosFactory.getImagemServicos().pesquisarImagemClasse(classes[indice].getIdImagem());
@@ -871,13 +856,9 @@ public class GUICriarPersonagem extends javax.swing.JInternalFrame implements It
                         BufferedImage imagemClasseBuff = ImageIO.read(getClass().getResourceAsStream(caminhoImagem));
                         
                         if(imagemClasseBuff != null)
-                        {
                             jlblImagemClasse.setIcon(new ImageIcon(imagemClasseBuff));
-                        }
                         else
-                        {
                             JOptionPane.showMessageDialog(null, "Erro ao carregar imagem da classe, usando default.", "Erro", JOptionPane.ERROR_MESSAGE);
-                        }
                         
                     }
                     catch(SQLException | NoDataFoundException | IOException | IllegalArgumentException ex)
@@ -888,16 +869,14 @@ public class GUICriarPersonagem extends javax.swing.JInternalFrame implements It
                     {
                         jlblImagemClasse.setText(null);
                         jTextAreaClasse.setText(classes[indice].getDescricao());
-                        carregarSubclasses();
+                        carregarSubclasses(classes[indice].getId());
                     }
                 }
-            }
-            else if(jc == jcbRacas)
-            {
-                int indice = jcbRacas.getSelectedIndex();
-                
-                if(indice != -1)
+                else if(jcb == jcbRacas)
                 {
+                    jlblImagemRaça.setIcon(null);
+                    jTextAreaRacas.setText(null);
+                    
                     try
                     {
                         ImagemRacaVO imagemRaca = ServicosFactory.getImagemServicos().pesquisarImagemRaca(racas[indice].getIdImagem());
@@ -922,23 +901,19 @@ public class GUICriarPersonagem extends javax.swing.JInternalFrame implements It
                     {
                         jlblImagemRaça.setText(null);
                         jTextAreaRacas.setText(racas[indice].getDescricao());
-                        carregarSubracas();
+                        carregarSubracas(racas[indice].getId());
                     }
                 }
-            }
-            else if(jc == jcbBackgrounds)
-            {
-                int indice = jcbBackgrounds.getSelectedIndex();
-                
-                if(indice != -1)
-                    jTextAreaBackground.setText(backgrounds[indice].getDescricao());
-            }
-            else if(jc == jcbSubclasses)
-            {
-                int indice = jcbSubclasses.getSelectedIndex();
-                
-                if(indice != -1)
+                else if(jcb == jcbBackgrounds)
                 {
+                    jTextAreaBackground.setText(null);
+                    jTextAreaBackground.setText(backgrounds[indice].getDescricao());
+                }
+                else if(jcb == jcbSubclasses)
+                {
+                    jlblImagemRaça.setIcon(null);
+                    jTextAreaSubclasse.setText(null);
+                    
                     try
                     {
                         ImagemSubClasseVO imagemSubClasse = ServicosFactory.getImagemServicos().pesquisarImagemSubClasse(subclasses[indice].getIdImagem());
@@ -965,13 +940,11 @@ public class GUICriarPersonagem extends javax.swing.JInternalFrame implements It
                         jTextAreaSubclasse.setText(subclasses[indice].getDescricao());
                     }
                 }
-            }
-            else if(jc == jcbSubracas)
-            {
-                int indice = jcbSubracas.getSelectedIndex();
-                
-                if(indice != -1)
+                else if(jcb == jcbSubracas)
+                {
+                    jTextAreaSubRacas.setText(null);
                     jTextAreaSubRacas.setText(subRacas[indice].getDescricao());
+                }
             }
         }
     }
