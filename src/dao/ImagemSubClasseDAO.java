@@ -5,9 +5,14 @@
 package dao;
 
 import exception.NoDataFoundException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import modelo.ImagemSubClasseVO;
 import modelo.ObjetoVO;
+import persistencia.ConexaoBanco;
 
 /**
  *
@@ -28,7 +33,55 @@ public class ImagemSubClasseDAO extends ObjetoDAO
 
     @Override
     public ImagemSubClasseVO[] pesquisar(ObjetoVO obVO, int[] indicesCamposFiltragem) throws IllegalArgumentException, NoDataFoundException, SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        ImagemSubClasseVO iscVO = (ImagemSubClasseVO) obVO;
+        
+        int quantCamposFiltragem = indicesCamposFiltragem.length;
+        String[] nomesColunas = ImagemSubClasseVO.getNomesColunas();
+        
+        StringBuilder query = new StringBuilder("SELECT * FROM ").append(ImagemSubClasseVO.getNomeTabela())
+                .append(" WHERE ").append(nomesColunas[indicesCamposFiltragem[0]]).append(" = ?");
+        
+        for(int i = 1; i < quantCamposFiltragem; i++) {
+            query.append(" AND ").append(nomesColunas[indicesCamposFiltragem[i]]).append(" = ?");
+        }
+        
+        try(Connection con = new ConexaoBanco().getConexao();
+                PreparedStatement pstm = con.prepareStatement(query.toString());)
+        {
+            for(int i = 1; i <= quantCamposFiltragem; i++) {
+                switch(indicesCamposFiltragem[i - 1])
+                {
+                    default:
+                        throw new IllegalArgumentException("Erro em ImagemSubClasseVO.Pesquisar (IllegalArgumentException): Indice de valor para filtragem inválido!");
+                }
+            }
+            try(ResultSet rs = pstm.executeQuery();)
+            {
+                ArrayList<ImagemSubClasseVO> listaImagens = new ArrayList<>();
+                
+                while(rs.next())
+                {
+                    ImagemSubClasseVO iscVOSaida = new ImagemSubClasseVO();
+                    
+                    
+                    
+                    listaImagens.add(iscVOSaida);
+                }
+                
+                if(!listaImagens.isEmpty())
+                    //return listaImagens.toArray(new ImagemSubClasseVO[listaImagens.size()]);
+                else
+                    throw new NoDataFoundException("Erro em ImagemSubClasseVO.pesquisar (NoDataFoundException): Nenhuma imagem de subclasse registrada com esses dados!");
+            }
+        }
+        catch(SQLException se)
+        {
+            throw new SQLException("Erro em ImagemSubClasseVO.pesquisar (SQLException): " + se.getMessage());
+        }
+        catch(IllegalArgumentException ie)
+        {
+            throw new IllegalArgumentException("Erro em ImagemSubClasseVO.pesquisar (IllegalArgumentException): " + ie.getMessage());
+        }
     }
 
     @Override

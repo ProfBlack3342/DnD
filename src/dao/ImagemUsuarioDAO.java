@@ -109,9 +109,7 @@ public class ImagemUsuarioDAO extends ObjetoDAO
                         break;
                     }
                     default:
-                    {
                         throw new IllegalArgumentException("Erro em ImagemUsuarioVO.Pesquisar (IllegalArgumentException): Indice de valor para filtragem inválido!");
-                    }
                 }
             }
             

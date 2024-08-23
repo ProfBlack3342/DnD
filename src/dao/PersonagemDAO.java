@@ -339,9 +339,7 @@ public final class PersonagemDAO extends ObjetoDAO
                         break;
                     }
                     default:
-                    {
                         throw new IllegalArgumentException("Erro em PersonagemVO.Pesquisar: Indice de valor para filtragem inválido!");
-                    }
                 }
             }
             try(ResultSet rs = pstm.executeQuery();)

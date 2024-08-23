@@ -22,7 +22,6 @@ import modelo.ClasseVO;
 import modelo.ImagemClasseVO;
 import modelo.ImagemRacaVO;
 import modelo.ImagemSubClasseVO;
-import modelo.ImagemUsuarioVO;
 import modelo.PersonagemVO;
 import modelo.RacaVO;
 import modelo.SubClasseVO;

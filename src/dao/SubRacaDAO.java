@@ -12,7 +12,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import modelo.ObjetoVO;
-import modelo.RacaVO;
 import modelo.SubRacaVO;
 import persistencia.ConexaoBanco;
 
@@ -34,37 +33,41 @@ public class SubRacaDAO extends ObjetoDAO
     
     public SubRacaVO[] listar(int idRaca) throws NoDataFoundException, SQLException {
         String sql = "SELECT * FROM " + SubRacaVO.getNomeTabela() + 
-                " WHERE " + SubRacaVO.getNomesColunas()[1] + " = " + idRaca;
+                " WHERE " + SubRacaVO.getNomesColunas()[1] + " = ?";
         
         try(Connection con = new ConexaoBanco().getConexao();
-            PreparedStatement pstm = con.prepareStatement(sql);
-            ResultSet rs = pstm.executeQuery();)
+            PreparedStatement pstm = con.prepareStatement(sql);)
         {
-            ArrayList<SubRacaVO> listaSubracas = new ArrayList<>();
-            String[] nomesColunas = SubRacaVO.getNomesColunas();
+            pstm.setInt(1, idRaca);
             
-            while(rs.next())
+            try(ResultSet rs = pstm.executeQuery();)
             {
-                SubRacaVO srVO = new SubRacaVO();
-                
-                srVO.setId(rs.getInt(nomesColunas[0]));
-                
-                srVO.setIdRaca(rs.getInt(nomesColunas[1]));
-                srVO.setNome(rs.getString(nomesColunas[2]));
-                srVO.setDescricao(rs.getString(nomesColunas[3]));
-                srVO.setValorBuffAtributos(rs.getInt(nomesColunas[4]));
-                srVO.setIdAtributoBuffado(rs.getInt(nomesColunas[5]));
-                srVO.setQuantFeatures(rs.getInt(nomesColunas[6]));
-                
-                srVO.setDataCriacao(rs.getDate(nomesColunas[7]));
-                srVO.setAtivo(rs.getBoolean(nomesColunas[8]));
-                
-                listaSubracas.add(srVO);
+                ArrayList<SubRacaVO> listaSubracas = new ArrayList<>();
+                String[] nomesColunas = SubRacaVO.getNomesColunas();
+
+                while(rs.next())
+                {
+                    SubRacaVO srVO = new SubRacaVO();
+
+                    srVO.setId(rs.getInt(nomesColunas[0]));
+
+                    srVO.setIdRaca(rs.getInt(nomesColunas[1]));
+                    srVO.setNome(rs.getString(nomesColunas[2]));
+                    srVO.setDescricao(rs.getString(nomesColunas[3]));
+                    srVO.setValorBuffAtributos(rs.getInt(nomesColunas[4]));
+                    srVO.setIdAtributoBuffado(rs.getInt(nomesColunas[5]));
+                    srVO.setQuantFeatures(rs.getInt(nomesColunas[6]));
+
+                    srVO.setDataCriacao(rs.getDate(nomesColunas[7]));
+                    srVO.setAtivo(rs.getBoolean(nomesColunas[8]));
+
+                    listaSubracas.add(srVO);
+                }
+                if(!listaSubracas.isEmpty())
+                    return listaSubracas.toArray(new SubRacaVO[listaSubracas.size()]);
+                else
+                    throw new NoDataFoundException("Erro em SubRacaVO.listar: Nenhuma subraça registrada para esta raça!");
             }
-            if(!listaSubracas.isEmpty())
-                return listaSubracas.toArray(new SubRacaVO[listaSubracas.size()]);
-            else
-                throw new NoDataFoundException("Erro em SubRacaVO.listar: Nenhuma subraça registrada para esta raça!");
         }
         catch(SQLException se)
         {

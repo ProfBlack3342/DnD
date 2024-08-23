@@ -11,7 +11,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import modelo.ClasseVO;
 import modelo.ObjetoVO;
 import modelo.SubClasseVO;
 import persistencia.ConexaoBanco;
@@ -34,36 +33,40 @@ public class SubClasseDAO extends ObjetoDAO
     
     public SubClasseVO[] listar(int idClasse) throws NoDataFoundException, SQLException {
         String sql = "SELECT * FROM " + SubClasseVO.getNomeTabela() + 
-                " WHERE " + SubClasseVO.getNomesColunas()[1] + " = " + idClasse;
+                " WHERE " + SubClasseVO.getNomesColunas()[1] + " = ?";
         
         try(Connection con = new ConexaoBanco().getConexao();
-            PreparedStatement pstm = con.prepareStatement(sql);
-            ResultSet rs = pstm.executeQuery();)
+            PreparedStatement pstm = con.prepareStatement(sql);)
         {
-            ArrayList<SubClasseVO> listaSubclasses = new ArrayList<>();
-            String [] nomesColunas = SubClasseVO.getNomesColunas();
-            
-            while(rs.next())
+            pstm.setInt(1, idClasse);
+                
+            try (ResultSet rs = pstm.executeQuery();)
             {
-                SubClasseVO scVO = new SubClasseVO();
-                
-                scVO.setId(rs.getInt(nomesColunas[0]));
-                
-                scVO.setIdClasse(rs.getInt(nomesColunas[1]));
-                scVO.setIdImagem(rs.getInt(nomesColunas[2]));
-                scVO.setNome(rs.getString(nomesColunas[3]));
-                scVO.setDescricao(rs.getString(nomesColunas[4]));
-                scVO.setQuantFeatures(rs.getInt(nomesColunas[5]));
-                
-                scVO.setDataCriacao(rs.getDate(nomesColunas[6]));
-                scVO.setAtivo(rs.getBoolean(nomesColunas[7]));
-                
-                listaSubclasses.add(scVO);
+                ArrayList<SubClasseVO> listaSubclasses = new ArrayList<>();
+                String [] nomesColunas = SubClasseVO.getNomesColunas();
+
+                while(rs.next())
+                {
+                    SubClasseVO scVO = new SubClasseVO();
+
+                    scVO.setId(rs.getInt(nomesColunas[0]));
+
+                    scVO.setIdClasse(rs.getInt(nomesColunas[1]));
+                    scVO.setIdImagem(rs.getInt(nomesColunas[2]));
+                    scVO.setNome(rs.getString(nomesColunas[3]));
+                    scVO.setDescricao(rs.getString(nomesColunas[4]));
+                    scVO.setQuantFeatures(rs.getInt(nomesColunas[5]));
+
+                    scVO.setDataCriacao(rs.getDate(nomesColunas[6]));
+                    scVO.setAtivo(rs.getBoolean(nomesColunas[7]));
+
+                    listaSubclasses.add(scVO);
+                }
+                if(!listaSubclasses.isEmpty())
+                    return listaSubclasses.toArray(new SubClasseVO[listaSubclasses.size()]);
+                else
+                    throw new NoDataFoundException("Erro em SubClasseDAO.listar: Nenhuma subclasse registrada para esta classe!");
             }
-            if(!listaSubclasses.isEmpty())
-                return listaSubclasses.toArray(new SubClasseVO[listaSubclasses.size()]);
-            else
-                throw new NoDataFoundException("Erro em SubClasseDAO.listar: Nenhuma subclasse registrada para esta classe!");
         }
         catch(SQLException se)
         {

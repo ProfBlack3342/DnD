@@ -15,7 +15,6 @@ import modelo.ObjetoVO;
 import modelo.UsuarioVO;
 import objetosFront.DadosLogin;
 import persistencia.ConexaoBanco;
-import utilidades.Converter;
 import utilidades.Verificar;
 
 /**
@@ -218,7 +217,7 @@ public final class UsuarioDAO extends ObjetoDAO
                 PreparedStatement pstm = con.prepareStatement(query.toString());)
         {
             for(int i = 1; i <= quantCamposFiltragem; i++) {
-                switch(indicesCamposFiltragem[i -1])
+                switch(indicesCamposFiltragem[i - 1])
                 {
                     case 0:
                     {
@@ -276,9 +275,7 @@ public final class UsuarioDAO extends ObjetoDAO
                         break;
                     }
                     default:
-                    {
                         throw new IllegalArgumentException("Erro em UsuarioDAO.Pesquisar: Indice de valor para filtragem inválido!");
-                    }
                 }
             }
             try(ResultSet rs = pstm.executeQuery();)
