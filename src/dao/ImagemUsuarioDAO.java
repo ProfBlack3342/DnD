@@ -80,8 +80,8 @@ public class ImagemUsuarioDAO extends ObjetoDAO
         try(Connection con = new ConexaoBanco().getConexao();
                 PreparedStatement pstm = con.prepareStatement(query.toString());)
         {
-            for(int i = 0; i < quantCamposFiltragem; i++) {
-                switch(indicesCamposFiltragem[i])
+            for(int i = 1; i <= quantCamposFiltragem; i++) {
+                switch(indicesCamposFiltragem[i - 1])
                 {
                     case 0:
                     {
@@ -110,7 +110,7 @@ public class ImagemUsuarioDAO extends ObjetoDAO
                     }
                     default:
                     {
-                        throw new IllegalArgumentException("Erro em ImagemUsuarioVO.Pesquisar: Indice de valor para filtragem inválido!");
+                        throw new IllegalArgumentException("Erro em ImagemUsuarioVO.Pesquisar (IllegalArgumentException): Indice de valor para filtragem inválido!");
                     }
                 }
             }
@@ -137,16 +137,16 @@ public class ImagemUsuarioDAO extends ObjetoDAO
                 if(!listaImagens.isEmpty())
                     return listaImagens.toArray(new ImagemUsuarioVO[listaImagens.size()]);
                 else
-                    throw new NoDataFoundException("Erro em ImagemUsuarioVO.pesquisar: Nenhuma imagem de usuário registrada com esses dados!");
+                    throw new NoDataFoundException("Erro em ImagemUsuarioVO.pesquisar (NoDataFoundException): Nenhuma imagem de usuário registrada com esses dados!");
             }
         }
         catch(SQLException se)
         {
-            throw new SQLException("Erro em ImagemUsuarioDAO.pesquisar: " + se.getMessage());
+            throw new SQLException("Erro em ImagemUsuarioDAO.pesquisar (SQLException): " + se.getMessage());
         }
         catch(IllegalArgumentException ie)
         {
-            throw new IllegalArgumentException("Erro em ImagemUsuarioDAO.pesquisar: " + ie.getMessage());
+            throw new IllegalArgumentException("Erro em ImagemUsuarioDAO.pesquisar (IllegalArgumentException): " + ie.getMessage());
         }
     }
 

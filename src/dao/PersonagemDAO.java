@@ -150,8 +150,8 @@ public final class PersonagemDAO extends ObjetoDAO
         try(Connection con = new ConexaoBanco().getConexao();
                 PreparedStatement pstm = con.prepareStatement(query.toString());)
         {
-            for(int i = 0; i < quantCamposFiltragem; i++) {
-                switch(indicesCamposFiltragem[i])
+            for(int i = 1; i <= quantCamposFiltragem; i++) {
+                switch(indicesCamposFiltragem[i - 1])
                 {
                     case 0:
                     {

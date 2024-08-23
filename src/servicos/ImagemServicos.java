@@ -54,7 +54,7 @@ public class ImagemServicos
         ImagemClasseVO icVO = new ImagemClasseVO();
         icVO.setId(id);
         
-        return pesquisarImagemClasse(icVO, new int[]{0})[0];
+        return ( pesquisarImagemClasse(icVO, new int[]{0}) )[0];
     }
 
     /**
@@ -81,7 +81,7 @@ public class ImagemServicos
         ImagemPersonagemVO ipVO = new ImagemPersonagemVO();
         ipVO.setId(id);
         
-        return pesquisarImagemPersonagem(ipVO, new int[]{0})[0];
+        return ( pesquisarImagemPersonagem(ipVO, new int[]{0}) )[0];
     }
 
     /**
@@ -108,7 +108,7 @@ public class ImagemServicos
         ImagemRacaVO irVO = new ImagemRacaVO();
         irVO.setId(id);
         
-        return pesquisarImagemRaca(irVO, new int[]{0})[0];
+        return ( pesquisarImagemRaca(irVO, new int[]{0}) )[0];
     }
 
     /**
@@ -135,7 +135,7 @@ public class ImagemServicos
         ImagemSubClasseVO iscVO = new ImagemSubClasseVO();
         iscVO.setId(id);
         
-        return pesquisarImagemSubClasse(iscVO, new int[]{0})[0];
+        return ( pesquisarImagemSubClasse(iscVO, new int[]{0}) )[0];
     }
 
     /**
@@ -163,7 +163,7 @@ public class ImagemServicos
         ImagemUsuarioVO iuVO = new ImagemUsuarioVO();
         iuVO.setId(id);
         
-        return DAOFactory.getImagemUsuarioDAO().pesquisar(iuVO, new int[]{0})[0];
+        return ( pesquisarImagensUsuario(iuVO, new int[]{0}) )[0];
     }
     
     /**
