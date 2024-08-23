@@ -137,78 +137,268 @@ public final class PersonagemDAO extends ObjetoDAO
     {
         PersonagemVO pVO = (PersonagemVO) obVO;
         
+        int quantCamposFiltragem = indicesCamposFiltragem.length;
+        String[] nomesColunas = PersonagemVO.getNomesColunas();
+        
+        StringBuilder query = new StringBuilder("SELECT * FROM ").append(PersonagemVO.getNomeTabela())
+                .append(" WHERE ").append(nomesColunas[indicesCamposFiltragem[0]]).append(" = ?");
+        
+        for(int i = 1; i < quantCamposFiltragem; i++) {
+            query.append(" AND ").append(nomesColunas[indicesCamposFiltragem[i]]).append(" = ?");
+        }
+        
         try(Connection con = new ConexaoBanco().getConexao();
-                PreparedStatement pstm = con.prepareStatement(query);)
+                PreparedStatement pstm = con.prepareStatement(query.toString());)
         {
-            for(int i = 1; i <= indicesDados.length; i++) {
-                switch(indicesDados[i - 1])
+            for(int i = 0; i < quantCamposFiltragem; i++) {
+                switch(indicesCamposFiltragem[i])
                 {
-                     case 0:
+                    case 0:
+                    {
                         pstm.setInt(i, pVO.getId());
                         break;
-                     case 1:
-                         pstm.setInt(i, pVO.getIdUsuario());
-                         break;
-                     case 2:
-                         pstm.setInt(i, pVO.getIdImagem());
-                         break;
-                     case 3:
-                         pstm.setInt(i, pVO.getIdClasse());
-                         break;
-                     case 4:
-                         pstm.setInt(i, pVO.getIdSubclasse());
-                         break;
-                     case 5:
-                         pstm.setInt(i, pVO.getIdRaca());
-                         break;
-                     case 6:
-                         pstm.setInt(i, pVO.getIdSubraca());
-                         break;
-                     case 7:
-                         pstm.setInt(i, pVO.getIdBackground());
-                         break;
-                     case 8:
-                         pstm.setString(i, pVO.getNome());
-                         break;
-                     case 9:
-                         pstm.setDate(i, pVO.getDataCriacao());
-                         break;
-                     case 10:
-                         pstm.setBoolean(i, pVO.isAtivo());
-                         break;
-                     default:
-                         throw new IllegalArgumentException("Erro em PersonagemDAO.pesquisar: Indice de dados não corresponde a nenhum em PersonagemVO!");
+                    }
+                    case 1:
+                    {
+                        pstm.setInt(i, pVO.getIdUsuario());
+                        break;
+                    }
+                    case 2:
+                    {
+                        pstm.setInt(i, pVO.getIdImagem());
+                        break;
+                    }
+                    case 3:
+                    {
+                        pstm.setInt(i, pVO.getIdSubclasse());
+                        break;
+                    }
+                    case 4:
+                    {
+                        pstm.setInt(i, pVO.getIdClasse());
+                        break;
+                    }
+                    case 5:
+                    {
+                        pstm.setInt(i, pVO.getIdSubraca());
+                        break;
+                    }
+                    case 6:
+                    {
+                        pstm.setInt(i, pVO.getIdRaca());
+                        break;
+                    }
+                    case 7:
+                    {
+                        pstm.setInt(i, pVO.getIdBackground());
+                        break;
+                    }
+                    case 8:
+                    {
+                        pstm.setInt(i, pVO.getValorSTRBase());
+                        break;
+                    }
+                    case 9:
+                    {
+                        pstm.setInt(i, pVO.getValorDEXBase());
+                        break;
+                    }
+                    case 10:
+                    {
+                        pstm.setInt(i, pVO.getValorCONBase());
+                        break;
+                    }
+                    case 11:
+                    {
+                        pstm.setInt(i, pVO.getValorINTBase());
+                        break;
+                    }
+                    case 12:
+                    {
+                        pstm.setInt(i, pVO.getValorWISBase());
+                        break;
+                    }
+                    case 13:
+                    {
+                        pstm.setInt(i, pVO.getValorCHABase());
+                        break;
+                    }
+                    case 14:
+                    {
+                        pstm.setString(i, pVO.getNome());
+                        break;
+                    }
+                    case 15:
+                    {
+                        pstm.setString(i, pVO.getAlinhamento());
+                        break;
+                    }
+                    case 16:
+                    {
+                        pstm.setInt(i, pVO.getIdade());
+                        break;
+                    }
+                    case 17:
+                    {
+                        pstm.setInt(i, pVO.getAltura());
+                        break;
+                    }
+                    case 18:
+                    {
+                        pstm.setDouble(i, pVO.getPeso());
+                        break;
+                    }
+                    case 19:
+                    {
+                        pstm.setString(i, pVO.getOlhos());
+                        break;
+                    }
+                    case 20:
+                    {
+                        pstm.setString(i, pVO.getPele());
+                        break;
+                    }
+                    case 21:
+                    {
+                        pstm.setString(i, pVO.getCabelo());
+                        break;
+                    }
+                    case 22:
+                    {
+                        pstm.setString(i, pVO.getAparencia());
+                        break;
+                    }
+                    case 23:
+                    {
+                        pstm.setString(i, pVO.getHistoria());
+                        break;
+                    }
+                    case 24:
+                    {
+                        pstm.setString(i, pVO.getPersonalidade());
+                        break;
+                    }
+                    case 25:
+                    {
+                        pstm.setString(i, pVO.getIdeais());
+                        break;
+                    }
+                    case 26:
+                    {
+                        pstm.setString(i, pVO.getLigacoes());
+                        break;
+                    }
+                    case 27:
+                    {
+                        pstm.setString(i, pVO.getDefeitos());
+                        break;
+                    }
+                    case 28:
+                    {
+                        pstm.setString(i, pVO.getAliados());
+                        break;
+                    }
+                    case 29:
+                    {
+                        pstm.setString(i, pVO.getOutrasInformacoes());
+                        break;
+                    }
+                    case 30:
+                    {
+                        pstm.setInt(i, pVO.getQuantCobre());
+                        break;
+                    }
+                    case 31:
+                    {
+                        pstm.setInt(i, pVO.getQuantPrata());
+                        break;
+                    }
+                    case 32:
+                    {
+                        pstm.setInt(i, pVO.getQuantElectrum());
+                        break;
+                    }
+                    case 33:
+                    {
+                        pstm.setInt(i, pVO.getQuantOuro());
+                        break;
+                    }
+                    case 34:
+                    {
+                        pstm.setInt(i, pVO.getQuantPlatina());
+                        break;
+                    }
+                    case 35:
+                    {
+                        pstm.setDate(i, pVO.getDataCriacao());
+                        break;
+                    }
+                    case 36:
+                    {
+                        pstm.setBoolean(i, pVO.isAtivo());
+                        break;
+                    }
+                    default:
+                    {
+                        throw new IllegalArgumentException("Erro em PersonagemVO.Pesquisar: Indice de valor para filtragem inválido!");
+                    }
                 }
             }
-            
             try(ResultSet rs = pstm.executeQuery();)
             {
-                ArrayList<PersonagemVO> listaResultados = new ArrayList<>();
-                String[] nomesColunas = PersonagemVO.getNomesColunas();
+                ArrayList<PersonagemVO> listaPersonagens = new ArrayList<>();
                 
                 while(rs.next())
                 {
-                    PersonagemVO pVOsaida = new PersonagemVO();
+                    PersonagemVO pVOSaida = new PersonagemVO();
                     
-                    pVOsaida.setId(rs.getInt(nomesColunas[0]));
-                    pVOsaida.setIdUsuario(rs.getInt(nomesColunas[1]));
-                    pVOsaida.setIdImagem(rs.getInt(nomesColunas[2]));
-                    pVOsaida.setIdClasse(rs.getInt(nomesColunas[3]));
-                    pVOsaida.setIdSubclasse(rs.getInt(nomesColunas[4]));
-                    pVOsaida.setIdRaca(rs.getInt(nomesColunas[5]));
-                    pVOsaida.setIdSubraca(rs.getInt(nomesColunas[6]));
-                    pVOsaida.setIdBackground(rs.getInt(nomesColunas[7]));
-                    pVOsaida.setNome(rs.getString(nomesColunas[8]));
+                    pVOSaida.setId(rs.getInt(nomesColunas[0]));
                     
-                    pVOsaida.setDataCriacao(rs.getDate(nomesColunas[9]));
-                    pVOsaida.setAtivo(rs.getBoolean(nomesColunas[10]));
+                    pVOSaida.setIdUsuario(rs.getInt(nomesColunas[1]));
+                    pVOSaida.setIdImagem(rs.getInt(nomesColunas[2]));
+                    pVOSaida.setIdSubclasse(rs.getInt(nomesColunas[3]));
+                    pVOSaida.setIdClasse(rs.getInt(nomesColunas[4]));
+                    pVOSaida.setIdSubraca(rs.getInt(nomesColunas[5]));
+                    pVOSaida.setIdRaca(rs.getInt(nomesColunas[6]));
+                    pVOSaida.setIdBackground(rs.getInt(nomesColunas[7]));
+                    pVOSaida.setValorSTRBase(rs.getInt(nomesColunas[8]));
+                    pVOSaida.setValorDEXBase(rs.getInt(nomesColunas[9]));
+                    pVOSaida.setValorCONBase(rs.getInt(nomesColunas[10]));
+                    pVOSaida.setValorINTBase(rs.getInt(nomesColunas[11]));
+                    pVOSaida.setValorWISBase(rs.getInt(nomesColunas[12]));
+                    pVOSaida.setValorCHABase(rs.getInt(nomesColunas[13]));
+                    pVOSaida.setNome(rs.getString(nomesColunas[14]));
+                    pVOSaida.setAlinhamento(rs.getString(nomesColunas[15]));
+                    pVOSaida.setIdade(rs.getInt(nomesColunas[16]));
+                    pVOSaida.setAltura(rs.getInt(nomesColunas[17]));
+                    pVOSaida.setPeso(rs.getDouble(nomesColunas[18]));
+                    pVOSaida.setOlhos(rs.getString(nomesColunas[19]));
+                    pVOSaida.setPele(rs.getString(nomesColunas[20]));
+                    pVOSaida.setCabelo(rs.getString(nomesColunas[21]));
+                    pVOSaida.setAparencia(rs.getString(nomesColunas[22]));
+                    pVOSaida.setHistoria(rs.getString(nomesColunas[23]));
+                    pVOSaida.setPersonalidade(rs.getString(nomesColunas[24]));
+                    pVOSaida.setIdeais(rs.getString(nomesColunas[25]));
+                    pVOSaida.setLigacoes(rs.getString(nomesColunas[26]));
+                    pVOSaida.setDefeitos(rs.getString(nomesColunas[27]));
+                    pVOSaida.setAliados(rs.getString(nomesColunas[28]));
+                    pVOSaida.setOutrasInformacoes(rs.getString(nomesColunas[29]));
+                    pVOSaida.setQuantCobre(rs.getInt(nomesColunas[30]));
+                    pVOSaida.setQuantPrata(rs.getInt(nomesColunas[31]));
+                    pVOSaida.setQuantElectrum(rs.getInt(nomesColunas[32]));
+                    pVOSaida.setQuantOuro(rs.getInt(nomesColunas[33]));
+                    pVOSaida.setQuantPlatina(rs.getInt(nomesColunas[34]));
                     
-                    listaResultados.add(pVOsaida);
+                    pVOSaida.setDataCriacao(rs.getDate(nomesColunas[35]));
+                    pVOSaida.setAtivo(rs.getBoolean(nomesColunas[36]));
+                    
+                    listaPersonagens.add(pVOSaida);
                 }
-                if(!listaResultados.isEmpty())
-                    return listaResultados.toArray(new PersonagemVO[listaResultados.size()]);
+                
+                if(!listaPersonagens.isEmpty())
+                    return listaPersonagens.toArray(new PersonagemVO[listaPersonagens.size()]);
                 else
-                    throw new NoDataFoundException("Erro em PersonagemDAO.pesquisar: Nenhum personagem registrado com esses dados!");
+                    throw new NoDataFoundException("Erro em PersonagemVO.pesquisar: Nenhum personagem registrado com esses dados!");
             }
         }
         catch(SQLException se)

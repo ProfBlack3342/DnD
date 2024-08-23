@@ -72,7 +72,7 @@ public final class UsuarioServicos
      * @throws NoDataFoundException
      * @throws SQLException
      */
-    public UsuarioVO[] pesquisarUsuarios(UsuarioVO uVO, String query, int[] indicesCamposFiltragem) throws IllegalArgumentException, NoDataFoundException, SQLException {
+    public UsuarioVO[] pesquisarUsuarios(UsuarioVO uVO, int[] indicesCamposFiltragem) throws IllegalArgumentException, NoDataFoundException, SQLException {
         return DAOFactory.getUsuarioDAO().pesquisar(uVO, indicesCamposFiltragem);
     }
     

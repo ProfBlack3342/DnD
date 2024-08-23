@@ -207,8 +207,8 @@ public final class UsuarioDAO extends ObjetoDAO
         int quantCamposFiltragem = indicesCamposFiltragem.length;
         String[] nomesColunas = UsuarioVO.getNomesColunas();
         
-        StringBuilder query = new StringBuilder("SELECT * FROM ").append(UsuarioVO.getNomeTabela());
-        query.append(" WHERE ").append(nomesColunas[indicesCamposFiltragem[0]]).append(" = ?");
+        StringBuilder query = new StringBuilder("SELECT * FROM ").append(UsuarioVO.getNomeTabela())
+                .append(" WHERE ").append(nomesColunas[indicesCamposFiltragem[0]]).append(" = ?");
         
         for(int i = 1; i < quantCamposFiltragem; i++) {
             query.append(" AND ").append(nomesColunas[indicesCamposFiltragem[i]]).append(" = ?");
@@ -279,7 +279,6 @@ public final class UsuarioDAO extends ObjetoDAO
                     {
                         throw new IllegalArgumentException("Erro em UsuarioDAO.Pesquisar: Indice de valor para filtragem inválido!");
                     }
-                    
                 }
             }
             try(ResultSet rs = pstm.executeQuery();)
@@ -305,6 +304,7 @@ public final class UsuarioDAO extends ObjetoDAO
 
                     listaResultados.add(uVOsaida);
                 }
+                
                 if(!listaResultados.isEmpty())
                     return listaResultados.toArray(new UsuarioVO[listaResultados.size()]);
                 else

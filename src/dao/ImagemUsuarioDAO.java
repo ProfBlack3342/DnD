@@ -67,62 +67,77 @@ public class ImagemUsuarioDAO extends ObjetoDAO
     {
         ImagemUsuarioVO iuVO = (ImagemUsuarioVO) obVO;
         
+        int quantCamposFiltragem = indicesCamposFiltragem.length;
         String[] nomesColunas = ImagemUsuarioVO.getNomesColunas();
         
-        StringBuilder query = new StringBuilder("SELECT * FROM ").append(ImagemUsuarioVO.getNomeTabela()).append(" WHERE ");
-        query.append(nomesColunas[indicesCamposFiltragem[0]]).append(" = ");
+        StringBuilder query = new StringBuilder("SELECT * FROM ").append(ImagemUsuarioVO.getNomeTabela())
+                .append(" WHERE ").append(nomesColunas[indicesCamposFiltragem[0]]).append(" = ?");
         
-        for(int indice : indicesCamposFiltragem) {
-            
+        for(int i = 1; i < quantCamposFiltragem; i++) {
+            query.append(" AND ").append(nomesColunas[indicesCamposFiltragem[i]]).append(" = ?");
         }
         
         try(Connection con = new ConexaoBanco().getConexao();
-                PreparedStatement pstm = con.prepareStatement(query);)
+                PreparedStatement pstm = con.prepareStatement(query.toString());)
         {
-            for(int i = 1; i <= indicesDados.length; i++)
-            {
-                switch(indicesDados[i - 1])
+            for(int i = 0; i < quantCamposFiltragem; i++) {
+                switch(indicesCamposFiltragem[i])
                 {
                     case 0:
-                        pstm.setInt( i, iuVO.getId());
+                    {
+                        pstm.setInt(i, iuVO.getId());
                         break;
+                    }
                     case 1:
-                        pstm.setString( i, iuVO.getCaminhoImagem());
+                    {
+                        pstm.setString(i, iuVO.getCaminhoImagem());
                         break;
+                    }
                     case 2:
-                        pstm.setString( i, iuVO.getDescricaoImagem());
+                    {
+                        pstm.setString(i, iuVO.getDescricaoImagem());
                         break;
+                    }
                     case 3:
-                        pstm.setDate( i, iuVO.getDataCriacao());
+                    {
+                        pstm.setDate(i, iuVO.getDataCriacao());
                         break;
+                    }
                     case 4:
-                        pstm.setBoolean( i, iuVO.isAtivo());
+                    {
+                        pstm.setBoolean(i, iuVO.isAtivo());
                         break;
+                    }
                     default:
-                        throw new IllegalArgumentException("Erro em ImagemUsuarioDAO.pesquisar: Indice de dados não corresponde a nenhum em ImagemUsuarioVO!");
+                    {
+                        throw new IllegalArgumentException("Erro em ImagemUsuarioVO.Pesquisar: Indice de valor para filtragem inválido!");
+                    }
                 }
             }
-
+            
             try(ResultSet rs = pstm.executeQuery();)
             {
-                ArrayList<ImagemUsuarioVO> listaResultados = new ArrayList<>();
-                String[] nomesColunas = ImagemUsuarioVO.getNomesColunas();
+                ArrayList<ImagemUsuarioVO> listaImagens = new ArrayList<>();
                 
                 while(rs.next())
                 {
-                    ImagemUsuarioVO iuVOsaida = new ImagemUsuarioVO();
+                    ImagemUsuarioVO iuVOSaida = new ImagemUsuarioVO();
                     
-                    iuVOsaida.setId(rs.getInt(nomesColunas[0]));
-                    iuVOsaida.setCaminhoImagem(rs.getString(nomesColunas[1]));
-                    iuVOsaida.setDescricaoImagem(rs.getString(nomesColunas[2]));
-                    iuVOsaida.setDataCriacao(rs.getDate(nomesColunas[3]));
-
-                    listaResultados.add(iuVOsaida);
+                    iuVOSaida.setId(rs.getInt(nomesColunas[0]));
+                    
+                    iuVOSaida.setCaminhoImagem(rs.getString(nomesColunas[1]));
+                    iuVOSaida.setDescricaoImagem(rs.getString(nomesColunas[2]));
+                    
+                    iuVOSaida.setDataCriacao(rs.getDate(nomesColunas[3]));
+                    iuVOSaida.setAtivo(rs.getBoolean(nomesColunas[4]));
+                    
+                    listaImagens.add(iuVOSaida);
                 }
-                if(!listaResultados.isEmpty())
-                    return listaResultados.toArray(new ImagemUsuarioVO[listaResultados.size()]);
+                
+                if(!listaImagens.isEmpty())
+                    return listaImagens.toArray(new ImagemUsuarioVO[listaImagens.size()]);
                 else
-                    throw new NoDataFoundException("Erro em ImagemUsuarioDAO.pesquisar: Nenhuma imagem registrada com esses dados!");
+                    throw new NoDataFoundException("Erro em ImagemUsuarioVO.pesquisar: Nenhuma imagem de usuário registrada com esses dados!");
             }
         }
         catch(SQLException se)
