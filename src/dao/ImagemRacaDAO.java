@@ -51,6 +51,31 @@ public class ImagemRacaDAO extends ObjetoDAO
             for(int i = 1; i <= quantCamposFiltragem; i++) {
                 switch(indicesCamposFiltragem[i - 1])
                 {
+                    case 0:
+                    {
+                        pstm.setInt(i, irVO.getId());
+                        break;
+                    }
+                    case 1:
+                    {
+                        pstm.setString(i, irVO.getCaminhoImagem());
+                        break;
+                    }
+                    case 2:
+                    {
+                        pstm.setString(i, irVO.getDescricaoImagem());
+                        break;
+                    }
+                    case 3:
+                    {
+                        pstm.setDate(i, irVO.getDataCriacao());
+                        break;
+                    }
+                    case 4:
+                    {
+                        pstm.setBoolean(i, irVO.isAtivo());
+                        break;
+                    }
                     default:
                         throw new IllegalArgumentException("Erro em ImagemRacaVO.Pesquisar (IllegalArgumentException): Indice de valor para filtragem inválido!");
                 }
@@ -63,13 +88,19 @@ public class ImagemRacaDAO extends ObjetoDAO
                 {
                     ImagemRacaVO irVOSaida = new ImagemRacaVO();
                     
+                    irVO.setId(rs.getInt(nomesColunas[0]));
                     
+                    irVO.setCaminhoImagem(rs.getString(nomesColunas[1]));
+                    irVO.setDescricaoImagem(rs.getString(nomesColunas[2]));
+                    
+                    irVO.setDataCriacao(rs.getDate(nomesColunas[3]));
+                    irVO.setAtivo(rs.getBoolean(nomesColunas[4]));
                     
                     listaImagens.add(irVOSaida);
                 }
                 
                 if(!listaImagens.isEmpty())
-                    //return listaImagens.toArray(new ImagemRacaVO[listaImagens.size()]);
+                    return listaImagens.toArray(new ImagemRacaVO[listaImagens.size()]);
                 else
                     throw new NoDataFoundException("Erro em ImagemRacaVO.pesquisar (NoDataFoundException): Nenhuma imagem de raça registrada com esses dados!");
             }
