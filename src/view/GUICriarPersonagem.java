@@ -857,7 +857,7 @@ public class GUICriarPersonagem extends javax.swing.JInternalFrame implements It
                         if(imagemClasseBuff != null)
                             jlblImagemClasse.setIcon(new ImageIcon(imagemClasseBuff));
                         else
-                            JOptionPane.showMessageDialog(null, "Erro ao carregar imagem da classe, usando default.", "Erro", JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(null, "Erro ao carregar imagem da classe, usando default. (imagemClasseBuff != null)", "Erro", JOptionPane.ERROR_MESSAGE);
                         
                     }
                     catch(SQLException | NoDataFoundException | IOException | IllegalArgumentException ex)
