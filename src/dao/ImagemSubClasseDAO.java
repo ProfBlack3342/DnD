@@ -51,6 +51,31 @@ public class ImagemSubClasseDAO extends ObjetoDAO
             for(int i = 1; i <= quantCamposFiltragem; i++) {
                 switch(indicesCamposFiltragem[i - 1])
                 {
+                    case 0:
+                    {
+                        pstm.setInt(i, iscVO.getId());
+                        break;
+                    }
+                    case 1:
+                    {
+                        pstm.setString(i, iscVO.getCaminhoImagem());
+                        break;
+                    }
+                    case 2:
+                    {
+                        pstm.setString(i, iscVO.getDescricaoImagem());
+                        break;
+                    }
+                    case 3:
+                    {
+                        pstm.setDate(i, iscVO.getDataCriacao());
+                        break;
+                    }
+                    case 4:
+                    {
+                        pstm.setBoolean(i, iscVO.isAtivo());
+                        break;
+                    }
                     default:
                         throw new IllegalArgumentException("Erro em ImagemSubClasseVO.Pesquisar (IllegalArgumentException): Indice de valor para filtragem inválido!");
                 }
@@ -63,13 +88,19 @@ public class ImagemSubClasseDAO extends ObjetoDAO
                 {
                     ImagemSubClasseVO iscVOSaida = new ImagemSubClasseVO();
                     
+                    iscVO.setId(rs.getInt(nomesColunas[0]));
                     
+                    iscVO.setCaminhoImagem(rs.getString(nomesColunas[1]));
+                    iscVO.setDescricaoImagem(rs.getString(nomesColunas[2]));
+                    
+                    iscVO.setDataCriacao(rs.getDate(nomesColunas[3]));
+                    iscVO.setAtivo(rs.getBoolean(nomesColunas[4]));
                     
                     listaImagens.add(iscVOSaida);
                 }
                 
                 if(!listaImagens.isEmpty())
-                    //return listaImagens.toArray(new ImagemSubClasseVO[listaImagens.size()]);
+                    return listaImagens.toArray(new ImagemSubClasseVO[listaImagens.size()]);
                 else
                     throw new NoDataFoundException("Erro em ImagemSubClasseVO.pesquisar (NoDataFoundException): Nenhuma imagem de subclasse registrada com esses dados!");
             }
