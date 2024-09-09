@@ -1,7 +1,7 @@
 package modelo;
 
 import java.sql.Date;
-import utilidades.Utilidades;
+import utilidades.Utils;
 
 public abstract class ObjetoVO {
     // Atributos
@@ -18,7 +18,7 @@ public abstract class ObjetoVO {
         this.ativo = true;
     }
     public ObjetoVO(int id, Date dataCadastro, boolean ativo) throws IllegalArgumentException {
-        if(dataCadastro != null && Utilidades.verificarSeDataValida(dataCadastro)) {
+        if(dataCadastro != null && Utils.verificarSeDataValida(dataCadastro)) {
             this.id = id;
             this.dataCadastro = dataCadastro;
             atualizarDiaMesAnoPelaData();
@@ -35,7 +35,7 @@ public abstract class ObjetoVO {
 
     public Date getDataCadastro() {return dataCadastro;}
     public void setDataCadastro(Date dataCadastro) throws IllegalArgumentException {
-        if(Utilidades.verificarSeDataValida(dataCadastro)){
+        if(Utils.verificarSeDataValida(dataCadastro)){
             this.dataCadastro = dataCadastro;
             atualizarDiaMesAnoPelaData();
         }
@@ -45,7 +45,7 @@ public abstract class ObjetoVO {
 
     public int getDiaCadastro() {return diaCadastro;}
     public void setDiaCadastro(int diaCadastro) throws IllegalArgumentException {
-        if(Utilidades.verificarSeDiaValido(diaCadastro, this.mesCadastro, this.anoCadastro)) {
+        if(Utils.verificarSeDiaValido(diaCadastro, this.mesCadastro, this.anoCadastro)) {
             this.diaCadastro = diaCadastro;
             atualizarDataPeloDiaMesAno();
         }
@@ -54,7 +54,7 @@ public abstract class ObjetoVO {
     }
     public int getMesCadastro() {return mesCadastro;}
     public void setMesCadastro(int mesCadastro) throws IllegalArgumentException {
-        if(Utilidades.verificarSeMesValido(mesCadastro, this.anoCadastro)) {
+        if(Utils.verificarSeMesValido(mesCadastro, this.anoCadastro)) {
             this.mesCadastro = mesCadastro;
             atualizarDataPeloDiaMesAno();
         }
@@ -63,7 +63,7 @@ public abstract class ObjetoVO {
     }
     public int getAnoCadastro() {return anoCadastro;}
     public void setAnoCadastro(int anoCadastro) throws IllegalArgumentException {
-        if(Utilidades.verificarSeAnoValido(anoCadastro)) {
+        if(Utils.verificarSeAnoValido(anoCadastro)) {
             this.anoCadastro = anoCadastro;
             atualizarDataPeloDiaMesAno();
         }
@@ -75,13 +75,13 @@ public abstract class ObjetoVO {
 
     // Métodos privados/internos
     private void atualizarDiaMesAnoPelaData() {
-        String[] diaMesAno = Utilidades.converterSQLDateParaDiaMesAno(this.dataCadastro);
+        String[] diaMesAno = Utils.converterSQLDateParaDiaMesAno(this.dataCadastro);
         this.diaCadastro = Integer.parseInt(diaMesAno[0]);
         this.mesCadastro = Integer.parseInt(diaMesAno[1]);
         this.anoCadastro = Integer.parseInt(diaMesAno[2]);
     }
     private void atualizarDataPeloDiaMesAno() {
-        this.dataCadastro = Utilidades.converterDiaMesAnoParaSQLDate(
+        this.dataCadastro = Utils.converterDiaMesAnoParaSQLDate(
             ( (this.diaCadastro < 10) ?  ("0" + this.diaCadastro) : (Integer.toString(this.diaCadastro)) ),
             ( (this.mesCadastro < 10) ?  ("0" + this.mesCadastro) : (Integer.toString(this.mesCadastro)) ),
             ( Integer.toString(this.anoCadastro) )

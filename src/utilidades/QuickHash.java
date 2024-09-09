@@ -18,6 +18,6 @@ public final class QuickHash {
     public static void main(String[] args) {
         Scanner entrada = new Scanner(System.in);
         String senha = entrada.nextLine();
-        System.out.println(Utilidades.converterTextoParaHash(senha));
+        System.out.println(Utils.converterTextoParaHash(senha));
     }
 }

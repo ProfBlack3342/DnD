@@ -8,7 +8,20 @@ public final class UsuarioVO extends ObjetoVO {
     // Nomes da tabela e suas colunas no banco de dados
     private static final String NOME_TABELA = "Usuario";
     private static final String[] NOMES_COLUNAS = new String[]{
+        "idUsuario",
         
+        "idImagemUsuario",
+        "idTipoUsuario",
+        "nomeUsuario",
+        "senhaUsuario",
+        "emailUsuario",
+        "dataAniversarioUsuario",
+        "descricaoUsuario",
+        "quantPersonagensTotalUsuario",
+        "quantPersonagensCriadosUsuario",
+        
+        "dataCriacaoUsuario",
+        "usuarioAtivo"
     };
 
     // Atributos

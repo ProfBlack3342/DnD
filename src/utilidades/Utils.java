@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import jbcrypt.BCrypt;
 
-public class Utilidades {
+public class Utils {
     private static final int MAIOR_IDADE_POSSIVEL = 120;
     private static final int MAIOR_MES_VALIDO_ABSOLUTO = 12;
     private static final int MENOR_MES_VALIDO = 1;
@@ -176,7 +176,7 @@ public class Utilidades {
         return verificarSeAnoValido(ano) && verificarSeMesValido(mes, ano) && verificarSeDiaValido(dia, mes, ano);
     }
     public static boolean verificarSeDataValida(Date dataMySQL) {
-        String[] diaMesAno = Utilidades.converterSQLDateParaDiaMesAno(dataMySQL);
+        String[] diaMesAno = Utils.converterSQLDateParaDiaMesAno(dataMySQL);
         return verificarSeDataValida(Integer.parseInt(diaMesAno[0]), Integer.parseInt(diaMesAno[1]), Integer.parseInt(diaMesAno[2]));
     }
     
