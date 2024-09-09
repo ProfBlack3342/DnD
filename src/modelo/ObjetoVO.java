@@ -1,130 +1,82 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package modelo;
-
 import java.sql.Date;
-import utilidades.Converter;
 
-/**
- *
- * @author Eduardo Pereira Moreira
- */
-public abstract class ObjetoVO
-{
-    /*
-        NomeTabela (
-            id INT NOT NULL,
-            ... ,
-            dataCriacaoImagemUsuario DATE NOT NULL,
-            imagemUsuarioAtiva TINYINT(1) NOT NULL DEFAULT 1
-        )
-    */
-    
+public abstract class ObjetoVO {
+    // Atributos
     private int id;
-    private int diaCriacao;
-    private int mesCriacao;
-    private int anoCriacao;
-    private Date dataCriacao;
+    private Date dataCadastro;
+    private int diaCadastro, mesCadastro, anoCadastro;
     private boolean ativo;
 
-    public ObjetoVO()
-    {
+    // Construtores
+    public ObjetoVO() {
         this.id = 0;
-        this.diaCriacao = 0;
-        this.mesCriacao = 0;
-        this.anoCriacao = 0;
-        this.dataCriacao = null;
+        this.dataCadastro = new Date(System.currentTimeMillis());
+        atualizarDiaMesAnoPelaData();
         this.ativo = true;
     }
-    public ObjetoVO(int id, Date dataCriacao)
-    {
+    public ObjetoVO(int id, Date dataCadastro, boolean ativo) {
         this.id = id;
-        this.dataCriacao = dataCriacao;
-        setDiaMesAno(this.dataCriacao);
-        this.ativo = true;
-    }
-    public ObjetoVO(int id, int diaCriacao, int mesCriacao, int anoCriacao)
-    {
-        this.id = id;
-        this.diaCriacao = diaCriacao;
-        this.mesCriacao = mesCriacao;
-        this.anoCriacao = anoCriacao;
-        setDataCriacao(this.diaCriacao, this.mesCriacao, this.anoCriacao);
-        this.ativo = true;
-    }
-    
-    private void setDataCriacao(int dia, int mes, int ano) {
-        String diaData, mesData, anoData;
-        
-        if(dia < 10)
-            diaData = "0" + dia;
-        else
-            diaData = Integer.toString(dia);
-        
-        if(mes < 10)
-            mesData = "0" + mes;
-        else
-            mesData = Integer.toString(mes);
-        
-        anoData = Integer.toString(ano);
-        
-        dataCriacao = Converter.converterDiaMesAnoParaSQLDate(diaData, mesData, anoData);
-    }
-    private void setDiaMesAno(Date dataCriacao) {
-        String[] diaMesAno = Converter.converterSQLDateParaDiaMesAno(dataCriacao);
-        diaCriacao = Integer.parseInt(diaMesAno[0]);
-        mesCriacao = Integer.parseInt(diaMesAno[1]);
-        anoCriacao = Integer.parseInt(diaMesAno[2]);
+        this.dataCadastro = dataCadastro;
+        atualizarDiaMesAnoPelaData();
+        this.ativo = ativo;
     }
 
+    // Getters e Setters
     public int getId() {return id;}
     public void setId(int id) {this.id = id;}
 
-    public int getDiaCriacao() {return diaCriacao;}
-    public void setDiaCriacao(int diaCriacao)
-    {
-        this.diaCriacao = diaCriacao;
-        if(mesCriacao > 0 && anoCriacao > 0)
-            setDataCriacao(this.diaCriacao, mesCriacao, anoCriacao);
-    }
-
-    public int getMesCriacao() {return mesCriacao;}
-    public void setMesCriacao(int mesCriacao)
-    {
-        this.mesCriacao = mesCriacao;
-        if(diaCriacao > 0 && anoCriacao > 0)
-            setDataCriacao(diaCriacao, this.mesCriacao, anoCriacao);
-    }
-
-    public int getAnoCriacao() {return anoCriacao;}
-    public void setAnoCriacao(int anoCriacao)
-    {
-        this.anoCriacao = anoCriacao;
-        if(diaCriacao > 0 && mesCriacao > 0)
-            setDataCriacao(diaCriacao, mesCriacao, this.anoCriacao);
-    }
-
-    public Date getDataCriacao() {return dataCriacao;}
-    public void setDataCriacao(Date dataCriacao)
-    {
-        this.dataCriacao = dataCriacao;
-        if(this.dataCriacao != null)
-            setDiaMesAno(this.dataCriacao);
-        else
-        {
-            diaCriacao = 0;
-            mesCriacao = 0;
-            anoCriacao = 0;
+    public Date getDataCadastro() {return dataCadastro;}
+    public void setDataCadastro(Date dataCadastro) throws IllegalArgumentException {
+        if(Utilidades.verificarSeDataValida(dataCadastro)){
+            this.dataCadastro = dataCadastro;
+            atualizarDiaMesAnoPelaData();
         }
+        else
+            throw new IllegalArgumentException("'IllegalArgumentException' em 'ObjetoVO.setDataCadastro': A data informada é inválida!");
     }
 
-    public boolean isAtivo() {
-        return ativo;
+    public int getDiaCadastro() {return diaCadastro;}
+    public void setDiaCadastro(int diaCadastro) throws IllegalArgumentException {
+        if(Utilidades.verificarSeDiaValido(diaCadastro, this.mesCadastro, this.anoCadastro)) {
+            this.diaCadastro = diaCadastro;
+            atualizarDataPeloDiaMesAno();
+        }
+        else
+            throw new IllegalArgumentException("'IllegalArgumentException' em 'ObjetoVO.setDiaCadastro': O dia informado é inválido!");
     }
-    public void setAtivo(boolean ativo) {
-        this.ativo = ativo;
+    public int getMesCadastro() {return mesCadastro;}
+    public void setMesCadastro(int mesCadastro) throws IllegalArgumentException {
+        if(Utilidades.verificarSeMesValido(mesCadastro, this.anoCadastro)) {
+            this.mesCadastro = mesCadastro;
+            atualizarDataPeloDiaMesAno();
+        }
+        else
+            throw new IllegalArgumentException("'IllegalArgumentException' em 'ObjetoVO.setMesCadastro': O mês informado é inválido!");
+    }
+    public int getAnoCadastro() {return anoCadastro;}
+    public void setAnoCadastro(int anoCadastro) throws IllegalArgumentException {
+        if(Utilidades.verificarSeAnoValido(anoCadastro)) {
+            this.anoCadastro = anoCadastro;
+            atualizarDataPeloDiaMesAno();
+        }
+        else
+            throw new IllegalArgumentException("'IllegalArgumentException' em 'ObjetoVO.setAnoCadastro': O ano informado é inválido!");
+    }
+    public boolean isAtivo() {return ativo;}
+    public void setAtivo(boolean ativo) {this.ativo = ativo;}
+
+    // Métodos privados/internos
+    private void atualizarDiaMesAnoPelaData() {
+        String[] diaMesAno = Utilidades.converterSQLDateParaDiaMesAno(this.dataCadastro);
+        this.diaCadastro = Integer.parseInt(diaMesAno[0]);
+        this.mesCadastro = Integer.parseInt(diaMesAno[1]);
+        this.anoCadastro = Integer.parseInt(diaMesAno[2]);
+    }
+    private void atualizarDataPeloDiaMesAno() {
+        this.dataCadastro = Utilidades.converterDiaMesAnoParaSQLDate(
+            ( (this.diaCadastro < 10) ?  ("0" + this.diaCadastro) : (Integer.toString(this.diaCadastro)) ),
+            ( (this.mesCadastro < 10) ?  ("0" + this.mesCadastro) : (Integer.toString(this.mesCadastro)) ),
+            ( Integer.toString(this.anoCadastro) )
+        );
     }
 }
