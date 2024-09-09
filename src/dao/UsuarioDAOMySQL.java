@@ -1,6 +1,11 @@
+package dao;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import modelo.ObjetoVO;
+import modelo.UsuarioVO;
+import persistencia.ConexaoBancoMySQL;
 
 public final class UsuarioDAOMySQL extends DAOMySQL {
 
@@ -22,13 +27,13 @@ public final class UsuarioDAOMySQL extends DAOMySQL {
     }
 
     @Override
-    public UsuarioVO[] selectWhere(ObjetoVO oVO, String query) throws IllegalArgumentException, SQLException {
+    public UsuarioVO[] selectWhere(ObjetoVO oVO, String query, String[] camposWhere) throws IllegalArgumentException, SQLException {
         UsuarioVO uVO = (UsuarioVO)oVO;
 
         try(Connection con = new ConexaoBancoMySQL().getConexaoMySQL();
             PreparedStatement pstm = con.prepareStatement(query);)
         {
-            pstm.setInt(1, uVO.getDadoColunaTabela(""));
+            
         }
     }
 

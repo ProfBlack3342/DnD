@@ -1,3 +1,5 @@
+package servicos;
+
 public class FactoryServicos {
     private static final ServicosUsuario SERVICOS_USUARIO = new ServicosUsuario();
 

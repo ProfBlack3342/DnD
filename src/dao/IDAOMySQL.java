@@ -1,4 +1,7 @@
+package dao;
+
 import java.sql.SQLException;
+import modelo.ObjetoVO;
 
 /**
  *
@@ -27,7 +30,7 @@ public interface IDAOMySQL
      * @throws IllegalArgumentException
      * @throws SQLException
      */
-    ObjetoVO[] selectWhere(ObjetoVO oVO, String query) throws IllegalArgumentException, SQLException;
+    ObjetoVO[] selectWhere(ObjetoVO oVO, String query, String[] camposWhere) throws IllegalArgumentException, SQLException;
 
     /**
      * Método para atualizar um registro de uma tabela no banco

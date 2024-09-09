@@ -1,4 +1,7 @@
+package modelo;
+
 import java.sql.Date;
+import utilidades.Utilidades;
 
 public abstract class ObjetoVO {
     // Atributos
@@ -14,11 +17,16 @@ public abstract class ObjetoVO {
         atualizarDiaMesAnoPelaData();
         this.ativo = true;
     }
-    public ObjetoVO(int id, Date dataCadastro, boolean ativo) {
-        this.id = id;
-        this.dataCadastro = dataCadastro;
-        atualizarDiaMesAnoPelaData();
-        this.ativo = ativo;
+    public ObjetoVO(int id, Date dataCadastro, boolean ativo) throws IllegalArgumentException {
+        if(dataCadastro != null && Utilidades.verificarSeDataValida(dataCadastro)) {
+            this.id = id;
+            this.dataCadastro = dataCadastro;
+            atualizarDiaMesAnoPelaData();
+            this.ativo = ativo;
+        }
+        else
+            throw new IllegalArgumentException("'IllegalArgumentException' no construtor de 'ObjetoVO': A data informada é inválida!");
+        
     }
 
     // Getters e Setters

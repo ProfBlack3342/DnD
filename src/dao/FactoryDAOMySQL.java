@@ -1,3 +1,5 @@
+package dao;
+
 public final class FactoryDAOMySQL {
     private static final UsuarioDAOMySQL USUARIO_DAO = new UsuarioDAOMySQL();
 
