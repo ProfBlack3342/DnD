@@ -190,16 +190,36 @@ public final class UsuarioDAOMySQL implements IUsuarioDAO {
     @Override
     public void update(ObjetoVO oVO) throws SQLException {
         UsuarioVO uVOEntrada = (UsuarioVO) oVO;
-        StringBuilder query = new StringBuilder("UPDATE ");
-        query.append(" SET ");
-        query.append(" WHERE ");
+        StringBuilder query = new StringBuilder("UPDATE ").append(nomeTabelaUsuario).append(" SET ");
         
-        
+        int limiteFor = nomesColunasUsuario.length;
+        for(int i = 1; i < limiteFor; i++) {
+            if(i < (limiteFor - 1))
+                query.append(nomesColunasUsuario[i]).append(" = ?, ");
+            else
+                query.append(nomesColunasUsuario[i]).append(" = ?");
+        }
+        query.append(" WHERE ").append(nomesColunasUsuario[0]).append(" = ").append((int)uVOEntrada.getValorDadoUsuario(nomesColunasUsuario[0]));
         
         try (Connection c = new ConexaoBancoMySQL().getConexaoMySQL();
                 PreparedStatement ps = c.prepareStatement(query.toString());)
         {
-            
+            for(int i = 1; i < limiteFor; i++) {
+                switch(uVOEntrada.getTipoDadoUsuario(nomesColunasUsuario[i])) {
+                    case INT:
+                        ps.setInt(i, (int)uVOEntrada.getValorDadoUsuario(nomesColunasUsuario[i]));
+                        break;
+                    case STRING:
+                        ps.setString(i, (String)uVOEntrada.getValorDadoUsuario(nomesColunasUsuario[i]));
+                        break;
+                    case DATE:
+                        ps.setDate(i, (Date)uVOEntrada.getValorDadoUsuario(nomesColunasUsuario[i]));
+                        break;
+                    case BOOLEAN:
+                        ps.setBoolean(i, (boolean)uVOEntrada.getValorDadoUsuario(nomesColunasUsuario[i]));
+                        break;
+                }
+            }
             
             ps.executeUpdate();
         }
