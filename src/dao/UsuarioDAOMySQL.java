@@ -1,11 +1,5 @@
 package dao;
 
-import enums.TiposDadosObjetosVO;
-import static enums.TiposDadosObjetosVO.BOOLEAN;
-import static enums.TiposDadosObjetosVO.DATE;
-import static enums.TiposDadosObjetosVO.DOUBLE;
-import static enums.TiposDadosObjetosVO.INT;
-import static enums.TiposDadosObjetosVO.STRING;
 import exception.NoDataFoundException;
 import java.sql.Connection;
 import java.sql.Date;
@@ -16,6 +10,7 @@ import java.util.ArrayList;
 import modelo.ObjetoVO;
 import modelo.UsuarioVO;
 import persistencia.ConexaoBancoMySQL;
+import utilidades.Utils;
 
 public final class UsuarioDAOMySQL implements IUsuarioDAO {
 
@@ -25,9 +20,53 @@ public final class UsuarioDAOMySQL implements IUsuarioDAO {
     @Override
     public UsuarioVO login(String nomeUsuario, String senhaCandidata) throws NoDataFoundException, SQLException {
         String query = "SELECT * FROM " + nomeTabelaUsuario + 
-                " WHERE " + nomesColunasUsuario[3] + " = ?";
+                " WHERE " + nomesColunasUsuario[3] + " = ? LIMIT 1";
         
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try (Connection c = new ConexaoBancoMySQL().getConexaoMySQL();
+                PreparedStatement ps = c.prepareStatement(query);)
+        {
+            ps.setString(1, nomeUsuario);
+            
+            try(ResultSet rs = ps.executeQuery();)
+            {
+                ArrayList<UsuarioVO> listaUsuarios = new ArrayList<>();
+                
+                while(rs.next()){
+                    String hashSenha = rs.getString(nomesColunasUsuario[4]);
+                    if(Utils.compararTextoComHash(senhaCandidata, hashSenha)){
+                        UsuarioVO uVOSaida = new UsuarioVO();
+
+                        uVOSaida.setId(rs.getInt(nomesColunasUsuario[0]));
+
+                        uVOSaida.putValorDadoUsuario(nomesColunasUsuario[1], rs.getInt(nomesColunasUsuario[1]));
+                        uVOSaida.putValorDadoUsuario(nomesColunasUsuario[2], rs.getInt(nomesColunasUsuario[2]));
+                        uVOSaida.putValorDadoUsuario(nomesColunasUsuario[3], rs.getString(nomesColunasUsuario[3]));
+                        uVOSaida.putValorDadoUsuario(nomesColunasUsuario[4], hashSenha);
+                        uVOSaida.putValorDadoUsuario(nomesColunasUsuario[5], rs.getString(nomesColunasUsuario[5]));
+                        uVOSaida.putValorDadoUsuario(nomesColunasUsuario[6], rs.getDate(nomesColunasUsuario[6]));
+                        uVOSaida.putValorDadoUsuario(nomesColunasUsuario[7], rs.getString(nomesColunasUsuario[7]));
+                        uVOSaida.putValorDadoUsuario(nomesColunasUsuario[8], rs.getInt(nomesColunasUsuario[8]));
+                        uVOSaida.putValorDadoUsuario(nomesColunasUsuario[9], rs.getInt(nomesColunasUsuario[9]));
+
+                        uVOSaida.setDataCadastro(rs.getDate(nomesColunasUsuario[10]));
+                        uVOSaida.setAtivo(rs.getBoolean(nomesColunasUsuario[11]));
+
+                        listaUsuarios.add(uVOSaida);
+                    }
+                    else
+                        throw new NoDataFoundException("'NoDataFoundException' em 'UsuarioDAOMySQL.selectAll': Senha incorreta!");
+                }
+                
+                if(!listaUsuarios.isEmpty())
+                    return listaUsuarios.toArray(new UsuarioVO[listaUsuarios.size()])[0];
+                else
+                    throw new NoDataFoundException("'NoDataFoundException' em 'UsuarioDAOMySQL.selectAll': Nenhum usuário registrado com este nome!");
+            }
+        }
+        catch(SQLException se)
+        {
+            throw new SQLException("'SQLException' em 'UsuarioDAOMySQL.login': " + se.getMessage());
+        }
     }
 
     @Override
@@ -105,7 +144,7 @@ public final class UsuarioDAOMySQL implements IUsuarioDAO {
             if(!listaUsuarios.isEmpty())
                 return listaUsuarios.toArray(new UsuarioVO[listaUsuarios.size()]);
             else
-                return null;
+                throw new NoDataFoundException("'NoDataFoundException' em 'UsuarioDAOMySQL.selectAll': Nenhum usuário registrado!");
         }
         catch(SQLException se)
         {
@@ -178,7 +217,7 @@ public final class UsuarioDAOMySQL implements IUsuarioDAO {
                 if(!listaUsuarios.isEmpty())
                     return listaUsuarios.toArray(new UsuarioVO[listaUsuarios.size()]);
                 else
-                    return null;
+                    throw new NoDataFoundException("'NoDataFoundException' em 'UsuarioDAOMySQL.selectWhere': Nenhum usuário registrado com estes dados!");
             }
         }
         catch(SQLException se)
@@ -225,7 +264,7 @@ public final class UsuarioDAOMySQL implements IUsuarioDAO {
         }
         catch(SQLException se)
         {
-            throw new SQLException("'SQLException' em 'UsuarioDAOMySQL.selectWhere': " + se.getMessage());
+            throw new SQLException("'SQLException' em 'UsuarioDAOMySQL.update': " + se.getMessage());
         }
         
     }
@@ -233,24 +272,18 @@ public final class UsuarioDAOMySQL implements IUsuarioDAO {
     @Override
     public void delete(ObjetoVO oVO) throws SQLException {
         UsuarioVO uVOEntrada = (UsuarioVO) oVO;
-        StringBuilder query = new StringBuilder("DELETE ");
-        query.append(" FROM ");
-        query.append(" WHERE ");
-        
-        
+        StringBuilder query = new StringBuilder("DELETE FROM ").append(nomeTabelaUsuario).
+                append(" WHERE ").append(nomesColunasUsuario[0]).append(" = ?");
         
         try (Connection c = new ConexaoBancoMySQL().getConexaoMySQL();
                 PreparedStatement ps = c.prepareStatement(query.toString());)
         {
-            
-            
+            ps.setInt(1, (int)uVOEntrada.getValorDadoUsuario(nomesColunasUsuario[0]));
             ps.executeUpdate();
         }
         catch(SQLException se)
         {
-            throw new SQLException("'SQLException' em 'UsuarioDAOMySQL.selectWhere': " + se.getMessage());
+            throw new SQLException("'SQLException' em 'UsuarioDAOMySQL.delete': " + se.getMessage());
         }
     }
-
-    
 }
