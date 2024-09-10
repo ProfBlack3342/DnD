@@ -24,20 +24,10 @@ public class GUILogin extends javax.swing.JFrame {
     
     // Login
     private void tentarLogin() {
-        UsuarioVO uVO = new UsuarioVO();
-        
-        String[] nomesColunas = UsuarioVO.getNomesColunas();
-        uVO.putValorDadoUsuario(nomesColunas[3], "TextField Nome");
-        uVO.putValorDadoUsuario(nomesColunas[4], "PasswordField Senha");
-        
         try {
-            uVO = servicos.FactoryServicos.getServicosUsuario().login(uVO);
-            if(uVO != null) {
-                // Msg de sucesso
-            }
-            else {
-                // Errou a senha
-            }
+            UsuarioVO uVO = servicos.FactoryServicos.getServicosUsuario().login("TextField Nome", "PasswordField Senha");
+           
+            
         }
         catch (NoDataFoundException ne) {
             // N existe esse usuário no sistema
