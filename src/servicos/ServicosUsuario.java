@@ -13,8 +13,8 @@ public class ServicosUsuario {
         
         UsuarioVO uVOCandidato = pesquisar(uVO, new String[]{nomesColunas[3]})[0];
         
-        String senhaCandidata = (String)uVO.getDadoUsuario(nomesColunas[4]);
-        String hashSenha = (String)uVOCandidato.getDadoUsuario(nomesColunas[4]);
+        String senhaCandidata = (String)uVO.getValorDadoUsuario(nomesColunas[4]);
+        String hashSenha = (String)uVOCandidato.getValorDadoUsuario(nomesColunas[4]);
         
         return Utils.compararTextoComHash(senhaCandidata, hashSenha) ? uVOCandidato : null;
     }
@@ -41,7 +41,7 @@ public class ServicosUsuario {
         
         int limiteFor = camposWhere.length;
         for(int i = 0; i < limiteFor; i++) {
-            if(uVO.getDadoUsuario(camposWhere[i]) != null)
+            if(uVO.getValorDadoUsuario(camposWhere[i]) != null)
                 query.append(camposWhere[i]).append(" = ?");
             else
                 query.append(camposWhere[i]).append(" = null");
@@ -60,7 +60,7 @@ public class ServicosUsuario {
         
         int limiteFor = nomesColunas.length;
         for(int i = 1; i < limiteFor; i++) {
-            if(uVO.getDadoUsuario(nomesColunas[i]) != null)
+            if(uVO.getValorDadoUsuario(nomesColunas[i]) != null)
                 query.append(nomesColunas[i]).append(" = ?");
             else
                 query.append(nomesColunas[i]).append(" = null");

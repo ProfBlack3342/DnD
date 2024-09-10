@@ -27,8 +27,8 @@ public class GUILogin extends javax.swing.JFrame {
         UsuarioVO uVO = new UsuarioVO();
         
         String[] nomesColunas = UsuarioVO.getNomesColunas();
-        uVO.putDadoUsuario(nomesColunas[3], "TextField Nome");
-        uVO.putDadoUsuario(nomesColunas[4], "PasswordField Senha");
+        uVO.putValorDadoUsuario(nomesColunas[3], "TextField Nome");
+        uVO.putValorDadoUsuario(nomesColunas[4], "PasswordField Senha");
         
         try {
             uVO = servicos.FactoryServicos.getServicosUsuario().login(uVO);
@@ -74,15 +74,15 @@ public class GUILogin extends javax.swing.JFrame {
         UsuarioVO uVO = new UsuarioVO();
         
         String[] nomesColunas = UsuarioVO.getNomesColunas();
-        uVO.putDadoUsuario(nomesColunas[1], 1);
-        uVO.putDadoUsuario(nomesColunas[2], 2);
-        uVO.putDadoUsuario(nomesColunas[3], "TextField Nome");
-        uVO.putDadoUsuario(nomesColunas[4], "PasswordField Senha");
-        uVO.putDadoUsuario(nomesColunas[5], "TextField E-mail");
-        uVO.putDadoUsuario(nomesColunas[6], "ComboBoxes Data Aniversario");
-        uVO.putDadoUsuario(nomesColunas[7], "TextArea Descricao");
-        uVO.putDadoUsuario(nomesColunas[8], 6);
-        uVO.putDadoUsuario(nomesColunas[9], 0);
+        uVO.putValorDadoUsuario(nomesColunas[1], 1);
+        uVO.putValorDadoUsuario(nomesColunas[2], 2);
+        uVO.putValorDadoUsuario(nomesColunas[3], "TextField Nome");
+        uVO.putValorDadoUsuario(nomesColunas[4], "PasswordField Senha");
+        uVO.putValorDadoUsuario(nomesColunas[5], "TextField E-mail");
+        uVO.putValorDadoUsuario(nomesColunas[6], "ComboBoxes Data Aniversario");
+        uVO.putValorDadoUsuario(nomesColunas[7], "TextArea Descricao");
+        uVO.putValorDadoUsuario(nomesColunas[8], 6);
+        uVO.putValorDadoUsuario(nomesColunas[9], 0);
         
         try {
             servicos.FactoryServicos.getServicosUsuario().cadastrar(uVO);

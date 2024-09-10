@@ -1,5 +1,11 @@
 package dao;
 
+import enums.TiposDadosObjetosVO;
+import static enums.TiposDadosObjetosVO.BOOLEAN;
+import static enums.TiposDadosObjetosVO.DATE;
+import static enums.TiposDadosObjetosVO.DOUBLE;
+import static enums.TiposDadosObjetosVO.INT;
+import static enums.TiposDadosObjetosVO.STRING;
 import exception.NoDataFoundException;
 import java.sql.Connection;
 import java.sql.Date;
@@ -11,45 +17,53 @@ import modelo.ObjetoVO;
 import modelo.UsuarioVO;
 import persistencia.ConexaoBancoMySQL;
 
-public final class UsuarioDAOMySQL extends DAOMySQL {
+public final class UsuarioDAOMySQL implements IUsuarioDAO {
+
+    private String nomeTabelaUsuario = UsuarioVO.getNomeTabela();
+    private String[] nomesColunasUsuario = UsuarioVO.getNomesColunas();
+    
+    @Override
+    public UsuarioVO login(String nomeUsuario, String senhaCandidata) throws NoDataFoundException, SQLException {
+        String query = "SELECT * FROM " + nomeTabelaUsuario + 
+                " WHERE " + nomesColunasUsuario[3] + " = ?";
+        
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 
     @Override
-    public void insert(ObjetoVO oVO, String query) throws SQLException {
-        UsuarioVO uVO = (UsuarioVO)oVO;
-
-        try(Connection con = new ConexaoBancoMySQL().getConexaoMySQL();
-            PreparedStatement pstm = con.prepareStatement(query);)
+    public void insert(ObjetoVO oVO) throws SQLException {
+        UsuarioVO uVOEntrada = (UsuarioVO) oVO;
+        StringBuilder query = new StringBuilder("INSERT INTO ").append(nomeTabelaUsuario).append(" VALUES (null, ");
+        
+        int limiteFor = nomesColunasUsuario.length;
+        for(int i = 0; i < limiteFor; i++) {
+            if(i < (limiteFor - 1))
+                query.append("?, ");
+            else
+                query.append("?");
+        }
+        
+        try (Connection c = new ConexaoBancoMySQL().getConexaoMySQL();
+                PreparedStatement ps = c.prepareStatement(query.toString());)
         {
-            String[] nomesColunas = UsuarioVO.getNomesColunas();
-            
-            int limiteFor = nomesColunas.length;
             for(int i = 1; i < limiteFor; i++) {
-                switch(i) {
-                    case 1:     // ID Imagem
-                    case 2:     // ID Tipo
-                    case 8:     // Quant Personagens Totais
-                    case 9:     // Quant Personagens Criados
-                        pstm.setInt(i + 1, (int)uVO.getDadoUsuario(nomesColunas[i]));
+                switch(uVOEntrada.getTipoDadoUsuario(nomesColunasUsuario[i])){
+                    case INT:
+                        ps.setInt(i, (int)uVOEntrada.getValorDadoUsuario(nomesColunasUsuario[i]));
                         break;
-                    case 3:     // Nome
-                    case 4:     // Hash Senha
-                    case 5:     // E-mail
-                    case 7:     // Descrição
-                        pstm.setString(i + 1, (String)uVO.getDadoUsuario(nomesColunas[i]));
+                    case STRING:
+                        ps.setString(i, (String)uVOEntrada.getValorDadoUsuario(nomesColunasUsuario[i]));
                         break;
-                    case 6:     // Data de Aniversário
-                        pstm.setDate(i + 1, (Date)uVO.getDadoUsuario(nomesColunas[i]));
+                    case DATE:
+                        ps.setDate(i, (Date)uVOEntrada.getValorDadoUsuario(nomesColunasUsuario[i]));
                         break;
-                    case 10:    // Data de Criação
-                        pstm.setDate(i + 1, uVO.getDataCadastro());
-                        break;
-                    case 11:    // Ativo
-                        pstm.setBoolean(i + 1, uVO.isAtivo());
+                    case BOOLEAN:
+                        ps.setBoolean(i, (boolean)uVOEntrada.getValorDadoUsuario(nomesColunasUsuario[i]));
                         break;
                 }
             }
             
-            pstm.executeUpdate();
+            ps.executeUpdate();
         }
         catch(SQLException se)
         {
@@ -58,50 +72,40 @@ public final class UsuarioDAOMySQL extends DAOMySQL {
     }
 
     @Override
-    public UsuarioVO[] selectAll(String query) throws NoDataFoundException, SQLException {
+    public UsuarioVO[] selectAll() throws NoDataFoundException, SQLException {
+        String query = "SELECT * FROM " + UsuarioVO.getNomeTabela();
         
-        try(Connection con = new ConexaoBancoMySQL().getConexaoMySQL();
-                PreparedStatement pstm = con.prepareStatement(query);
-                ResultSet rs = pstm.executeQuery();)
+        try (Connection c = new ConexaoBancoMySQL().getConexaoMySQL();
+                PreparedStatement ps = c.prepareStatement(query);
+                ResultSet rs = ps.executeQuery();)
         {
-            String[] nomesColunas = UsuarioVO.getNomesColunas();
-            ArrayList<UsuarioVO> listaUsuariosVO = new ArrayList<>();
+            ArrayList<UsuarioVO> listaUsuarios = new ArrayList<>();
+            
             while(rs.next()) {
-                UsuarioVO uVO = new UsuarioVO();
+                UsuarioVO uVOSaida = new UsuarioVO();
                 
-                uVO.setId(rs.getInt(nomesColunas[0]));  // ID
+                uVOSaida.setId(rs.getInt(nomesColunasUsuario[0]));
                 
-                int limiteFor = nomesColunas.length;
-                for(int i = 1; i < limiteFor; i++) {
-                    switch(i) {
-                        case 1:     // ID Imagem
-                        case 2:     // ID Tipo
-                        case 8:     // Quant Personagens Totais
-                        case 9:     // Quant Personagens Criados
-                            uVO.putDadoUsuario(nomesColunas[i], rs.getInt(nomesColunas[i]));
-                            break;
-                        case 3:     // Nome
-                        case 4:     // Hash Senha
-                        case 5:     // E-mail
-                        case 7:     // Descrição
-                            uVO.putDadoUsuario(nomesColunas[i], rs.getString(nomesColunas[i]));
-                            break;
-                        case 6:     // Data de Aniversário
-                            uVO.putDadoUsuario(nomesColunas[i], rs.getDate(nomesColunas[i]));
-                            break;
-                    }
-                }
+                uVOSaida.putValorDadoUsuario(nomesColunasUsuario[1], rs.getInt(nomesColunasUsuario[1]));
+                uVOSaida.putValorDadoUsuario(nomesColunasUsuario[2], rs.getInt(nomesColunasUsuario[2]));
+                uVOSaida.putValorDadoUsuario(nomesColunasUsuario[3], rs.getString(nomesColunasUsuario[3]));
+                uVOSaida.putValorDadoUsuario(nomesColunasUsuario[4], rs.getString(nomesColunasUsuario[4]));
+                uVOSaida.putValorDadoUsuario(nomesColunasUsuario[5], rs.getString(nomesColunasUsuario[5]));
+                uVOSaida.putValorDadoUsuario(nomesColunasUsuario[6], rs.getDate(nomesColunasUsuario[6]));
+                uVOSaida.putValorDadoUsuario(nomesColunasUsuario[7], rs.getString(nomesColunasUsuario[7]));
+                uVOSaida.putValorDadoUsuario(nomesColunasUsuario[8], rs.getInt(nomesColunasUsuario[8]));
+                uVOSaida.putValorDadoUsuario(nomesColunasUsuario[9], rs.getInt(nomesColunasUsuario[9]));
                 
-                uVO.setDataCadastro(rs.getDate(nomesColunas[10]));  // Data de Criação
-                uVO.setAtivo(rs.getBoolean(nomesColunas[11]));      // Ativo
+                uVOSaida.setDataCadastro(rs.getDate(nomesColunasUsuario[10]));
+                uVOSaida.setAtivo(rs.getBoolean(nomesColunasUsuario[11]));
                 
-                listaUsuariosVO.add(uVO);
+                listaUsuarios.add(uVOSaida);
             }
             
-            if(!listaUsuariosVO.isEmpty())
-                return listaUsuariosVO.toArray(new UsuarioVO[listaUsuariosVO.size()]);
+            if(!listaUsuarios.isEmpty())
+                return listaUsuarios.toArray(new UsuarioVO[listaUsuarios.size()]);
             else
-                throw new NoDataFoundException("'NoDataFoundException' em 'UsuarioDAOMySQL.selectAll': Nenhuma usuário registrado!");
+                return null;
         }
         catch(SQLException se)
         {
@@ -110,87 +114,71 @@ public final class UsuarioDAOMySQL extends DAOMySQL {
     }
 
     @Override
-    public UsuarioVO[] selectWhere(ObjetoVO oVO, String query, String[] camposWhere) throws IllegalArgumentException, NoDataFoundException, SQLException {
-        UsuarioVO uVO = (UsuarioVO)oVO;
-
-        try(Connection con = new ConexaoBancoMySQL().getConexaoMySQL();
-            PreparedStatement pstm = con.prepareStatement(query);)
+    public UsuarioVO[] selectWhere(ObjetoVO oVO) throws IllegalArgumentException, NoDataFoundException, SQLException {
+        UsuarioVO uVOEntrada = (UsuarioVO) oVO;
+        StringBuilder query = new StringBuilder("SELECT * FROM ").append(nomeTabelaUsuario).append(" WHERE ");
+        
+        ArrayList<Integer> indices = new ArrayList<>();
+        for(int i = 0; i < nomesColunasUsuario.length; i++) {
+            if(uVOEntrada.getValorDadoUsuario(nomesColunasUsuario[i]) != null)
+                indices.add(i);
+        }
+        
+        for(int i = 0; i < indices.size(); i++) {
+            if(i < indices.size() - 1)
+                query.append(nomesColunasUsuario[indices.get(i)]).append(" = ?, ");
+            else
+                query.append(nomesColunasUsuario[indices.get(i)]).append(" = ?");
+        }
+        
+        try (Connection c = new ConexaoBancoMySQL().getConexaoMySQL();
+                PreparedStatement ps = c.prepareStatement(query.toString());)
         {
-            String[] nomesColunas = UsuarioVO.getNomesColunas();
-            
-            int limiteForExt = camposWhere.length;
-            int limiteForInt = nomesColunas.length;
-            for(int i = 0; i < limiteForExt; i++) {                
-                for(int j = 0; j < limiteForInt; j++){
-                    if(nomesColunas[j].equals(camposWhere[i])){
-                        switch(j){
-                            case 0:     // ID
-                                pstm.setInt(i + 1, uVO.getId());
-                                break;
-                            case 1:     // ID Imagem
-                            case 2:     // ID Tipo
-                            case 8:     // Quant Personagens Totais
-                            case 9:     // Quant Personagens Criados
-                                pstm.setInt(i + 1, (int)uVO.getDadoUsuario(camposWhere[i]));
-                                break;
-                            case 3:     // Nome
-                            case 5:     // E-mail
-                            case 7:     // Descrição
-                                pstm.setString(i + 1, (String)uVO.getDadoUsuario(camposWhere[i]));
-                                break;
-                            case 6:     // Data de Aniversário
-                                pstm.setDate(i + 1, (Date)uVO.getDadoUsuario(camposWhere[i]));
-                                break;
-                            case 10:    // Data de Criação
-                                pstm.setDate(i + 1, uVO.getDataCadastro());
-                                break;
-                            case 11:    // Ativo
-                                pstm.setBoolean(i + 1, uVO.isAtivo());
-                                break;
-                        }
-                    }
+            for(int i = 0; i < indices.size(); i++) {
+                switch(uVOEntrada.getTipoDadoUsuario(nomesColunasUsuario[indices.get(i)])) {
+                    case INT:
+                        ps.setInt(i + 1, (int)uVOEntrada.getValorDadoUsuario(nomesColunasUsuario[indices.get(i)]));
+                        break;
+                    case STRING:
+                        ps.setString(i + 1, (String)uVOEntrada.getValorDadoUsuario(nomesColunasUsuario[indices.get(i)]));
+                        break;
+                    case DATE:
+                        ps.setDate(i + 1, (Date)uVOEntrada.getValorDadoUsuario(nomesColunasUsuario[indices.get(i)]));
+                        break;
+                    case BOOLEAN:
+                        ps.setBoolean(i + 1, (boolean)uVOEntrada.getValorDadoUsuario(nomesColunasUsuario[indices.get(i)]));
+                        break;
                 }
             }
-            
-            try(ResultSet rs = pstm.executeQuery();)
+            try(ResultSet rs = ps.executeQuery();)
             {
-                ArrayList<UsuarioVO> listaUsuariosVO = new ArrayList<>();
+                ArrayList<UsuarioVO> listaUsuarios = new ArrayList<>();
+            
                 while(rs.next()) {
-                    UsuarioVO uVOsaida = new UsuarioVO();
+                    UsuarioVO uVOSaida = new UsuarioVO();
+                    
+                    uVOSaida.setId(rs.getInt(nomesColunasUsuario[0]));
+                
+                    uVOSaida.putValorDadoUsuario(nomesColunasUsuario[1], rs.getInt(nomesColunasUsuario[1]));
+                    uVOSaida.putValorDadoUsuario(nomesColunasUsuario[2], rs.getInt(nomesColunasUsuario[2]));
+                    uVOSaida.putValorDadoUsuario(nomesColunasUsuario[3], rs.getString(nomesColunasUsuario[3]));
+                    uVOSaida.putValorDadoUsuario(nomesColunasUsuario[4], rs.getString(nomesColunasUsuario[4]));
+                    uVOSaida.putValorDadoUsuario(nomesColunasUsuario[5], rs.getString(nomesColunasUsuario[5]));
+                    uVOSaida.putValorDadoUsuario(nomesColunasUsuario[6], rs.getDate(nomesColunasUsuario[6]));
+                    uVOSaida.putValorDadoUsuario(nomesColunasUsuario[7], rs.getString(nomesColunasUsuario[7]));
+                    uVOSaida.putValorDadoUsuario(nomesColunasUsuario[8], rs.getInt(nomesColunasUsuario[8]));
+                    uVOSaida.putValorDadoUsuario(nomesColunasUsuario[9], rs.getInt(nomesColunasUsuario[9]));
 
-                    uVOsaida.setId(rs.getInt(nomesColunas[0]));  // ID
+                    uVOSaida.setDataCadastro(rs.getDate(nomesColunasUsuario[10]));
+                    uVOSaida.setAtivo(rs.getBoolean(nomesColunasUsuario[11]));
 
-                    int limiteFor = nomesColunas.length;
-                    for(int i = 1; i < limiteFor; i++) {
-                        switch(i) {
-                            case 1:     // ID Imagem
-                            case 2:     // ID Tipo
-                            case 8:     // Quant Personagens Totais
-                            case 9:     // Quant Personagens Criados
-                                uVOsaida.putDadoUsuario(nomesColunas[i], rs.getInt(nomesColunas[i]));
-                                break;
-                            case 3:     // Nome
-                            case 4:     // Hash Senha
-                            case 5:     // E-mail
-                            case 7:     // Descrição
-                                uVOsaida.putDadoUsuario(nomesColunas[i], rs.getString(nomesColunas[i]));
-                                break;
-                            case 6:     // Data de Aniversário
-                                uVOsaida.putDadoUsuario(nomesColunas[i], rs.getDate(nomesColunas[i]));
-                                break;
-                        }
-                    }
-
-                    uVOsaida.setDataCadastro(rs.getDate(nomesColunas[10]));  // Data de Criação
-                    uVOsaida.setAtivo(rs.getBoolean(nomesColunas[11]));      // Ativo
-
-                    listaUsuariosVO.add(uVOsaida);
+                    listaUsuarios.add(uVOSaida);
                 }
 
-                if(!listaUsuariosVO.isEmpty())
-                    return listaUsuariosVO.toArray(new UsuarioVO[listaUsuariosVO.size()]);
+                if(!listaUsuarios.isEmpty())
+                    return listaUsuarios.toArray(new UsuarioVO[listaUsuarios.size()]);
                 else
-                    throw new NoDataFoundException("'NoDataFoundException' em 'UsuarioDAOMySQL.selectAll': Nenhuma usuário registrado!");
+                    return null;
             }
         }
         catch(SQLException se)
@@ -200,65 +188,49 @@ public final class UsuarioDAOMySQL extends DAOMySQL {
     }
 
     @Override
-    public void update(ObjetoVO oVO, String query) throws SQLException {
-        UsuarioVO uVO = (UsuarioVO)oVO;
-
-        try(Connection con = new ConexaoBancoMySQL().getConexaoMySQL();
-            PreparedStatement pstm = con.prepareStatement(query);)
+    public void update(ObjetoVO oVO) throws SQLException {
+        UsuarioVO uVOEntrada = (UsuarioVO) oVO;
+        StringBuilder query = new StringBuilder("UPDATE ");
+        query.append(" SET ");
+        query.append(" WHERE ");
+        
+        
+        
+        try (Connection c = new ConexaoBancoMySQL().getConexaoMySQL();
+                PreparedStatement ps = c.prepareStatement(query.toString());)
         {
-            String[] nomesColunas = UsuarioVO.getNomesColunas();
             
-            int limiteFor = nomesColunas.length;
-            for(int i = 0; i < limiteFor; i++) {
-                switch(i) {
-                    case 0:     // ID
-                        pstm.setInt(i + 1, uVO.getId());
-                        break;
-                    case 1:     // ID Imagem
-                    case 2:     // ID Tipo
-                    case 8:     // Quant Personagens Totais
-                    case 9:     // Quant Personagens Criados
-                        pstm.setInt(i + 1, (int)uVO.getDadoUsuario(nomesColunas[i]));
-                        break;
-                    case 3:     // Nome
-                    case 4:     // Senha
-                    case 5:     // E-mail
-                    case 7:     // Descrição
-                        pstm.setString(i + 1, (String)uVO.getDadoUsuario(nomesColunas[i]));
-                        break;
-                    case 6:     // Data de Aniversário
-                        pstm.setDate(i + 1, (Date)uVO.getDadoUsuario(nomesColunas[i]));
-                        break;
-                    case 10:    // Data de Criação
-                        pstm.setDate(i + 1, uVO.getDataCadastro());
-                        break;
-                    case 11:    // Ativo
-                        pstm.setBoolean(i + 1, uVO.isAtivo());
-                        break;
-                }
-            }
             
-            pstm.executeUpdate();
+            ps.executeUpdate();
         }
         catch(SQLException se)
         {
-            throw new SQLException("'SQLException' em 'UsuarioDAOMySQL.update': " + se.getMessage());
+            throw new SQLException("'SQLException' em 'UsuarioDAOMySQL.selectWhere': " + se.getMessage());
         }
+        
     }
 
     @Override
-    public void delete(ObjetoVO oVO, String query) throws SQLException {
-        UsuarioVO uVO = (UsuarioVO)oVO;
-
-        try(Connection con = new ConexaoBancoMySQL().getConexaoMySQL();
-            PreparedStatement pstm = con.prepareStatement(query);)
+    public void delete(ObjetoVO oVO) throws SQLException {
+        UsuarioVO uVOEntrada = (UsuarioVO) oVO;
+        StringBuilder query = new StringBuilder("DELETE ");
+        query.append(" FROM ");
+        query.append(" WHERE ");
+        
+        
+        
+        try (Connection c = new ConexaoBancoMySQL().getConexaoMySQL();
+                PreparedStatement ps = c.prepareStatement(query.toString());)
         {
-            pstm.setInt(1, uVO.getId());
-            pstm.executeUpdate();
+            
+            
+            ps.executeUpdate();
         }
         catch(SQLException se)
         {
-            throw new SQLException("'SQLException' em 'UsuarioDAOMySQL.delete': " + se.getMessage());
+            throw new SQLException("'SQLException' em 'UsuarioDAOMySQL.selectWhere': " + se.getMessage());
         }
     }
+
+    
 }
