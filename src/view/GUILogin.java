@@ -7,6 +7,7 @@ package view;
 import exception.NoDataFoundException;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.sql.Date;
@@ -14,6 +15,7 @@ import java.sql.SQLException;
 import java.util.Calendar;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import modelo.UsuarioVO;
 import utilidades.Utils;
@@ -106,7 +108,7 @@ public class GUILogin extends javax.swing.JFrame implements ItemListener{
      */
     private void limparLogin()
     {
-        jtfUsuarioLogin.setText(null);
+        jtfNomeUsuarioLogin.setText(null);
         jpfSenhaLogin.setText(null);
     }
     
@@ -170,17 +172,17 @@ public class GUILogin extends javax.swing.JFrame implements ItemListener{
         boolean temErro = false;
         StringBuilder textoErro = new StringBuilder("Erro:\n");
         
-        String usuario = jtfUsuarioLogin.getText();
-        if(usuario.isEmpty())
+        String nomeUsuario = jtfNomeUsuarioLogin.getText();
+        if(nomeUsuario.isEmpty())
         {
             temErro = true;
-            jtfUsuarioLogin.setText(null);
+            jtfNomeUsuarioLogin.setText(null);
             textoErro.append("O campo Usuário não foi preenchido!\n");
         }
-        else if(!Verificar.verificarTextoComNumeros(usuario))
+        else if(!Utils.verificarSeTextoComNumeros(nomeUsuario))
         {
             temErro = true;
-            jtfUsuarioLogin.setText(null);
+            jtfNomeUsuarioLogin.setText(null);
             textoErro.append("O campo Usuário contém dados inválidos!\n");
         }
         
@@ -198,13 +200,14 @@ public class GUILogin extends javax.swing.JFrame implements ItemListener{
         }
         else
         {
-            try {
-                UsuarioVO uVO = servicos.FactoryServicos.getServicosUsuario().login("TextField Nome", "PasswordField Senha");
+            try
+            {
+                UsuarioVO uVO = servicos.FactoryServicos.getServicosUsuario().login(nomeUsuario, new String(senha));
                 JOptionPane.showMessageDialog(null, "Login realizado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
                 abrirGUIPrincipal(uVO);
-
             }
-            catch (NoDataFoundException | SQLException e) {
+            catch (NoDataFoundException | SQLException e)
+            {
                 JOptionPane.showMessageDialog(null, "Exceção no Login: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
             }
         }
@@ -286,6 +289,7 @@ public class GUILogin extends javax.swing.JFrame implements ItemListener{
         jPanelLogin = new javax.swing.JPanel();
         jPanelInternoLogin = new javax.swing.JPanel();
         jPanelImagemLogin = new javax.swing.JPanel();
+        jlblImagemLogin = new javax.swing.JLabel();
         jPanelDadosLogin = new javax.swing.JPanel();
         jlblNomeUsuarioLogin = new javax.swing.JLabel();
         jtfNomeUsuarioLogin = new javax.swing.JTextField();
@@ -319,15 +323,18 @@ public class GUILogin extends javax.swing.JFrame implements ItemListener{
 
         jPanelImagemLogin.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
+        jlblImagemLogin.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlblImagemLogin.setText("Imagem Login");
+
         javax.swing.GroupLayout jPanelImagemLoginLayout = new javax.swing.GroupLayout(jPanelImagemLogin);
         jPanelImagemLogin.setLayout(jPanelImagemLoginLayout);
         jPanelImagemLoginLayout.setHorizontalGroup(
             jPanelImagemLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addComponent(jlblImagemLogin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanelImagemLoginLayout.setVerticalGroup(
             jPanelImagemLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 321, Short.MAX_VALUE)
+            .addComponent(jlblImagemLogin, javax.swing.GroupLayout.DEFAULT_SIZE, 321, Short.MAX_VALUE)
         );
 
         jPanelDadosLogin.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -516,27 +523,35 @@ public class GUILogin extends javax.swing.JFrame implements ItemListener{
     }//GEN-LAST:event_jpfSenhaLoginActionPerformed
 
     private void jbtnTentarLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnTentarLoginActionPerformed
-        // TODO add your handling code here:
+        tentarLogin();
+        limparLogin();
     }//GEN-LAST:event_jbtnTentarLoginActionPerformed
 
     private void jbtnTentarLoginKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jbtnTentarLoginKeyPressed
-        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            tentarLogin();
+            limparLogin();
+        }
     }//GEN-LAST:event_jbtnTentarLoginKeyPressed
 
     private void jbtnLimparCamposLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnLimparCamposLoginActionPerformed
-        // TODO add your handling code here:
+        limparLogin();
     }//GEN-LAST:event_jbtnLimparCamposLoginActionPerformed
 
     private void jbtnLimparCamposLoginKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jbtnLimparCamposLoginKeyPressed
-        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            limparLogin();
+        }
     }//GEN-LAST:event_jbtnLimparCamposLoginKeyPressed
 
     private void jbtnSairLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnSairLoginActionPerformed
-        // TODO add your handling code here:
+        sair();
     }//GEN-LAST:event_jbtnSairLoginActionPerformed
 
     private void jbtnSairLoginKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jbtnSairLoginKeyPressed
-        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            sair();
+        }
     }//GEN-LAST:event_jbtnSairLoginKeyPressed
 
     /**
@@ -586,6 +601,7 @@ public class GUILogin extends javax.swing.JFrame implements ItemListener{
     private javax.swing.JButton jbtnLimparCamposLogin;
     private javax.swing.JButton jbtnSairLogin;
     private javax.swing.JButton jbtnTentarLogin;
+    private javax.swing.JLabel jlblImagemLogin;
     private javax.swing.JLabel jlblNomeUsuarioLogin;
     private javax.swing.JLabel jlblSenhaLogin;
     private javax.swing.JPasswordField jpfSenhaLogin;
@@ -594,6 +610,32 @@ public class GUILogin extends javax.swing.JFrame implements ItemListener{
 
     @Override
     public void itemStateChanged(ItemEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        JComboBox jcb = (JComboBox) e.getSource();
+        
+        if(e.getStateChange() == ItemEvent.SELECTED)
+        {
+            Object anoSelecionado = jcbAnoAniversarioCadastro.getSelectedItem();
+            
+            if(jcb == jcbAnoAniversarioCadastro) {
+                
+                if(anoSelecionado != null)
+                {
+                    jcbMesAniversarioCadastro.removeAllItems();
+                    montarComboBoxMesAniversario(Integer.parseInt(String.valueOf(anoSelecionado)));
+                    jcbDiaAniversarioCadastro.removeAllItems();
+                    jcbDiaAniversarioCadastro.setSelectedIndex(-1);
+                }
+            }
+            else if(jcb == jcbMesAniversarioCadastro) {
+                
+                if(anoSelecionado != null) {
+                    jcbDiaAniversarioCadastro.removeAllItems();
+                    montarComboBoxDiaAniversario(
+                            Integer.parseInt(String.valueOf(jcbMesAniversarioCadastro.getSelectedItem())),
+                            Integer.parseInt(String.valueOf(anoSelecionado))
+                    );
+                }
+            }
+        }
     }
 }
